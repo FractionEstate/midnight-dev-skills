@@ -17,23 +17,32 @@ This repository contains comprehensive GitHub Copilot customizations for buildin
 .github/
 ├── copilot-instructions.md        # Global Copilot instructions
 │
-├── agents/                        # Custom AI agents
+├── agents/                        # Custom AI agents (6 total)
 │   ├── midnight-developer.agent.md
 │   ├── compact-expert.agent.md
-│   └── security-auditor.agent.md
+│   ├── security-auditor.agent.md
+│   ├── compact-developer.agent.md
+│   ├── dapp-builder.agent.md
+│   └── security-review.agent.md
 │
-├── prompts/                       # Reusable prompt templates
+├── prompts/                       # Reusable prompt templates (10 total)
 │   ├── create-compact-contract.prompt.md
 │   ├── integrate-wallet.prompt.md
 │   ├── deploy-contract.prompt.md
 │   ├── implement-privacy-feature.prompt.md
-│   └── audit-security.prompt.md
+│   ├── audit-security.prompt.md
+│   ├── debug-contract.prompt.md
+│   ├── add-privacy-feature.prompt.md
+│   ├── optimize-contract.prompt.md
+│   ├── setup-testing.prompt.md
+│   └── create-component.prompt.md
 │
-├── instructions/                  # Context-aware instructions
+├── instructions/                  # Context-aware instructions (5 total)
 │   ├── compact.instructions.md
 │   ├── midnight-typescript.instructions.md
 │   ├── privacy-patterns.instructions.md
-│   └── testing.instructions.md
+│   ├── testing.instructions.md
+│   └── memory.instructions.md     # Persistent learnings
 │
 └── skills/                        # Agent Skills (26 total)
     ├── # Setup & Configuration
@@ -94,6 +103,9 @@ Specialized AI personas with deep expertise:
 | `midnight-developer` | Full-stack Midnight expert for general development |
 | `compact-expert` | Compact language specialist for contract design |
 | `security-auditor` | Security analysis for ZK and privacy patterns |
+| `compact-developer` | Focused Compact contract writing mode |
+| `dapp-builder` | Full-stack Next.js + Midnight development |
+| `security-review` | Systematic security review with checklists |
 
 ### 3. Reusable Prompts (`.prompt.md`)
 

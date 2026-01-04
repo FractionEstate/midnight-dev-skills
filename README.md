@@ -12,9 +12,9 @@ Comprehensive GitHub Copilot customizations for building privacy-preserving DApp
 This repository provides a complete AI-assisted development environment:
 
 - **📚 26 Agent Skills** - Specialized knowledge for Midnight development tasks
-- **🤖 3 Custom Agents** - Expert personas for different development scenarios
-- **📝 5 Reusable Prompts** - Workflow templates for common tasks
-- **📋 4 Instruction Sets** - Context-aware coding guidelines
+- **🤖 6 Custom Agents** - Expert personas for different development scenarios
+- **📝 10 Reusable Prompts** - Workflow templates for common tasks
+- **📋 5 Instruction Sets** - Context-aware coding guidelines (including memory)
 
 ## 🌙 About Midnight Network
 
@@ -93,6 +93,9 @@ Specialized AI personas in [`.github/agents/`](.github/agents/):
 | [midnight-developer](.github/agents/midnight-developer.agent.md) | Expert Midnight developer with full-stack knowledge | General dApp development |
 | [compact-expert](.github/agents/compact-expert.agent.md) | Compact language specialist | Smart contract design |
 | [security-auditor](.github/agents/security-auditor.agent.md) | Security auditor for ZK and privacy patterns | Contract review, vulnerability detection |
+| [compact-developer](.github/agents/compact-developer.agent.md) | Focused Compact contract writer | Writing circuits and ledger logic |
+| [dapp-builder](.github/agents/dapp-builder.agent.md) | Full-stack DApp builder | Next.js + Midnight integration |
+| [security-review](.github/agents/security-review.agent.md) | Systematic security reviewer | Audit reports, vulnerability checklists |
 
 ## 📝 Reusable Prompts
 
@@ -105,6 +108,11 @@ Workflow templates in [`.github/prompts/`](.github/prompts/):
 | [deploy-contract](.github/prompts/deploy-contract.prompt.md) | Deploy contracts to testnet/mainnet |
 | [implement-privacy-feature](.github/prompts/implement-privacy-feature.prompt.md) | Add privacy patterns (commitments, nullifiers, etc.) |
 | [audit-security](.github/prompts/audit-security.prompt.md) | Perform security audits on contracts |
+| [debug-contract](.github/prompts/debug-contract.prompt.md) | Debug Compact contract compilation or runtime errors |
+| [add-privacy-feature](.github/prompts/add-privacy-feature.prompt.md) | Add privacy-preserving features to existing contracts |
+| [optimize-contract](.github/prompts/optimize-contract.prompt.md) | Optimize contracts for gas efficiency |
+| [setup-testing](.github/prompts/setup-testing.prompt.md) | Configure testing infrastructure |
+| [create-component](.github/prompts/create-component.prompt.md) | Create React components with wallet integration |
 
 ## 📋 Instruction Sets
 
@@ -116,6 +124,7 @@ Context-aware guidelines in [`.github/instructions/`](.github/instructions/):
 | [midnight-typescript](.github/instructions/midnight-typescript.instructions.md) | `**/*.{ts,tsx}` | TypeScript with Midnight APIs |
 | [privacy-patterns](.github/instructions/privacy-patterns.instructions.md) | `**/contracts/**,**/lib/privacy/**` | ZK and privacy patterns |
 | [testing](.github/instructions/testing.instructions.md) | `**/test/**,**/*.test.ts` | Contract testing guidelines |
+| [memory](.github/instructions/memory.instructions.md) | Global | Persistent learnings and discovered patterns |
 
 ## 🚀 Quick Start
 
