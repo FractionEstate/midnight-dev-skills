@@ -38,10 +38,10 @@ struct IncomeProof {
 ledger {
   // Credential registry by holder
   credentials: Map<Bytes<32>, Credential>,
-  
+
   // Trusted issuers
   trustedIssuers: Set<Bytes<32>>,
-  
+
   // Verification results (optional on-chain storage)
   verificationResults: Map<Bytes<32>, Boolean>
 }
@@ -60,10 +60,10 @@ export circuit issueCredential(
   validityPeriod: Uint<64>
 ): [] {
   const issuer = getCaller();
-  
+
   // Verify issuer is trusted
   assert(ledger.trustedIssuers.member(issuer), "Untrusted issuer");
-  
+
   // Store credential
   ledger.credentials[holder] = Credential {
     commitment: commitment,
@@ -80,7 +80,7 @@ export circuit issueCredential(
 
 /**
  * Prove age is above threshold WITHOUT revealing birthdate
- * 
+ *
  * @param witness birthdate - The actual birthdate (stays private)
  * @param minAge - The minimum age to prove
  * @returns Boolean indicating if age requirement is met
@@ -99,16 +99,16 @@ export circuit proveAgeAbove(
   assert(credential.commitment != 0, "No credential found");
   assert(!credential.revoked, "Credential revoked");
   assert(credential.expiresAt > getCurrentTimestamp(), "Credential expired");
-  
+
   // Verify the witness matches the credential commitment
   const expectedCommitment = hash(birthdate, credentialSecret);
   assert(credential.commitment == expectedCommitment, "Invalid credential proof");
-  
+
   // Calculate age from birthdate
   const currentTime = getCurrentTimestamp();
   const ageInSeconds = currentTime - birthdate;
   const ageInYears = ageInSeconds / (365 * 24 * 60 * 60);
-  
+
   // Return result without revealing actual age
   return ageInYears >= minAge;
 }
@@ -125,14 +125,14 @@ export circuit getAgeProof(
   const holder = getCaller();
   const credential = ledger.credentials[holder];
   assert(credential.commitment != 0, "No credential found");
-  
+
   const expectedCommitment = hash(birthdate, credentialSecret);
   assert(credential.commitment == expectedCommitment, "Invalid credential proof");
-  
+
   // Calculate age
   const currentTime = getCurrentTimestamp();
   const ageInYears = (currentTime - birthdate) / (365 * 24 * 60 * 60);
-  
+
   // Return selective disclosure
   return AgeProof {
     isOver18: ageInYears >= 18,
@@ -159,10 +159,10 @@ export circuit proveIncomeAbove(
   // Verify income credential
   const holder = getCaller();
   const credential = ledger.credentials[holder];
-  
+
   const expectedCommitment = hash(income, incomeProof);
   assert(credential.commitment == expectedCommitment, "Invalid income proof");
-  
+
   // Return only boolean, not the actual income
   return income >= threshold;
 }
@@ -177,10 +177,10 @@ export circuit getIncomeBracket(
   // Verify credential
   const holder = getCaller();
   const credential = ledger.credentials[holder];
-  
+
   const expectedCommitment = hash(income, incomeProof);
   assert(credential.commitment == expectedCommitment, "Invalid income proof");
-  
+
   // Calculate bracket (0-5)
   let bracket: Uint<8> = 0;
   if (income >= 25000) bracket = 1;
@@ -188,7 +188,7 @@ export circuit getIncomeBracket(
   if (income >= 100000) bracket = 3;
   if (income >= 250000) bracket = 4;
   if (income >= 500000) bracket = 5;
-  
+
   return IncomeProof {
     meetsThreshold: income >= 25000,
     bracket: bracket
@@ -212,7 +212,7 @@ export circuit proveMembership(
 ): Boolean {
   // Hash the member secret to get leaf
   const leaf = hash(memberSecret);
-  
+
   // Verify Merkle proof
   return verifyMerkleProof(leaf, merkleProof, groupRoot);
 }

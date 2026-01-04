@@ -97,7 +97,7 @@ model Profile {
   location  String?
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -167,7 +167,7 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   authorId  String
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  
+
   // Self-relation for nested comments
   parentId  String?
   parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id])

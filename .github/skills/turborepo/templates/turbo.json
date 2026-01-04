@@ -3,7 +3,9 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         ".env",
@@ -22,12 +24,16 @@
       ]
     },
     "dev": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "cache": false,
       "persistent": true
     },
     "lint": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "eslint.config.*",
@@ -36,25 +42,36 @@
       "outputs": []
     },
     "lint:fix": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "cache": false
     },
     "test": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "vitest.config.*",
         "jest.config.*"
       ],
-      "outputs": ["coverage/**"],
-      "env": ["CI", "NODE_ENV"]
+      "outputs": [
+        "coverage/**"
+      ],
+      "env": [
+        "CI",
+        "NODE_ENV"
+      ]
     },
     "test:watch": {
       "cache": false,
       "persistent": true
     },
     "typecheck": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "inputs": [
         "$TURBO_DEFAULT$",
         "tsconfig.json"
@@ -65,8 +82,12 @@
       "cache": false
     },
     "db:generate": {
-      "inputs": ["prisma/schema.prisma"],
-      "outputs": ["node_modules/.prisma/**"],
+      "inputs": [
+        "prisma/schema.prisma"
+      ],
+      "outputs": [
+        "node_modules/.prisma/**"
+      ],
       "cache": false
     },
     "db:push": {
@@ -74,7 +95,9 @@
     },
     "db:migrate": {
       "cache": false,
-      "dependsOn": ["db:generate"]
+      "dependsOn": [
+        "db:generate"
+      ]
     }
   },
   "globalEnv": [

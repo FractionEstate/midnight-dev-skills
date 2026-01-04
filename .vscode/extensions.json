@@ -1,0 +1,39 @@
+{
+  "recommendations": [
+    // Core development
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+
+    // TypeScript/JavaScript
+    "ms-vscode.vscode-typescript-next",
+
+    // React/Next.js
+    "dsznajder.es7-react-js-snippets",
+    "bradlc.vscode-tailwindcss",
+
+    // Testing
+    "vitest.explorer",
+    "ms-playwright.playwright",
+
+    // Prisma
+    "Prisma.prisma",
+
+    // Git
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+
+    // Utilities
+    "christian-kohler.path-intellisense",
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
+
+    // GitHub Copilot
+    "GitHub.copilot",
+    "GitHub.copilot-chat",
+
+    // Markdown
+    "yzhang.markdown-all-in-one",
+    "DavidAnson.vscode-markdownlint"
+  ],
+  "unwantedRecommendations": []
+}

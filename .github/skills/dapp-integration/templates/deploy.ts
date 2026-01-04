@@ -155,7 +155,7 @@ async function prepareDeployment(config: {
   // Implementation depends on @midnight-ntwrk/midnight-js-contracts
   // This is a placeholder structure
   const { deployContract } = await import('@midnight-ntwrk/midnight-js-contracts');
-  
+
   return deployContract({
     contract: config.contract,
     initialState: config.initialState,
@@ -193,11 +193,11 @@ async function waitForDeployment(
       });
 
       const data = await response.json();
-      
+
       if (data.data?.transaction?.status === 'confirmed') {
         return true;
       }
-      
+
       if (data.data?.transaction?.status === 'failed') {
         throw new DeploymentError('Deployment transaction failed');
       }
@@ -221,7 +221,7 @@ async function createContractInstance(config: {
   walletApi: WalletAPI;
 }): Promise<ContractInstance> {
   const { ContractInstance } = await import('@midnight-ntwrk/midnight-js-contracts');
-  
+
   return new ContractInstance({
     address: config.address,
     contract: config.contract,

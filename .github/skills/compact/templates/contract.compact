@@ -35,13 +35,13 @@ struct CounterUpdated {
 ledger {
   // Simple counter
   counter: Counter,
-  
+
   // Configuration
   config: Cell<Config>,
-  
+
   // Map of user balances
   balances: Map<Bytes<32>, Uint<64>>,
-  
+
   // Set of authorized users
   authorized: Set<Bytes<32>>
 }
@@ -57,14 +57,14 @@ ledger {
 constructor(admin: Bytes<32>, maxValue: Uint<64>) {
   // Initialize counter at 0
   ledger.counter.increment(0n);
-  
+
   // Set initial config
   ledger.config.write(Config {
     admin: admin,
     enabled: true,
     maxValue: maxValue
   });
-  
+
   // Admin is automatically authorized
   ledger.authorized.insert(admin);
 }
@@ -107,14 +107,14 @@ export circuit increment(): Uint<64> {
   // Read config
   const config = ledger.config.read();
   assert(config.enabled, "Contract is disabled");
-  
+
   // Get current value
   const current = ledger.counter.read();
   assert(current < config.maxValue, "Maximum value reached");
-  
+
   // Increment
   ledger.counter.increment(1n);
-  
+
   // Return new value
   return current + 1;
 }
@@ -126,10 +126,10 @@ export circuit increment(): Uint<64> {
 export circuit setCounter(value: Uint<64>): [] {
   const caller = getCaller();
   assert(ledger.authorized.member(caller), "Not authorized");
-  
+
   const config = ledger.config.read();
   assert(value <= config.maxValue, "Value exceeds maximum");
-  
+
   // Reset to 0 then increment to value
   const current = ledger.counter.read();
   if (value > current) {
@@ -155,15 +155,15 @@ export circuit withdraw(
   witness secretKey: Field
 ): [] {
   const caller = getCaller();
-  
+
   // Verify caller owns the secret
   const expectedAddress = deriveAddress(secretKey);
   assert(expectedAddress == caller, "Invalid secret key");
-  
+
   // Check balance
   const balance = ledger.balances[caller] default 0;
   assert(balance >= amount, "Insufficient balance");
-  
+
   // Update balance
   ledger.balances[caller] = balance - amount;
 }
@@ -179,7 +179,7 @@ export circuit authorize(address: Bytes<32>): [] {
   const caller = getCaller();
   const config = ledger.config.read();
   assert(caller == config.admin, "Only admin can authorize");
-  
+
   ledger.authorized.insert(address);
 }
 
@@ -191,7 +191,7 @@ export circuit revoke(address: Bytes<32>): [] {
   const config = ledger.config.read();
   assert(caller == config.admin, "Only admin can revoke");
   assert(address != config.admin, "Cannot revoke admin");
-  
+
   ledger.authorized.remove(address);
 }
 
@@ -202,7 +202,7 @@ export circuit updateConfig(enabled: Boolean, maxValue: Uint<64>): [] {
   const caller = getCaller();
   const config = ledger.config.read();
   assert(caller == config.admin, "Only admin can update config");
-  
+
   ledger.config.write(Config {
     admin: config.admin,  // Admin cannot change itself
     enabled: enabled,
@@ -225,7 +225,7 @@ export circuit commitValue(
 ): [] {
   // Verify commitment matches secret
   assert(hash(value, nonce) == commitment, "Invalid commitment");
-  
+
   // Store only the commitment (value remains private)
   // Add to your commitment storage as needed
 }

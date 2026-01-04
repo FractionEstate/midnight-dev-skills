@@ -87,10 +87,10 @@ export circuit spend(
 ): [] {
   // Compute nullifier
   const nullifier = hash(secretKey, tokenId);
-  
+
   // Check not already spent
   assert(!ledger.nullifiers.member(nullifier), "Already spent");
-  
+
   // Record nullifier
   ledger.nullifiers.insert(nullifier);
 }
@@ -122,7 +122,7 @@ export circuit proveMembership(
   root: Field
 ): Boolean {
   let current = leaf;
-  
+
   for i in 0..256 {
     if (indices[i]) {
       current = hash(proof[i], current);
@@ -130,7 +130,7 @@ export circuit proveMembership(
       current = hash(current, proof[i]);
     }
   }
-  
+
   return current == root;
 }
 ```
@@ -180,14 +180,14 @@ export circuit privateTransfer(
 ): [] {
   // Verify sender has funds
   assert(senderBalance >= amount);
-  
+
   // Verify sender's balance commitment
   assert(hash(senderBalance) == senderCommitment);
-  
+
   // Create new commitments
   const newSenderBalance = senderBalance - amount;
   const newSenderCommitment = hash(newSenderBalance);
-  
+
   // Update commitments (amounts stay private)
   ledger.balances[sender] = newSenderCommitment;
 }

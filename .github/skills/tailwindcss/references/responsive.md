@@ -176,12 +176,12 @@
 <nav className="sticky top-0 z-50 border-b bg-white">
   <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
     <a href="/" className="text-lg font-bold sm:text-xl">Logo</a>
-    
+
     {/* Mobile menu button */}
     <button className="p-2 md:hidden">
       <Menu className="size-5" />
     </button>
-    
+
     {/* Desktop nav */}
     <div className="hidden items-center gap-6 md:flex">
       <a href="#" className="text-sm font-medium">Features</a>

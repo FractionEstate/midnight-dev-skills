@@ -132,13 +132,13 @@ it('returns a promise', () => {
 // Fake timers
 it('handles timers', async () => {
   vi.useFakeTimers();
-  
+
   const callback = vi.fn();
   setTimeout(callback, 1000);
-  
+
   vi.advanceTimersByTime(1000);
   expect(callback).toHaveBeenCalled();
-  
+
   vi.useRealTimers();
 });
 ```

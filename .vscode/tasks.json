@@ -1,0 +1,170 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Midnight: Setup Environment",
+      "type": "shell",
+      "command": "bash .vscode/setup-midnight.sh",
+      "problemMatcher": [],
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "Midnight: Compile Contracts",
+      "type": "shell",
+      "command": "pnpm compact:build",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "Midnight: Watch Contracts",
+      "type": "shell",
+      "command": "pnpm compact:watch",
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": "build"
+    },
+    {
+      "label": "Midnight: Start Proof Server",
+      "type": "shell",
+      "command": "docker run -p 6300:6300 --rm midnightnetwork/proof-server -- midnight-proof-server --network testnet",
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": "none",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      }
+    },
+    {
+      "label": "Midnight: Pull Proof Server Image",
+      "type": "shell",
+      "command": "docker pull midnightnetwork/proof-server",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "Midnight: Check Proof Server Health",
+      "type": "shell",
+      "command": "curl -s http://localhost:6300/health || echo 'Proof server not running'",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "dev",
+      "type": "shell",
+      "command": "pnpm dev",
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "pnpm build",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": "build"
+    },
+    {
+      "label": "lint",
+      "type": "shell",
+      "command": "pnpm lint",
+      "problemMatcher": [
+        "$eslint-stylish"
+      ],
+      "group": "test"
+    },
+    {
+      "label": "lint:fix",
+      "type": "shell",
+      "command": "pnpm lint --fix",
+      "problemMatcher": [
+        "$eslint-stylish"
+      ],
+      "group": "test"
+    },
+    {
+      "label": "typecheck",
+      "type": "shell",
+      "command": "pnpm typecheck",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": "test"
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "pnpm test",
+      "problemMatcher": [],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "test:watch",
+      "type": "shell",
+      "command": "pnpm test:watch",
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": "test"
+    },
+    {
+      "label": "test:coverage",
+      "type": "shell",
+      "command": "pnpm test:coverage",
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "prisma:generate",
+      "type": "shell",
+      "command": "pnpm prisma generate",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "prisma:push",
+      "type": "shell",
+      "command": "pnpm prisma db push",
+      "problemMatcher": [],
+      "group": "build"
+    },
+    {
+      "label": "prisma:studio",
+      "type": "shell",
+      "command": "pnpm prisma studio",
+      "problemMatcher": [],
+      "isBackground": true,
+      "group": "none"
+    },
+    {
+      "label": "clean",
+      "type": "shell",
+      "command": "rm -rf node_modules/.cache dist .next coverage playwright-report",
+      "problemMatcher": [],
+      "group": "none"
+    },
+    {
+      "label": "install",
+      "type": "shell",
+      "command": "pnpm install",
+      "problemMatcher": [],
+      "group": "none"
+    }
+  ]
+}
+      "problemMatcher": [],
+"group": "none"
+}
+]
+}

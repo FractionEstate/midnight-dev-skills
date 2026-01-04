@@ -63,7 +63,7 @@ ALTER TABLE "posts" ALTER COLUMN "slug" SET NOT NULL;
 CREATE UNIQUE INDEX "posts_slug_key" ON "posts"("slug");
 
 -- Add check constraint
-ALTER TABLE "posts" ADD CONSTRAINT "posts_view_count_positive" 
+ALTER TABLE "posts" ADD CONSTRAINT "posts_view_count_positive"
   CHECK ("view_count" >= 0);
 
 -- Create function and trigger
@@ -157,7 +157,7 @@ model PostTag {
   tagId  String
   post   Post @relation(fields: [postId], references: [id])
   tag    Tag  @relation(fields: [tagId], references: [id])
-  
+
   @@id([postId, tagId])
 }
 ```

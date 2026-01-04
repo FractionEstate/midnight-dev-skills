@@ -54,7 +54,7 @@ export function getConnector(): DAppConnectorAPI | null {
 export async function getWalletState(): Promise<WalletState | null> {
   const connector = getConnector();
   if (!connector) return null;
-  
+
   try {
     return await connector.state();
   } catch (error) {
@@ -76,7 +76,7 @@ export async function isWalletConnected(): Promise<boolean> {
  */
 export async function connectWallet(): Promise<WalletAPI | null> {
   const connector = getConnector();
-  
+
   if (!connector) {
     throw new WalletConnectionError(
       'WALLET_NOT_INSTALLED',
@@ -87,12 +87,12 @@ export async function connectWallet(): Promise<WalletAPI | null> {
   try {
     // Check current state
     const state = await connector.state();
-    
+
     // Enable if not already enabled
     if (state.enabledWalletApiVersion === null) {
       await connector.enable();
     }
-    
+
     // Get wallet API
     const walletApi = await connector.walletAPI();
     return walletApi;
@@ -110,7 +110,7 @@ export async function connectWallet(): Promise<WalletAPI | null> {
 export async function disconnectWallet(): Promise<void> {
   const connector = getConnector();
   if (!connector) return;
-  
+
   try {
     await connector.disable();
   } catch (error) {
@@ -164,10 +164,10 @@ export async function submitTransaction(
   try {
     // Sign the transaction
     const signedTx = await walletApi.signTransaction(transaction);
-    
+
     // Submit to network
     const result = await walletApi.submitTransaction(signedTx);
-    
+
     return result.txId;
   } catch (error) {
     if (error instanceof Error) {
@@ -186,19 +186,19 @@ export async function waitForConfirmation(
   timeoutMs: number = 60000
 ): Promise<boolean> {
   const startTime = Date.now();
-  
+
   while (Date.now() - startTime < timeoutMs) {
     try {
       const status = await walletApi.getTransactionStatus(txId);
-      
+
       if (status.confirmed) {
         return true;
       }
-      
+
       if (status.failed) {
         throw new TransactionError('TX_FAILED', status.error ?? 'Transaction failed');
       }
-      
+
       // Wait before checking again
       await new Promise(resolve => setTimeout(resolve, 2000));
     } catch (error) {
@@ -206,7 +206,7 @@ export async function waitForConfirmation(
       // Continue waiting on network errors
     }
   }
-  
+
   throw new TransactionError('TX_TIMEOUT', 'Transaction confirmation timeout');
 }
 
@@ -250,7 +250,7 @@ export function useMidnightWallet() {
   const connect = useCallback(async () => {
     setIsConnecting(true);
     setError(null);
-    
+
     try {
       const api = await connectWallet();
       if (api) {

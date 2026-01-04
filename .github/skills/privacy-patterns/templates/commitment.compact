@@ -26,13 +26,13 @@ struct RevealedValue {
 ledger {
   // Store commitments by ID
   commitments: Map<Bytes<32>, Commitment>,
-  
+
   // Track reveal deadline
   revealDeadline: Cell<Uint<64>>,
-  
+
   // Store revealed values
   reveals: Map<Bytes<32>, RevealedValue>,
-  
+
   // Counter for unique IDs
   commitmentCounter: Counter
 }
@@ -65,17 +65,17 @@ export circuit commit(
   // Verify the commitment matches value + nonce
   const expectedHash = hash(value, nonce);
   assert(commitmentHash == expectedHash, "Invalid commitment hash");
-  
+
   // Generate unique commitment ID
   const commitmentId = generateCommitmentId();
-  
+
   // Store commitment on-chain
   ledger.commitments[commitmentId] = Commitment {
     hash: commitmentHash,
     timestamp: getCurrentTimestamp(),
     revealed: false
   };
-  
+
   // Return commitment ID for later reveal
   return commitmentId;
 }
@@ -99,31 +99,31 @@ export circuit reveal(
   const commitment = ledger.commitments[commitmentId];
   assert(commitment.hash != 0, "Commitment not found");
   assert(!commitment.revealed, "Already revealed");
-  
+
   // Verify reveal matches commitment
   const expectedHash = hash(value, nonce);
   assert(commitment.hash == expectedHash, "Invalid reveal");
-  
+
   // Check deadline
   const deadline = ledger.revealDeadline.read();
   if (deadline > 0) {
     assert(getCurrentTimestamp() <= deadline, "Reveal period ended");
   }
-  
+
   // Mark as revealed
   ledger.commitments[commitmentId] = Commitment {
     hash: commitment.hash,
     timestamp: commitment.timestamp,
     revealed: true
   };
-  
+
   // Store revealed value
   ledger.reveals[commitmentId] = RevealedValue {
     value: value,
     nonce: nonce,
     revealer: getCaller()
   };
-  
+
   return value;
 }
 

@@ -267,15 +267,15 @@ const stats = await prisma.post.aggregate({
 ```typescript
 // Raw query
 const users = await prisma.$queryRaw<User[]>`
-  SELECT * FROM users 
+  SELECT * FROM users
   WHERE email LIKE ${`%${domain}`}
   ORDER BY created_at DESC
 `;
 
 // Raw execute
 await prisma.$executeRaw`
-  UPDATE posts 
-  SET view_count = view_count + 1 
+  UPDATE posts
+  SET view_count = view_count + 1
   WHERE id = ${postId}
 `;
 

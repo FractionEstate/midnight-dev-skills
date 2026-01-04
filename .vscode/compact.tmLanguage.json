@@ -1,0 +1,49 @@
+{
+  "name": "Compact",
+  "scopeName": "source.compact",
+  "fileTypes": ["compact"],
+  "patterns": [
+    {
+      "name": "comment.line.double-slash.compact",
+      "match": "//.*$"
+    },
+    {
+      "name": "comment.block.compact",
+      "begin": "/\\*",
+      "end": "\\*/"
+    },
+    {
+      "name": "keyword.control.compact",
+      "match": "\\b(if|else|match|return|require|assert)\\b"
+    },
+    {
+      "name": "keyword.declaration.compact",
+      "match": "\\b(pragma|import|from|export|ledger|circuit|constructor|struct|enum|witness|secret)\\b"
+    },
+    {
+      "name": "storage.type.compact",
+      "match": "\\b(Uint|Field|Boolean|Bytes|Cell|Counter|Map|Set|MerkleTree|Vector|Maybe|Opaque)\\b"
+    },
+    {
+      "name": "constant.language.compact",
+      "match": "\\b(true|false|none|some)\\b"
+    },
+    {
+      "name": "constant.numeric.compact",
+      "match": "\\b([0-9]+n?|0x[0-9a-fA-F]+)\\b"
+    },
+    {
+      "name": "string.quoted.double.compact",
+      "begin": "\"",
+      "end": "\""
+    },
+    {
+      "name": "entity.name.function.compact",
+      "match": "\\b([a-z][a-zA-Z0-9_]*)\\s*(?=\\()"
+    },
+    {
+      "name": "entity.name.type.compact",
+      "match": "\\b([A-Z][a-zA-Z0-9_]*)\\b"
+    }
+  ]
+}

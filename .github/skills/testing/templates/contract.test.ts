@@ -22,10 +22,10 @@ describe('MyContract', () => {
   beforeEach(() => {
     // Set network to undeployed for testing
     setNetworkId(NetworkId.Undeployed);
-    
+
     // Create fresh simulator instance
     simulator = new ContractSimulator(MyContract);
-    
+
     // Deploy contract (call constructor)
     circuitContext = simulator.call.constructor();
   });
@@ -37,17 +37,17 @@ describe('MyContract', () => {
   describe('Initial State', () => {
     it('should initialize with default values', () => {
       const state = ledger(circuitContext.transactionContext.state);
-      
+
       expect(state.counter.value).toBe(0n);
       expect(state.owner).toBeDefined();
     });
 
     it('should set constructor parameters correctly', () => {
       const customSimulator = new ContractSimulator(MyContract);
-      const ctx = customSimulator.call.constructor({ 
-        initialValue: 100n 
+      const ctx = customSimulator.call.constructor({
+        initialValue: 100n
       });
-      
+
       const state = ledger(ctx.transactionContext.state);
       expect(state.counter.value).toBe(100n);
     });
@@ -61,7 +61,7 @@ describe('MyContract', () => {
     it('should increment counter by 1', () => {
       // Call the circuit
       const result = simulator.call.increment();
-      
+
       // Check new state
       const state = ledger(result.transactionContext.state);
       expect(state.counter.value).toBe(1n);
@@ -71,14 +71,14 @@ describe('MyContract', () => {
       simulator.call.increment();
       simulator.call.increment();
       const result = simulator.call.increment();
-      
+
       const state = ledger(result.transactionContext.state);
       expect(state.counter.value).toBe(3n);
     });
 
     it('should emit correct events', () => {
       const result = simulator.call.increment();
-      
+
       expect(result.events).toContainEqual({
         type: 'CounterIncremented',
         value: 1n,
@@ -89,7 +89,7 @@ describe('MyContract', () => {
   describe('setCounter circuit', () => {
     it('should set counter to specified value', () => {
       const result = simulator.call.setCounter({ value: 42n });
-      
+
       const state = ledger(result.transactionContext.state);
       expect(state.counter.value).toBe(42n);
     });
@@ -123,7 +123,7 @@ describe('MyContract', () => {
       // Change caller context
       const nonOwnerAddress = sampleContractAddress();
       simulator.setCallerAddress(nonOwnerAddress);
-      
+
       expect(() => {
         simulator.call.adminReset();
       }).toThrow('Only owner can call this function');
@@ -138,16 +138,16 @@ describe('MyContract', () => {
     it('should verify valid witness', () => {
       const secret = 12345n;
       const commitment = hashSecret(secret);
-      
+
       // First, store commitment
       simulator.call.storeCommitment({ commitment });
-      
+
       // Then reveal with witness
       const result = simulator.call.reveal({
         witness: { secret },
         commitment,
       });
-      
+
       expect(result.verified).toBe(true);
     });
 
@@ -155,9 +155,9 @@ describe('MyContract', () => {
       const secret = 12345n;
       const wrongSecret = 99999n;
       const commitment = hashSecret(secret);
-      
+
       simulator.call.storeCommitment({ commitment });
-      
+
       expect(() => {
         simulator.call.reveal({
           witness: { secret: wrongSecret },
@@ -177,7 +177,7 @@ describe('MyContract', () => {
         recipient: sampleContractAddress(),
         amount: 100n,
       });
-      
+
       expect(result.transactionContext.outputs).toHaveLength(1);
       expect(result.transactionContext.outputs[0]).toMatchObject({
         amount: 100n,
@@ -186,7 +186,7 @@ describe('MyContract', () => {
 
     it('should track gas usage', () => {
       const result = simulator.call.complexOperation();
-      
+
       expect(result.gasUsed).toBeDefined();
       expect(result.gasUsed).toBeLessThan(1000000n);
     });
@@ -200,7 +200,7 @@ describe('MyContract', () => {
     it('should handle maximum uint64 value', () => {
       const maxValue = 2n ** 64n - 1n;
       const result = simulator.call.setCounter({ value: maxValue });
-      
+
       const state = ledger(result.transactionContext.state);
       expect(state.counter.value).toBe(maxValue);
     });
@@ -218,7 +218,7 @@ describe('MyContract', () => {
         simulator.call.increment(),
         simulator.call.increment(),
       ];
-      
+
       // Final state should reflect all increments
       const finalState = ledger(results[2].transactionContext.state);
       expect(finalState.counter.value).toBe(3n);
