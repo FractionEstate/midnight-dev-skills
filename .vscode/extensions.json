@@ -12,15 +12,12 @@
     "vitest.explorer",
     "ms-playwright.playwright",
     // Prisma
-    "mhutchie.git-graph",
-    // Utilities
     "christian-kohler.path-intellisense",
     "usernamehw.errorlens",
     // GitHub Copilot
     "GitHub.copilot",
     "GitHub.copilot-chat",
     // Markdown
-    "yzhang.markdown-all-in-one",
     "DavidAnson.vscode-markdownlint"
   ],
   "unwantedRecommendations": []
