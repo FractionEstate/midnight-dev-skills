@@ -167,9 +167,9 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Deployment Strategy:**
 
 | Environment | Trigger | Branch |
-|-------------|---------|--------|
-| Preview | PR opened/updated | Feature branches |
-| Production | Merge to main | main |
+| ----------- | ----------------- | --------------- |
+| Preview     | PR opened/updated | Feature branches |
+| Production  | Merge to main     | main |
 
 **Key Configurations:**
 
@@ -187,7 +187,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **File Structure:**
 
 | File | Purpose | Git |
-|------|---------|-----|
+| ---- | ------- | --- |
 | `.env.example` | Template with all variables | ✅ Tracked |
 | `.env` | Local development | ❌ Ignored |
 | `.env.local` | Local overrides | ❌ Ignored |
