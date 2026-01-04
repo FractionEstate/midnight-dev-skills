@@ -142,8 +142,8 @@ After:
 
 ### References
 
-- [Midnight Security Best Practices](../skills/security/SKILL.md)
-- [Privacy Patterns](../skills/privacy-patterns/SKILL.md)
+- [Midnight Security Best Practices](../SKILL.md)
+- [Privacy Patterns](../../privacy-patterns/SKILL.md)
 
 ---
 

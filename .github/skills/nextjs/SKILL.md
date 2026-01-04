@@ -124,10 +124,11 @@ export async function createPost(formData: FormData) {
 - [references/routing.md](references/routing.md) - Routing patterns
 - [references/data-fetching.md](references/data-fetching.md) - Data fetching strategies
 - [references/server-actions.md](references/server-actions.md) - Server Actions guide
-- [references/metadata.md](references/metadata.md) - SEO and metadata
+- [references/middleware.md](references/middleware.md) - Middleware patterns
 
-## Templates
+## Assets
 
-- [assets/page.tsx](assets/page.tsx) - Basic page template
-- [assets/layout.tsx](assets/layout.tsx) - Layout template
-- [assets/route-handler.ts](assets/route-handler.ts) - API route template
+- [assets/page.md](assets/page.md) - Basic page template
+- [assets/layout.md](assets/layout.md) - Layout template
+- [assets/route-handler.md](assets/route-handler.md) - API route template
+- [assets/server-action.md](assets/server-action.md) - Server Action template

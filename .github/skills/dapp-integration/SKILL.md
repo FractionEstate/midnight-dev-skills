@@ -37,12 +37,13 @@ if (connector) {
 | **Contract Deployment** | [references/deployment.md](references/deployment.md) |
 | **Next.js Setup** | [references/nextjs-setup.md](references/nextjs-setup.md) |
 
-## Templates
+## Assets
 
-| Template | Description |
-|----------|-------------|
-| [assets/wallet-hook.tsx](assets/wallet-hook.tsx) | React hook for wallet |
-| [assets/provider-config.ts](assets/provider-config.ts) | Provider configuration |
+| Asset | Description |
+|-------|-------------|
+| [assets/wallet-hook.md](assets/wallet-hook.md) | React hook for wallet |
+| [assets/providers.md](assets/providers.md) | Provider configuration |
+| [assets/deploy.md](assets/deploy.md) | Deployment template |
 
 ## Installation
 

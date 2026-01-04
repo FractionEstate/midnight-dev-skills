@@ -365,5 +365,5 @@ npx prisma studio
 
 ## References
 - [references/schema.md](references/schema.md) - Schema patterns
-- [references/queries.md](references/queries.md) - Advanced queries
+- [references/query-patterns.md](references/query-patterns.md) - Advanced queries
 - [references/migrations.md](references/migrations.md) - Migration strategies

@@ -361,5 +361,4 @@ npx playwright show-report
 
 ## References
 - [references/selectors.md](references/selectors.md) - Selector patterns
-- [references/visual-testing.md](references/visual-testing.md) - Visual regression
-- [references/ci-integration.md](references/ci-integration.md) - CI/CD setup
+- [references/fixtures.md](references/fixtures.md) - Fixtures and setup

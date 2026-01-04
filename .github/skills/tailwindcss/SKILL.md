@@ -253,8 +253,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ## References
 - [references/theming.md](references/theming.md) - Theme customization
 - [references/components.md](references/components.md) - Component library
-- [references/utilities.md](references/utilities.md) - Utility patterns
+- [references/responsive.md](references/responsive.md) - Responsive patterns
 
-## Templates
-- [assets/card.tsx](assets/card.tsx) - Card component
-- [assets/button.tsx](assets/button.tsx) - Button variants
+## Assets
+- [assets/globals.css](assets/globals.css) - Global CSS template

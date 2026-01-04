@@ -52,11 +52,9 @@ skill-name/
 ├── references/           # Detailed docs (loaded on demand)
 │   ├── topic-a.md
 │   └── topic-b.md
-└── assets/            # Reusable code templates
-    ├── template.ts
-    └── template.compact
-│   ├── references/       # Optional: additional documentation
-│   └── assets/           # Optional: templates, images, data
+└── assets/               # Reusable templates and static resources
+    ├── template.md
+    └── config.json
 ```
 
 ### SKILL.md Format

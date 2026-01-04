@@ -463,5 +463,4 @@ jobs:
 
 ## References
 - [references/configuration.md](references/configuration.md) - Full config reference
-- [references/caching.md](references/caching.md) - Caching strategies
-- [references/ci-cd.md](references/ci-cd.md) - CI/CD patterns
+- [references/filters.md](references/filters.md) - Filter patterns

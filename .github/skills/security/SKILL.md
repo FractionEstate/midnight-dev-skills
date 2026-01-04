@@ -49,8 +49,7 @@ Expert knowledge for auditing Midnight Network contracts and privacy-preserving 
 ## References
 
 - [references/vulnerabilities.md](references/vulnerabilities.md) - Common vulnerability patterns
-- [references/checklist.md](references/checklist.md) - Detailed audit checklist
 
-## Templates
+## Assets
 
 - [assets/audit-report.md](assets/audit-report.md) - Audit report template
