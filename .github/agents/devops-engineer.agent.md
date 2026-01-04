@@ -60,8 +60,8 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Setting up or optimizing monorepo builds
 
 **Key Resources:**
-- Configuration Guide: [turborepo/SKILL.md](../skills/turborepo/SKILL.md)
-- Task Configuration: [turborepo/references/configuration.md](../skills/turborepo/references/configuration.md)
+- Configuration Guide: #skill:turborepo
+- Task Configuration: #skill:turborepo
 
 **Key Decisions:**
 - Use `$TURBO_DEFAULT$` for default inputs
@@ -87,7 +87,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Setting up CI/CD pipelines
 
 **Key Resources:**
-- Turborepo Filters: [turborepo/references/filters.md](../skills/turborepo/references/filters.md)
+- Turborepo Filters: #skill:turborepo
 
 **CI Workflow Structure:**
 
@@ -120,7 +120,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Creating Docker containers
 
 **Key Resources:**
-- Network Configuration: [midnight-network/references/network-config.md](../skills/midnight-network/references/network-config.md)
+- Network Configuration: #skill:midnight-network
 
 **Multi-Stage Build Strategy:**
 
@@ -151,7 +151,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Deploying to Vercel
 
 **Key Resources:**
-- Deployment Guide: [dapp-integration/references/deployment.md](../skills/dapp-integration/references/deployment.md)
+- Deployment Guide: #skill:dapp-integration
 
 **Deployment Strategy:**
 
@@ -202,7 +202,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Optimizing build performance
 
 **Key Resources:**
-- Next.js Routing: [nextjs/references/routing.md](../skills/nextjs/references/routing.md)
+- Next.js Routing: #skill:nextjs
 
 **Optimization Strategies:**
 

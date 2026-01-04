@@ -1,14 +1,8 @@
-# Playwright Configuration Template
+// @ts-nocheck
+// Playwright Configuration Template
+// Location: playwright.config.ts
+// Configuration for multi-browser E2E testing
 
-Configuration for multi-browser E2E testing.
-
-## Location
-
-`playwright.config.ts`
-
-## Template
-
-```typescript
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
@@ -63,29 +57,3 @@ export default defineConfig({
     timeout: 120 * 1000,
   },
 });
-```
-
-## Key Configuration Options
-
-| Option | Description |
-|--------|-------------|
-| `testDir` | Directory containing test files |
-| `fullyParallel` | Run tests in parallel |
-| `retries` | Retry failed tests |
-| `workers` | Number of parallel workers |
-| `baseURL` | Default URL for `page.goto()` |
-| `trace` | Record trace for debugging |
-| `webServer` | Start app before tests |
-
-## Environment-Specific Config
-
-```typescript
-// Different settings for CI vs local
-use: {
-  baseURL: process.env.CI
-    ? 'https://staging.example.com'
-    : 'http://localhost:3000',
-  trace: process.env.CI ? 'on-first-retry' : 'off',
-  screenshot: process.env.CI ? 'only-on-failure' : 'off',
-},
-```

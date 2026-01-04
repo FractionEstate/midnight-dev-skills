@@ -15,7 +15,7 @@ When generating code for Midnight Network projects:
 ## Technology Stack
 
 ### Core Versions
-- **Compact**: 0.18+ (pragma compact(">=0.25");
+- **Compact**: 0.26.0 compiler / 0.18 language / 0.3.0 dev tools (`pragma language_version 0.18;`)
 - **Next.js**: 16.1.1 (App Router)
 - **TypeScript**: 5.x (strict mode)
 - **React**: 19.x (Server Components)
@@ -47,7 +47,9 @@ const TESTNET_CONFIG = {
 
 ### File Structure
 ```compact
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // Type definitions
 struct MyData {
@@ -106,16 +108,19 @@ ledger { commitments: MerkleTree<256, Field> }
 
 ### Standard Library Usage
 ```compact
+// Import the standard library (builtin since v0.13)
+import CompactStandardLibrary;
+
 // Hashing
-import { hash } from "std";
 const commitment = hash(secret_data);
 
 // EC operations (for key management)
-import { public_key } from "std";
 const pk = public_key(secret_key);
 
+// Disclosure
+const public_value = disclose(private_value);
+
 // Coin management
-import { send, receive } from "std";
 circuit paymentCircuit(): [send(coins), receive(coins)] { ... }
 ```
 
@@ -124,29 +129,34 @@ circuit paymentCircuit(): [send(coins), receive(coins)] { ... }
 ### Wallet Connection Pattern
 ```typescript
 'use client';
-import type { DAppConnectorAPI, WalletAPI } from '@midnight-ntwrk/dapp-connector-api';
+import "@midnight-ntwrk/dapp-connector-api";
 
-// Check for wallet availability
-declare global {
-  interface Window {
-    midnight?: DAppConnectorAPI;
-  }
-}
-
-export async function connectWallet(): Promise<WalletAPI | null> {
-  const connector = window.midnight;
+export async function connectWallet() {
+  const connector = window.midnight?.mnLace;
   if (!connector) {
-    console.error('Midnight wallet not installed');
+    console.error('Midnight Lace wallet not installed');
     return null;
   }
 
-  const state = await connector.state();
-  if (state.enabledWalletApiVersion === null) {
-    await connector.enable();
-  }
+  try {
+    // Request wallet authorization
+    const api = await connector.enable();
 
-  const walletApi = await connector.walletAPI();
-  return walletApi;
+    // Get wallet state including address
+    const state = await api.state();
+    console.log('Connected address:', state.address);
+
+    return { api, state };
+  } catch (error) {
+    console.error('Wallet connection failed:', error);
+    return null;
+  }
+}
+
+// Check if DApp is authorized
+async function checkAuthorization() {
+  const isEnabled = await window.midnight?.mnLace.isEnabled();
+  return isEnabled ?? false;
 }
 ```
 

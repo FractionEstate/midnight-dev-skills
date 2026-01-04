@@ -1,4 +1,6 @@
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // Basic Contract Template
 // A simple contract with ledger state and circuits

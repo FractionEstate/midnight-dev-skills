@@ -1,7 +1,9 @@
 // Selective Disclosure Template
 // Privacy Pattern: Prove properties without revealing data
 
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // ============================================
 // Type Definitions

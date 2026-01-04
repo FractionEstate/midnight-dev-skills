@@ -1,14 +1,8 @@
-# Vitest Configuration Template
+// @ts-nocheck
+// Vitest Configuration Template
+// Location: vitest.config.ts
+// Configuration for testing Midnight contracts and TypeScript code
 
-Configuration for testing Midnight contracts and TypeScript code.
-
-## Location
-
-`vitest.config.ts`
-
-## Template
-
-```typescript
 import { defineConfig } from 'vitest/config';
 import path from 'path';
 
@@ -56,47 +50,3 @@ export default defineConfig({
     },
   },
 });
-```
-
-## Setup File
-
-```typescript
-// test/setup.ts
-import { beforeAll, afterAll } from 'vitest';
-import { setNetworkId, NetworkId } from '@midnight-ntwrk/midnight-js-types';
-
-beforeAll(() => {
-  // Set network for all tests
-  setNetworkId(NetworkId.Undeployed);
-});
-
-afterAll(() => {
-  // Cleanup
-});
-```
-
-## Running Tests
-
-```bash
-# Run all tests
-pnpm test
-
-# Run with coverage
-pnpm test:coverage
-
-# Run in watch mode
-pnpm test:watch
-
-# Run specific file
-pnpm test test/contracts/counter.test.ts
-```
-
-## Key Options
-
-| Option | Description |
-|--------|-------------|
-| `globals: true` | Use `describe`, `it` without imports |
-| `environment` | `node` for contracts, `jsdom` for components |
-| `setupFiles` | Run before tests |
-| `coverage` | Code coverage reporting |
-| `thresholds` | Minimum coverage requirements |

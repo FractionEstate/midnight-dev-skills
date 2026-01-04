@@ -1,14 +1,8 @@
-# Midnight Wallet Hook Template
+// @ts-nocheck
+// Midnight Wallet Hook Template
+// Location: hooks/useMidnightWallet.ts
+// React hook for wallet connection and state management
 
-React hook for wallet connection and state management.
-
-## Location
-
-`hooks/useMidnightWallet.ts`
-
-## Template
-
-```typescript
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -113,58 +107,3 @@ export function useMidnightWallet() {
     refreshBalance,
   };
 }
-```
-
-## Usage
-
-```tsx
-'use client';
-
-import { useMidnightWallet } from '@/hooks/useMidnightWallet';
-
-export function WalletButton() {
-  const {
-    isConnected,
-    isConnecting,
-    address,
-    balance,
-    error,
-    isWalletAvailable,
-    connect,
-    disconnect,
-  } = useMidnightWallet();
-
-  if (!isWalletAvailable) {
-    return (
-      <a href="https://midnight.network/wallet" target="_blank">
-        Install Wallet
-      </a>
-    );
-  }
-
-  if (isConnected) {
-    return (
-      <div>
-        <p>Address: {address?.slice(0, 8)}...</p>
-        <p>Balance: {balance?.toString()} tDUST</p>
-        <button onClick={disconnect}>Disconnect</button>
-      </div>
-    );
-  }
-
-  return (
-    <button onClick={connect} disabled={isConnecting}>
-      {isConnecting ? 'Connecting...' : 'Connect Wallet'}
-    </button>
-  );
-}
-```
-
-## Key Patterns
-
-| Pattern | Description |
-|---------|-------------|
-| `'use client'` | Client component required |
-| State management | Track connection status |
-| Error handling | User-friendly messages |
-| Wallet API | Access address, balance, signing |

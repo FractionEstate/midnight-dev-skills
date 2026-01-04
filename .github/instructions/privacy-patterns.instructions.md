@@ -32,7 +32,9 @@ Is the data sensitive?
 
 ### Hash Commitment
 ```compact
-import { hash } from "std";
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // Phase 1: Commit (hide the value)
 export circuit commit(witness secret: Field): Field {

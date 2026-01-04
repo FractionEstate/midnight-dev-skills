@@ -137,7 +137,7 @@ Tailwind v4 introduces CSS-first configuration using `@theme` directive:
 
 OKLCH provides perceptually uniform colors:
 
-```
+```text
 oklch(L C H / alpha)
 - L: Lightness (0-1)
 - C: Chroma (0-0.4, higher = more saturated)

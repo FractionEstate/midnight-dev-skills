@@ -5,25 +5,28 @@ Hide values while binding to them for later revelation.
 ## What is a Commitment?
 
 A cryptographic commitment lets you:
+
 1. **Commit:** Lock in a value without revealing it
 2. **Reveal:** Later prove what value you committed to
 
-```
+```text
 commit(value) → commitment
 reveal(value, commitment) → true/false
 ```
 
 ## Properties
 
-| Property | Meaning |
-|----------|---------|
-| **Hiding** | Cannot determine value from commitment |
-| **Binding** | Cannot change value after committing |
+| Property    | Meaning                                |
+| ----------- | -------------------------------------- |
+| **Hiding**  | Cannot determine value from commitment |
+| **Binding** | Cannot change value after committing   |
 
 ## Basic Commitment Pattern
 
 ```compact
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 ledger commitments: Set<Field>;
 
@@ -163,7 +166,7 @@ export circuit revealVote(voter: Bytes<32>, vote: Boolean): [] {
 
 ## Commitment Lifecycle
 
-```
+```text
 ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
 │   COMMIT     │───▶│    STORE     │───▶│   REVEAL     │
 │              │    │              │    │              │

@@ -9,9 +9,11 @@ Common issues and solutions for Midnight dApp development.
 **Symptom:** `window.midnight` is undefined
 
 **Solutions:**
+
 1. Check Lace wallet is installed
 2. Ensure Midnight mode is enabled in Lace
 3. Wait for wallet injection (may load after page):
+
 ```typescript
 await new Promise(r => setTimeout(r, 1000));
 const hasWallet = !!window.midnight;
@@ -22,6 +24,7 @@ const hasWallet = !!window.midnight;
 **Symptom:** `enable()` throws error
 
 **Solutions:**
+
 1. User may have declined - show retry option
 2. Check if already connected: `await connector.state()`
 3. Clear wallet cache and reconnect
@@ -31,7 +34,8 @@ const hasWallet = !!window.midnight;
 **Symptom:** `balanceAndProveOwnership()` returns 0
 
 **Solutions:**
-1. Visit faucet: https://faucet.testnet-02.midnight.network
+
+1. Visit faucet: <https://faucet.testnet-02.midnight.network>
 2. Wait for faucet transaction to confirm (~1 minute)
 3. Ensure correct network (testnet vs mainnet)
 
@@ -42,6 +46,7 @@ const hasWallet = !!window.midnight;
 **Symptom:** Cannot connect to localhost:6300
 
 **Solutions:**
+
 ```bash
 # Check if proof server is running
 docker ps | grep proof-server
@@ -59,21 +64,27 @@ docker logs midnight-proof-server
 **Symptom:** Proof takes too long, times out
 
 **Solutions:**
-1. Increase timeout:
+
+- Increase timeout:
+
 ```typescript
 const proofProvider = httpClientProofProvider(url, { timeout: 120000 });
 ```
-2. Allocate more Docker resources:
+
+- Allocate more Docker resources:
+
 ```bash
 docker run --memory=8g --cpus=4 ...
 ```
-3. Check circuit complexity (reduce constraints)
+
+- Check circuit complexity (reduce constraints)
 
 ### Out of Memory
 
 **Symptom:** Proof server crashes or returns error
 
 **Solutions:**
+
 ```bash
 # Increase memory limit
 docker run --memory=16g ...
@@ -86,47 +97,60 @@ docker stats midnight-proof-server
 
 ### Compilation Errors
 
-**Type Mismatch**
-```
+#### Type Mismatch
+
+```text
 Error: Type mismatch: expected Uint<64>, got Uint<32>
 ```
+
 Solution: Use consistent bit widths
 
-**Missing Disclose**
-```
+#### Missing Disclose
+
+```text
 Error: Cannot assign private value to public ledger
 ```
+
 Solution: Wrap with `disclose()`:
+
 ```compact
 ledger.value = disclose(privateInput);
 ```
 
 ### Deployment Fails
 
-**Insufficient Funds**
-```
+#### Insufficient Funds
+
+```text
 Error: Insufficient funds for deployment
 ```
+
 Solution: Get more tDUST from faucet
 
-**Proof Server Error**
-```
+#### Proof Server Error
+
+```text
 Error: Failed to generate deployment proof
 ```
+
 Solution: Ensure proof server is running and healthy
 
 ### Circuit Call Fails
 
-**Assertion Error**
-```
+#### Assertion Error
+
+```text
 Error: Assertion failed: condition
 ```
+
 Solution: Check circuit preconditions are met
 
-**State Mismatch**
-```
+#### State Mismatch
+
+```text
 Error: Contract state mismatch
 ```
+
 Solution: Refresh contract state before calling
 
 ## Network Issues
@@ -136,20 +160,24 @@ Solution: Refresh contract state before calling
 **Symptom:** Cannot query blockchain state
 
 **Solutions:**
+
 1. Check indexer URL is correct
 2. Test with curl:
+
 ```bash
 curl -X POST https://indexer.testnet-02.midnight.network/api/v1/graphql \
   -H 'Content-Type: application/json' \
   -d '{"query":"{ __typename }"}'
 ```
-3. Check network connectivity
+
+1. Check network connectivity
 
 ### Network ID Mismatch
 
 **Symptom:** Transactions rejected, state queries fail
 
 **Solution:**
+
 ```typescript
 // Always set NetworkId first
 import { setNetworkId, NetworkId } from '@midnight-ntwrk/midnight-js-network-id';
@@ -161,6 +189,7 @@ setNetworkId(NetworkId.TestNet);
 **Symptom:** Transaction submitted but never confirms
 
 **Solutions:**
+
 1. Check transaction status via indexer
 2. Verify sufficient funds for gas
 3. Check if network is congested
@@ -173,8 +202,10 @@ setNetworkId(NetworkId.TestNet);
 **Symptom:** TypeScript compilation errors
 
 **Solutions:**
+
 1. Ensure compatible package versions
 2. Add to tsconfig.json:
+
 ```json
 {
   "compilerOptions": {
@@ -189,6 +220,7 @@ setNetworkId(NetworkId.TestNet);
 **Symptom:** Cannot find module '@midnight-ntwrk/...'
 
 **Solutions:**
+
 ```bash
 # Reinstall packages
 npm install @midnight-ntwrk/midnight-js-contracts \
@@ -198,17 +230,17 @@ npm install @midnight-ntwrk/midnight-js-contracts \
 
 ## Debug Checklist
 
-1. ☐ Proof server running on port 6300
-2. ☐ Lace wallet installed and Midnight mode enabled
-3. ☐ Wallet connected to correct network (testnet)
-4. ☐ Sufficient tDUST balance
-5. ☐ NetworkId set before provider initialization
-6. ☐ Contract compiled with compatible Compact version
-7. ☐ All providers properly configured
-8. ☐ Correct contract address
+- ☐ Proof server running on port 6300
+- ☐ Lace wallet installed and Midnight mode enabled
+- ☐ Wallet connected to correct network (testnet)
+- ☐ Sufficient tDUST balance
+- ☐ NetworkId set before provider initialization
+- ☐ Contract compiled with compatible Compact version
+- ☐ All providers properly configured
+- ☐ Correct contract address
 
 ## Getting Help
 
-- **Docs:** https://docs.midnight.network
-- **Discord:** https://discord.gg/midnight
-- **GitHub Issues:** https://github.com/midnightntwrk
+- [Midnight Discord](https://discord.gg/midnight)
+- [Midnight Docs](https://docs.midnight.network)
+- [GitHub Issues](https://github.com/midnightntwrk)

@@ -1,4 +1,6 @@
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // Private Voting Contract Template
 // Anonymous voting with public totals

@@ -53,11 +53,11 @@ You are an elite Midnight Network developer with deep expertise across the entir
 **Activated when**: Working with `.compact` files, discussing circuits, types, ledger state, ZK operations
 
 **Key Resources:**
-- Compact Guide: [compact/SKILL.md](../skills/compact/SKILL.md)
-- Type Reference: [compact/references/types.md](../skills/compact/references/types.md)
-- Ledger Patterns: [compact/references/ledger-patterns.md](../skills/compact/references/ledger-patterns.md)
-- Privacy Patterns: [privacy-patterns/SKILL.md](../skills/privacy-patterns/SKILL.md)
-- Contract Templates: [compact/assets/](../skills/compact/assets/)
+- Compact Guide: #skill:compact
+- Type Reference: #skill:compact
+- Ledger Patterns: #skill:compact
+- Privacy Patterns: #skill:privacy-patterns
+- Contract Templates: #skill:compact
 
 **Contract Structure:**
 1. Pragma declaration
@@ -86,7 +86,7 @@ You are an elite Midnight Network developer with deep expertise across the entir
 - **`witness`**: Private, used in ZK proof generation
 
 **Compact Mode Checklist:**
-- [ ] Correct pragma: `pragma compact(">=0.25");`
+- [ ] Correct pragma: `pragma language_version 0.18;`
 - [ ] Types defined before ledger
 - [ ] Appropriate type widths
 - [ ] Descriptive assertion messages
@@ -100,10 +100,10 @@ You are an elite Midnight Network developer with deep expertise across the entir
 **Activated when**: Working with TypeScript, React, Next.js, wallet connections, providers
 
 **Key Resources:**
-- Integration Guide: [dapp-integration/SKILL.md](../skills/dapp-integration/SKILL.md)
-- Wallet Connection: [dapp-integration/references/wallet-connection.md](../skills/dapp-integration/references/wallet-connection.md)
-- Provider Setup: [dapp-integration/references/providers.md](../skills/dapp-integration/references/providers.md)
-- Templates: [dapp-integration/assets/](../skills/dapp-integration/assets/)
+- Integration Guide: #skill:dapp-integration
+- Wallet Connection: #skill:dapp-integration
+- Provider Setup: #skill:dapp-integration
+- Templates: #skill:dapp-integration
 
 **Technology Stack:**
 - Next.js 16.1.1+ (App Router)
@@ -133,8 +133,8 @@ You are an elite Midnight Network developer with deep expertise across the entir
 **Activated when**: Deploying contracts, configuring proof servers, network setup
 
 **Key Resources:**
-- Deployment Guide: [midnight-network/SKILL.md](../skills/midnight-network/SKILL.md)
-- Network Config: [midnight-network/references/network-config.md](../skills/midnight-network/references/network-config.md)
+- Deployment Guide: #skill:midnight-network
+- Network Config: #skill:midnight-network
 
 **Prerequisites:**
 1. Proof Server running (Docker)
@@ -162,9 +162,9 @@ You are an elite Midnight Network developer with deep expertise across the entir
 **Activated when**: Writing tests, debugging test failures, configuring test environment
 
 **Key Resources:**
-- Testing Guide: [testing/SKILL.md](../skills/testing/SKILL.md)
-- Simulator Patterns: [testing/references/simulator-setup.md](../skills/testing/references/simulator-setup.md)
-- Test Templates: [testing/assets/](../skills/testing/assets/)
+- Testing Guide: #skill:testing
+- Simulator Patterns: #skill:testing
+- Test Templates: #skill:testing
 
 **Simulator Pattern:**
 - Create simulator class wrapping Contract

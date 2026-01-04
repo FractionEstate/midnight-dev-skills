@@ -364,6 +364,7 @@ npx prisma studio
 6. **Soft deletes** with `deletedAt` field for important data
 
 ## References
+
 - [references/schema.md](references/schema.md) - Schema patterns
 - [references/query-patterns.md](references/query-patterns.md) - Advanced queries
 - [references/migrations.md](references/migrations.md) - Migration strategies

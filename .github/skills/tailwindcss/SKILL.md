@@ -77,6 +77,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ## Component Patterns
 
 ### Card Component
+
 ```html
 <div class="rounded-2xl bg-white p-6 shadow-soft
             ring-1 ring-black/5
@@ -91,6 +92,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ```
 
 ### Button Variants
+
 ```html
 <!-- Primary -->
 <button class="rounded-lg bg-primary-500 px-4 py-2
@@ -120,6 +122,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ```
 
 ### Form Input
+
 ```html
 <div>
   <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -139,6 +142,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ## Responsive Design
 
 ### Breakpoint Reference
+
 - `sm`: 640px
 - `md`: 768px
 - `lg`: 1024px
@@ -146,6 +150,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 - `2xl`: 1536px
 
 ### Mobile-First Grid
+
 ```html
 <div class="grid grid-cols-1 gap-6
             sm:grid-cols-2
@@ -156,6 +161,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ```
 
 ### Container Queries
+
 ```html
 <div class="@container">
   <article class="flex flex-col @md:flex-row @md:items-center gap-4">
@@ -171,6 +177,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ## Animation Patterns
 
 ### Hover Effects
+
 ```html
 <a class="group relative inline-block">
   <span class="relative z-10">Hover me</span>
@@ -181,6 +188,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ```
 
 ### Loading States
+
 ```html
 <!-- Spinner -->
 <div class="animate-spin h-5 w-5 border-2 border-primary-500
@@ -229,6 +237,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ## Accessibility
 
 ### Focus Styles
+
 ```html
 <button class="focus:outline-none
                focus-visible:ring-2
@@ -239,11 +248,13 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ```
 
 ### Screen Reader Only
+
 ```html
 <span class="sr-only">Navigation menu</span>
 ```
 
 ### Motion Preferences
+
 ```html
 <div class="animate-bounce motion-reduce:animate-none">
   Respects reduced motion
@@ -251,9 +262,11 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ```
 
 ## References
+
 - [references/theming.md](references/theming.md) - Theme customization
 - [references/components.md](references/components.md) - Component library
 - [references/responsive.md](references/responsive.md) - Responsive patterns
 
 ## Assets
+
 - [assets/globals.css](assets/globals.css) - Global CSS template

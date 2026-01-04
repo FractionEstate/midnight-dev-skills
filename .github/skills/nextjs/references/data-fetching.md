@@ -5,7 +5,7 @@
 Next.js has 4 caching mechanisms working together:
 
 | Mechanism | Location | Purpose | Duration |
-|-----------|----------|---------|----------|
+| --------- | -------- | ------- | -------- |
 | Request Memoization | Server | Dedupe same-request fetches | Per request |
 | Data Cache | Server | Persist fetch results | Persistent (revalidatable) |
 | Full Route Cache | Server | Cache rendered HTML/RSC | Persistent (revalidatable) |
@@ -147,7 +147,7 @@ export default async function Page() {
 ### Revalidation APIs
 
 | API | Purpose |
-|-----|---------|
+| --- | ------- |
 | `revalidatePath(path)` | Purges route from Full Route Cache |
 | `revalidateTag(tag)` | Invalidates Data Cache entries with tag |
 | `updateTag(tag)` | Updates tag timestamp (lighter than revalidateTag) |

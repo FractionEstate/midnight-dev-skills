@@ -17,13 +17,13 @@ Expert knowledge for auditing Midnight Network contracts and privacy-preserving 
 
 ## Severity Classification
 
-| Level | Icon | Description | Examples |
-|-------|------|-------------|----------|
-| Critical | 🔴 | Funds at risk, privacy broken | Witness exposure, key leak |
-| High | 🟠 | Significant leak or bypass | Predictable nullifier |
-| Medium | 🟡 | Logic errors, incomplete checks | Missing validation |
-| Low | 🟢 | Best practice violations | Poor error messages |
-| Info | ℹ️ | Improvement suggestions | Code clarity |
+| Level    | Icon | Description                     | Examples                   |
+| -------- | ---- | ------------------------------- | -------------------------- |
+| Critical | 🔴   | Funds at risk, privacy broken   | Witness exposure, key leak |
+| High     | 🟠   | Significant leak or bypass      | Predictable nullifier      |
+| Medium   | 🟡   | Logic errors, incomplete checks | Missing validation         |
+| Low      | 🟢   | Best practice violations        | Poor error messages        |
+| Info     | ℹ️   | Improvement suggestions         | Code clarity               |
 
 ## Quick Checklist
 

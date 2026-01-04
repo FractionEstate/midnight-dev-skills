@@ -91,9 +91,9 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Creating or running E2E tests
 
 **Key Resources:**
-- Playwright Guide: [playwright/SKILL.md](../skills/playwright/SKILL.md)
-- Fixtures: [playwright/references/fixtures.md](../skills/playwright/references/fixtures.md)
-- Selectors: [playwright/references/selectors.md](../skills/playwright/references/selectors.md)
+- Playwright Guide: #skill:playwright
+- Fixtures: #skill:playwright
+- Selectors: #skill:playwright
 
 **Test Structure:**
 
@@ -126,7 +126,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Capturing screenshots, visual regression
 
 **Key Resources:**
-- Selectors Guide: [playwright/references/selectors.md](../skills/playwright/references/selectors.md)
+- Selectors Guide: #skill:playwright
 
 **Screenshot Options:**
 
@@ -149,7 +149,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Analyzing page performance, Core Web Vitals
 
 **Key Resources:**
-- Fixtures Guide: [playwright/references/fixtures.md](../skills/playwright/references/fixtures.md)
+- Fixtures Guide: #skill:playwright
 
 **Performance Trace Workflow:**
 1. Start trace recording before action
@@ -178,7 +178,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Inspecting API calls, network behavior
 
 **Key Resources:**
-- Fixtures Guide: [playwright/references/fixtures.md](../skills/playwright/references/fixtures.md)
+- Fixtures Guide: #skill:playwright
 
 **Network Interception:**
 
@@ -201,7 +201,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Testing forms, inputs, validation
 
 **Key Resources:**
-- Selectors Guide: [playwright/references/selectors.md](../skills/playwright/references/selectors.md)
+- Selectors Guide: #skill:playwright
 
 **Form Testing Workflow:**
 1. Get page snapshot to identify elements
@@ -221,7 +221,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Testing a11y, screen readers, ARIA
 
 **Key Resources:**
-- Selectors Guide: [playwright/references/selectors.md](../skills/playwright/references/selectors.md)
+- Selectors Guide: #skill:playwright
 
 **Axe Integration:**
 - Use `@axe-core/playwright` for automated checks
@@ -238,7 +238,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 ## Configuration
 
 **Key Resources:**
-- Fixtures Reference: [playwright/references/fixtures.md](../skills/playwright/references/fixtures.md)
+- Fixtures Reference: #skill:playwright
 
 **Project Matrix:**
 

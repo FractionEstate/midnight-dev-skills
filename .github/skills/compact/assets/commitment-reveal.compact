@@ -1,4 +1,6 @@
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // Commitment-Reveal Contract Template
 // Two-phase pattern for fair auctions, sealed bids, etc.

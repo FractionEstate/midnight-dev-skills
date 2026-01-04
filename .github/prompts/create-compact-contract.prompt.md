@@ -21,8 +21,8 @@ Create a Compact smart contract for Midnight Network with the following specific
 ## Requirements
 
 1. **File Structure**:
-   - Start with `pragma compact(">=0.25");`
-   - Import necessary functions from "std"
+   - Start with `pragma language_version 0.18;`
+   - Import CompactStandardLibrary (builtin since v0.13)
    - Define all types before ledger
    - Declare ledger state
    - Include constructor if initialization needed

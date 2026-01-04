@@ -139,30 +139,34 @@ EOF
 
 # Setup Compact compiler
 setup_compact_compiler() {
-    echo -e "\n${BLUE}Setting up Compact compiler...${NC}"
+    echo -e "\n${BLUE}Setting up Compact developer tools...${NC}"
 
-    # Check if compactc is available
-    if command -v compactc &> /dev/null; then
-        INSTALLED_VERSION=$(compactc --version 2>/dev/null | head -1 || echo "unknown")
-        print_status "Compact compiler already installed: $INSTALLED_VERSION"
+    # Check if compact CLI is available
+    if command -v compact &> /dev/null; then
+        INSTALLED_VERSION=$(compact --version 2>/dev/null | head -1 || echo "unknown")
+        print_status "Compact developer tools already installed: $INSTALLED_VERSION"
+
+        # Check for compiler updates
+        print_info "Checking for compiler updates..."
+        compact check 2>/dev/null || true
     else
-        print_info "Compact compiler installation options:"
+        print_info "Installing Compact developer tools v0.3.0..."
         echo ""
-        echo "  Option 1: Via npm (if available in registry)"
-        echo "    pnpm add -D @midnight-ntwrk/compact-compiler"
-        echo ""
-        echo "  Option 2: Download from Midnight releases"
-        echo "    Visit: https://github.com/midnight-ntwrk/compact/releases"
-        echo ""
-        echo "  Option 3: Use Docker"
-        echo "    docker run midnightnetwork/compact-compiler compile <file.compact>"
+        echo "  Running: curl --proto '=https' --tlsv1.2 -LsSf \\"
+        echo "    https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh"
         echo ""
 
-        # Try to install via npm
-        if pnpm add -D @midnight-ntwrk/compact-compiler@latest 2>/dev/null; then
-            print_status "Compact compiler installed via npm"
+        # Install via official installer
+        if curl --proto '=https' --tlsv1.2 -LsSf \
+            https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh; then
+            print_status "Compact developer tools installed"
+            # Update to latest compiler
+            print_info "Installing latest compiler..."
+            compact update || print_warning "Could not update compiler"
         else
-            print_warning "Manual installation required. See options above."
+            print_warning "Installation failed. Try manually:"
+            echo "    curl --proto '=https' --tlsv1.2 -LsSf \\"
+            echo "      https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh"
         fi
     fi
 }
@@ -192,7 +196,9 @@ create_example_contract() {
 
     if [ ! -f "contracts/example.compact" ]; then
         cat > contracts/example.compact << 'EOF'
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // Example Midnight Contract
 // A simple counter with access control

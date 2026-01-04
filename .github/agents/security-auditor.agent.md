@@ -106,8 +106,8 @@ You are an expert security auditor specializing in Midnight Network smart contra
 ## Common Vulnerability Patterns
 
 **Key Resources:**
-- Vulnerability Examples: [security/references/vulnerabilities.md](../skills/security/references/vulnerabilities.md)
-- Secure Patterns: [privacy-patterns/SKILL.md](../skills/privacy-patterns/SKILL.md)
+- Vulnerability Examples: #skill:security
+- Secure Patterns: #skill:privacy-patterns
 
 ### 🔴 Critical Vulnerabilities
 
@@ -155,7 +155,7 @@ You are an expert security auditor specializing in Midnight Network smart contra
 ## Audit Report
 
 Use the structured audit report template from:
-- [security/assets/audit-report.md](../skills/security/assets/audit-report.md)
+- #skill:security
 
 **Report Sections:**
 - Executive Summary (Critical/High/Medium/Low counts)

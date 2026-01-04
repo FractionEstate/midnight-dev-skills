@@ -5,6 +5,7 @@
 This repository contains comprehensive GitHub Copilot customizations for building privacy-preserving dApps on the Midnight Network using Next.js and Compact smart contracts.
 
 **Primary Technologies:**
+
 - Midnight Network (privacy-first blockchain with ZK proofs)
 - Next.js 16.1.1 (React framework)
 - Compact 0.25+ (Smart contract language)
@@ -13,7 +14,7 @@ This repository contains comprehensive GitHub Copilot customizations for buildin
 
 ## Repository Structure
 
-```
+```text
 .github/
 ├── copilot-instructions.md        # Global Copilot instructions
 │
@@ -88,6 +89,7 @@ This repository contains comprehensive GitHub Copilot customizations for buildin
 ### 1. Global Instructions (`copilot-instructions.md`)
 
 Project-wide coding guidelines automatically applied to all Copilot interactions:
+
 - Technology stack versions
 - Midnight API patterns
 - Privacy-first defaults
@@ -98,7 +100,7 @@ Project-wide coding guidelines automatically applied to all Copilot interactions
 Specialized AI personas with deep expertise:
 
 | Agent | Description |
-|-------|-------------|
+| ----- | ----------- |
 | `midnight-smartcontract-developer` | **Unified agent** with automatic context-aware mode switching for all Midnight development |
 | `security-auditor` | Comprehensive ZK and privacy security analysis |
 | `security-review` | Systematic security review with checklists |
@@ -108,7 +110,7 @@ Specialized AI personas with deep expertise:
 The unified `midnight-smartcontract-developer` agent automatically detects context and switches modes:
 
 | Detection Trigger | Activated Mode | Focus |
-|-------------------|----------------|-------|
+| ----------------- | -------------- | ----- |
 | `.compact` files, circuits, ledger | **Compact Contract** | Compact language, ZK circuits |
 | TypeScript, Next.js, wallet, provider | **DApp Integration** | TypeScript, React, wallets |
 | deploy, proof server, testnet | **Deployment** | Contract deployment |
@@ -121,7 +123,7 @@ The unified `midnight-smartcontract-developer` agent automatically detects conte
 Task-specific workflow templates accessible via `/` command:
 
 | Prompt | Use Case |
-|--------|----------|
+| ------ | -------- |
 | `create-compact-contract` | Generate new Compact contracts |
 | `integrate-wallet` | Add wallet connection to Next.js |
 | `deploy-contract` | Deploy to testnet/mainnet |
@@ -133,7 +135,7 @@ Task-specific workflow templates accessible via `/` command:
 Context-aware guidelines that auto-apply based on file patterns:
 
 | File | Applies To |
-|------|-----------|
+| ---- | ---------- |
 | `compact.instructions.md` | `**/*.compact` |
 | `midnight-typescript.instructions.md` | `**/*.{ts,tsx}` |
 | `privacy-patterns.instructions.md` | `**/contracts/**` |
@@ -142,6 +144,7 @@ Context-aware guidelines that auto-apply based on file patterns:
 ### 5. Agent Skills (`SKILL.md`)
 
 26 comprehensive skills following [agentskills.io](https://agentskills.io/specification):
+
 - Progressive disclosure pattern
 - Bundled assets (scripts, references)
 - Load-on-demand content
@@ -158,6 +161,7 @@ Context-aware guidelines that auto-apply based on file patterns:
 ### Validation
 
 Skills should:
+
 - Have `name` matching folder name (lowercase with hyphens, max 64 chars)
 - Have `description` between 10-1024 characters
 - Keep `SKILL.md` under 500 lines (progressive disclosure)
@@ -166,6 +170,7 @@ Skills should:
 ### Testing Skills
 
 Test skills by using them in Copilot Chat:
+
 - Open VS Code with GitHub Copilot
 - Reference the skill in your prompt
 - Verify agent loads correct instructions
@@ -192,7 +197,9 @@ Test skills by using them in Copilot Chat:
 ### Compact Contracts
 
 ```compact
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 export ledger varName: Opaque<"type">;
 

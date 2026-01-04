@@ -36,7 +36,7 @@ npx prisma studio
 
 ## Migration File Structure
 
-```
+```text
 prisma/
 ├── migrations/
 │   ├── 20240101120000_init/

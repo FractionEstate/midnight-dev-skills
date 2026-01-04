@@ -11,11 +11,20 @@ Entries are organized by domain and include context for future reference.
 
 ## Compact Language
 
+### Version Info
+- Latest compiler: 0.26.0 (Minokawa)
+- Latest language: 0.18.0
+- Developer tools: 0.3.0
+- Pragma: `pragma language_version 0.18;`
+- Standard library: `import CompactStandardLibrary;` (builtin since v0.13)
+- Install: `curl --proto '=https' --tlsv1.2 -LsSf https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh`
+
 ### Type System
 - Use `Uint<32>` for counters and small integers to save gas
 - Use `Field` for cryptographic operations (hashing, commitments)
 - `Bytes<32>` is the standard size for hashes
 - Prefer `Uint<64>` for timestamps and larger numeric values
+- `Opaque<"string">` / `Opaque<"Uint8Array">` for off-chain data
 
 ### Common Patterns
 - Circuits become impure when they access/modify ledger state

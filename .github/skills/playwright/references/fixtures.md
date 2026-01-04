@@ -4,13 +4,13 @@ Custom fixtures extend Playwright's test functionality with reusable setup and t
 
 ## Built-in Fixtures
 
-| Fixture | Description |
-|---------|-------------|
-| `page` | Isolated browser page |
-| `context` | Browser context |
-| `browser` | Browser instance |
-| `browserName` | Current browser name |
-| `request` | API request context |
+| Fixture       | Description           |
+| ------------- | --------------------- |
+| `page`        | Isolated browser page |
+| `context`     | Browser context       |
+| `browser`     | Browser instance      |
+| `browserName` | Current browser name  |
+| `request`     | API request context   |
 
 ## Custom Fixtures
 

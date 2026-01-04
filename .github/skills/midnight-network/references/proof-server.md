@@ -68,11 +68,11 @@ curl http://localhost:6300/health
 
 ### Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PROOF_SERVER_PORT` | 6300 | Server port |
-| `PROOF_SERVER_THREADS` | auto | Worker threads |
-| `PROOF_SERVER_NETWORK` | testnet | Network to use |
+| Variable              | Default  | Description    |
+| --------------------- | -------- | -------------- |
+| `PROOF_SERVER_PORT`   | 6300     | Server port    |
+| `PROOF_SERVER_THREADS`| auto     | Worker threads |
+| `PROOF_SERVER_NETWORK`| testnet  | Network to use |
 
 ### Command Line Arguments
 
@@ -96,20 +96,20 @@ midnight-proof-server \
 
 ### Performance Factors
 
-| Factor | Impact |
-|--------|--------|
-| Circuit complexity | More constraints = longer |
-| CPU cores | More cores = faster |
-| RAM | Minimum 4GB, 8GB recommended |
-| First proof | Slower (key loading) |
+| Factor             | Impact                      |
+| ------------------ | --------------------------- |
+| Circuit complexity | More constraints = longer   |
+| CPU cores          | More cores = faster         |
+| RAM                | Minimum 4GB, 8GB recommended|
+| First proof        | Slower (key loading)        |
 
 ### Typical Proof Times
 
-| Circuit Size | Time |
-|--------------|------|
-| Simple (100 constraints) | 1-2s |
-| Medium (1000 constraints) | 5-10s |
-| Complex (10000 constraints) | 20-60s |
+| Circuit Size               | Time    |
+| -------------------------- | ------- |
+| Simple (100 constraints)   | 1-2s    |
+| Medium (1000 constraints)  | 5-10s   |
+| Complex (10000 constraints)| 20-60s  |
 
 ## Troubleshooting
 

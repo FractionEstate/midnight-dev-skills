@@ -1,14 +1,8 @@
-# Next.js Server Action Template
+// @ts-nocheck
+// Next.js Server Action Template
+// Location: app/actions/[resource].ts
+// Type-safe server mutations with validation and revalidation
 
-Type-safe server mutations with validation and revalidation.
-
-## Location
-
-`app/actions/[resource].ts`
-
-## Template
-
-```typescript
 'use server';
 
 import { revalidatePath, revalidateTag } from 'next/cache';
@@ -80,15 +74,15 @@ export async function createItem(
 
   try {
     // Create in database
-    const item = await db.item.create({
-      data: result.data,
-    });
+    // const item = await db.item.create({
+    //   data: result.data,
+    // });
 
     // Revalidate cache
     revalidateTag('items');
     revalidatePath('/items');
 
-    return success(item);
+    return success(/* item */);
   } catch (error) {
     console.error('createItem error:', error);
     return failure('Failed to create item');
@@ -114,15 +108,15 @@ export async function updateItem(
   }
 
   try {
-    const item = await db.item.update({
-      where: { id },
-      data: result.data,
-    });
+    // const item = await db.item.update({
+    //   where: { id },
+    //   data: result.data,
+    // });
 
     revalidateTag('items');
     revalidatePath(`/items/${id}`);
 
-    return success(item);
+    return success(/* item */);
   } catch (error) {
     console.error('updateItem error:', error);
     return failure('Failed to update item');
@@ -133,53 +127,10 @@ export async function updateItem(
  * Delete an item with redirect
  */
 export async function deleteItem(id: string): Promise<void> {
-  await db.item.delete({
-    where: { id },
-  });
+  // await db.item.delete({
+  //   where: { id },
+  // });
 
   revalidateTag('items');
   redirect('/items');
 }
-```
-
-## Client Usage
-
-```tsx
-'use client';
-
-import { useActionState } from 'react';
-import { createItem } from '@/app/actions/items';
-
-export function CreateItemForm() {
-  const [state, action, isPending] = useActionState(createItem, {
-    success: false,
-  });
-
-  return (
-    <form action={action}>
-      <input name="title" required />
-      {state.fieldErrors?.title && (
-        <p className="text-red-500">{state.fieldErrors.title[0]}</p>
-      )}
-
-      <button type="submit" disabled={isPending}>
-        {isPending ? 'Creating...' : 'Create'}
-      </button>
-
-      {state.error && <p className="text-red-500">{state.error}</p>}
-      {state.success && <p className="text-green-500">Created!</p>}
-    </form>
-  );
-}
-```
-
-## Key Patterns
-
-| Pattern | Description |
-|---------|-------------|
-| `'use server'` | Mark file/function as server action |
-| `ActionState` | Typed return for success/error |
-| `revalidatePath` | Clear page cache |
-| `revalidateTag` | Clear tagged cache |
-| `redirect` | Navigate after mutation |
-| `useActionState` | React hook for form state |

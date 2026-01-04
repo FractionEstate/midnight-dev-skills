@@ -12,8 +12,17 @@ You are an expert in building Midnight Network dApps with TypeScript and Next.js
 
 ### Core Midnight Packages
 ```typescript
-// Wallet connection
-import type { DAppConnectorAPI, WalletAPI } from '@midnight-ntwrk/dapp-connector-api';
+// DApp Connector (augments window.midnight)
+import "@midnight-ntwrk/dapp-connector-api";
+import type {
+  DAppConnectorAPI,
+  DAppConnectorWalletAPI,
+  DAppConnectorWalletState,
+  ServiceUriConfig
+} from '@midnight-ntwrk/dapp-connector-api';
+
+// Network configuration
+import { NetworkId, setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 
 // Transactions
 import type { Transaction, TransactionId, UnbalancedTransaction } from '@midnight-ntwrk/midnight-js-types';
@@ -21,21 +30,30 @@ import type { Transaction, TransactionId, UnbalancedTransaction } from '@midnigh
 // Contract interaction
 import { deployContract, callContract, ContractInstance } from '@midnight-ntwrk/midnight-js-contracts';
 
-// State management
-import type { PrivateStateProvider, PublicDataProvider, ZKConfigProvider } from '@midnight-ntwrk/midnight-js-providers';
+// Ledger types
+import type { ContractAddress, TransactionIdentifier } from '@midnight-ntwrk/ledger';
 
 // ZSwap (token operations)
-import type { CoinInfo, TransactionInputs, TransactionOutputs } from '@midnight-ntwrk/zswap';
+import type { CoinInfo } from '@midnight-ntwrk/zswap';
 ```
 
-## Window Global Declaration
+## Wallet Connection
 
-Always declare the Midnight global for wallet access:
+Access the Lace wallet via `window.midnight.mnLace`:
 ```typescript
-declare global {
-  interface Window {
-    midnight?: DAppConnectorAPI;
-  }
+// Import augments window global automatically
+import "@midnight-ntwrk/dapp-connector-api";
+
+// Check availability
+const isInstalled = () => !!window.midnight?.mnLace;
+
+// Connect and get state
+async function connect() {
+  const api = await window.midnight?.mnLace.enable();
+  if (!api) throw new Error('Wallet not available');
+
+  const state = await api.state();
+  return { api, address: state.address };
 }
 ```
 
@@ -46,21 +64,25 @@ Wallet interactions must be in Client Components:
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { WalletAPI } from '@midnight-ntwrk/dapp-connector-api';
+import "@midnight-ntwrk/dapp-connector-api";
+import type { DAppConnectorWalletAPI, DAppConnectorWalletState } from '@midnight-ntwrk/dapp-connector-api';
 
 export function WalletButton() {
-  const [wallet, setWallet] = useState<WalletAPI | null>(null);
+  const [api, setApi] = useState<DAppConnectorWalletAPI | null>(null);
+  const [address, setAddress] = useState<string | null>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
   const connect = async () => {
     setIsConnecting(true);
     try {
-      const connector = window.midnight;
-      if (!connector) throw new Error('Wallet not installed');
+      const connector = window.midnight?.mnLace;
+      if (!connector) throw new Error('Lace wallet not installed');
 
-      await connector.enable();
-      const api = await connector.walletAPI();
-      setWallet(api);
+      const walletApi = await connector.enable();
+      const state = await walletApi.state();
+
+      setApi(walletApi);
+      setAddress(state.address);
     } catch (error) {
       console.error('Wallet connection failed:', error);
     } finally {
@@ -70,7 +92,7 @@ export function WalletButton() {
 
   return (
     <button onClick={connect} disabled={isConnecting}>
-      {wallet ? 'Connected' : 'Connect Wallet'}
+      {address ? `Connected: ${address.slice(0,8)}...` : 'Connect Wallet'}
     </button>
   );
 }

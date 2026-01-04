@@ -4,7 +4,7 @@ Query blockchain state using the Midnight Indexer GraphQL API.
 
 ## Endpoint
 
-```
+```text
 https://indexer.testnet-02.midnight.network/api/v1/graphql
 wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws
 ```

@@ -1,4 +1,6 @@
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // Token Contract Template
 // Simple token with minting, burning, and transfers

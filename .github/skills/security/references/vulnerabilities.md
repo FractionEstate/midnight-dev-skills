@@ -9,6 +9,7 @@ Security vulnerabilities in Midnight Network contracts and dApps.
 **Risk**: Secret data leaked to public observers
 
 **Vulnerable Pattern**:
+
 ```compact
 // ❌ VULNERABLE: Witness returned as public output
 export circuit getSecret(witness secret: Field): Field {
@@ -17,6 +18,7 @@ export circuit getSecret(witness secret: Field): Field {
 ```
 
 **Secure Pattern**:
+
 ```compact
 // ✅ SECURE: Return hash instead
 export circuit getCommitment(witness secret: Field): Field {
@@ -31,6 +33,7 @@ export circuit getCommitment(witness secret: Field): Field {
 **Risk**: Replay attacks, double-spend possible
 
 **Vulnerable Pattern**:
+
 ```compact
 // ❌ VULNERABLE: Nullifier from public data only
 export circuit claim(userId: Uint<32>): [] {
@@ -40,6 +43,7 @@ export circuit claim(userId: Uint<32>): [] {
 ```
 
 **Secure Pattern**:
+
 ```compact
 // ✅ SECURE: Include secret in nullifier
 export circuit claim(witness secret: Field, userId: Uint<32>): [] {
@@ -55,6 +59,7 @@ export circuit claim(witness secret: Field, userId: Uint<32>): [] {
 **Risk**: Brute force or rainbow table attacks
 
 **Vulnerable Pattern**:
+
 ```compact
 // ❌ VULNERABLE: Low entropy, rainbow table possible
 export circuit commit(witness value: Uint<64>): Field {
@@ -63,6 +68,7 @@ export circuit commit(witness value: Uint<64>): Field {
 ```
 
 **Secure Pattern**:
+
 ```compact
 // ✅ SECURE: Include random salt
 export circuit commit(witness value: Uint<64>, witness salt: Field): Field {
@@ -79,6 +85,7 @@ export circuit commit(witness value: Uint<64>, witness salt: Field): Field {
 **Risk**: Arithmetic underflow/overflow, invalid state
 
 **Vulnerable Pattern**:
+
 ```compact
 // ❌ VULNERABLE: No validation before operation
 export circuit transfer(amount: Uint<64>): [] {
@@ -87,6 +94,7 @@ export circuit transfer(amount: Uint<64>): [] {
 ```
 
 **Secure Pattern**:
+
 ```compact
 // ✅ SECURE: Validate first
 export circuit transfer(amount: Uint<64>): [] {
@@ -102,6 +110,7 @@ export circuit transfer(amount: Uint<64>): [] {
 **Risk**: Unauthorized operations
 
 **Vulnerable Pattern**:
+
 ```compact
 // ❌ VULNERABLE: No permission check
 export circuit setAdmin(newAdmin: Bytes<32>): [] {
@@ -110,6 +119,7 @@ export circuit setAdmin(newAdmin: Bytes<32>): [] {
 ```
 
 **Secure Pattern**:
+
 ```compact
 // ✅ SECURE: Check caller authorization
 export circuit setAdmin(caller: Bytes<32>, newAdmin: Bytes<32>): [] {
@@ -127,12 +137,14 @@ export circuit setAdmin(caller: Bytes<32>, newAdmin: Bytes<32>): [] {
 **Risk**: Hard to debug, unclear failure reasons
 
 **Vulnerable Pattern**:
+
 ```compact
 // ❌ POOR: No context for debugging
 assert balance >= amount;
 ```
 
 **Secure Pattern**:
+
 ```compact
 // ✅ BETTER: Descriptive message
 assert(balance >= amount, "Insufficient balance for transfer");
@@ -145,12 +157,14 @@ assert(balance >= amount, "Insufficient balance for transfer");
 **Risk**: Data theft, state manipulation
 
 **Vulnerable Pattern**:
+
 ```typescript
 // ❌ VULNERABLE: Key in source
 const PRIVATE_STATE_KEY = 'user-secrets';  // Predictable!
 ```
 
 **Secure Pattern**:
+
 ```typescript
 // ✅ SECURE: Derived or encrypted key
 const key = deriveStateKey(userAddress, salt);
@@ -163,6 +177,7 @@ const key = deriveStateKey(userAddress, salt);
 **Risk**: Unexpected behavior, logic bypass
 
 **Vulnerable Pattern**:
+
 ```compact
 // ❌ VULNERABLE: No input validation
 export circuit setAge(age: Uint<8>): [] {
@@ -171,6 +186,7 @@ export circuit setAge(age: Uint<8>): [] {
 ```
 
 **Secure Pattern**:
+
 ```compact
 // ✅ SECURE: Validate input range
 export circuit setAge(age: Uint<8>): [] {
@@ -188,12 +204,14 @@ export circuit setAge(age: Uint<8>): [] {
 **Risk**: Unclear code, maintenance burden
 
 **Vulnerable Pattern**:
+
 ```compact
 // ❌ POOR: Magic number
 assert(count < 100);
 ```
 
 **Secure Pattern**:
+
 ```compact
 // ✅ BETTER: Named constant
 const MAX_COUNT: Uint<32> = 100;
@@ -217,12 +235,14 @@ assert(count < MAX_COUNT, "Count exceeds maximum");
 **Risk**: Secrets exposed via browser devtools
 
 **Vulnerable Pattern**:
+
 ```typescript
 // ❌ VULNERABLE: Secret in localStorage
 localStorage.setItem('privateKey', key);
 ```
 
 **Secure Pattern**:
+
 ```typescript
 // ✅ SECURE: Use encrypted storage or session-only
 sessionStorage.setItem('encryptedKey', encrypt(key, userPassword));
@@ -235,12 +255,14 @@ sessionStorage.setItem('encryptedKey', encrypt(key, userPassword));
 **Risk**: Secrets exposed in logs/console
 
 **Vulnerable Pattern**:
+
 ```typescript
 // ❌ VULNERABLE: Witness logged
 console.log('Witness:', witness);
 ```
 
 **Secure Pattern**:
+
 ```typescript
 // ✅ SECURE: Only log non-sensitive data
 console.log('Action completed for user:', userId);

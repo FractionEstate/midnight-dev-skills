@@ -12,8 +12,6 @@
     "vitest.explorer",
     "ms-playwright.playwright",
     // Prisma
-    "Prisma.prisma",
-    // Git
     "mhutchie.git-graph",
     // Utilities
     "christian-kohler.path-intellisense",

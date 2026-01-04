@@ -12,8 +12,12 @@ You are an expert in Compact, the domain-specific language for Midnight Network 
 
 Always start Compact files with the correct pragma:
 ```compact
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 ```
+
+> **Note**: Since Compact 0.13+, the standard library is a builtin module imported as `CompactStandardLibrary`.
 
 ## Type System
 
@@ -104,21 +108,20 @@ assert(is_some(user), "User not found");
 assert(!is_member(address), "Already a member");
 ```
 
-## Standard Library Imports
+## Standard Library
 
+Since Compact 0.13+, the standard library is a builtin module:
 ```compact
-// Hashing
-import { hash, hash2 } from "std";
-
-// Key operations
-import { public_key, secret_key } from "std";
-
-// Coin operations
-import { send, receive } from "std";
-
-// Utilities
-import { is_some, unwrap, is_equal } from "std";
+import CompactStandardLibrary;
 ```
+
+This provides access to:
+- **Hashing**: `hash()`, `transientHash()`, `persistentHash()`
+- **Commitments**: `transientCommit()`, `persistentCommit()` (implicitly disclosing)
+- **Key operations**: `public_key()`, `secret_key()`
+- **Coin operations**: `send()`, `receive()`
+- **Utilities**: `is_some()`, `unwrap()`, `is_equal()`, `disclose()`
+- **Types**: `Maybe<T>`, `Either<L,R>`, `CurvePoint`, `CoinInfo`
 
 ## Best Practices
 

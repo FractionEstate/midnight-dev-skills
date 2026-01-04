@@ -1,19 +1,21 @@
 ---
 name: compact
-description: Write privacy-preserving smart contracts in Compact for Midnight Network. Use when creating contracts, defining types, using standard library functions, or implementing ZK patterns. Triggers on Compact language, circuits, ledger state, hashing, or zero-knowledge contract questions.
+description: Write privacy-preserving smart contracts in Compact (Minokawa) for Midnight Network. Use when creating contracts, defining types, using standard library functions, or implementing ZK patterns. Triggers on Compact language, circuits, ledger state, hashing, or zero-knowledge contract questions.
 metadata:
   author: FractionEstate
-  version: "0.25"
+  version: "0.18"
 ---
 
 # Compact Smart Contracts
 
-Compact is Midnight's domain-specific language for privacy-preserving smart contracts. Contracts compile to ZK-SNARKs, enabling selective disclosure of data.
+Compact (being renamed to Minokawa) is Midnight's domain-specific language for privacy-preserving smart contracts. Contracts compile to ZK-SNARKs, enabling selective disclosure of data.
+
+> **Note**: As of compiler v0.26.0, the language is being renamed from "Compact" to "Minokawa" under the Linux Foundation Decentralized Trust. The toolchain commands still use `compact`.
 
 ## Quick Start
 
 ```compact
-pragma compact(">=0.25");
+pragma language_version 0.18;
 
 export ledger message: Opaque<"string">;
 
@@ -26,7 +28,7 @@ export circuit setMessage(input: Opaque<"string">): [] {
 
 Every Compact contract has three parts:
 
-1. **Pragma** - Language version (`pragma compact(">=0.25");`)
+1. **Pragma** - Language version (`pragma language_version 0.18;`)
 2. **Ledger** - On-chain state declarations
 3. **Circuits** - ZK-proven functions
 
@@ -35,7 +37,7 @@ Every Compact contract has three parts:
 ### Privacy Model
 
 | Level | Syntax | Visibility |
-|-------|--------|------------|
+| ----- | ------ | ---------- |
 | Private | `let x = input;` | Only prover |
 | Disclosed | `disclose(value)` | Public on ledger |
 | Proven | `disclose(a >= b)` | Boolean only |
@@ -53,7 +55,7 @@ ledger tree: MerkleTree<20, Field>;  // Cryptographic proofs
 ## Reference Files
 
 | Topic | Resource |
-|-------|----------|
+| ----- | -------- |
 | **Type System** | [references/types.md](references/types.md) - Full type reference |
 | **Standard Library** | [references/stdlib.md](references/stdlib.md) - Hashing, coins, EC ops |
 | **Ledger Patterns** | [references/ledger-patterns.md](references/ledger-patterns.md) - State management |
@@ -62,7 +64,7 @@ ledger tree: MerkleTree<20, Field>;  // Cryptographic proofs
 ## Templates
 
 | Template | Description |
-|----------|-------------|
+| -------- | ----------- |
 | [assets/basic-contract.compact](assets/basic-contract.compact) | Simple ledger + circuit |
 | [assets/token-contract.compact](assets/token-contract.compact) | Token with transfers |
 | [assets/private-voting.compact](assets/private-voting.compact) | Anonymous voting |
@@ -84,14 +86,14 @@ contracts/managed/my-contract/
 ## Common Errors
 
 | Error | Cause | Fix |
-|-------|-------|-----|
+| ----- | ----- | --- |
 | `Type mismatch` | Wrong bit width | Use correct `Uint<N>` size |
 | `Cannot assign private to public` | Missing disclose | Add `disclose()` wrapper |
 | `Undefined symbol` | Import missing | Check pragma and imports |
 
 ## Best Practices
 
-- ✅ Start with `pragma compact(">=0.25");`
+- ✅ Start with `pragma language_version 0.18;`
 - ✅ Use `witness` for private inputs that need proofs
 - ✅ Choose smallest `Uint<N>` that fits your data
 - ✅ Use `persistentHash` for on-chain data, `transientHash` for temp

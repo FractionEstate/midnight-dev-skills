@@ -40,7 +40,7 @@ Next.js 16+ includes MCP support for AI coding agents via `next-devtools-mcp`:
 ### Available Tools
 
 | Tool | Purpose |
-|------|---------|
+| ---- | ------- |
 | `get_errors` | Build errors, runtime errors, and type errors |
 | `get_logs` | Dev log file path (browser console, server output) |
 | `get_page_metadata` | Routes, components, rendering info |
@@ -111,7 +111,7 @@ export async function createPost(formData: FormData) {
 ## File Conventions
 
 | File | Purpose |
-|------|---------|
+| ---- | ------- |
 | `page.tsx` | Unique UI for route |
 | `layout.tsx` | Shared UI wrapper |
 | `loading.tsx` | Loading UI (Suspense) |

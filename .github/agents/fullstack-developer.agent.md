@@ -76,9 +76,9 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Working with Next.js pages, layouts, server components, route handlers
 
 **Key Resources:**
-- App Router Guide: [nextjs/SKILL.md](../skills/nextjs/SKILL.md)
-- Routing Patterns: [nextjs/references/routing.md](../skills/nextjs/references/routing.md)
-- Data Fetching: [nextjs/references/data-fetching.md](../skills/nextjs/references/data-fetching.md)
+- App Router Guide: #skill:nextjs
+- Routing Patterns: #skill:nextjs
+- Data Fetching: #skill:nextjs
 
 **Project Structure:**
 
@@ -108,8 +108,8 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Setting up or working with monorepo structure, workspaces, build pipelines
 
 **Key Resources:**
-- Monorepo Guide: [turborepo/SKILL.md](../skills/turborepo/SKILL.md)
-- Configuration: [turborepo/references/configuration.md](../skills/turborepo/references/configuration.md)
+- Monorepo Guide: #skill:turborepo
+- Configuration: #skill:turborepo
 
 **Monorepo Structure:**
 
@@ -133,9 +133,9 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Working with database schema, migrations, queries
 
 **Key Resources:**
-- Database Guide: [prisma/SKILL.md](../skills/prisma/SKILL.md)
-- Schema Reference: [prisma/references/schema.md](../skills/prisma/references/schema.md)
-- Query Patterns: [prisma/references/query-patterns.md](../skills/prisma/references/query-patterns.md)
+- Database Guide: #skill:prisma
+- Schema Reference: #skill:prisma
+- Query Patterns: #skill:prisma
 
 **Schema Patterns:**
 
@@ -167,7 +167,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Building React components, managing state, using hooks
 
 **Key Resources:**
-- Routing Guide: [nextjs/references/routing.md](../skills/nextjs/references/routing.md)
+- Routing Guide: #skill:nextjs
 
 **Component Patterns:**
 
@@ -195,8 +195,8 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Styling components with Tailwind CSS
 
 **Key Resources:**
-- Tailwind Guide: [tailwindcss/SKILL.md](../skills/tailwindcss/SKILL.md)
-- Theme Configuration: [tailwindcss/references/theming.md](../skills/tailwindcss/references/theming.md)
+- Tailwind Guide: #skill:tailwindcss
+- Theme Configuration: #skill:tailwindcss
 
 **Key Patterns:**
 - Use CSS-first configuration in v4 (`@theme`)

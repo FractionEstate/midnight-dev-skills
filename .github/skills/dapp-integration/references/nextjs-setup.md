@@ -18,7 +18,7 @@ npm install @midnight-ntwrk/dapp-connector-api \
 
 ## Project Structure
 
-```
+```text
 my-midnight-dapp/
 ├── app/
 │   ├── layout.tsx           # Root layout with providers

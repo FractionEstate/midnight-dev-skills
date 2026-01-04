@@ -63,8 +63,8 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Building reusable UI components
 
 **Key Resources:**
-- Component Patterns: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
-- shadcn/ui Guide: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
+- Component Patterns: #skill:tailwindcss
+- shadcn/ui Guide: #skill:tailwindcss
 
 **Component Structure:**
 
@@ -96,8 +96,8 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Configuring themes, colors, design tokens
 
 **Key Resources:**
-- Theme Configuration: [tailwindcss/SKILL.md](../skills/tailwindcss/SKILL.md)
-- Color System: [tailwindcss/references/theming.md](../skills/tailwindcss/references/theming.md)
+- Theme Configuration: #skill:tailwindcss
+- Color System: #skill:tailwindcss
 
 **CSS-First Configuration:**
 - Use `@theme` directive in CSS (Tailwind v4)
@@ -133,7 +133,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Building responsive layouts
 
 **Key Resources:**
-- Responsive Patterns: [tailwindcss/references/responsive.md](../skills/tailwindcss/references/responsive.md)
+- Responsive Patterns: #skill:tailwindcss
 
 **Breakpoints:**
 
@@ -168,7 +168,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Adding animations and transitions
 
 **Key Resources:**
-- Component Patterns: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
+- Component Patterns: #skill:tailwindcss
 
 **CSS Animations:**
 
@@ -198,7 +198,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Ensuring WCAG compliance
 
 **Key Resources:**
-- Component Guide: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
+- Component Guide: #skill:tailwindcss
 
 **WCAG 2.1 AA Requirements:**
 
@@ -236,7 +236,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Designing forms and inputs
 
 **Key Resources:**
-- Component Guide: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
+- Component Guide: #skill:tailwindcss
 
 **Input Component Features:**
 - Label association via `htmlFor`/`id`

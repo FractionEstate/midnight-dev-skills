@@ -1,7 +1,9 @@
 // Basic Compact Contract Template
 // Location: contracts/main.compact
 
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 // ============================================
 // Type Definitions

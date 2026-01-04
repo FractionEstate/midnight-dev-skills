@@ -1,14 +1,8 @@
-# Next.js Route Handler Template
+// @ts-nocheck
+// Next.js Route Handler Template
+// Location: app/api/[resource]/route.ts
+// REST API endpoints with validation and error handling
 
-REST API endpoints with validation and error handling.
-
-## Location
-
-`app/api/[resource]/route.ts`
-
-## Template
-
-```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -43,13 +37,15 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get('limit') || '10');
 
     // Fetch from database
-    const items = await db.item.findMany({
-      skip: (page - 1) * limit,
-      take: limit,
-      orderBy: { createdAt: 'desc' },
-    });
+    // const items = await db.item.findMany({
+    //   skip: (page - 1) * limit,
+    //   take: limit,
+    //   orderBy: { createdAt: 'desc' },
+    // });
+    // const total = await db.item.count();
 
-    const total = await db.item.count();
+    const items: unknown[] = [];
+    const total = 0;
 
     return json({
       data: items,
@@ -78,33 +74,31 @@ export async function POST(request: NextRequest) {
     }
 
     // Create in database
-    const item = await db.item.create({
-      data: result.data,
-    });
+    // const item = await db.item.create({
+    //   data: result.data,
+    // });
 
-    return json(item, 201);
+    return json({ ...result.data }, 201);
   } catch (err) {
     console.error('POST /api/items error:', err);
     return error('Failed to create item', 500);
   }
 }
-```
 
-## Dynamic Route Handler
+// For dynamic routes: app/api/items/[id]/route.ts
 
-For `app/api/items/[id]/route.ts`:
-
-```typescript
 // GET /api/items/[id]
-export async function GET(
+export async function GETById(
   request: NextRequest,
   { params }: RouteParams
 ) {
   const { id } = await params;
 
-  const item = await db.item.findUnique({
-    where: { id },
-  });
+  // const item = await db.item.findUnique({
+  //   where: { id },
+  // });
+
+  const item = null;
 
   if (!item) {
     return error('Item not found', 404);
@@ -126,12 +120,12 @@ export async function PUT(
     return error(result.error.errors[0].message, 400);
   }
 
-  const item = await db.item.update({
-    where: { id },
-    data: result.data,
-  });
+  // const item = await db.item.update({
+  //   where: { id },
+  //   data: result.data,
+  // });
 
-  return json(item);
+  return json({ id, ...result.data });
 }
 
 // DELETE /api/items/[id]
@@ -141,22 +135,9 @@ export async function DELETE(
 ) {
   const { id } = await params;
 
-  await db.item.delete({
-    where: { id },
-  });
+  // await db.item.delete({
+  //   where: { id },
+  // });
 
   return new NextResponse(null, { status: 204 });
 }
-```
-
-## HTTP Methods Reference
-
-| Method | Status | Use Case |
-|--------|--------|----------|
-| GET | 200 | List/retrieve |
-| POST | 201 | Create |
-| PUT | 200 | Update |
-| DELETE | 204 | Delete |
-| 400 | - | Validation error |
-| 404 | - | Not found |
-| 500 | - | Server error |

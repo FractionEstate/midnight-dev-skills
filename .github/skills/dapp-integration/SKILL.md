@@ -11,18 +11,18 @@ Build privacy-preserving dApps with TypeScript, React/Next.js, and Midnight Netw
 
 ```typescript
 // Connect to Lace wallet
-const connector = window.midnight;
+const connector = window.midnight?.mnLace;
 if (connector) {
-  await connector.enable();
-  const walletApi = await connector.walletAPI();
-  const balance = await walletApi.balanceAndProveOwnership();
+  const api = await connector.enable();
+  const state = await api.state();
+  console.log('Connected:', state.address);
 }
 ```
 
 ## Core Concepts
 
 | Component | Purpose |
-|-----------|---------|
+| --------- | ------- |
 | **DApp Connector** | Wallet detection & connection |
 | **Providers** | Contract interaction infrastructure |
 | **Contract API** | Type-safe circuit calls |
@@ -31,7 +31,7 @@ if (connector) {
 ## Reference Files
 
 | Topic | Resource |
-|-------|----------|
+| ----- | -------- |
 | **Wallet Connection** | [references/wallet-connection.md](references/wallet-connection.md) |
 | **Provider Setup** | [references/providers.md](references/providers.md) |
 | **Contract Deployment** | [references/deployment.md](references/deployment.md) |
@@ -40,7 +40,7 @@ if (connector) {
 ## Assets
 
 | Asset | Description |
-|-------|-------------|
+| ----- | ----------- |
 | [assets/wallet-hook.md](assets/wallet-hook.md) | React hook for wallet |
 | [assets/providers.md](assets/providers.md) | Provider configuration |
 | [assets/deploy.md](assets/deploy.md) | Deployment template |
@@ -59,20 +59,17 @@ npm install @midnight-ntwrk/dapp-connector-api \
 ```typescript
 // Check if Lace wallet is installed
 function isWalletInstalled(): boolean {
-  return typeof window !== "undefined" && !!window.midnight;
+  return typeof window !== "undefined" && !!window.midnight?.mnLace;
 }
 
 // Type definition
-declare global {
-  interface Window {
-    midnight?: DAppConnectorAPI;
-  }
-}
+import "@midnight-ntwrk/dapp-connector-api";
+// Types are augmented on window.midnight.mnLace
 ```
 
 ## Provider Stack
 
-```
+```text
 ┌─────────────────────────────────────┐
 │         Contract Instance           │
 ├─────────────────────────────────────┤

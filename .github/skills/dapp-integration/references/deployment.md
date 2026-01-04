@@ -4,7 +4,7 @@ Deploy and connect to Midnight smart contracts.
 
 ## Deployment Overview
 
-```
+```text
 ┌─────────────────┐     ┌──────────────┐     ┌─────────────┐
 │ Compile Contract│ ──▶ │ Setup Config │ ──▶ │   Deploy    │
 │  (compact CLI)  │     │  (providers) │     │ (submitTx)  │

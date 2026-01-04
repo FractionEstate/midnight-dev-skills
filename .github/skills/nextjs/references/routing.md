@@ -2,7 +2,7 @@
 
 ## File-System Routing
 
-```
+```text
 app/
 ├── page.tsx                    # /
 ├── about/page.tsx              # /about
@@ -101,7 +101,7 @@ export default async function DocsPage({ params }: Props) {
 
 ## Parallel Routes
 
-```
+```text
 app/
 ├── layout.tsx
 ├── page.tsx

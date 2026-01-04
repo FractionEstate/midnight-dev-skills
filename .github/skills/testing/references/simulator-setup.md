@@ -26,7 +26,7 @@ const simulator = new ContractSimulator(contractArtifact);
 
 ## Project Structure
 
-```
+```text
 project/
 ├── contracts/
 │   ├── my-contract.compact

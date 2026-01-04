@@ -11,6 +11,7 @@ GitHub Agent Skills for building privacy-preserving dApps on the Midnight Networ
 Agent Skills are self-contained folders with instructions and bundled resources that enhance AI capabilities for specialized tasks. Based on the [Agent Skills specification](https://agentskills.io/specification), each skill contains a `SKILL.md` file with detailed instructions that agents load on-demand.
 
 **When to use these skills:**
+
 - Writing Compact smart contracts
 - Implementing privacy patterns (commitments, nullifiers, ZK proofs)
 - Integrating wallets and deploying dApps
@@ -25,7 +26,7 @@ Agent Skills are self-contained folders with instructions and bundled resources 
 ## 📋 Midnight Skills
 
 | Skill | Description | Contents |
-|-------|-------------|----------|
+| ----- | ----------- | -------- |
 | [compact](compact/) | Smart contract development in Compact language | `references/`, `assets/` |
 | [dapp-integration](dapp-integration/) | TypeScript/React wallet and contract integration | `references/`, `assets/` |
 | [midnight-network](midnight-network/) | Network infrastructure, proof server, indexer | `references/` |
@@ -35,7 +36,7 @@ Agent Skills are self-contained folders with instructions and bundled resources 
 ## 🌐 Web Development Skills
 
 | Skill | Description | Contents |
-|-------|-------------|----------|
+| ----- | ----------- | -------- |
 | [nextjs](nextjs/) | Next.js 15+ App Router, Server Components, Server Actions | `references/` |
 | [tailwindcss](tailwindcss/) | Tailwind CSS v4 theming, components, accessibility | `references/` |
 | [turborepo](turborepo/) | Monorepo setup, caching, CI/CD with Turborepo | `references/` |
@@ -46,7 +47,7 @@ Agent Skills are self-contained folders with instructions and bundled resources 
 
 Each skill follows the progressive disclosure pattern:
 
-```
+```text
 skill-name/
 ├── SKILL.md              # Core instructions (lean, <500 lines)
 ├── references/           # Detailed docs (loaded on demand)
@@ -75,7 +76,9 @@ description: ...          # What it does + when to use (10-1024 chars)
 ### Compact Contract
 
 ```compact
-pragma compact(">=0.25");
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 export ledger counter: Counter;
 
@@ -95,7 +98,7 @@ const walletApi = await connector.walletAPI();
 ### Network Endpoints
 
 | Service | Testnet-02 |
-|---------|------------|
+| ------- | ---------- |
 | Indexer | `https://indexer.testnet-02.midnight.network/api/v1/graphql` |
 | RPC | `https://rpc.testnet-02.midnight.network` |
 | Proof Server | `http://localhost:6300` |

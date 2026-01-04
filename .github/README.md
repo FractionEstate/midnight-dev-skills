@@ -24,7 +24,7 @@ Midnight is a privacy-first blockchain that combines public verifiability with c
 
 All skills follow the [Agent Skills specification](https://agentskills.io/specification) with the structure:
 
-```
+```tree
 skill-name/
 ├── SKILL.md          # Required: Main skill definition
 ├── assets/           # Static resources (templates, configs)
@@ -34,7 +34,7 @@ skill-name/
 ### Available Skills
 
 | Skill | Description | Location |
-|-------|-------------|----------|
+| ----- | ----------- | -------- |
 | **compact** | Compact smart contract language for Midnight Network | [skills/compact/](skills/compact/) |
 | **dapp-integration** | Wallet connection, providers, and contract deployment | [skills/dapp-integration/](skills/dapp-integration/) |
 | **midnight-network** | Network infrastructure, proof servers, indexers | [skills/midnight-network/](skills/midnight-network/) |
@@ -52,7 +52,7 @@ skill-name/
 Specialized AI personas in [agents/](agents/):
 
 | Agent | Description | Best For |
-|-------|-------------|----------|
+| ----- | ----------- | -------- |
 | [fullstack-developer](agents/fullstack-developer.agent.md) | Full-stack Next.js + Midnight developer | General dApp development |
 | [midnight-smartcontract-developer](agents/midnight-smartcontract-developer.agent.md) | Compact contract specialist | Smart contract design |
 | [security-auditor](agents/security-auditor.agent.md) | Security auditor for ZK and privacy patterns | Vulnerability detection |
@@ -67,7 +67,7 @@ Specialized AI personas in [agents/](agents/):
 Workflow templates in [prompts/](prompts/):
 
 | Prompt | Description |
-|--------|-------------|
+| ------ | ----------- |
 | create-compact-contract | Generate complete Compact contracts |
 | integrate-wallet | Set up wallet connection in Next.js |
 | deploy-contract | Deploy contracts to testnet/mainnet |
@@ -84,7 +84,7 @@ Workflow templates in [prompts/](prompts/):
 Context-aware guidelines in [instructions/](instructions/):
 
 | Instructions | Applies To | Description |
-|--------------|-----------|-------------|
+| ------------ | ---------- | ----------- |
 | compact | `**/*.compact` | Compact language coding standards |
 | midnight-typescript | `**/*.{ts,tsx}` | TypeScript with Midnight APIs |
 | privacy-patterns | `**/contracts/**` | ZK and privacy patterns |
@@ -99,11 +99,14 @@ Context-aware guidelines in [instructions/](instructions/):
 ## 🚀 Quick Start
 
 ```bash
-# 1. Install Compact compiler
+# 1. Install Compact developer tools (v0.3.0)
 curl --proto '=https' --tlsv1.2 -LsSf \
-  https://github.com/midnightntwrk/compact/releases/latest/download/compact-installer.sh | sh
+  https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh
 
-# 2. Start the proof server (in separate terminal)
+# 2. Install the latest compiler
+compact update
+
+# 3. Start the proof server (in separate terminal)
 docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --network testnet
 
 # 3. Create project
@@ -126,10 +129,10 @@ npm run dev
 
 ## 🔗 Resources
 
-- **Documentation**: https://docs.midnight.network/
-- **Discord**: https://discord.com/invite/midnightnetwork
-- **GitHub**: https://github.com/midnightntwrk
-- **Agent Skills Spec**: https://agentskills.io/specification
+- **Documentation**: <https://docs.midnight.network/>
+- **Discord**: <https://discord.com/invite/midnightnetwork>
+- **GitHub**: <https://github.com/midnightntwrk>
+- **Agent Skills Spec**: <https://agentskills.io/specification>
 
 ## 📜 License
 
@@ -137,4 +140,4 @@ MIT License - Educational resources for the Midnight Network developer community
 
 ---
 
-**Start your privacy-preserving DApp journey today! 🌙**
+Start your privacy-preserving DApp journey today! 🌙

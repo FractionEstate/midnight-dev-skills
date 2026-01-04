@@ -5,7 +5,7 @@ Configure providers for contract deployment and interaction.
 ## Provider Overview
 
 | Provider | Package | Purpose |
-|----------|---------|---------|
+| -------- | ------- | ------- |
 | `privateStateProvider` | `@midnight-ntwrk/midnight-js-level-private-state-provider` | Local private state |
 | `publicDataProvider` | `@midnight-ntwrk/midnight-js-indexer-public-data-provider` | Blockchain queries |
 | `zkConfigProvider` | `@midnight-ntwrk/midnight-js-node-zk-config-provider` | ZK circuit config |

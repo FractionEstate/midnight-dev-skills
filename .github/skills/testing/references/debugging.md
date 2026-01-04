@@ -6,16 +6,18 @@ Debug and troubleshoot Compact smart contracts.
 
 ### Assertion Failures
 
-```
+```text
 Error: Assertion failed
 ```
 
 **Causes:**
+
 - `assert` condition evaluated to false
 - `require` condition not met
 - Implicit constraint violated
 
 **Debug Steps:**
+
 1. Identify which assertion failed
 2. Log inputs before the assertion
 3. Verify preconditions are met
@@ -36,7 +38,7 @@ it('debug assertion', async () => {
 
 ### Type Mismatches
 
-```
+```text
 Error: Type mismatch: expected Uint<64>, got Uint<32>
 ```
 
@@ -52,7 +54,7 @@ await simulator.call('setAmount', { amount: 100n });
 
 ### State Not Found
 
-```
+```text
 Error: Ledger value not initialized
 ```
 

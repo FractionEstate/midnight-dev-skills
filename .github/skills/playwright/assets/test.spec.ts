@@ -1,14 +1,8 @@
-# Playwright Test Template
+// @ts-nocheck
+// Playwright Test Template
+// Location: e2e/[feature].spec.ts
+// E2E test structure with fixtures and assertions
 
-E2E test structure with fixtures and assertions.
-
-## Location
-
-`e2e/[feature].spec.ts`
-
-## Template
-
-```typescript
 import { test, expect } from '@playwright/test';
 
 test.describe('Feature Name', () => {
@@ -67,35 +61,20 @@ test('visual regression', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveScreenshot('homepage.png');
 });
-```
 
-## Selector Best Practices
-
-```typescript
+// Selector Best Practices:
 // ✅ Good - Role-based selectors
-page.getByRole('button', { name: 'Submit' });
-page.getByRole('link', { name: 'About' });
-page.getByRole('heading', { level: 1 });
-
+// page.getByRole('button', { name: 'Submit' });
+// page.getByRole('link', { name: 'About' });
+// page.getByRole('heading', { level: 1 });
+//
 // ✅ Good - Label-based for forms
-page.getByLabel('Email');
-page.getByPlaceholder('Enter your email');
-
+// page.getByLabel('Email');
+// page.getByPlaceholder('Enter your email');
+//
 // ✅ Good - Test IDs for complex elements
-page.getByTestId('user-menu');
-
+// page.getByTestId('user-menu');
+//
 // ❌ Avoid - CSS selectors
-page.locator('.btn-primary');
-page.locator('#submit');
-```
-
-## Key Patterns
-
-| Pattern | Description |
-|---------|-------------|
-| `test.describe` | Group related tests |
-| `test.beforeEach` | Setup before each test |
-| `getByRole` | Accessible selectors |
-| `expect().toBeVisible()` | Element visibility |
-| `expect().toHaveURL()` | URL assertions |
-| `toHaveScreenshot()` | Visual regression |
+// page.locator('.btn-primary');
+// page.locator('#submit');

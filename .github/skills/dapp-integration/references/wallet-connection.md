@@ -172,7 +172,7 @@ export function useMidnightWallet() {
 ## Wallet API Methods
 
 | Method | Returns | Description |
-|--------|---------|-------------|
+| ------ | ------- | ----------- |
 | `balanceAndProveOwnership()` | `bigint` | Balance with ownership proof |
 | `coinPublicKey()` | `string` | Public key for coins |
 | `serviceUriConfig()` | `ServiceUriConfig` | Network endpoints |

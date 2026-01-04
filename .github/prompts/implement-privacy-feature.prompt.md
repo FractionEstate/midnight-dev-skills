@@ -47,8 +47,9 @@ Ensure privacy guarantees:
 
 ### Contract
 ```compact
-pragma compact(">=0.25");
-import { hash, hash2 } from "std";
+pragma language_version 0.18;
+
+import CompactStandardLibrary;
 
 ledger {
   commitments: Set<Field>,

@@ -66,8 +66,8 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Building REST endpoints with Next.js Route Handlers
 
 **Key Resources:**
-- Data Fetching: [nextjs/references/data-fetching.md](../skills/nextjs/references/data-fetching.md)
-- Server Actions: [nextjs/references/server-actions.md](../skills/nextjs/references/server-actions.md)
+- Data Fetching: #skill:nextjs
+- Server Actions: #skill:nextjs
 
 **Route Structure:**
 
@@ -107,7 +107,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Building type-safe mutations with Server Actions
 
 **Key Resources:**
-- Server Actions: [nextjs/references/server-actions.md](../skills/nextjs/references/server-actions.md)
+- Server Actions: #skill:nextjs
 
 **Key Patterns:**
 - Mark file or function with `'use server'`
@@ -131,7 +131,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Implementing authentication with NextAuth.js v5
 
 **Key Resources:**
-- Middleware Guide: [nextjs/references/middleware.md](../skills/nextjs/references/middleware.md)
+- Middleware Guide: #skill:nextjs
 
 **Auth Configuration:**
 
@@ -163,7 +163,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Validating API inputs
 
 **Key Resources:**
-- Server Actions: [nextjs/references/server-actions.md](../skills/nextjs/references/server-actions.md)
+- Server Actions: #skill:nextjs
 
 **Zod Schema Patterns:**
 
@@ -189,7 +189,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Protecting APIs from abuse
 
 **Key Resources:**
-- Middleware Patterns: [nextjs/references/middleware.md](../skills/nextjs/references/middleware.md)
+- Middleware Patterns: #skill:nextjs
 
 **Rate Limiting Strategies:**
 
