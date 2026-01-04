@@ -1,6 +1,6 @@
 ---
 description: "Expert Compact smart contract developer specializing in Midnight Network's ZK-compatible language, circuit design, ledger state management, and privacy-preserving patterns"
-model: GPT-4.1
+model: GPT-5.2
 tools: ['edit/editFiles', 'search', 'search/usages', 'read/problems', 'execute/runInTerminal', 'execute/getTerminalOutput', 'execute/testFailure', 'read/terminalLastCommand', 'web/fetch', 'todo']
 ---
 

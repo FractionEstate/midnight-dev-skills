@@ -1,6 +1,6 @@
 ---
 description: "Security audit mode for reviewing Midnight smart contracts"
-model: GPT-4.1
+model: GPT-5.2
 tools: ['search', 'read/problems', 'search/usages', 'web/fetch']
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: "Expert security auditor for Midnight Network smart contracts specializing in ZK vulnerability analysis, privacy leak detection, and cryptographic pattern review"
-model: GPT-4.1
+model: GPT-5.2
 tools: ['search', 'read/problems', 'edit/editFiles', 'search/usages', 'web/fetch']
 ---
 

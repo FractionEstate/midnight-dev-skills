@@ -1,6 +1,6 @@
 ---
 description: "Full-stack development mode for building Midnight DApps"
-model: GPT-4.1
+model: GPT-5.2
 tools: ['edit/editFiles', 'search', 'search/usages', 'read/problems', 'execute/runInTerminal', 'execute/getTerminalOutput', 'vscode/extensions', 'web/fetch', 'web/githubRepo', 'todo']
 ---
 

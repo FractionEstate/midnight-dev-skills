@@ -1,6 +1,6 @@
 ---
 description: "Expert Midnight Network developer specializing in Compact smart contracts, zero-knowledge proofs, and privacy-preserving dApp architecture with TypeScript and Next.js"
-model: GPT-4.1
+model: GPT-5.2
 tools: ['edit/editFiles', 'search', 'search/usages', 'read/problems', 'execute/runInTerminal', 'execute/getTerminalOutput', 'vscode/extensions', 'vscode/newWorkspace', 'vscode/openSimpleBrowser', 'web/fetch', 'web/githubRepo', 'todo']
 ---
 
