@@ -133,7 +133,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Multi-Stage Build Strategy:**
 
 | Stage | Purpose | Base |
-|-------|---------|------|
+| --- | --- | --- |
 | base | Common setup, pnpm | node:22-alpine |
 | deps | Install dependencies | base |
 | builder | Build application | base |
@@ -167,9 +167,9 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Deployment Strategy:**
 
 | Environment | Trigger | Branch |
-| ----------- | ----------------- | --------------- |
-| Preview     | PR opened/updated | Feature branches |
-| Production  | Merge to main     | main |
+| --- | --- | --- |
+| Preview | PR opened/updated | Feature branches |
+| Production | Merge to main | main |
 
 **Key Configurations:**
 
