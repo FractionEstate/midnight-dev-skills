@@ -40,7 +40,7 @@ capabilities for specialized tasks. Based on the
 
 | Skill | Description | Contents |
 | ----- | ----------- | -------- |
-| [nextjs](nextjs/) | Next.js 15+ App Router, Server Components, Server Actions | `references/` |
+| [nextjs](nextjs/) | Next.js 16.1+ App Router, Server Components, Server Actions | `references/` |
 | [tailwindcss](tailwindcss/) | Tailwind CSS v4 theming, components, accessibility | `references/` |
 | [turborepo](turborepo/) | Monorepo setup, caching, CI/CD with Turborepo | `references/` |
 | [prisma](prisma/) | Type-safe database access with Prisma ORM | `references/` |

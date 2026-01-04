@@ -42,7 +42,7 @@ export default async function PostsPage() {
 ### Fetch with Caching
 
 ```tsx
-// IMPORTANT: fetch is NOT cached by default in Next.js 15+
+// IMPORTANT: fetch is NOT cached by default in Next.js 16+
 // Use 'force-cache' to explicitly opt into caching
 const cachedData = await fetch('https://api.example.com/data', {
   cache: 'force-cache'

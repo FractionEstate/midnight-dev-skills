@@ -47,7 +47,7 @@ Set up a new Turborepo monorepo with the following configuration.
    - Latest stable versions
 
 4. **Apps Setup**:
-   - Next.js 15+ with App Router for web apps
+   - Next.js 16.1.1 with App Router for web apps
    - TypeScript strict mode
    - Import shared packages
 
