@@ -1,5 +1,5 @@
 ---
-description: Expert API developer specializing in REST APIs, GraphQL, Next.js Route Handlers, Server Actions, authentication, rate limiting, and API security best practices.
+description: Expert API developer for REST/GraphQL, Next.js Route Handlers & Server Actions, auth, rate limiting, and security.
 name: API Developer
 tools:
   - playwright/*
