@@ -1,47 +1,66 @@
 ---
-description: "Debug a Compact contract compilation or runtime error"
+description: Debug a Midnight Network contract or dApp issue
+name: Debug Contract
+agent: Midnight Developer
+tools:
+  - search
+  - read/problems
+  - execute/runInTerminal
+  - execute/testFailure
 ---
 
-# Debug Compact Contract
+# Debug Contract
 
-Help me debug this Compact contract issue.
+Debug an issue with a Midnight Network contract or dApp.
 
-## Context
+## Input Variables
 
-${input:error_message:Paste the error message or describe the problem}
+- **Error Message**: ${input:errorMessage:The error message you're seeing}
+- **Context**: ${input:context:What operation were you performing?}
+- **File Path**: ${input:filePath:Path to the file with the issue (optional)}
 
-${input:contract_file:Path to the contract file (e.g., contracts/voting.compact)}
+## Common Issues and Solutions
 
-## Your Task
+### Compact Errors
 
-1. **Analyze the Error**
-   - Parse the error message to identify the root cause
-   - Check if it's a syntax, type, or logic error
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `Type mismatch` | Wrong Uint width | Match expected type exactly |
+| `Undefined symbol` | Missing import | Check pragma and imports |
+| `Assertion failed` | Validation error | Read assertion message |
+| `Expected impure` | Ledger in pure circuit | Circuit is impure, not pure |
 
-2. **Investigate the Contract**
-   - Read the contract file and surrounding code
-   - Identify the problematic line or pattern
+### TypeScript Errors
 
-3. **Common Compact Issues to Check**
-   - Missing imports from "std"
-   - Type mismatches (Uint<N> vs Field)
-   - Invalid ledger operations (reading non-existent keys)
-   - Missing `impure` modifier on state-changing circuits
-   - Incorrect assertion syntax
-   - Witness/secret modifier placement
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `Wallet not found` | Extension missing | Install Lace wallet |
+| `Network error` | Wrong endpoints | Use testnet-02 URLs |
+| `Proof generation failed` | Server not running | Start proof server |
+| `Transaction rejected` | Insufficient funds | Get tDUST from faucet |
 
-4. **Fix the Issue**
-   - Provide the corrected code
-   - Explain why the fix works
+### Runtime Errors
 
-5. **Verify**
-   - Run `compact compile ${contract_file}` to confirm it compiles
+| Error | Cause | Solution |
+|-------|-------|----------|
+| `Connection refused :6300` | Proof server down | `docker run -p 6300:6300 midnightnetwork/proof-server` |
+| `Invalid signature` | Wallet mismatch | Reconnect wallet |
+| `Out of gas` | Complex circuit | Optimize or split operations |
+
+## Debug Workflow
+
+1. **Reproduce**: Get exact error message
+2. **Locate**: Find source file and line
+3. **Analyze**: Match against common issues
+4. **Fix**: Apply targeted solution
+5. **Verify**: Confirm fix works
 
 ## Output Format
 
-```
-**Error Analysis**: [What went wrong]
-**Root Cause**: [Why it happened]
-**Fix**: [Code changes needed]
-**Prevention**: [How to avoid this in future]
-```
+Provide:
+1. Root cause analysis
+2. Specific fix with code changes
+3. Prevention tips for future
+4. Related issues to check
+
+Use #tool:read/problems to check compile errors. Use #tool:search to find the source of the issue. Use #tool:execute/testFailure to analyze test failures. Use #tool:execute/runInTerminal to run diagnostic commands.

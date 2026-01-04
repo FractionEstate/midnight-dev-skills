@@ -1,5 +1,7 @@
 ---
-applyTo: '**/test/**,**/*.test.ts,**/*.spec.ts'
+description: Testing guidelines for Midnight Network contracts and dApps
+name: Testing Guidelines
+applyTo: "**/test/**,**/*.test.ts,**/*.spec.ts"
 ---
 
 # Midnight Contract Testing Guidelines
@@ -41,226 +43,136 @@ afterAll(async () => {
 });
 ```
 
-## Contract Testing
+## Contract Testing with Simulator
 
-### Unit Test Structure
+### Simulator Pattern
+```typescript
+import { constructorContext, QueryContext, sampleContractAddress } from "@midnight-ntwrk/compact-runtime";
+import { Contract, ledger } from "../managed/mycontract/contract/index.cjs";
+
+export class MyContractSimulator {
+  readonly contract: Contract<PrivateState>;
+  circuitContext: CircuitContext<PrivateState>;
+
+  constructor(initialPrivateState: PrivateState) {
+    this.contract = new Contract<PrivateState>(witnesses);
+    const { currentPrivateState, currentContractState, currentZswapLocalState } =
+      this.contract.initialState(constructorContext(initialPrivateState, "0".repeat(64)));
+
+    this.circuitContext = {
+      currentPrivateState,
+      currentZswapLocalState,
+      originalState: currentContractState,
+      transactionContext: new QueryContext(currentContractState.data, sampleContractAddress())
+    };
+  }
+
+  public getLedger() {
+    return ledger(this.circuitContext.transactionContext.state);
+  }
+
+  public myCircuit(arg: Arg): Result {
+    this.circuitContext = this.contract.impureCircuits.myCircuit(this.circuitContext, arg).context;
+    return ledger(this.circuitContext.transactionContext.state);
+  }
+}
+```
+
+### Unit Test Example
 ```typescript
 import { describe, it, expect, beforeEach } from 'vitest';
-import { deployContract, createMockWallet } from './helpers';
-import { MyContract } from '../contracts/MyContract';
+import { MyContractSimulator } from './simulator';
+import { setNetworkId, NetworkId } from "@midnight-ntwrk/midnight-js-network-id";
+
+setNetworkId(NetworkId.Undeployed);
 
 describe('MyContract', () => {
-  let contract: ContractInstance;
-  let wallet: MockWallet;
+  let sim: MyContractSimulator;
 
-  beforeEach(async () => {
-    wallet = await createMockWallet();
-    contract = await deployContract(MyContract, wallet);
+  beforeEach(() => {
+    sim = new MyContractSimulator({ privateCounter: 0 });
   });
 
-  describe('circuit: updateValue', () => {
-    it('should update the value correctly', async () => {
-      const newValue = 42n;
+  it('initializes with zero counter', () => {
+    expect(sim.getLedger().counter).toEqual(0n);
+  });
 
-      const tx = await contract.updateValue(newValue);
-      await wallet.submitTransaction(tx);
+  it('increments counter correctly', () => {
+    sim.increment(5n);
+    expect(sim.getLedger().counter).toEqual(5n);
+  });
 
-      const result = await contract.getValue();
-      expect(result).toBe(newValue);
-    });
-
-    it('should reject invalid values', async () => {
-      const invalidValue = -1n;
-
-      await expect(
-        contract.updateValue(invalidValue)
-      ).rejects.toThrow('Invalid value');
-    });
+  it('rejects negative increment', () => {
+    expect(() => sim.increment(-1n)).toThrow('Invalid amount');
   });
 });
 ```
 
-### Mock Wallet Helper
+## Testing Privacy Patterns
+
+### Test Commitment Schemes
 ```typescript
-// test/helpers/mock-wallet.ts
-import { WalletAPI, UnbalancedTransaction, TransactionId } from '@midnight-ntwrk/dapp-connector-api';
+describe('Commitment', () => {
+  it('verifies valid commitment', () => {
+    const secret = randomField();
+    const commitment = sim.commit(secret);
+    expect(() => sim.reveal(secret, commitment)).not.toThrow();
+  });
 
-export class MockWallet implements WalletAPI {
-  private balance: bigint = 1000000n;
-  private transactions: Map<string, any> = new Map();
-
-  async getBalance(): Promise<CoinInfo> {
-    return { value: this.balance };
-  }
-
-  async balanceTransaction(tx: UnbalancedTransaction) {
-    return { ...tx, balanced: true };
-  }
-
-  async signTransaction(tx: any) {
-    return { ...tx, signed: true };
-  }
-
-  async submitTransaction(tx: any): Promise<{ txId: TransactionId }> {
-    const txId = `tx_${Date.now()}`;
-    this.transactions.set(txId, tx);
-    return { txId };
-  }
-}
-
-export function createMockWallet(): MockWallet {
-  return new MockWallet();
-}
-```
-
-## Circuit Testing
-
-### Testing Privacy Circuits
-```typescript
-describe('Privacy Circuits', () => {
-  describe('commitment scheme', () => {
-    it('should generate valid commitment', async () => {
-      const secret = 12345n;
-      const commitment = await contract.commit({ witness: secret });
-
-      expect(commitment).toBeDefined();
-      expect(typeof commitment).toBe('bigint');
-    });
-
-    it('should verify correct reveal', async () => {
-      const secret = 12345n;
-      const commitment = await contract.commit({ witness: secret });
-
-      await expect(
-        contract.reveal({ secret, commitment })
-      ).resolves.not.toThrow();
-    });
-
-    it('should reject invalid reveal', async () => {
-      const secret = 12345n;
-      const wrongSecret = 99999n;
-      const commitment = await contract.commit({ witness: secret });
-
-      await expect(
-        contract.reveal({ secret: wrongSecret, commitment })
-      ).rejects.toThrow('Invalid commitment');
-    });
+  it('rejects invalid preimage', () => {
+    const secret = randomField();
+    const wrongSecret = randomField();
+    const commitment = sim.commit(secret);
+    expect(() => sim.reveal(wrongSecret, commitment)).toThrow('Invalid commitment');
   });
 });
 ```
 
-### Testing Witnesses
+### Test Nullifiers
 ```typescript
-describe('Witness Handling', () => {
-  it('should not expose witness in transaction', async () => {
-    const sensitiveData = 'secret123';
-    const tx = await contract.processPrivateData({ witness: sensitiveData });
+describe('Nullifier', () => {
+  it('allows first claim', () => {
+    const secret = randomField();
+    expect(() => sim.claim(secret)).not.toThrow();
+  });
 
-    // Verify witness is not in transaction data
-    const txString = JSON.stringify(tx);
-    expect(txString).not.toContain(sensitiveData);
+  it('prevents double claim', () => {
+    const secret = randomField();
+    sim.claim(secret);
+    expect(() => sim.claim(secret)).toThrow('Already claimed');
   });
 });
 ```
 
 ## Integration Testing
 
-### Full Flow Test
+### With Deployed Contract
 ```typescript
-describe('Integration: Voting Flow', () => {
-  let contract: VotingContract;
-  let voter1: MockWallet;
-  let voter2: MockWallet;
+describe('Integration', () => {
+  let contract: DeployedContract;
 
-  beforeEach(async () => {
-    voter1 = await createMockWallet();
-    voter2 = await createMockWallet();
-    contract = await deployContract(VotingContract, voter1);
-
-    // Setup: Register voters
-    await contract.registerVoter(voter1.address);
-    await contract.registerVoter(voter2.address);
+  beforeAll(async () => {
+    contract = await deployContract(providers, {
+      contract: MyContractFactory,
+      initialPrivateState: {}
+    });
   });
 
-  it('should complete full voting cycle', async () => {
-    // 1. Create proposal
-    const proposalId = await contract.createProposal('Test Proposal');
+  it('executes circuit on chain', async () => {
+    const result = await contract.call.increment({ amount: 10n });
+    const receipt = await result.wait();
 
-    // 2. Vote
-    await contract.vote(proposalId, true, { wallet: voter1 });
-    await contract.vote(proposalId, false, { wallet: voter2 });
-
-    // 3. Get results
-    const results = await contract.getResults(proposalId);
-    expect(results.yes).toBe(1);
-    expect(results.no).toBe(1);
+    expect(receipt.status).toBe('success');
+    expect(await contract.query.counter()).toBe(10n);
   });
-
-  it('should prevent double voting', async () => {
-    const proposalId = await contract.createProposal('Test');
-
-    await contract.vote(proposalId, true, { wallet: voter1 });
-
-    await expect(
-      contract.vote(proposalId, true, { wallet: voter1 })
-    ).rejects.toThrow('Already voted');
-  });
-});
-```
-
-## Testing Utilities
-
-### Assertion Helpers
-```typescript
-// test/helpers/assertions.ts
-import { expect } from 'vitest';
-
-export function expectValidCommitment(commitment: bigint) {
-  expect(commitment).toBeDefined();
-  expect(typeof commitment).toBe('bigint');
-  expect(commitment > 0n).toBe(true);
-}
-
-export function expectTransactionSuccess(result: any) {
-  expect(result.txId).toBeDefined();
-  expect(result.txId).toMatch(/^tx_/);
-}
-
-export async function expectRevert(
-  promise: Promise<any>,
-  message: string
-) {
-  await expect(promise).rejects.toThrow(message);
-}
-```
-
-## Test Coverage
-
-### Coverage Configuration
-```typescript
-// vitest.config.ts
-export default defineConfig({
-  test: {
-    coverage: {
-      provider: 'v8',
-      include: ['contracts/**/*.ts', 'lib/**/*.ts'],
-      exclude: ['**/*.test.ts', '**/types/**'],
-      thresholds: {
-        lines: 80,
-        functions: 80,
-        branches: 75
-      }
-    }
-  }
 });
 ```
 
 ## Best Practices
 
-1. **Test All Circuits**: Every exported circuit needs tests
-2. **Test Privacy Guarantees**: Verify secrets aren't leaked
-3. **Test Edge Cases**: Zero values, max values, empty states
-4. **Test Error Paths**: All assertion failures should be tested
-5. **Use Realistic Data**: Test with production-like values
-6. **Isolate Tests**: Each test should be independent
-7. **Document Test Purpose**: Clear descriptions of what's being tested
+1. **Use simulators for unit tests**: Faster, no network required
+2. **Test edge cases**: Empty values, max values, boundaries
+3. **Test privacy invariants**: Ensure secrets stay hidden
+4. **Test error messages**: Verify descriptive assertions
+5. **Use integration tests sparingly**: Only for full flow verification
+6. **Set appropriate timeouts**: ZK proofs can take time

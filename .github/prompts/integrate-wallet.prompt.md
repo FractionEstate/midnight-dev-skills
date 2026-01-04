@@ -1,38 +1,25 @@
 ---
-description: 'Set up wallet connection in a Next.js application with Midnight Network dApp Connector API'
+description: Integrate Midnight wallet connection into a dApp
+name: Integrate Wallet
+agent: Midnight Developer
+tools:
+  - edit/editFiles
+  - search
 ---
 
-# Integrate Wallet Connection
+# Integrate Wallet
 
-## Configuration Variables
-${PROJECT_PATH="."} <!-- Path to the Next.js project -->
-${USE_CONTEXT="yes|no"} <!-- Whether to use React Context for wallet state -->
-${INCLUDE_HOOK="yes|no"} <!-- Whether to create a custom React hook -->
+Set up Midnight wallet integration for a dApp.
 
-## Generated Prompt
+## Input Variables
 
-Set up Midnight wallet connection in a Next.js 16+ application with the following requirements:
+- **Framework**: ${input:framework:nextjs, react, or vanilla}
+- **Features Needed**: ${input:features:connect, balance, sign, or all}
 
-### Core Implementation
+## Implementation
 
-1. **Type Declarations**:
-   - Declare `window.midnight` global for DAppConnectorAPI
-   - Import types from `@midnight-ntwrk/dapp-connector-api`
+### 1. Type Declarations
 
-2. **Wallet Connection Logic**:
-   - Check if wallet extension is installed
-   - Handle enable flow
-   - Get WalletAPI instance
-   - Handle connection errors gracefully
-
-3. **Client Component Requirements**:
-   - Mark components with `'use client'` directive
-   - Use React state for wallet instance
-   - Handle loading and error states
-
-### Files to Create
-
-#### 1. Type Declaration
 Create `types/midnight.d.ts`:
 ```typescript
 import type { DAppConnectorAPI } from '@midnight-ntwrk/dapp-connector-api';
@@ -42,72 +29,162 @@ declare global {
     midnight?: DAppConnectorAPI;
   }
 }
+
+export {};
 ```
 
-#### 2. Wallet Utilities
-Create `lib/midnight/wallet.ts`:
-- `checkWalletInstalled()`: Check if extension exists
-- `connectWallet()`: Full connection flow
-- `getWalletState()`: Get current state
-- `disconnectWallet()`: Clean up (client-side only)
+### 2. Wallet Hook (React)
 
-${USE_CONTEXT === "yes" ? `
-#### 3. Wallet Context
-Create \`contexts/MidnightWalletContext.tsx\`:
-- WalletContext with wallet, error, isConnecting state
-- WalletProvider component
-- Export useMidnightWallet hook
-` : ""}
+Create `hooks/useMidnightWallet.ts`:
+```typescript
+'use client';
 
-${INCLUDE_HOOK === "yes" ? `
-#### 4. Custom Hook
-Create \`hooks/useMidnightWallet.ts\`:
-- Encapsulate connection logic
-- Return wallet, connect, disconnect, isConnected, error
-- Handle reconnection on mount
-` : ""}
+import { useState, useEffect, useCallback } from 'react';
+import type { DAppConnectorWalletAPI, ServiceUriConfig } from '@midnight-ntwrk/dapp-connector-api';
 
-#### 5. UI Component
-Create `components/WalletButton.tsx`:
-- Show "Install Wallet" if not detected
-- Show "Connect" button with loading state
-- Show connected address when connected
-- Handle errors with user-friendly messages
+interface WalletState {
+  wallet: DAppConnectorWalletAPI | null;
+  address: string | null;
+  balance: bigint | null;
+  isConnecting: boolean;
+  error: Error | null;
+}
 
-### Integration Steps
+export function useMidnightWallet() {
+  const [state, setState] = useState<WalletState>({
+    wallet: null,
+    address: null,
+    balance: null,
+    isConnecting: false,
+    error: null,
+  });
 
-1. Ensure `@midnight-ntwrk/dapp-connector-api` is installed
-2. Add type declaration to `tsconfig.json` includes
-3. ${USE_CONTEXT === "yes" ? "Wrap app in WalletProvider" : "Import hook/utilities where needed"}
-4. Add WalletButton to layout or navbar
-5. Test with Lace wallet extension
+  const connect = useCallback(async () => {
+    setState(s => ({ ...s, isConnecting: true, error: null }));
 
-### Example Usage
+    try {
+      const connector = window.midnight;
+      if (!connector) {
+        throw new Error('Midnight wallet not installed. Please install Lace wallet.');
+      }
+
+      const connectorState = await connector.state();
+      if (connectorState.enabledWalletApiVersion === null) {
+        await connector.enable();
+      }
+
+      const wallet = await connector.walletAPI();
+      const address = (await wallet.state()).address;
+
+      setState({
+        wallet,
+        address,
+        balance: null,
+        isConnecting: false,
+        error: null,
+      });
+    } catch (error) {
+      setState(s => ({
+        ...s,
+        isConnecting: false,
+        error: error instanceof Error ? error : new Error('Connection failed'),
+      }));
+    }
+  }, []);
+
+  const disconnect = useCallback(() => {
+    setState({
+      wallet: null,
+      address: null,
+      balance: null,
+      isConnecting: false,
+      error: null,
+    });
+  }, []);
+
+  return {
+    ...state,
+    connect,
+    disconnect,
+    isConnected: state.wallet !== null,
+  };
+}
+```
+
+### 3. Wallet Context (React)
+
+Create `contexts/WalletContext.tsx`:
+```typescript
+'use client';
+
+import { createContext, useContext, ReactNode } from 'react';
+import { useMidnightWallet } from '@/hooks/useMidnightWallet';
+
+type WalletContextType = ReturnType<typeof useMidnightWallet>;
+
+const WalletContext = createContext<WalletContextType | null>(null);
+
+export function WalletProvider({ children }: { children: ReactNode }) {
+  const wallet = useMidnightWallet();
+  return (
+    <WalletContext.Provider value={wallet}>
+      {children}
+    </WalletContext.Provider>
+  );
+}
+
+export function useWallet() {
+  const context = useContext(WalletContext);
+  if (!context) {
+    throw new Error('useWallet must be used within WalletProvider');
+  }
+  return context;
+}
+```
+
+### 4. Wallet Button Component
 
 ```typescript
 'use client';
 
-import { WalletButton } from '@/components/WalletButton';
-${USE_CONTEXT === "yes" ? "import { useMidnightWallet } from '@/contexts/MidnightWalletContext';" : ""}
+import { useWallet } from '@/contexts/WalletContext';
 
-export function Header() {
-  ${USE_CONTEXT === "yes" ? "const { wallet, isConnected } = useMidnightWallet();" : ""}
+export function WalletButton() {
+  const { isConnected, isConnecting, address, error, connect, disconnect } = useWallet();
+
+  if (error) {
+    return (
+      <div className="text-red-500">
+        {error.message}
+        <button onClick={connect}>Retry</button>
+      </div>
+    );
+  }
+
+  if (isConnected) {
+    return (
+      <div>
+        <span>{address?.slice(0, 8)}...{address?.slice(-6)}</span>
+        <button onClick={disconnect}>Disconnect</button>
+      </div>
+    );
+  }
 
   return (
-    <header>
-      <nav>
-        <WalletButton />
-      </nav>
-    </header>
+    <button onClick={connect} disabled={isConnecting}>
+      {isConnecting ? 'Connecting...' : 'Connect Wallet'}
+    </button>
   );
 }
 ```
 
-### Error Handling
+## Output Format
 
-Handle these error scenarios:
-- Wallet extension not installed
-- User rejected connection
-- Network mismatch
-- Extension locked/unavailable
-- Connection timeout
+Provide:
+1. Type declaration file
+2. Custom hook for wallet management
+3. React context provider
+4. UI components
+5. Usage example
+
+Use #tool:search to find existing patterns. Use #tool:edit/editFiles to create the integration files.

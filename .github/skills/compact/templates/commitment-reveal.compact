@@ -1,0 +1,81 @@
+pragma compact(">=0.25");
+
+// Commitment-Reveal Contract Template
+// Two-phase pattern for fair auctions, sealed bids, etc.
+
+export enum Phase { COMMIT, REVEAL, FINALIZED }
+
+export ledger phase: Phase;
+export ledger commitDeadline: Uint<64>;
+export ledger revealDeadline: Uint<64>;
+
+// Store commitments (user -> commitment hash)
+export ledger commitments: Map<Bytes<32>, Field>;
+export ledger revealed: Map<Bytes<32>, Uint<64>>;
+export ledger hasCommitted: Set<Bytes<32>>;
+export ledger hasRevealed: Set<Bytes<32>>;
+
+// Witness for commitment randomness
+witness randomness: Field;
+
+// Initialize with phase durations
+export circuit initialize(commitDuration: Uint<64>, revealDuration: Uint<64>): [] {
+  phase = Phase::COMMIT;
+  commitDeadline = blockTime() + commitDuration;
+  revealDeadline = commitDeadline + revealDuration;
+}
+
+// Submit a commitment (hides the actual value)
+export circuit commit(user: Bytes<32>, value: Uint<64>): [] {
+  require(phase == Phase::COMMIT);
+  require(blockTime() < commitDeadline);
+  require(!hasCommitted.member(user));
+
+  // Create commitment = hash(value, randomness)
+  const commitment = persistentCommit(value, randomness);
+
+  // Store commitment
+  commitments[user] = commitment;
+  hasCommitted.insert(user);
+}
+
+// Transition to reveal phase
+export circuit startReveal(): [] {
+  require(phase == Phase::COMMIT);
+  require(blockTime() >= commitDeadline);
+  phase = Phase::REVEAL;
+}
+
+// Reveal the committed value
+export circuit reveal(user: Bytes<32>, value: Uint<64>): [] {
+  require(phase == Phase::REVEAL);
+  require(blockTime() < revealDeadline);
+  require(hasCommitted.member(user));
+  require(!hasRevealed.member(user));
+
+  // Verify commitment matches
+  const storedCommitment = commitments[user];
+  const computedCommitment = persistentCommit(value, randomness);
+  require(computedCommitment == storedCommitment);
+
+  // Store revealed value
+  revealed[user] = value;
+  hasRevealed.insert(user);
+
+  // Value is now public
+  disclose(value);
+}
+
+// Finalize after reveal period
+export circuit finalize(): [] {
+  require(phase == Phase::REVEAL);
+  require(blockTime() >= revealDeadline);
+  phase = Phase::FINALIZED;
+}
+
+// Get revealed value for a user
+export circuit getRevealedValue(user: Bytes<32>): Uint<64> {
+  require(phase == Phase::FINALIZED);
+  require(hasRevealed.member(user));
+  return revealed[user];
+}

@@ -1,0 +1,62 @@
+pragma compact(">=0.25");
+
+// Private Voting Contract Template
+// Anonymous voting with public totals
+
+export enum VoteOption { YES, NO, ABSTAIN }
+export enum ProposalState { ACTIVE, ENDED }
+
+export ledger proposalState: ProposalState;
+export ledger endTime: Uint<64>;
+export ledger yesVotes: Counter;
+export ledger noVotes: Counter;
+export ledger abstainVotes: Counter;
+export ledger totalVoters: Counter;
+
+// Track who has voted (prevents double voting)
+export ledger hasVoted: Set<Bytes<32>>;
+
+// Create a new proposal
+export circuit createProposal(duration: Uint<64>): [] {
+  proposalState = ProposalState::ACTIVE;
+  endTime = blockTime() + duration;
+}
+
+// Cast a vote (vote choice is private, only totals public)
+export circuit vote(voter: Bytes<32>, choice: VoteOption): [] {
+  // Verify proposal is active
+  require(proposalState == ProposalState::ACTIVE);
+  require(blockTime() < endTime);
+
+  // Prevent double voting (voter identity disclosed)
+  require(!hasVoted.member(voter));
+  hasVoted.insert(voter);
+
+  // Record vote (choice is private, only totals change)
+  match choice {
+    VoteOption::YES => yesVotes = yesVotes + 1,
+    VoteOption::NO => noVotes = noVotes + 1,
+    VoteOption::ABSTAIN => abstainVotes = abstainVotes + 1
+  }
+
+  totalVoters = totalVoters + 1;
+}
+
+// End the proposal
+export circuit endProposal(): [] {
+  require(proposalState == ProposalState::ACTIVE);
+  require(blockTime() >= endTime);
+  proposalState = ProposalState::ENDED;
+}
+
+// Get results (only available after ended)
+export circuit getResults(): (Uint<64>, Uint<64>, Uint<64>) {
+  require(proposalState == ProposalState::ENDED);
+  return (yesVotes, noVotes, abstainVotes);
+}
+
+// Check if proposal passed (simple majority)
+export circuit hasPassed(): Boolean {
+  require(proposalState == ProposalState::ENDED);
+  return yesVotes > noVotes;
+}

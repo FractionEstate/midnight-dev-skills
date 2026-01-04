@@ -1,90 +1,105 @@
 ---
-description: "Create a React component for Midnight dApp with wallet integration"
+description: Create a new React component for Midnight dApp
+name: Create Component
+agent: Midnight Developer
+tools:
+  - edit/editFiles
+  - search
 ---
 
-# Create Midnight Component
+# Create Component
 
-Create a React component for a Midnight dApp with proper wallet integration.
+Create a new React component for a Midnight Network dApp.
 
-## Component Details
+## Input Variables
 
-${input:component_name:Name of the component (e.g., VotingPanel, TokenTransfer)}
+- **Component Name**: ${input:componentName:Name of the component (PascalCase)}
+- **Component Type**: ${input:componentType:wallet-button, contract-form, transaction-status, or data-display}
+- **Uses Wallet**: ${input:usesWallet:yes or no}
 
-${input:component_purpose:What the component does (e.g., "displays voting options and submits votes")}
+## Component Patterns
 
-## Wallet Interaction Required?
-
-${input:needs_wallet:Does this component need wallet interaction? (yes/no)}
-
-## Implementation Guidelines
-
-### Component Structure
-
+### Wallet Button Component
 ```typescript
-'use client';  // Required for wallet interaction
+'use client';
 
-import { useState, useCallback } from 'react';
-import type { FC } from 'react';
-// Import Midnight types as needed
+import { useState } from 'react';
+import type { DAppConnectorWalletAPI } from '@midnight-ntwrk/dapp-connector-api';
 
-interface ${component_name}Props {
-  // Define props
-}
+export function WalletButton() {
+  const [wallet, setWallet] = useState<DAppConnectorWalletAPI | null>(null);
+  const [isConnecting, setIsConnecting] = useState(false);
 
-export const ${component_name}: FC<${component_name}Props> = ({ ...props }) => {
-  // State management
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // Wallet interaction handler
-  const handleAction = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  const connect = async () => {
+    setIsConnecting(true);
     try {
-      // Interact with contract
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'An error occurred');
+      const connector = window.midnight;
+      if (!connector) throw new Error('Wallet not installed');
+      await connector.enable();
+      setWallet(await connector.walletAPI());
+    } catch (error) {
+      console.error('Connection failed:', error);
     } finally {
-      setLoading(false);
+      setIsConnecting(false);
     }
-  }, [/* dependencies */]);
+  };
 
   return (
-    <div>
-      {error && <div className="error">{error}</div>}
-      {/* Component UI */}
-    </div>
+    <button onClick={connect} disabled={isConnecting}>
+      {wallet ? 'Connected' : isConnecting ? 'Connecting...' : 'Connect Wallet'}
+    </button>
   );
-};
+}
 ```
 
-### Required Patterns
-
-1. **Client Directive**: Use `'use client'` for wallet interactions
-2. **Error Handling**: Always catch and display errors gracefully
-3. **Loading States**: Show loading indicators during async operations
-4. **Type Safety**: Use TypeScript interfaces for all props
-5. **Accessibility**: Include proper ARIA labels
-
-### Wallet Integration Pattern
-
+### Contract Form Component
 ```typescript
-import { useMidnightWallet } from '@/hooks/useMidnightWallet';
+'use client';
 
-export const MyComponent = () => {
-  const { wallet, isConnected, connect, error } = useMidnightWallet();
+import { useState } from 'react';
 
-  if (!isConnected) {
-    return <button onClick={connect}>Connect Wallet</button>;
-  }
+interface ContractFormProps {
+  onSubmit: (data: FormData) => Promise<void>;
+}
 
-  // Component with wallet access
-};
+export function ContractForm({ onSubmit }: ContractFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await onSubmit(new FormData(e.target as HTMLFormElement));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? 'Processing...' : 'Submit'}
+      </button>
+    </form>
+  );
+}
 ```
 
-## Deliverables
+## Requirements
 
-1. **Component File**: `components/${component_name}.tsx`
-2. **Types**: Any necessary TypeScript interfaces
-3. **Hook**: Custom hook if complex wallet logic needed
-4. **Test**: Basic test file in `test/components/`
+1. Use `'use client'` directive for wallet interactions
+2. Handle loading and error states
+3. Use TypeScript with proper types from @midnight-ntwrk
+4. Follow React 19 best practices
+5. Include accessibility attributes
+
+## Output Format
+
+Provide:
+1. Complete component code
+2. Props interface (if applicable)
+3. Usage example
+4. Required imports
+
+Use #tool:search to find existing patterns. Use #tool:edit/editFiles to create the component.

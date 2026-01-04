@@ -1,0 +1,32 @@
+pragma compact(">=0.25");
+
+// Basic Contract Template
+// A simple contract with ledger state and circuits
+
+// Public state - visible to all
+export ledger message: Opaque<"string">;
+export ledger counter: Opaque<"number">;
+
+// Initialize the contract
+export circuit initialize(): [] {
+  message = disclose("");
+  counter = disclose(0);
+}
+
+// Store a message (input is private, then disclosed)
+export circuit setMessage(input: Opaque<"string">): [] {
+  message = disclose(input);
+}
+
+// Increment counter
+export circuit increment(): [] {
+  let current = counter;
+  counter = disclose(current + 1);
+}
+
+// Decrement counter
+export circuit decrement(): [] {
+  let current = counter;
+  require(current > 0);
+  counter = disclose(current - 1);
+}

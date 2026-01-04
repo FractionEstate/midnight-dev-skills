@@ -1,5 +1,7 @@
 ---
-applyTo: '**/*.{ts,tsx}'
+description: TypeScript guidelines for Midnight Network dApp development
+name: Midnight TypeScript
+applyTo: "**/*.{ts,tsx}"
 ---
 
 # Midnight dApp TypeScript Guidelines
@@ -60,7 +62,7 @@ export function WalletButton() {
       const api = await connector.walletAPI();
       setWallet(api);
     } catch (error) {
-      console.error('Connection failed:', error);
+      console.error('Wallet connection failed:', error);
     } finally {
       setIsConnecting(false);
     }
@@ -74,154 +76,93 @@ export function WalletButton() {
 }
 ```
 
-## Provider Configuration
+## Network Configuration
 
-### Network Configuration
+### Testnet Endpoints
 ```typescript
-export const TESTNET_CONFIG = {
-  indexer: 'https://indexer.testnet-02.midnight.network/api/v1/graphql',
-  indexerWS: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws',
-  node: 'https://rpc.testnet-02.midnight.network',
-  proofServer: 'http://localhost:6300'
-} as const;
+const TESTNET_CONFIG = {
+  indexer: "https://indexer.testnet-02.midnight.network/api/v1/graphql",
+  indexerWS: "wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws",
+  node: "https://rpc.testnet-02.midnight.network",
+  proofServer: "http://localhost:6300"
+};
 ```
 
-### Provider Setup
-```typescript
-import { createPublicDataProvider, createPrivateStateProvider, createZKConfigProvider } from '@midnight-ntwrk/midnight-js-providers';
+## Provider Setup
 
-export function createProviders(config: typeof TESTNET_CONFIG) {
-  return {
-    publicData: createPublicDataProvider({
-      indexerUrl: config.indexer,
-      indexerWsUrl: config.indexerWS
-    }),
-    privateState: createPrivateStateProvider(),
-    zkConfig: createZKConfigProvider({
-      proofServerUrl: config.proofServer
-    })
-  };
-}
+```typescript
+import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
+import { httpClientProofProvider } from '@midnight-ntwrk/midnight-js-http-client-proof-provider';
+
+export const providers = {
+  publicDataProvider: indexerPublicDataProvider(
+    TESTNET_CONFIG.indexer,
+    TESTNET_CONFIG.indexerWS
+  ),
+  proofProvider: httpClientProofProvider(TESTNET_CONFIG.proofServer)
+};
 ```
 
-## Transaction Handling
+## Contract Interaction
 
-### Submit Transaction Pattern
+### Deploy a Contract
 ```typescript
-export async function submitTransaction(
-  wallet: WalletAPI,
-  tx: UnbalancedTransaction
-): Promise<TransactionId> {
-  // 1. Balance the transaction
-  const balancedTx = await wallet.balanceTransaction(tx);
+import { deployContract } from '@midnight-ntwrk/midnight-js-contracts';
 
-  // 2. Sign the transaction
-  const signedTx = await wallet.signTransaction(balancedTx);
+const deployed = await deployContract(providers, {
+  contract: MyContractFactory,
+  initialPrivateState: { secretKey: new Uint8Array(32) }
+});
 
-  // 3. Submit to network
-  const result = await wallet.submitTransaction(signedTx);
-
-  return result.txId;
-}
+console.log('Contract address:', deployed.contractAddress);
 ```
 
-### Transaction Confirmation
+### Call a Circuit
 ```typescript
-export async function waitForConfirmation(
-  txId: TransactionId,
-  publicData: PublicDataProvider,
-  maxAttempts = 30
-): Promise<boolean> {
-  for (let i = 0; i < maxAttempts; i++) {
-    const status = await publicData.getTransactionStatus(txId);
-    if (status === 'confirmed') return true;
-    if (status === 'failed') return false;
-    await new Promise(r => setTimeout(r, 2000));
-  }
-  throw new Error('Transaction confirmation timeout');
-}
+const result = await deployed.call.myCircuit({
+  arg1: 100n,
+  arg2: true
+});
+
+await result.wait(); // Wait for confirmation
 ```
 
 ## Error Handling
 
 ```typescript
-import { MidnightError, WalletError, NetworkError } from '@midnight-ntwrk/errors';
-
-export async function safeTransaction<T>(
-  operation: () => Promise<T>
-): Promise<{ success: boolean; data?: T; error?: string }> {
-  try {
-    const data = await operation();
-    return { success: true, data };
-  } catch (error) {
-    if (error instanceof WalletError) {
-      return { success: false, error: `Wallet: ${error.message}` };
-    }
-    if (error instanceof NetworkError) {
-      return { success: false, error: `Network: ${error.message}` };
-    }
-    if (error instanceof MidnightError) {
-      return { success: false, error: `Midnight: ${error.message}` };
-    }
-    throw error;
+try {
+  const result = await contract.call.transfer({ amount: 100n });
+  await result.wait();
+} catch (error) {
+  if (error.code === 'WALLET_NOT_CONNECTED') {
+    // Prompt user to connect wallet
+  } else if (error.code === 'INSUFFICIENT_FUNDS') {
+    // Show balance error
+  } else if (error.code === 'PROOF_GENERATION_FAILED') {
+    // Check proof server is running
   }
 }
 ```
 
 ## Type Safety
 
-Always use strict types from Midnight packages:
+### Contract Types
 ```typescript
-// ❌ Bad: Using any
-const balance: any = await wallet.getBalance();
+// Import generated types from compiled contract
+import type { MyContractTypes } from '../managed/mycontract/contract';
 
-// ✅ Good: Using proper types
-import type { CoinInfo } from '@midnight-ntwrk/zswap';
-const balance: CoinInfo = await wallet.getBalance();
+// Use typed parameters
+const params: MyContractTypes.TransferParams = {
+  recipient: address,
+  amount: 100n
+};
 ```
 
-## React Hooks Pattern
+## Best Practices
 
-```typescript
-// hooks/useMidnightWallet.ts
-'use client';
-
-import { useState, useCallback, useEffect } from 'react';
-import type { WalletAPI } from '@midnight-ntwrk/dapp-connector-api';
-
-export function useMidnightWallet() {
-  const [wallet, setWallet] = useState<WalletAPI | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    const checkConnection = async () => {
-      try {
-        const connector = window.midnight;
-        if (connector) {
-          const state = await connector.state();
-          if (state.enabledWalletApiVersion !== null) {
-            const api = await connector.walletAPI();
-            setWallet(api);
-          }
-        }
-      } catch (e) {
-        setError(e instanceof Error ? e : new Error('Unknown error'));
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    checkConnection();
-  }, []);
-
-  const connect = useCallback(async () => {
-    // ... connection logic
-  }, []);
-
-  const disconnect = useCallback(() => {
-    setWallet(null);
-  }, []);
-
-  return { wallet, isLoading, error, connect, disconnect };
-}
-```
+1. **Always use 'use client'** for wallet-connected components
+2. **Check wallet availability** before any operation
+3. **Handle all error states** gracefully
+4. **Use typed imports** from @midnight-ntwrk packages
+5. **Await transaction confirmation** before updating UI
+6. **Never log sensitive data** (witnesses, private keys)

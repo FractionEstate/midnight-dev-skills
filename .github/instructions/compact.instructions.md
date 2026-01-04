@@ -1,5 +1,7 @@
 ---
-applyTo: '**/*.compact'
+description: Compact language guidelines for Midnight Network smart contracts
+name: Compact Language
+applyTo: "**/*.compact"
 ---
 
 # Compact Smart Contract Language Guidelines

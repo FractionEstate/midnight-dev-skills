@@ -1,137 +1,142 @@
 ---
-description: "Set up testing infrastructure for Compact contracts and Midnight dApps"
+description: Set up a testing environment for Midnight contracts
+name: Setup Testing
+agent: Midnight Developer
+tools:
+  - edit/editFiles
+  - execute/runInTerminal
 ---
 
-# Setup Midnight Testing
+# Setup Testing
 
-Configure comprehensive testing for Compact contracts and TypeScript dApp code.
+Set up a complete testing environment for Midnight Network contracts.
 
-## Project Path
+## Input Variables
 
-${input:project_path:Path to the project root}
+- **Project Path**: ${input:projectPath:Root path of the project}
+- **Test Framework**: ${input:framework:vitest or jest}
+- **Test Type**: ${input:testType:unit, integration, or both}
 
-## Testing Scope
-
-${input:scope:What to test - "contracts", "dapp", or "both"}
-
-## Setup Tasks
+## Setup Steps
 
 ### 1. Install Dependencies
 
 ```bash
-npm install -D vitest @vitest/coverage-v8 @testing-library/react @testing-library/jest-dom
+npm install -D vitest @vitest/ui typescript ts-node
+npm install -D @midnight-ntwrk/compact-runtime
+npm install -D @midnight-ntwrk/midnight-js-network-id
 ```
 
-### 2. Configure Vitest
+### 2. Vitest Configuration
 
 Create `vitest.config.ts`:
 ```typescript
 import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [react()],
   test: {
-    environment: 'jsdom',
     globals: true,
-    setupFiles: ['./test/setup.ts'],
+    environment: 'node',
+    include: ['test/**/*.test.ts', 'contracts/**/*.test.ts'],
+    testTimeout: 60000,
+    hookTimeout: 30000,
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      exclude: ['node_modules/', 'test/']
+      exclude: ['**/node_modules/**', '**/managed/**']
     }
   }
 });
 ```
 
-### 3. Create Test Setup
+### 3. Test Setup File
 
 Create `test/setup.ts`:
 ```typescript
-import '@testing-library/jest-dom';
+import { beforeAll } from 'vitest';
+import { setNetworkId, NetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 
-// Mock Midnight wallet
-global.window = global.window || {};
-window.midnight = undefined;
+beforeAll(() => {
+  // Required for contract simulation
+  setNetworkId(NetworkId.Undeployed);
+});
+```
 
-// Mock provider factory
-export function createMockWallet() {
+### 4. Contract Simulator Helper
+
+Create `test/helpers/simulator.ts`:
+```typescript
+import { constructorContext, QueryContext, sampleContractAddress } from '@midnight-ntwrk/compact-runtime';
+
+export function createSimulator<T, P>(
+  ContractClass: any,
+  witnesses: any,
+  initialPrivateState: P
+) {
+  const contract = new ContractClass(witnesses);
+
+  const { currentPrivateState, currentContractState, currentZswapLocalState } =
+    contract.initialState(
+      constructorContext(initialPrivateState, '0'.repeat(64))
+    );
+
   return {
-    state: vi.fn().mockResolvedValue({ enabledWalletApiVersion: '1.0' }),
-    enable: vi.fn().mockResolvedValue(undefined),
-    walletAPI: vi.fn().mockResolvedValue({
-      signTransaction: vi.fn(),
-      submitTransaction: vi.fn()
-    })
+    contract,
+    context: {
+      currentPrivateState,
+      currentZswapLocalState,
+      originalState: currentContractState,
+      transactionContext: new QueryContext(
+        currentContractState.data,
+        sampleContractAddress()
+      )
+    }
   };
 }
 ```
 
-### 4. Contract Test Template
+### 5. Example Test File
 
-Create `test/contracts/example.test.ts`:
+Create `test/contract.test.ts`:
 ```typescript
 import { describe, it, expect, beforeEach } from 'vitest';
+import { createSimulator } from './helpers/simulator';
+import { Contract, ledger, Witnesses } from '../managed/contract/contract/index.cjs';
 
-describe('MyContract', () => {
+describe('Contract', () => {
+  let sim: ReturnType<typeof createSimulator>;
+
   beforeEach(() => {
-    // Setup contract instance
+    sim = createSimulator(Contract, Witnesses, { privateValue: 0n });
   });
 
-  describe('Circuit: myCircuit', () => {
-    it('should handle valid input', async () => {
-      // Test with valid witness data
-    });
-
-    it('should reject invalid input', async () => {
-      // Test assertion failures
-    });
+  it('initializes correctly', () => {
+    const state = ledger(sim.context.transactionContext.state);
+    expect(state.counter).toBe(0n);
   });
 });
 ```
 
-### 5. Component Test Template
+### 6. Package.json Scripts
 
-Create `test/components/WalletConnect.test.tsx`:
-```typescript
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import { WalletConnect } from '@/components/WalletConnect';
-import { createMockWallet } from '../setup';
-
-describe('WalletConnect', () => {
-  it('shows connect button when not connected', () => {
-    render(<WalletConnect />);
-    expect(screen.getByRole('button', { name: /connect/i })).toBeInTheDocument();
-  });
-
-  it('handles missing wallet gracefully', async () => {
-    window.midnight = undefined;
-    render(<WalletConnect />);
-    fireEvent.click(screen.getByRole('button'));
-    expect(await screen.findByText(/install.*wallet/i)).toBeInTheDocument();
-  });
-});
-```
-
-### 6. Add NPM Scripts
-
-Update `package.json`:
+Add to `package.json`:
 ```json
 {
   "scripts": {
     "test": "vitest",
-    "test:coverage": "vitest --coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage"
   }
 }
 ```
 
-## Deliverables
+## Output Format
 
-- [ ] Vitest configuration file
-- [ ] Test setup with mocks
-- [ ] Example contract tests
-- [ ] Example component tests
-- [ ] Coverage configuration
-- [ ] NPM scripts
+Provide:
+1. All configuration files
+2. Helper utilities
+3. Example test files
+4. NPM scripts
+5. Instructions to run tests
+
+Use #tool:execute/runInTerminal to install dependencies. Use #tool:edit/editFiles to create configuration files.

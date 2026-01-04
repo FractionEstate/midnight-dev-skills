@@ -1,3 +1,9 @@
+---
+description: Learned patterns and fixes discovered during Midnight development
+name: Development Memory
+applyTo: "**"
+---
+
 # Midnight Development Memory
 
 This file stores learned patterns, fixes, and best practices discovered during development.
@@ -12,7 +18,7 @@ Entries are organized by domain and include context for future reference.
 - Prefer `Uint<64>` for timestamps and larger numeric values
 
 ### Common Patterns
-- Always use `impure` keyword when modifying ledger state
+- Circuits become impure when they access/modify ledger state
 - `secret` keyword keeps data off-chain, `witness` provides ZK verification
 - Constructor must initialize all ledger values
 - Use `assert` with descriptive error messages for validation
@@ -58,25 +64,24 @@ Entries are organized by domain and include context for future reference.
 
 ## Testing
 
-### Unit Tests
-- Mock wallet API for offline testing
-- Use test fixtures for contract state
-- Verify both success and failure paths
+### Simulator Setup
+- Always call `setNetworkId(NetworkId.Undeployed)` before tests
+- Use `sampleContractAddress()` for mock addresses
+- Access ledger via `ledger(circuitContext.transactionContext.state)`
 
-### Integration Tests
-- Use testnet for full integration
-- Wait for block confirmation
-- Clean up deployed contracts after tests
+### Common Test Failures
+- Assertion errors: Check error message for cause
+- State not updated: Ensure circuit is called on simulator instance
+- Proof timeout: Increase test timeout or mock proof generation
 
-## Security Checklist
+## Network Configuration
 
-### Before Deployment
-- [ ] All inputs validated
-- [ ] No private data in public ledger
-- [ ] Access control verified
-- [ ] Integer overflow checked
-- [ ] Circuit constraints complete
-- [ ] Error messages don't leak info
+### Testnet-02 (Current)
+- Indexer: `https://indexer.testnet-02.midnight.network/api/v1/graphql`
+- RPC: `https://rpc.testnet-02.midnight.network`
+- Faucet: `https://faucet.testnet-02.midnight.network`
 
----
-*This file is automatically updated as new patterns are discovered.*
+### Proof Server
+- Default port: 6300
+- Docker: `docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --network testnet`
+- Must be running for transaction submission

@@ -2,52 +2,44 @@
 
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-Specification-blue)](https://agentskills.io/specification)
 [![Midnight Network](https://img.shields.io/badge/Midnight-Network-purple)](https://midnight.network)
-[![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black)](https://nextjs.org)
 [![Compact](https://img.shields.io/badge/Compact-0.25-green)](https://docs.midnight.network)
 
-GitHub Agent Skills for building privacy-preserving dApps on the Midnight Network using Next.js 16.1.1 and Compact 0.25.
+GitHub Agent Skills for building privacy-preserving dApps on the Midnight Network.
 
 ## 🎯 What Are These Skills?
 
 Agent Skills are self-contained folders with instructions and bundled resources that enhance AI capabilities for specialized tasks. Based on the [Agent Skills specification](https://agentskills.io/specification), each skill contains a `SKILL.md` file with detailed instructions that agents load on-demand.
 
 **When to use these skills:**
-- Setting up Midnight development environment
 - Writing Compact smart contracts
-- Integrating wallets with Next.js
-- Deploying privacy-preserving dApps
-- Debugging common Midnight issues
+- Implementing privacy patterns (commitments, nullifiers, ZK proofs)
+- Integrating wallets and deploying dApps
+- Testing contracts with simulators
+- Configuring network infrastructure
 
-## 📋 Skills Overview
+## 📋 Core Skills (Consolidated)
 
-| Skill | Description | Bundled Assets |
-|-------|-------------|----------------|
-| [midnight-nextjs-setup](midnight-nextjs-setup/) | Environment setup with Lace wallet, Compact compiler, and proof server | `scripts/setup.sh` |
-| [vscode-compact-extension](vscode-compact-extension/) | VS Code extension for Compact: syntax highlighting, snippets, tasks | `assets/tasks.json` |
-| [compact-smart-contracts](compact-smart-contracts/) | Compact language fundamentals, circuits, and state management | `references/compact-cheatsheet.md` |
-| [advanced-compact-patterns](advanced-compact-patterns/) | Access control, state machines, and optimization patterns | `references/patterns.md` |
-| [nextjs-wallet-integration](nextjs-wallet-integration/) | DApp Connector API and wallet connection flows | — |
-| [browser-wallet-integration](browser-wallet-integration/) | **NEW** Lace wallet + React patterns for browser dApps | — |
-| [wallet-sdk-integration](wallet-sdk-integration/) | WalletBuilder patterns for CLI and server apps | `references/wallet-builder-patterns.md` |
-| [deploy-midnight-dapp](deploy-midnight-dapp/) | Contract deployment scripts and environment configuration | — |
-| [contract-deployment](contract-deployment/) | Official deployment patterns from Midnight examples | `references/deploy-patterns.md` |
-| [ci-cd-pipeline](ci-cd-pipeline/) | GitHub Actions for automated testing and deployment | `references/github-action-templates.md` |
-| [testing-compact-contracts](testing-compact-contracts/) | Vitest setup and circuit testing strategies | `references/test-simulator-patterns.md` |
-| [zero-knowledge-proofs](zero-knowledge-proofs/) | ZK-SNARK concepts and selective disclosure | — |
-| [build-bulletin-board-dapp](build-bulletin-board-dapp/) | Complete tutorial: bulletin board dApp from scratch | — |
-| [create-mn-app](create-mn-app/) | **NEW** Official `npx create-mn-app` CLI scaffolding | — |
-| [troubleshooting](troubleshooting/) | Solutions for common development issues | — |
+| Skill | Description | Contents |
+|-------|-------------|----------|
+| [compact](compact/) | Smart contract development in Compact language | `references/`, `templates/` |
+| [dapp-integration](dapp-integration/) | TypeScript/React wallet and contract integration | `references/`, `templates/` |
+| [midnight-network](midnight-network/) | Network infrastructure, proof server, indexer | `references/` |
+| [privacy-patterns](privacy-patterns/) | ZK proofs, commitments, nullifiers, disclosure | `references/` |
+| [testing](testing/) | Contract testing with simulators | `references/` |
 
-## 📁 Structure
+## 📁 Skill Structure
 
-Each skill follows the [Agent Skills specification](https://agentskills.io/specification):
+Each skill follows the progressive disclosure pattern:
 
 ```
-.github/skills/
-├── README.md
-├── skill-name/
-│   ├── SKILL.md          # Required: frontmatter + instructions
-│   ├── scripts/          # Optional: executable scripts
+skill-name/
+├── SKILL.md              # Core instructions (lean, <500 lines)
+├── references/           # Detailed docs (loaded on demand)
+│   ├── topic-a.md
+│   └── topic-b.md
+└── templates/            # Reusable code templates
+    ├── template.ts
+    └── template.compact
 │   ├── references/       # Optional: additional documentation
 │   └── assets/           # Optional: templates, images, data
 ```
@@ -65,98 +57,50 @@ description: ...          # What it does + when to use (10-1024 chars)
 [Markdown instructions loaded when skill activates]
 ```
 
-## 🚀 Quick Start
+## 🚀 Quick Reference
 
-### Prerequisites
+### Compact Contract
 
-- Node.js 22+
-- Docker Desktop
-- Google Chrome
-- VS Code with GitHub Copilot
+```compact
+pragma compact(">=0.25");
 
-### Setup Environment
+export ledger counter: Counter;
 
-```bash
-# Option 1: Use official create-mn-app CLI (Recommended)
-npx create-mn-app my-midnight-app
-
-# Option 2: Use bundled setup script
-bash .github/skills/midnight-nextjs-setup/scripts/setup.sh my-midnight-app
-
-# Option 3: Manual setup
-curl --proto '=https' --tlsv1.2 -LsSf \
-  https://github.com/midnightntwrk/compact/releases/download/compact-v0.25.0/compact-installer.sh | sh
-
-# Start proof server
-docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --network testnet
-
-# Create project
-npx create-next-app@16.1.1 my-midnight-dapp --typescript
-cd my-midnight-dapp
-npm install @midnight-ntwrk/dapp-connector-api
+export circuit increment(): [] {
+  counter = counter + 1;
+}
 ```
 
-### Install Lace Wallet
+### Wallet Connection
 
-1. Install from [Chrome Web Store](https://chromewebstore.google.com/detail/lace-beta/hgeekaiplokcnmakghbdfbgnlfheichg)
-2. Create wallet and save seed phrase
-3. Get test tokens from [Midnight Faucet](https://midnight.network/test-faucet/)
-
-## 🔧 Using These Skills
-
-### In VS Code with Copilot
-
-Reference skills naturally in your prompts:
-
-```
-"Help me set up a Midnight development environment"
-→ Activates: midnight-nextjs-setup
-
-"Write a Compact voting contract"
-→ Activates: compact-smart-contracts, advanced-compact-patterns
-
-"My wallet won't connect"
-→ Activates: troubleshooting, nextjs-wallet-integration
+```typescript
+const connector = window.midnight;
+await connector.enable();
+const walletApi = await connector.walletAPI();
 ```
 
-### Copy to Your Project
+### Network Endpoints
 
-```bash
-# Copy all skills
-cp -r .github/skills/ /path/to/your-project/.github/skills/
-
-# Or copy specific skill
-cp -r .github/skills/compact-smart-contracts/ /path/to/your-project/.github/skills/
-```
+| Service | Testnet-02 |
+|---------|------------|
+| Indexer | `https://indexer.testnet-02.midnight.network/api/v1/graphql` |
+| RPC | `https://rpc.testnet-02.midnight.network` |
+| Proof Server | `http://localhost:6300` |
 
 ## 📚 Resources
 
-### Official Repositories
-- [Midnight GitHub](https://github.com/midnightntwrk) - Official organization
-- [example-counter](https://github.com/midnightntwrk/example-counter) - Simple counter dApp
-- [example-bboard](https://github.com/midnightntwrk/example-bboard) - Bulletin board with UI
-- [create-mn-app](https://github.com/midnightntwrk/create-mn-app) - Official scaffolding CLI
-- [setup-compact-action](https://github.com/midnightntwrk/setup-compact-action) - GitHub Action
-
-### Documentation
 - [Midnight Documentation](https://docs.midnight.network)
-- [Compact Language Guide](https://docs.midnight.network/develop/tutorial/building-your-first-midnight-dapp/compact)
+- [Midnight GitHub](https://github.com/midnightntwrk)
 - [Agent Skills Specification](https://agentskills.io/specification)
-- [GitHub awesome-copilot](https://github.com/github/awesome-copilot)
-
-### Community
-- [Discord Community](https://discord.com/invite/midnightnetwork)
-- [Midnight Faucet](https://faucet.testnet-02.midnight.network) (Testnet)
+- [Example dApps](https://github.com/midnightntwrk/midnight-awesome-dapps)
 
 ## 🤝 Contributing
 
 1. Fork this repository
 2. Create skill folder: `.github/skills/your-skill-name/`
 3. Add `SKILL.md` with proper frontmatter
-4. Add bundled assets if needed
+4. Add `references/` and `templates/` as needed
 5. Submit pull request
-
-See [AGENTS.md](../../AGENTS.md) for detailed guidelines.
 
 ## 📄 License
 

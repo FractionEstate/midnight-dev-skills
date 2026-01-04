@@ -1,25 +1,24 @@
 ---
-description: 'Generate a complete Compact smart contract for Midnight Network with proper structure, types, ledger state, and circuits'
+description: Generate a complete Compact smart contract for Midnight Network
+name: Create Compact Contract
+agent: Midnight Developer
+tools:
+  - edit/editFiles
+  - search
 ---
 
 # Create Compact Contract
 
-## Configuration Variables
-${CONTRACT_NAME} <!-- Name of the contract (PascalCase) -->
-${CONTRACT_PURPOSE} <!-- Brief description of what the contract does -->
-${HAS_PRIVACY="yes|no"} <!-- Whether the contract uses ZK privacy features -->
-${LEDGER_STATE} <!-- Comma-separated list of state needed (e.g., "users, balances, permissions") -->
+Create a Compact smart contract for Midnight Network with the following specification.
 
-## Generated Prompt
+## Input Variables
 
-Create a Compact smart contract for Midnight Network with the following specification:
+- **Contract Name**: ${input:contractName:ContractName}
+- **Purpose**: ${input:purpose:Brief description of what the contract does}
+- **Uses Privacy Features**: ${input:hasPrivacy:yes or no}
+- **State Requirements**: ${input:ledgerState:e.g., users, balances, permissions}
 
-**Contract Name**: ${CONTRACT_NAME}
-**Purpose**: ${CONTRACT_PURPOSE}
-**Uses Privacy Features**: ${HAS_PRIVACY}
-**State Requirements**: ${LEDGER_STATE}
-
-### Requirements
+## Requirements
 
 1. **File Structure**:
    - Start with `pragma compact(">=0.25");`
@@ -50,13 +49,13 @@ Create a Compact smart contract for Midnight Network with the following specific
    - Use `secret` modifier for completely off-chain data
    - Include descriptive assertion error messages
 
-5. **Privacy Patterns** (if ${HAS_PRIVACY} = yes):
+5. **Privacy Patterns** (if privacy features enabled):
    - Hash sensitive data before storing
    - Use nullifiers to prevent double-actions
    - Generate commitments for private values
    - Support selective disclosure
 
-### Output Format
+## Output Format
 
 Provide:
 1. Complete `.compact` file with all code
@@ -64,34 +63,4 @@ Provide:
 3. Example usage showing how to interact with the contract
 4. Security considerations for the implementation
 
-### Example Structure
-
-```compact
-pragma compact(">=0.25");
-
-import { hash, is_some, unwrap } from "std";
-
-// Type definitions
-struct ${CONTRACT_NAME}Data {
-  // fields based on requirements
-}
-
-// Ledger state
-ledger {
-  // state based on ${LEDGER_STATE}
-}
-
-// Constructor
-constructor() {
-  // initialization
-}
-
-// Exported circuits
-export circuit query(...): ReturnType {
-  // pure query logic
-}
-
-export circuit mutate(...): [] {
-  // state mutation with assertions
-}
-```
+Use #tool:search to find relevant patterns in the skills folder, then #tool:edit/editFiles to create the contract.

@@ -1,63 +1,79 @@
 ---
-description: "Add a privacy-preserving feature to an existing contract or dApp"
+description: Add privacy-preserving features to a Midnight contract
+name: Add Privacy Feature
+agent: Midnight Developer
+tools:
+  - search
+  - edit/editFiles
 ---
 
 # Add Privacy Feature
 
-Implement a privacy-preserving feature using zero-knowledge proofs.
+Add privacy-preserving features to an existing Midnight contract.
 
-## Feature Request
+## Input Variables
 
-${input:feature_description:Describe the feature you want to add (e.g., "anonymous voting", "private balance transfer")}
+- **Contract Path**: ${input:contractPath:Path to the contract to modify}
+- **Feature Type**: ${input:featureType:commitment, nullifier, merkle-proof, or selective-disclosure}
+- **Data to Protect**: ${input:dataToProtect:Description of what data should be private}
 
-## Privacy Requirements
+## Privacy Patterns
 
-${input:privacy_level:What should be private? (e.g., "voter identity", "transfer amounts", "all data")}
+### Commitment Scheme
+Hide a value on-chain while allowing later verification:
+```compact
+export circuit commit(witness value: Uint<64>, witness salt: Field): Field {
+  return hash2(value, salt);
+}
 
-## Existing Code Context
+export circuit reveal(secret value: Uint<64>, secret salt: Field, commitment: Field): [] {
+  assert(is_equal(hash2(value, salt), commitment), "Invalid commitment");
+}
+```
 
-${input:existing_contract:Path to existing contract or "new" for a new contract}
+### Nullifier Pattern
+Prevent double-actions without revealing the secret:
+```compact
+ledger { nullifiers: Set<Field> }
 
-## Implementation Steps
+export circuit claim(witness secret: Field): [] {
+  const nullifier = hash(secret);
+  assert(!ledger.nullifiers.member(nullifier), "Already claimed");
+  ledger.nullifiers.insert(nullifier);
+}
+```
 
-1. **Analyze Privacy Requirements**
-   - What data must be hidden?
-   - What can be public?
-   - Who needs to prove what?
+### Merkle Proof
+Prove membership without revealing position:
+```compact
+ledger { members: MerkleTree<256, Field> }
 
-2. **Design the ZK Pattern**
-   - Choose: commitment, nullifier, Merkle proof, or combination
-   - Define witness inputs (private data for proofs)
-   - Define public outputs (what verifiers see)
+export circuit proveMembership(
+  witness memberSecret: Field,
+  witness merkleProof: Vector<256, Field>
+): [] {
+  const commitment = hash(memberSecret);
+  assert(ledger.members.verify(commitment, merkleProof), "Not a member");
+}
+```
 
-3. **Implement in Compact**
-   ```compact
-   // Use witness for private inputs
-   export circuit privateAction(
-     witness privateData: Field,  // Hidden from everyone
-     publicInput: Uint<32>        // Visible on-chain
-   ): [] {
-     // Prove knowledge without revealing
-     const commitment = hash(privateData);
-     // ... rest of logic
-   }
-   ```
+### Selective Disclosure
+Prove properties without revealing data:
+```compact
+export circuit proveOver18(
+  witness birthYear: Uint<16>,
+  currentYear: Uint<16>
+): Boolean {
+  return currentYear - birthYear >= 18;
+}
+```
 
-4. **Add TypeScript Integration**
-   - Create witness provider
-   - Handle private state management
-   - Ensure no data leakage in UI
+## Output Format
 
-5. **Security Review**
-   - Verify no privacy leaks
-   - Check nullifier uniqueness
-   - Validate commitment schemes
+Provide:
+1. Modified contract code with new privacy feature
+2. Explanation of the privacy guarantee
+3. Example usage showing private inputs
+4. Security considerations
 
-## Privacy Patterns Reference
-
-| Pattern | Use Case | Compact Implementation |
-|---------|----------|----------------------|
-| Commitment | Hide value, reveal later | `hash(secret + salt)` |
-| Nullifier | Prevent double-spend/vote | `hash(unique_id + secret)` |
-| Merkle Proof | Prove membership | `MerkleTree` ledger type |
-| Range Proof | Prove value in range | Assertions on witnesses |
+Use #tool:search to find the existing contract. Use #tool:edit/editFiles to add the privacy feature.

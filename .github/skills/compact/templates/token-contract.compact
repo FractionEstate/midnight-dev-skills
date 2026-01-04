@@ -1,0 +1,55 @@
+pragma compact(">=0.25");
+
+// Token Contract Template
+// Simple token with minting, burning, and transfers
+
+export ledger totalSupply: Counter;
+export ledger balances: Map<Bytes<32>, Uint<64>>;
+export ledger owner: Bytes<32>;
+
+// Initialize with owner
+export circuit initialize(initialOwner: Bytes<32>): [] {
+  owner = initialOwner;
+}
+
+// Mint tokens (owner only)
+export circuit mint(caller: Bytes<32>, recipient: Bytes<32>, amount: Uint<64>): [] {
+  require(caller == owner);
+
+  // Get current balance or default to 0
+  const currentBalance = getBalance(recipient);
+  balances[recipient] = currentBalance + amount;
+  totalSupply = totalSupply + amount;
+}
+
+// Burn tokens
+export circuit burn(caller: Bytes<32>, amount: Uint<64>): [] {
+  const balance = getBalance(caller);
+  require(balance >= amount);
+
+  balances[caller] = balance - amount;
+  totalSupply = totalSupply - amount;
+}
+
+// Transfer tokens
+export circuit transfer(from: Bytes<32>, to: Bytes<32>, amount: Uint<64>): [] {
+  const fromBalance = getBalance(from);
+  require(fromBalance >= amount);
+
+  balances[from] = fromBalance - amount;
+  balances[to] = getBalance(to) + amount;
+}
+
+// Helper to get balance (returns 0 if not found)
+circuit getBalance(address: Bytes<32>): Uint<64> {
+  const maybe = balances.lookup(address);
+  match maybe {
+    Maybe::None => return 0,
+    Maybe::Some { value } => return value
+  }
+}
+
+// Query balance (exported)
+export circuit balanceOf(address: Bytes<32>): Uint<64> {
+  return getBalance(address);
+}

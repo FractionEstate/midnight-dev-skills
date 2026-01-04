@@ -1,0 +1,120 @@
+---
+name: dapp-integration
+description: Build Midnight dApps with TypeScript integration, wallet connectivity, and contract deployment. Use when connecting wallets, deploying contracts, or building dApp frontends. Triggers on wallet, provider, Next.js, deployment, or TypeScript integration questions.
+---
+
+# Midnight dApp Integration
+
+Build privacy-preserving dApps with TypeScript, React/Next.js, and Midnight Network integration.
+
+## Quick Start
+
+```typescript
+// Connect to Lace wallet
+const connector = window.midnight;
+if (connector) {
+  await connector.enable();
+  const walletApi = await connector.walletAPI();
+  const balance = await walletApi.balanceAndProveOwnership();
+}
+```
+
+## Core Concepts
+
+| Component | Purpose |
+|-----------|---------|
+| **DApp Connector** | Wallet detection & connection |
+| **Providers** | Contract interaction infrastructure |
+| **Contract API** | Type-safe circuit calls |
+| **Proof Server** | ZK proof generation |
+
+## Reference Files
+
+| Topic | Resource |
+|-------|----------|
+| **Wallet Connection** | [references/wallet-connection.md](references/wallet-connection.md) |
+| **Provider Setup** | [references/providers.md](references/providers.md) |
+| **Contract Deployment** | [references/deployment.md](references/deployment.md) |
+| **Next.js Setup** | [references/nextjs-setup.md](references/nextjs-setup.md) |
+
+## Templates
+
+| Template | Description |
+|----------|-------------|
+| [templates/wallet-hook.tsx](templates/wallet-hook.tsx) | React hook for wallet |
+| [templates/provider-config.ts](templates/provider-config.ts) | Provider configuration |
+
+## Installation
+
+```bash
+npm install @midnight-ntwrk/dapp-connector-api \
+  @midnight-ntwrk/midnight-js-contracts \
+  @midnight-ntwrk/midnight-js-types \
+  @midnight-ntwrk/midnight-js-network-id
+```
+
+## Wallet Detection
+
+```typescript
+// Check if Lace wallet is installed
+function isWalletInstalled(): boolean {
+  return typeof window !== "undefined" && !!window.midnight;
+}
+
+// Type definition
+declare global {
+  interface Window {
+    midnight?: DAppConnectorAPI;
+  }
+}
+```
+
+## Provider Stack
+
+```
+┌─────────────────────────────────────┐
+│         Contract Instance           │
+├─────────────────────────────────────┤
+│      midnightProvider (wallet)      │
+├─────────────────────────────────────┤
+│    zkConfigProvider (circuit cfg)   │
+├─────────────────────────────────────┤
+│   publicDataProvider (indexer)      │
+├─────────────────────────────────────┤
+│  privateStateProvider (local state) │
+└─────────────────────────────────────┘
+```
+
+## Basic Flow
+
+1. **Detect wallet** - Check `window.midnight`
+2. **Connect** - Call `connector.enable()`
+3. **Setup providers** - Configure state, indexer, ZK
+4. **Deploy/Connect** - Deploy new or connect to existing
+5. **Call circuits** - Type-safe contract interaction
+
+## Network Configuration
+
+```typescript
+// Testnet endpoints
+const TESTNET = {
+  indexer: 'https://indexer.testnet-02.midnight.network/api/v1/graphql',
+  indexerWS: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws',
+  proofServer: 'http://localhost:6300',
+  node: 'https://rpc.testnet-02.midnight.network'
+};
+```
+
+## Best Practices
+
+- ✅ Always check wallet availability before operations
+- ✅ Handle connection errors gracefully
+- ✅ Use typed providers for all Midnight APIs
+- ✅ Cache provider instances
+- ❌ Don't expose private state
+- ❌ Don't skip transaction confirmation
+
+## Resources
+
+- [Midnight.js Docs](https://docs.midnight.network/develop/reference/midnight-js/)
+- [DApp Examples](https://github.com/midnightntwrk/midnight-awesome-dapps)

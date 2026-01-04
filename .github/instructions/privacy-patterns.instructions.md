@@ -1,5 +1,7 @@
 ---
-applyTo: '**/contracts/**/*.compact,**/lib/privacy/**'
+description: Privacy-preserving code patterns for zero-knowledge proofs
+name: Privacy Patterns
+applyTo: "**/contracts/**/*.compact,**/lib/privacy/**"
 ---
 
 # Privacy-Preserving Code Patterns
@@ -58,138 +60,109 @@ export circuit commitAmount(
 }
 ```
 
-## Nullifiers
+## Nullifier Patterns
 
-Prevent double-spending/double-use without revealing which item:
-
+### Basic Nullifier (Prevent Double-Spend)
 ```compact
 ledger {
-  usedNullifiers: Set<Field>
+  nullifiers: Set<Field>
 }
 
-export circuit useOnce(
-  witness secret: Field,
-  witness commitment: Field
-): [] {
-  // Generate nullifier from secret
+export circuit claim(witness secret: Field): [] {
   const nullifier = hash(secret);
+  assert(!ledger.nullifiers.member(nullifier), "Already claimed");
+  ledger.nullifiers.insert(nullifier);
+}
+```
 
-  // Check not already used
-  assert(!ledger.usedNullifiers.member(nullifier), "Already used");
-
-  // Verify secret corresponds to commitment
-  assert(is_equal(hash(secret), commitment), "Invalid proof");
-
-  // Mark as used
-  ledger.usedNullifiers.insert(nullifier);
+### Contextual Nullifier (Per-Contract/Action)
+```compact
+export circuit claimWithContext(
+  witness secret: Field,
+  actionType: Uint<8>
+): [] {
+  // Include context to prevent cross-action replay
+  const nullifier = hash2(secret, actionType);
+  assert(!ledger.nullifiers.member(nullifier), "Already performed this action");
+  ledger.nullifiers.insert(nullifier);
 }
 ```
 
 ## Merkle Proofs
 
-Prove membership without revealing position:
-
+### Membership Proof
 ```compact
 ledger {
-  membershipTree: MerkleTree<256, Field>
+  members: MerkleTree<256, Field>
 }
 
-export circuit verifyMembership(
-  witness leaf: Field,
-  witness proof: Vector<256, Field>,
-  witness index: Uint<256>
-): Boolean {
-  const root = ledger.membershipTree.root();
-  return verify_merkle_path(leaf, proof, index, root);
+export circuit proveMembership(
+  witness memberSecret: Field,
+  witness merkleProof: Vector<256, Field>
+): [] {
+  const commitment = hash(memberSecret);
+  assert(
+    ledger.members.verify(commitment, merkleProof),
+    "Not a member"
+  );
 }
 ```
 
 ## Selective Disclosure
 
-### Age Verification (Prove > 18 without revealing age)
+### Age Verification (Over 18)
 ```compact
 export circuit proveOver18(
   witness birthYear: Uint<16>,
-  witness birthMonth: Uint<8>,
-  witness birthDay: Uint<8>,
   currentYear: Uint<16>
 ): Boolean {
-  // Calculate age (simplified)
+  // Proves age >= 18 without revealing exact age
   const age = currentYear - birthYear;
-
-  // Only reveal: is over 18?
   return age >= 18;
 }
 ```
 
-### Balance Verification
-```compact
-export circuit hasSufficientFunds(
-  witness balance: Uint<64>,
-  requiredAmount: Uint<64>
-): Boolean {
-  // Prove balance >= required without revealing exact balance
-  return balance >= requiredAmount;
-}
-```
-
-## Range Proofs
-
-Prove a value is within bounds:
-
+### Range Proofs
 ```compact
 export circuit proveInRange(
   witness value: Uint<64>,
   minValue: Uint<64>,
   maxValue: Uint<64>
 ): Boolean {
-  assert(value >= minValue, "Below minimum");
-  assert(value <= maxValue, "Above maximum");
-  return true;
+  return value >= minValue && value <= maxValue;
 }
 ```
 
-## Private State Management
+## Privacy Anti-Patterns (Avoid!)
 
-### TypeScript Private State Provider
-```typescript
-import { createPrivateStateProvider } from '@midnight-ntwrk/midnight-js-providers';
+### ❌ Exposing Witnesses
+```compact
+// WRONG: Returns the witness
+export circuit getSecret(witness s: Field): Field {
+  return s;  // Leaks the secret!
+}
+```
 
-// Private state stays encrypted on client
-const privateState = createPrivateStateProvider();
+### ❌ Weak Nullifiers
+```compact
+// WRONG: Predictable nullifier
+export circuit claim(userId: Uint<32>): [] {
+  const nullifier = hash(userId);  // Anyone can compute!
+}
+```
 
-// Store sensitive data
-await privateState.set('userSecret', secretValue);
-
-// Retrieve for witness generation
-const secret = await privateState.get('userSecret');
-
-// Generate ZK proof with secret as witness
-const proof = await generateProof(circuit, { witness: secret });
+### ❌ Commitment Without Salt
+```compact
+// WRONG: Low entropy
+export circuit commit(witness value: Uint<8>): Field {
+  return hash(value);  // Only 256 possible values!
+}
 ```
 
 ## Best Practices
 
-### DO ✅
-- Hash all sensitive data before storing in ledger
-- Use nullifiers for one-time-use credentials
-- Design minimal disclosure proofs
-- Store sensitive data in private state
-- Use witnesses for data that needs ZK verification
-
-### DON'T ❌
-- Store plaintext personal data on ledger
-- Reveal more than necessary in proofs
-- Use predictable nullifier generation
-- Log or expose witness values
-- Skip commitment verification
-
-## Privacy Patterns Summary
-
-| Pattern | Use Case | On-Chain | Off-Chain |
-|---------|----------|----------|-----------|
-| Commitment | Hide-then-reveal | Hash | Preimage |
-| Nullifier | Prevent double-spend | Nullifier set | Secret |
-| Merkle Proof | Anonymous membership | Root | Leaf + path |
-| Range Proof | Value bounds | Min/max | Actual value |
-| Selective Disclosure | Partial reveal | Properties | Full data |
+1. **Always salt commitments**: Use `hash2(value, salt)` not `hash(value)`
+2. **Include context in nullifiers**: Prevent cross-contract/action replay
+3. **Never return witnesses**: Return hashes or booleans instead
+4. **Use appropriate bit widths**: Balance privacy with proof size
+5. **Document privacy guarantees**: What is hidden? What is revealed?
