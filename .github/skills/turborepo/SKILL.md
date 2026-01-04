@@ -6,7 +6,7 @@ description: >-
   on Turborepo, monorepo, workspace, build caching, or pipeline questions.
 metadata:
   author: FractionEstate
-  version: "2.x"
+  version: "2.7.2"
 ---
 
 # Turborepo

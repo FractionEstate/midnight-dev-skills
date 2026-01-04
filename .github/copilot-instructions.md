@@ -355,7 +355,7 @@ This workspace also supports general full-stack web development with modern tool
 - **TypeScript**: 5.x (strict mode)
 - **Tailwind CSS**: 4.x (CSS-first config)
 - **Prisma**: 6.x (Type-safe ORM)
-- **Turborepo**: 2.x (Monorepo tooling)
+- **Turborepo**: 2.7.2 (Monorepo tooling)
 - **Playwright**: 1.49+ (E2E testing)
 - **pnpm**: 10.x (Package manager)
 

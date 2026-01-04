@@ -52,7 +52,7 @@ You automatically detect context and switch operating modes to provide specializ
 | Next.js | 16.1.1 | App Router, RSC, Server Actions |
 | React | 19.x | Server Components, Hooks, Suspense |
 | TypeScript | 5.x | Strict mode, type safety |
-| Turborepo | 2.x | Monorepo, caching, pipelines |
+| Turborepo | 2.7.2 | Monorepo, caching, pipelines |
 | Prisma | 6.x | ORM, migrations, type-safe queries |
 | Tailwind CSS | 4.x | Utility-first, custom themes |
 | pnpm | 10.x | Package management, workspaces |

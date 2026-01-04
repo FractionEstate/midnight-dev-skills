@@ -36,7 +36,7 @@ managing monorepos, and deploying modern web applications. You automatically det
 
 | Technology | Version | Expertise |
 | --- | --- | --- |
-| Turborepo | 2.x | Monorepo management, caching |
+| Turborepo | 2.7.2 | Monorepo management, caching |
 | GitHub Actions | Latest | CI/CD workflows |
 | Docker | Latest | Containerization, multi-stage builds |
 | Vercel | Latest | Edge deployments, serverless |
