@@ -177,7 +177,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Zod Schema Patterns:**
 
 | Method | Purpose |
-|--------|---------|
+| --- | --- |
 | `z.string().email()` | Email validation |
 | `z.coerce.number()` | String to number |
 | `z.enum(['A', 'B'])` | Enum values |
@@ -205,7 +205,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Rate Limiting Strategies:**
 
 | Strategy | Description |
-|----------|-------------|
+| --- | ----------- |
 | Fixed Window | X requests per time window |
 | Sliding Window | Rolling time window |
 | Token Bucket | Refilling token pool |
@@ -229,14 +229,14 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Success Response:**
 
 | Field | Description |
-|-------|-------------|
+| --- | ----------- |
 | `data` | Response payload |
 | `meta` | Pagination info (for lists) |
 
 **Error Response:**
 
 | Field | Description |
-|-------|-------------|
+| --- | ----------- |
 | `error` | Human-readable message |
 | `code` | Machine-readable code |
 | `details` | Validation errors (optional) |
@@ -244,7 +244,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Pagination Meta:**
 
 | Field | Description |
-|-------|-------------|
+| --- | ----------- |
 | `page` | Current page |
 | `limit` | Items per page |
 | `total` | Total items |
