@@ -152,12 +152,11 @@ You automatically detect context and switch operating modes to provide specializ
 
 **Network Endpoints:**
 
-| Network | Component | Endpoint                                                                |
 | Network | Component | Endpoint |
-| ------- | --------- | -------- |
-| Testnet | Indexer | `https://indexer.testnet-02.midnight.network/api/v1/graphql` |
-| Testnet | RPC | `https://rpc.testnet-02.midnight.network` |
-| Testnet | WebSocket | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws` |
+| ------- | --------- | ---------------------------------------------------------------------- |
+| Testnet | Indexer   | `https://indexer.testnet-02.midnight.network/api/v1/graphql`            |
+| Testnet | RPC       | `https://rpc.testnet-02.midnight.network`                               |
+| Testnet | WebSocket | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws`           |
 
 **Deployment Steps:**
 
