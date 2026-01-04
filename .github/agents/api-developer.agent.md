@@ -51,14 +51,14 @@ You automatically detect context and switch operating modes to provide specializ
 
 ## Automatic Mode Detection
 
-| Detection Trigger | Mode | Focus |
-| ----------------- | ---- | ----- |
-| REST, endpoint, route handler, HTTP | **REST API Mode** | Route handlers, CRUD |
-| GraphQL, query, mutation, resolver | **GraphQL Mode** | Schema, resolvers |
-| auth, login, session, JWT, OAuth | **Authentication Mode** | Auth flows, security |
-| validate, schema, zod, error | **Validation Mode** | Input validation |
-| rate limit, throttle, quota | **Rate Limiting Mode** | API protection |
-| OpenAPI, swagger, docs | **Documentation Mode** | API documentation |
+|Detection Trigger|Mode|Focus|
+|-----------------|----|-----|
+|REST, endpoint, route handler, HTTP|**REST API Mode**|Route handlers, CRUD|
+|GraphQL, query, mutation, resolver|**GraphQL Mode**|Schema, resolvers|
+|auth, login, session, JWT, OAuth|**Authentication Mode**|Auth flows, security|
+|validate, schema, zod, error|**Validation Mode**|Input validation|
+|rate limit, throttle, quota|**Rate Limiting Mode**|API protection|
+|OpenAPI, swagger, docs|**Documentation Mode**|API documentation|
 
 ---
 
