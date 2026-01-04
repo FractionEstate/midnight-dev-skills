@@ -1,0 +1,6 @@
+# Ignore skill template files - these are reference/template code
+# meant to be copied into projects with proper TypeScript setup
+skills/**/*.ts
+skills/**/*.js
+skills/**/*.tsx
+skills/**/*.jsx

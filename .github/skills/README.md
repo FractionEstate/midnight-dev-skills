@@ -23,6 +23,7 @@ Agent Skills are self-contained folders with instructions and bundled resources 
 | Skill | Description | Bundled Assets |
 |-------|-------------|----------------|
 | [midnight-nextjs-setup](midnight-nextjs-setup/) | Environment setup with Lace wallet, Compact compiler, and proof server | `scripts/setup.sh` |
+| [vscode-compact-extension](vscode-compact-extension/) | VS Code extension for Compact: syntax highlighting, snippets, tasks | `assets/tasks.json` |
 | [compact-smart-contracts](compact-smart-contracts/) | Compact language fundamentals, circuits, and state management | `references/compact-cheatsheet.md` |
 | [advanced-compact-patterns](advanced-compact-patterns/) | Access control, state machines, and optimization patterns | `references/patterns.md` |
 | [nextjs-wallet-integration](nextjs-wallet-integration/) | DApp Connector API and wallet connection flows | — |

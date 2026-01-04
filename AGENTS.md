@@ -16,28 +16,84 @@ This repository contains GitHub Agent Skills for building privacy-preserving dAp
 ```
 .github/skills/
 ├── README.md                      # Skills documentation
+│
+├── # Setup & Configuration
 ├── midnight-nextjs-setup/         # Environment setup skill
 │   ├── SKILL.md
 │   └── scripts/setup.sh
+├── vscode-compact-extension/      # VS Code extension skill
+│   ├── SKILL.md
+│   └── assets/tasks.json
+├── network-configuration/         # Network endpoints skill
+│   └── SKILL.md
+├── proof-server-operations/       # Proof server skill
+│   ├── SKILL.md
+│   └── references/proof-server-reference.md
+├── lace-wallet-setup/             # Lace wallet skill
+│   └── SKILL.md
+│
+├── # Compact Language
 ├── compact-smart-contracts/       # Compact language skill
 │   ├── SKILL.md
 │   └── references/compact-cheatsheet.md
+├── compact-type-system/           # Type system skill
+│   ├── SKILL.md
+│   └── references/type-reference.md
+├── compact-stdlib/                # Standard library skill
+│   ├── SKILL.md
+│   └── references/stdlib-functions.md
+├── ledger-state-patterns/         # Ledger types skill
+│   ├── SKILL.md
+│   └── references/ledger-types.md
 ├── advanced-compact-patterns/     # Advanced patterns skill
 │   ├── SKILL.md
 │   └── references/patterns.md
+│
+├── # Privacy & ZK
+├── zero-knowledge-proofs/         # ZKP concepts skill
+│   └── SKILL.md
+├── privacy-data-patterns/         # Privacy patterns skill
+│   ├── SKILL.md
+│   └── references/privacy-patterns.md
+│
+├── # APIs & Integration
+├── dapp-connector-api/            # DApp Connector skill
+│   ├── SKILL.md
+│   └── references/api-examples.ts
+├── wallet-sdk-integration/        # Wallet SDK skill
+│   ├── SKILL.md
+│   └── scripts/wallet-setup.ts
+├── midnight-js-providers/         # Providers skill
+│   ├── SKILL.md
+│   └── references/providers.md
+├── midnight-indexer-graphql/      # Indexer skill
+│   ├── SKILL.md
+│   └── references/graphql-queries.md
+├── zswap-transactions/            # ZSwap skill
+│   ├── SKILL.md
+│   └── references/zswap-patterns.md
+├── address-formats/               # Address formats skill
+│   └── SKILL.md
+│
+├── # Development & Deployment
 ├── nextjs-wallet-integration/     # Wallet integration skill
 │   └── SKILL.md
-├── deploy-midnight-dapp/          # Deployment skill
-│   └── SKILL.md
-├── ci-cd-pipeline/                # CI/CD skill
+├── contract-deployment/           # Deployment skill
 │   ├── SKILL.md
-│   └── references/workflow-templates.md
+│   └── scripts/deploy-template.ts
+├── deploy-midnight-dapp/          # Deployment guide skill
+│   └── SKILL.md
 ├── testing-compact-contracts/     # Testing skill
 │   ├── SKILL.md
 │   └── scripts/test-setup.js
-├── zero-knowledge-proofs/         # ZKP concepts skill
-│   └── SKILL.md
+├── ci-cd-pipeline/                # CI/CD skill
+│   ├── SKILL.md
+│   └── references/workflow-templates.md
+│
+├── # Tutorials & Reference
 ├── build-bulletin-board-dapp/     # Tutorial skill
+│   └── SKILL.md
+├── midnight-glossary/             # Glossary skill
 │   └── SKILL.md
 └── troubleshooting/               # Troubleshooting skill
     └── SKILL.md

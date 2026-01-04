@@ -83,11 +83,33 @@ docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --
 
 ## Step 5: Install Compact VS Code Extension
 
-1. Download VSIX: https://docs.midnight.network/relnotes/vs-code-extension
-2. VS Code → Extensions → "..." → "Install from VSIX"
-3. Select downloaded file
+Download and install the VSIX package for syntax highlighting, code snippets, and error highlighting.
 
-**Verify**: "Compact Language Support" in extensions
+### Option A: Command Line
+```bash
+# Download VSIX
+curl -LO https://raw.githubusercontent.com/midnight-ntwrk/releases/gh-pages/artifacts/vscode-extension/compact-0.2.13/compact-0.2.13.vsix
+
+# Install extension
+code --install-extension compact-0.2.13.vsix
+```
+
+### Option B: VS Code UI
+1. Download VSIX from: https://docs.midnight.network/relnotes/vs-code-extension
+2. VS Code → `Cmd/Ctrl+Shift+P` → "Extensions: Install from VSIX..."
+3. Select downloaded `compact-0.2.13.vsix` file
+4. Reload VS Code when prompted
+
+**Verify**:
+- Open a `.compact` file
+- Syntax highlighting appears
+- Type `circuit` and press Tab for snippet expansion
+
+### Extension Features
+- Syntax highlighting for Compact keywords
+- Code snippets (`ledger`, `circuit`, `witness`, `pragma`, etc.)
+- Problem matchers for compiler errors
+- File templates for new contracts
 
 ## Step 6: Create Next.js Project
 

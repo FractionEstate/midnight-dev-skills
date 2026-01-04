@@ -19,17 +19,60 @@ Midnight is a privacy-first blockchain that combines public verifiability with c
 
 All skills follow the [Agent Skills specification](https://agentskills.io/specification) and are located in [`.github/skills/`](.github/skills/):
 
+### 🔧 Setup & Configuration
+
 | Skill | Description | Assets |
 |-------|-------------|--------|
 | [midnight-nextjs-setup](.github/skills/midnight-nextjs-setup/) | Environment setup with Lace wallet, Compact compiler, proof server | `setup.sh` |
+| [vscode-compact-extension](.github/skills/vscode-compact-extension/) | VS Code extension for Compact: syntax highlighting, snippets, tasks | `tasks.json` |
+| [network-configuration](.github/skills/network-configuration/) | Network endpoints, testnet/mainnet config, RPC and WebSocket setup | — |
+| [proof-server-operations](.github/skills/proof-server-operations/) | Docker deployment, configuration, monitoring, and troubleshooting | `proof-server-reference.md` |
+| [lace-wallet-setup](.github/skills/lace-wallet-setup/) | Lace wallet browser extension integration and connection flows | — |
+
+### 📝 Compact Language
+
+| Skill | Description | Assets |
+|-------|-------------|--------|
 | [compact-smart-contracts](.github/skills/compact-smart-contracts/) | Compact language fundamentals, circuits, state management | `compact-cheatsheet.md` |
+| [compact-type-system](.github/skills/compact-type-system/) | Complete type reference: Boolean, Uint, Field, Bytes, struct, enum | `type-reference.md` |
+| [compact-stdlib](.github/skills/compact-stdlib/) | Standard library: hashing, EC operations, coin management, Maybe/Either | `stdlib-functions.md` |
+| [ledger-state-patterns](.github/skills/ledger-state-patterns/) | Ledger types: Counter, Set, Map, List, MerkleTree, HistoricMerkleTree | `ledger-types.md` |
 | [advanced-compact-patterns](.github/skills/advanced-compact-patterns/) | Access control, state machines, optimization patterns | `patterns.md` |
-| [nextjs-wallet-integration](.github/skills/nextjs-wallet-integration/) | DApp Connector API and wallet connection flows | — |
-| [deploy-midnight-dapp](.github/skills/deploy-midnight-dapp/) | Contract deployment and environment configuration | — |
-| [ci-cd-pipeline](.github/skills/ci-cd-pipeline/) | GitHub Actions for automated testing and deployment | `workflow-templates.md` |
-| [testing-compact-contracts](.github/skills/testing-compact-contracts/) | Vitest setup and circuit testing strategies | `test-setup.js` |
+
+### 🔐 Privacy & ZK Proofs
+
+| Skill | Description | Assets |
+|-------|-------------|--------|
 | [zero-knowledge-proofs](.github/skills/zero-knowledge-proofs/) | ZK-SNARK concepts and selective disclosure | — |
+| [privacy-data-patterns](.github/skills/privacy-data-patterns/) | Commitment schemes, nullifiers, Merkle proofs, witnesses | `privacy-patterns.md` |
+
+### 🔌 APIs & Integration
+
+| Skill | Description | Assets |
+|-------|-------------|--------|
+| [dapp-connector-api](.github/skills/dapp-connector-api/) | DApp Connector API for wallet integration | `api-examples.ts` |
+| [wallet-sdk-integration](.github/skills/wallet-sdk-integration/) | WalletBuilder, HD derivation, state management, transfers | `wallet-setup.ts` |
+| [midnight-js-providers](.github/skills/midnight-js-providers/) | Provider configuration: privateState, publicData, zkConfig | `providers.md` |
+| [midnight-indexer-graphql](.github/skills/midnight-indexer-graphql/) | GraphQL queries, subscriptions, and schema reference | `graphql-queries.md` |
+| [zswap-transactions](.github/skills/zswap-transactions/) | ZSwap protocol: Transaction, Inputs, Outputs, CoinInfo, Offers | `zswap-patterns.md` |
+| [address-formats](.github/skills/address-formats/) | Shielded and transparent addresses, encoding/decoding | — |
+
+### 🚀 Development & Deployment
+
+| Skill | Description | Assets |
+|-------|-------------|--------|
+| [nextjs-wallet-integration](.github/skills/nextjs-wallet-integration/) | Next.js wallet connection and transaction flows | — |
+| [contract-deployment](.github/skills/contract-deployment/) | Complete deployment workflow: compile, deploy, verify | `deploy-template.ts` |
+| [deploy-midnight-dapp](.github/skills/deploy-midnight-dapp/) | Environment configuration and deployment guides | — |
+| [testing-compact-contracts](.github/skills/testing-compact-contracts/) | Vitest setup and circuit testing strategies | `test-setup.js` |
+| [ci-cd-pipeline](.github/skills/ci-cd-pipeline/) | GitHub Actions for automated testing and deployment | `workflow-templates.md` |
+
+### 📖 Tutorials & Reference
+
+| Skill | Description | Assets |
+|-------|-------------|--------|
 | [build-bulletin-board-dapp](.github/skills/build-bulletin-board-dapp/) | Complete tutorial: bulletin board dApp from scratch | — |
+| [midnight-glossary](.github/skills/midnight-glossary/) | Comprehensive glossary of Midnight terminology | — |
 | [troubleshooting](.github/skills/troubleshooting/) | Solutions for common development issues | — |
 
 ## 🚀 Quick Start

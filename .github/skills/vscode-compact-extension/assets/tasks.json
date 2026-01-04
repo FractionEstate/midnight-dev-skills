@@ -1,0 +1,93 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Compile Compact (current file - quick)",
+      "type": "shell",
+      "command": "npx compact compile --vscode --skip-zk ${file} ${workspaceFolder}/contracts/managed",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "never",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "revealProblems": "onProblem"
+      },
+      "problemMatcher": [
+        "$compactException",
+        "$compactInternal",
+        "$compactCommandNotFound"
+      ]
+    },
+    {
+      "label": "Compile Compact (current file - full)",
+      "type": "shell",
+      "command": "npx compact compile --vscode ${file} ${workspaceFolder}/contracts/managed",
+      "group": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true,
+        "revealProblems": "onProblem"
+      },
+      "problemMatcher": [
+        "$compactException",
+        "$compactInternal",
+        "$compactCommandNotFound"
+      ]
+    },
+    {
+      "label": "Compile All Contracts",
+      "type": "shell",
+      "command": "for f in ${workspaceFolder}/contracts/*.compact; do npx compact compile --vscode \"$f\" \"${workspaceFolder}/contracts/managed/$(basename \"$f\" .compact)\"; done",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": [
+        "$compactException",
+        "$compactInternal",
+        "$compactCommandNotFound"
+      ]
+    },
+    {
+      "label": "Start Proof Server",
+      "type": "shell",
+      "command": "docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --network testnet",
+      "isBackground": true,
+      "group": "none",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Stop Proof Server",
+      "type": "shell",
+      "command": "docker stop $(docker ps -q --filter ancestor=midnightnetwork/proof-server) 2>/dev/null || echo 'No proof server running'",
+      "group": "none",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
