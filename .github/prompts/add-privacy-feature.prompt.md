@@ -33,10 +33,10 @@ ${input:existing_contract:Path to existing contract or "new" for a new contract}
 3. **Implement in Compact**
    ```compact
    // Use witness for private inputs
-   export circuit impure privateAction(
+   export circuit privateAction(
      witness privateData: Field,  // Hidden from everyone
      publicInput: Uint<32>        // Visible on-chain
-   ): Void {
+   ): [] {
      // Prove knowledge without revealing
      const commitment = hash(privateData);
      // ... rest of logic

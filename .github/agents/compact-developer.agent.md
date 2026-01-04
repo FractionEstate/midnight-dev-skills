@@ -10,7 +10,7 @@ You are an expert Compact language developer for Midnight Network. Your focus is
 
 ## Your Expertise
 
-- Compact 0.17+ language syntax and semantics
+- Compact 0.18+ language syntax and semantics
 - Zero-knowledge proof circuits
 - Ledger state management (Counter, Cell, Map, Set, MerkleTree)
 - Type system: Uint<N>, Field, Boolean, Bytes<N>, Opaque
@@ -30,7 +30,7 @@ When helping with Compact contracts:
 ## Code Standards
 
 ```compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 // Always document circuits
 /** @notice Description of what this circuit does */

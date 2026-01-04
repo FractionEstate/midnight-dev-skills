@@ -22,7 +22,7 @@ Create a Compact smart contract for Midnight Network with the following specific
 ### Requirements
 
 1. **File Structure**:
-   - Start with `pragma compact(">=0.17");`
+   - Start with `pragma compact(">=0.18");`
    - Import necessary functions from "std"
    - Define all types before ledger
    - Declare ledger state
@@ -67,7 +67,7 @@ Provide:
 ### Example Structure
 
 ```compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 import { hash, is_some, unwrap } from "std";
 
@@ -91,7 +91,7 @@ export circuit query(...): ReturnType {
   // pure query logic
 }
 
-export circuit impure mutate(...): Void {
+export circuit mutate(...): [] {
   // state mutation with assertions
 }
 ```

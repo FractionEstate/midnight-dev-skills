@@ -91,7 +91,7 @@ Create a complete contract skeleton:
 This generates:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 export ledger state: Opaque<"string">;
 

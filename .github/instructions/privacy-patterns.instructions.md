@@ -38,11 +38,11 @@ export circuit commit(witness secret: Field): Field {
 }
 
 // Phase 2: Reveal (prove the value)
-export circuit impure reveal(
+export circuit reveal(
   secret preimage: Field,
   commitment: Field
-): Void {
-  assert is_equal(hash(preimage), commitment) "Invalid commitment";
+): [] {
+  assert(is_equal(hash(preimage), commitment), "Invalid commitment");
   // Now we know the preimage without seeing it
 }
 ```
@@ -67,18 +67,18 @@ ledger {
   usedNullifiers: Set<Field>
 }
 
-export circuit impure useOnce(
+export circuit useOnce(
   witness secret: Field,
   witness commitment: Field
-): Void {
+): [] {
   // Generate nullifier from secret
   const nullifier = hash(secret);
 
   // Check not already used
-  assert !ledger.usedNullifiers.member(nullifier) "Already used";
+  assert(!ledger.usedNullifiers.member(nullifier), "Already used");
 
   // Verify secret corresponds to commitment
-  assert is_equal(hash(secret), commitment) "Invalid proof";
+  assert(is_equal(hash(secret), commitment), "Invalid proof");
 
   // Mark as used
   ledger.usedNullifiers.insert(nullifier);
@@ -143,8 +143,8 @@ export circuit proveInRange(
   minValue: Uint<64>,
   maxValue: Uint<64>
 ): Boolean {
-  assert value >= minValue "Below minimum";
-  assert value <= maxValue "Above maximum";
+  assert(value >= minValue, "Below minimum");
+  assert(value <= maxValue, "Above maximum");
   return true;
 }
 ```

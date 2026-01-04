@@ -219,12 +219,6 @@ Contributions are welcome! See [AGENTS.md](AGENTS.md) for guidelines on:
 
 MIT License - Educational resources for the Midnight Network developer community.
 
-## 🆘 Support
-
-- **Technical Issues**: Discord #developer-support
-- **Bug Reports**: GitHub issues
-- **General Questions**: Discord #general
-
 ---
 
 **Start your privacy-preserving DApp journey today! 🌙**

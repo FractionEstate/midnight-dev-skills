@@ -12,7 +12,7 @@ Write, compile, and deploy Compact smart contracts for Midnight Network's privac
 Every Compact contract has three core components:
 
 ```compact
-pragma language_version 0.17;              // 1. Version pragma
+pragma compact(">=0.18");              // 1. Version pragma
 
 export ledger myState: Opaque<"string">;   // 2. Ledger declarations
 
@@ -26,7 +26,7 @@ export circuit myFunction(param: Type): [] { // 3. Circuit functions
 Always start with the language version:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 ```
 
 **Why**: Protects against breaking changes in Compact updates.
@@ -96,7 +96,7 @@ contracts/managed/my-contract/
 ## Example: Hello World Contract
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 export ledger message: Opaque<"string">;
 
@@ -108,7 +108,7 @@ export circuit storeMessage(customMessage: Opaque<"string">): [] {
 ## Example: Counter Contract
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 export ledger counter: Opaque<"number">;
 

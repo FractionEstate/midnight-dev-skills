@@ -182,7 +182,7 @@ What could happen if exploited.
 3. **Input Validation**:
    ```compact
    // Should validate before use
-   assert amount > 0 "Amount must be positive";  // ✅
+   assert(amount > 0, "Amount must be positive");  // ✅
    ledger.balance = amount;  // ⚠️ No validation
    ```
 

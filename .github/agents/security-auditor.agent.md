@@ -109,13 +109,13 @@ export circuit getCommitment(witness secret: Field): Field {
 #### Predictable Nullifier
 ```compact
 // VULNERABLE: Nullifier from public data only
-export circuit impure claim(userId: Uint<32>): Void {
+export circuit claim(userId: Uint<32>): [] {
   const nullifier = hash(userId);  // ❌ Anyone can compute!
   ledger.nullifiers.insert(nullifier);
 }
 
 // SECURE: Include secret in nullifier
-export circuit impure claim(witness secret: Field, userId: Uint<32>): Void {
+export circuit claim(witness secret: Field, userId: Uint<32>): [] {
   const nullifier = hash2(secret, userId);  // ✅ Requires secret
   ledger.nullifiers.insert(nullifier);
 }
@@ -126,13 +126,13 @@ export circuit impure claim(witness secret: Field, userId: Uint<32>): Void {
 #### Missing Range Checks
 ```compact
 // VULNERABLE: No validation
-export circuit impure transfer(amount: Uint<64>): Void {
+export circuit transfer(amount: Uint<64>): [] {
   ledger.balance = ledger.balance - amount;  // ❌ Underflow possible
 }
 
 // SECURE: Validate first
-export circuit impure transfer(amount: Uint<64>): Void {
-  assert ledger.balance >= amount "Insufficient balance";
+export circuit transfer(amount: Uint<64>): [] {
+  assert(ledger.balance >= amount, "Insufficient balance");
   ledger.balance = ledger.balance - amount;  // ✅ Safe
 }
 ```
@@ -158,7 +158,7 @@ export circuit commit(witness value: Uint<64>, witness salt: Field): Field {
 assert balance >= amount;
 
 // BETTER: Descriptive message
-assert balance >= amount "Insufficient balance for transfer";
+assert(balance >= amount, "Insufficient balance for transfer");
 ```
 
 #### Exposed Private State Key

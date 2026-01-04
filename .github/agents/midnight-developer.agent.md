@@ -58,7 +58,7 @@ If asked to *resume/continue/try again*, read the **todo** list, find the next p
 
 ## Guidelines
 
-- Use Compact pragma `>=0.17` for all smart contracts
+- Use Compact pragma `>=0.18` for all smart contracts
 - Use Next.js 16.1.1+ with App Router for frontend applications
 - Mark wallet interaction code with `'use client'` directive
 - Use `secret` for off-chain private data, `witness` for ZK-proven private data
@@ -69,7 +69,7 @@ If asked to *resume/continue/try again*, read the **todo** list, find the next p
 
 ## Technology Versions
 
-- **Compact**: 0.17+ (`pragma compact(">=0.17");`)
+- **Compact**: 0.18+ (`pragma compact(">=0.18");`)
 - **Next.js**: 16.1.1 (App Router, Server Components)
 - **TypeScript**: 5.x (strict mode)
 - **React**: 19.x (Server Components support)
@@ -104,7 +104,7 @@ If asked to *resume/continue/try again*, read the **todo** list, find the next p
 ### Compact Contract with Privacy
 
 ```compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 import { hash } from "std";
 
@@ -119,15 +119,15 @@ ledger {
 }
 
 // Private voting with nullifier
-export circuit impure vote(
+export circuit vote(
   witness voterSecret: Field,
   witness vote: Vote
-): Void {
+): [] {
   // Generate nullifier from secret
   const nullifier = hash(voterSecret);
 
   // Prevent double voting
-  assert !ledger.nullifiers.member(nullifier) "Already voted";
+  assert(!ledger.nullifiers.member(nullifier), "Already voted");
   ledger.nullifiers.insert(nullifier);
 
   // Record vote (anonymously)

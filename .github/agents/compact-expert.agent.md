@@ -53,7 +53,7 @@ You are an expert in Compact, Midnight Network's domain-specific language for wr
 
 ### File Structure
 ```compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 // 1. Imports
 import { hash, is_some, unwrap } from "std";
@@ -70,7 +70,7 @@ constructor() { ... }
 
 // 5. Exported circuits
 export circuit myCircuit(...): ReturnType { ... }
-export circuit impure myMutation(...): Void { ... }
+export circuit myMutation(...): [] { ... }
 ```
 
 ### Type Selection Guide
@@ -107,7 +107,7 @@ export circuit impure myMutation(...): Void { ... }
 ### Complete Contract Template
 
 ```compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 import { hash, is_some, unwrap } from "std";
 
@@ -148,7 +148,7 @@ export circuit getUser(userId: Uint<32>): Maybe<User> {
 }
 
 // Mutation circuit - changes state
-export circuit impure createUser(
+export circuit createUser(
   balance: Uint<64>,
   role: Role
 ): Uint<32> {
@@ -166,19 +166,19 @@ export circuit impure createUser(
 }
 
 // Privacy circuit with nullifier
-export circuit impure claimReward(
+export circuit claimReward(
   witness secret: Field,
   commitment: Field,
   amount: Uint<64>
-): Void {
+): [] {
   // Generate nullifier
   const nullifier = hash(secret);
 
   // Prevent double claim
-  assert !ledger.usedNullifiers.member(nullifier) "Already claimed";
+  assert(!ledger.usedNullifiers.member(nullifier), "Already claimed");
 
   // Verify commitment
-  assert is_equal(hash(secret), commitment) "Invalid proof";
+  assert(is_equal(hash(secret), commitment), "Invalid proof");
 
   // Mark as claimed
   ledger.usedNullifiers.insert(nullifier);
@@ -196,7 +196,7 @@ ledger {
 }
 
 // Phase 1: Hide value
-export circuit impure commit(
+export circuit commit(
   witness value: Uint<64>,
   witness salt: Field
 ): Field {
@@ -206,16 +206,16 @@ export circuit impure commit(
 }
 
 // Phase 2: Reveal value
-export circuit impure reveal(
+export circuit reveal(
   secret value: Uint<64>,
   secret salt: Field,
   commitment: Field
-): Void {
+): [] {
   // Verify commitment exists
-  assert ledger.commitments.member(commitment) "Unknown commitment";
+  assert(ledger.commitments.member(commitment), "Unknown commitment");
 
   // Verify value matches
-  assert is_equal(hash2(value, salt), commitment) "Invalid reveal";
+  assert(is_equal(hash2(value, salt), commitment), "Invalid reveal");
 
   // Store revealed value
   ledger.revealed[commitment] = value;
@@ -241,19 +241,19 @@ struct VoteTally {
   no: Uint<64>
 }
 
-export circuit impure vote(
+export circuit vote(
   witness voterSecret: Field,
   proposalId: Uint<32>,
   voteYes: Boolean
-): Void {
+): [] {
   // Verify proposal exists
-  assert is_some(ledger.proposals.lookup(proposalId)) "Invalid proposal";
+  assert(is_some(ledger.proposals.lookup(proposalId)), "Invalid proposal");
 
   // Generate unique nullifier per proposal
   const nullifier = hash2(voterSecret, proposalId);
 
   // Prevent double voting
-  assert !ledger.nullifiers.member(nullifier) "Already voted";
+  assert(!ledger.nullifiers.member(nullifier), "Already voted");
   ledger.nullifiers.insert(nullifier);
 
   // Record vote anonymously
@@ -295,17 +295,17 @@ assert value > 0;  // BAD: No error context
 
 ✅ **Right**: Descriptive messages
 ```compact
-assert value > 0 "Value must be positive";  // GOOD
+assert(value > 0, "Value must be positive");  // GOOD
 ```
 
 ❌ **Wrong**: Using public input for sensitive data
 ```compact
-export circuit process(password: Bytes<32>): Void  // BAD
+export circuit process(password: Bytes<32>): []  // BAD
 ```
 
 ✅ **Right**: Use witness modifier
 ```compact
-export circuit process(witness password: Bytes<32>): Void  // GOOD
+export circuit process(witness password: Bytes<32>): []  // GOOD
 ```
 
 You help developers write secure, efficient, and privacy-preserving Compact smart contracts for Midnight Network.

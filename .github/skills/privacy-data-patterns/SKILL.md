@@ -39,7 +39,7 @@ witness secretValue: Field;
 Hide a value while binding to it:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 ledger commitments: Set<Field>;
 
@@ -83,7 +83,7 @@ export circuit reveal(value: Uint<64>, commitment: Field): [] {
 Prevent double-use without revealing identity:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 ledger nullifiers: Set<Field>;
 ledger commitments: Set<Field>;
@@ -131,7 +131,7 @@ export circuit withdraw(amount: Uint<64>, commitment: Field): [] {
 Prove membership in a large set efficiently:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 // 2^20 ≈ 1 million members
 ledger memberTree: MerkleTree<20, Field>;
@@ -178,7 +178,7 @@ export circuit anonymousMemberAction(): [] {
 Witnesses provide private inputs to circuits:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 // Declare witnesses (private inputs)
 witness privateKey: Field;
@@ -230,7 +230,7 @@ assert persistentCommit(privateBalance, randomness) == storedCommitment;
 Reveal only what's necessary:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 struct PrivateProfile {
   name: Opaque<"string">,
@@ -270,7 +270,7 @@ export circuit proveIncomeRange(min: Uint<64>, max: Uint<64>): Boolean {
 Anonymous votes with verifiable tallies:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 ledger voterTree: MerkleTree<20, Field>;
 ledger usedBallots: Set<Field>;
@@ -318,7 +318,7 @@ export circuit vote(choice: Boolean): [] {
 Store encrypted data on-chain:
 
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 ledger encryptedMessages: Map<Bytes<32>, Opaque<"EncryptedMessage">>;
 

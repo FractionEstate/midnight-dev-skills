@@ -67,7 +67,7 @@ create_project() {
 
     # Create sample contract
     cat > contracts/hello.compact << 'EOF'
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 export ledger message: Opaque<"string">;
 

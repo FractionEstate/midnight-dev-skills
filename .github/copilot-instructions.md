@@ -7,7 +7,7 @@ This document provides GitHub Copilot with comprehensive guidelines for developi
 When generating code for Midnight Network projects:
 
 1. **Privacy First**: Always default to privacy-preserving patterns using zero-knowledge proofs
-2. **Version Compatibility**: Use Compact 0.17+, Next.js 16.1.1, and @midnight-ntwrk packages
+2. **Version Compatibility**: Use Compact 0.18+, Next.js 16.1.1, and @midnight-ntwrk packages
 3. **Context Files**: Reference skills in `.github/skills/` for patterns and examples
 4. **Type Safety**: Use comprehensive TypeScript types for all Midnight APIs
 5. **Security**: Handle witnesses, secrets, and private state with care
@@ -15,7 +15,7 @@ When generating code for Midnight Network projects:
 ## Technology Stack
 
 ### Core Versions
-- **Compact**: 0.17+ (pragma compact(">=0.17");)
+- **Compact**: 0.18+ (pragma compact(">=0.18");
 - **Next.js**: 16.1.1 (App Router)
 - **TypeScript**: 5.x (strict mode)
 - **React**: 19.x (Server Components)
@@ -47,7 +47,7 @@ const TESTNET_CONFIG = {
 
 ### File Structure
 ```compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 // Type definitions
 struct MyData {
@@ -68,13 +68,13 @@ constructor() {
 }
 
 // Circuits
-export circuit myCircuit(secret input: Field, witness witness: Field): Void {
+export circuit myCircuit(secret input: Field, witness w: Field): [] {
   // Private computation with witnesses
-  assert is_equal(input, witness) "Input must match witness";
+  assert(input == w, "Input must match witness");
 }
 
-// Impure operations (affect ledger state)
-export circuit impure updateData(data: MyData): Void {
+// Impure circuits (affect ledger state - called impure by their use of ledger)
+export circuit updateData(data: MyData): [] {
   ledger.data.write(data);
 }
 ```
@@ -199,8 +199,8 @@ export circuit commit(witness preimage: Field): Field {
 }
 
 // Reveal with proof (on-chain)
-export circuit reveal(secret preimage: Field, commitment: Field): Void {
-  assert is_equal(hash(preimage), commitment) "Invalid commitment";
+export circuit reveal(secret preimage: Field, commitment: Field): [] {
+  assert(is_equal(hash(preimage), commitment), "Invalid commitment");
 }
 ```
 

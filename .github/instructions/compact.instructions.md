@@ -10,17 +10,18 @@ You are an expert in Compact, the domain-specific language for Midnight Network 
 
 Always start Compact files with the correct pragma:
 ```compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 ```
 
 ## Type System
 
 ### Primitive Types
 - `Boolean`: true/false values
-- `Uint<N>`: Unsigned integers (N = 8, 16, 32, 64, 128, 256)
+- `Uint<N>`: Unsigned integers with N-bit width (e.g., Uint<32>, Uint<64>)
+- `Uint<0..N>`: Bounded integers with explicit bounds (0 to N inclusive)
 - `Field`: Field elements for ZK operations (hashing, commitments)
 - `Bytes<N>`: Fixed-length byte arrays
-- `Opaque<T>`: Sensitive data that stays off-chain
+- `Opaque<"string">` / `Opaque<"Uint8Array">`: Sensitive data that stays off-chain
 
 ### Compound Types
 ```compact
@@ -78,11 +79,12 @@ export circuit calculateHash(witness data: Field): Field {
 
 ### Impure Circuits (State Changes)
 ```compact
-export circuit impure updateBalance(
+// Circuits become impure when they access/modify ledger state
+export circuit updateBalance(
   address: Address,
   amount: Uint<64>
-): Void {
-  ledger.balances[address] = amount;
+): [] {
+  ledger.balances.insert(address, amount);
 }
 ```
 
@@ -95,9 +97,9 @@ export circuit impure updateBalance(
 
 Always include descriptive error messages:
 ```compact
-assert balance >= amount "Insufficient balance";
-assert is_some(user) "User not found";
-assert !is_member(address) "Already a member";
+assert(balance >= amount, "Insufficient balance");
+assert(is_some(user), "User not found");
+assert(!is_member(address), "Already a member");
 ```
 
 ## Standard Library Imports

@@ -28,7 +28,7 @@ Create a hide-then-reveal pattern:
 
 **Compact Contract:**
 \`\`\`compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 import { hash, hash2 } from "std";
 
@@ -38,24 +38,24 @@ ledger {
 }
 
 // Phase 1: Create commitment
-export circuit impure commit(
+export circuit commit(
   witness value: ${DATA_TYPE},
   witness salt: Field
 ): Field {
   const commitment = hash2(value, salt);
-  assert !ledger.commitments.member(commitment) "Already committed";
+  assert(!ledger.commitments.member(commitment), "Already committed");
   ledger.commitments.insert(commitment);
   return commitment;
 }
 
 // Phase 2: Reveal with proof
-export circuit impure reveal(
+export circuit reveal(
   secret value: ${DATA_TYPE},
   secret salt: Field,
   commitment: Field
-): Void {
-  assert ledger.commitments.member(commitment) "Unknown commitment";
-  assert is_equal(hash2(value, salt), commitment) "Invalid proof";
+): [] {
+  assert(ledger.commitments.member(commitment), "Unknown commitment");
+  assert(is_equal(hash2(value, salt), commitment), "Invalid proof");
   ledger.revealed[commitment] = value;
 }
 \`\`\`
@@ -68,7 +68,7 @@ Prevent double-use while preserving privacy:
 
 **Compact Contract:**
 \`\`\`compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 import { hash, hash2 } from "std";
 
@@ -78,26 +78,26 @@ ledger {
 }
 
 // Register commitment (e.g., during setup)
-export circuit impure register(witness value: Field): Field {
+export circuit register(witness value: Field): Field {
   const commitment = hash(value);
   ledger.validCommitments.insert(commitment);
   return commitment;
 }
 
 // Use once with nullifier
-export circuit impure useOnce(
+export circuit useOnce(
   witness secret: Field,
   witness context: Field
-): Void {
+): [] {
   // Generate nullifier unique to secret + context
   const nullifier = hash2(secret, context);
 
   // Check not already used
-  assert !ledger.usedNullifiers.member(nullifier) "Already used";
+  assert(!ledger.usedNullifiers.member(nullifier), "Already used");
 
   // Verify secret is valid
   const commitment = hash(secret);
-  assert ledger.validCommitments.member(commitment) "Invalid credential";
+  assert(ledger.validCommitments.member(commitment), "Invalid credential");
 
   // Mark as used
   ledger.usedNullifiers.insert(nullifier);
@@ -112,7 +112,7 @@ Anonymous set membership:
 
 **Compact Contract:**
 \`\`\`compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 import { hash } from "std";
 
@@ -121,7 +121,7 @@ ledger {
 }
 
 // Add member (admin function)
-export circuit impure addMember(memberCommitment: Field): Void {
+export circuit addMember(memberCommitment: Field): [] {
   ledger.memberTree.insert(memberCommitment);
 }
 
@@ -136,15 +136,15 @@ export circuit verifyMember(
 }
 
 // Action requiring membership
-export circuit impure memberAction(
+export circuit memberAction(
   witness secret: Field,
   witness merkleProof: Vector<256, Field>,
   witness index: Uint<256>
-): Void {
+): [] {
   // Verify membership
   const leaf = hash(secret);
   const isValid = verify_merkle_path(leaf, merkleProof, index, ledger.memberTree.root());
-  assert isValid "Not a member";
+  assert(isValid, "Not a member");
 
   // Perform action...
 }
@@ -158,7 +158,7 @@ Prove properties without revealing data:
 
 **Compact Contract:**
 \`\`\`compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 import { hash } from "std";
 
@@ -181,7 +181,7 @@ export circuit proveAge(
 ): Boolean {
   // Verify credential ownership
   const cred = unwrap(ledger.credentials.lookup(credentialId));
-  assert is_equal(hash(credentialSecret), cred.commitment) "Invalid credential";
+  assert(is_equal(hash(credentialSecret), cred.commitment), "Invalid credential");
 
   // Calculate and verify age (private)
   const age = currentYear - birthYear;
@@ -198,7 +198,7 @@ export circuit proveInRange(
   maxValue: Uint<64>
 ): Boolean {
   // Verify commitment
-  assert is_equal(hash2(value, salt), commitment) "Invalid commitment";
+  assert(is_equal(hash2(value, salt), commitment), "Invalid commitment");
 
   // Check range without revealing exact value
   return value >= minValue && value <= maxValue;
@@ -210,7 +210,7 @@ ${FEATURE_TYPE === "voting" ? `
 #### Anonymous Voting Implementation
 
 \`\`\`compact
-pragma compact(">=0.17");
+pragma compact(">=0.18");
 
 import { hash, hash2 } from "std";
 
@@ -228,23 +228,23 @@ ledger {
 }
 
 // Register voter (admin)
-export circuit impure registerVoter(voterCommitment: Field): Void {
+export circuit registerVoter(voterCommitment: Field): [] {
   ledger.voterRegistry.insert(voterCommitment);
 }
 
 // Cast anonymous vote
-export circuit impure vote(
+export circuit vote(
   witness voterSecret: Field,
   proposalId: Uint<32>,
   voteYes: Boolean
-): Void {
+): [] {
   // Verify registered voter
   const voterCommitment = hash(voterSecret);
-  assert ledger.voterRegistry.member(voterCommitment) "Not registered";
+  assert(ledger.voterRegistry.member(voterCommitment), "Not registered");
 
   // Generate nullifier unique to this proposal
   const nullifier = hash2(voterSecret, proposalId);
-  assert !ledger.nullifiers.member(nullifier) "Already voted";
+  assert(!ledger.nullifiers.member(nullifier), "Already voted");
   ledger.nullifiers.insert(nullifier);
 
   // Record vote

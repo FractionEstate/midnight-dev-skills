@@ -35,7 +35,7 @@ mkdir -p contracts/managed src/app/components src/lib tests
 
 **contracts/bboard.compact**:
 ```compact
-pragma language_version 0.17;
+pragma compact(">=0.18");
 
 enum State { VACANT, OCCUPIED }
 
