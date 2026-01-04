@@ -222,7 +222,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Optimization Strategies:**
 
 | Area | Technique | Impact |
-|------|-----------|--------|
+| ---- | --------- | ------ |
 | Dependencies | `optimizePackageImports` | Faster builds |
 | Images | Remote patterns, formats | Smaller bundles |
 | Caching | Turbo remote cache | 10x faster CI |
