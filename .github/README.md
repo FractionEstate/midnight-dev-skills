@@ -140,7 +140,8 @@ npm run dev
 ## 🔗 Resources
 
 - **Documentation**: <https://docs.midnight.network/>
-- **Release notes**: <https://docs.midnight.network/relnotes/overview>
+- **Network Support Matrix (compatibility)**: <https://docs.midnight.network/relnotes/support-matrix>
+- **Release notes (index)**: <https://docs.midnight.network/relnotes/overview>
 - **Discord**: <https://discord.com/invite/midnightnetwork>
 - **GitHub**: <https://github.com/midnightntwrk>
 - **Agent Skills Spec**: <https://agentskills.io/specification>

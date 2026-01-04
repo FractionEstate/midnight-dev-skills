@@ -13,21 +13,6 @@
       }
     },
     {
-      "label": "Midnight: Compile Contracts",
-      "type": "shell",
-      "command": "pnpm contract:build",
-      "problemMatcher": [],
-      "group": "build"
-    },
-    {
-      "label": "Midnight: Watch Contracts",
-      "type": "shell",
-      "command": "pnpm contract:watch",
-      "problemMatcher": [],
-      "isBackground": true,
-      "group": "build"
-    },
-    {
       "label": "Midnight: Start Proof Server",
       "type": "shell",
       "command": "docker run -p 6300:6300 --rm midnightnetwork/proof-server midnight-proof-server --network testnet",
@@ -54,100 +39,6 @@
       "group": "none"
     },
     {
-      "label": "dev",
-      "type": "shell",
-      "command": "pnpm dev",
-      "problemMatcher": [],
-      "isBackground": true,
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "build",
-      "type": "shell",
-      "command": "pnpm build",
-      "problemMatcher": [
-        "$tsc"
-      ],
-      "group": "build"
-    },
-    {
-      "label": "lint",
-      "type": "shell",
-      "command": "pnpm lint",
-      "problemMatcher": [
-        "$eslint-stylish"
-      ],
-      "group": "test"
-    },
-    {
-      "label": "lint:fix",
-      "type": "shell",
-      "command": "pnpm lint --fix",
-      "problemMatcher": [
-        "$eslint-stylish"
-      ],
-      "group": "test"
-    },
-    {
-      "label": "typecheck",
-      "type": "shell",
-      "command": "pnpm typecheck",
-      "problemMatcher": [
-        "$tsc"
-      ],
-      "group": "test"
-    },
-    {
-      "label": "test",
-      "type": "shell",
-      "command": "pnpm test",
-      "problemMatcher": [],
-      "group": {
-        "kind": "test",
-        "isDefault": true
-      }
-    },
-    {
-      "label": "test:watch",
-      "type": "shell",
-      "command": "pnpm test:watch",
-      "problemMatcher": [],
-      "isBackground": true,
-      "group": "test"
-    },
-    {
-      "label": "test:coverage",
-      "type": "shell",
-      "command": "pnpm test:coverage",
-      "problemMatcher": [],
-      "group": "test"
-    },
-    {
-      "label": "prisma:generate",
-      "type": "shell",
-      "command": "pnpm prisma generate",
-      "problemMatcher": [],
-      "group": "build"
-    },
-    {
-      "label": "prisma:push",
-      "type": "shell",
-      "command": "pnpm prisma db push",
-      "problemMatcher": [],
-      "group": "build"
-    },
-    {
-      "label": "prisma:studio",
-      "type": "shell",
-      "command": "pnpm prisma studio",
-      "problemMatcher": [],
-      "isBackground": true,
-      "group": "none"
-    },
-    {
       "label": "clean",
       "type": "shell",
       "command": "rm -rf node_modules/.cache dist .next coverage playwright-report",
@@ -160,6 +51,34 @@
       "command": "pnpm install",
       "problemMatcher": [],
       "group": "none"
+    },
+    {
+      "label": "lint:md",
+      "type": "shell",
+      "command": "pnpm lint:md",
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "lint:md:fix",
+      "type": "shell",
+      "command": "pnpm lint:md:fix",
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "lint:md:all",
+      "type": "shell",
+      "command": "pnpm lint:md:all",
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "lint:md:all:fix",
+      "type": "shell",
+      "command": "pnpm lint:md:all:fix",
+      "problemMatcher": [],
+      "group": "test"
     }
   ]
 }

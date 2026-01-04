@@ -11,7 +11,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Versions (source of truth: https://docs.midnight.network/relnotes/overview)
+# Versions (source of truth: https://docs.midnight.network/relnotes/support-matrix and component release notes)
 COMPACT_TOOLS_VERSION="0.3.0"
 COMPACT_COMPILER_VERSION="0.26.0"
 NODE_MIN_VERSION="20"
@@ -148,7 +148,8 @@ print_midnight_links() {
         echo -e "\n${BLUE}Reference links:${NC}"
         echo "  • Midnight docs: https://docs.midnight.network"
         echo "  • Get started: https://docs.midnight.network/getting-started"
-        echo "  • Release notes: https://docs.midnight.network/relnotes/overview"
+    echo "  • Network Support Matrix: https://docs.midnight.network/relnotes/support-matrix"
+    echo "  • Release notes (index): https://docs.midnight.network/relnotes/overview"
         echo "  • Compact compiler relnotes: https://docs.midnight.network/relnotes/compact"
         echo "  • Compact tools relnotes: https://docs.midnight.network/relnotes/compact-tools"
         echo "  • Faucet: https://midnight.network/test-faucet"

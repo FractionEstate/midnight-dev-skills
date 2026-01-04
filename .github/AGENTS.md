@@ -78,11 +78,15 @@ It includes:
 
 - Skills live under `.github/skills/<skill-name>/`.
 - Each skill should have a `SKILL.md` plus optional `assets/` and `references/`.
-- Prefer keeping public guidance aligned with the official Midnight docs:
-  <https://docs.midnight.network/relnotes/overview>
+- Prefer keeping public guidance aligned with the official Midnight docs.
+- For “what versions work together”, treat the Network Support Matrix as the primary source of truth:
+  <https://docs.midnight.network/relnotes/support-matrix>
+- The Release Overview page is a convenient index, but it has known version-number inconsistencies; when
+  in doubt, defer to the component release note pages linked from it.
 
 ## Resources
 
 - Midnight docs: <https://docs.midnight.network/>
-- Release notes: <https://docs.midnight.network/relnotes/overview>
+- Release notes (index): <https://docs.midnight.network/relnotes/overview>
+- Network Support Matrix (compatibility): <https://docs.midnight.network/relnotes/support-matrix>
 - Agent Skills spec: <https://agentskills.io/specification>

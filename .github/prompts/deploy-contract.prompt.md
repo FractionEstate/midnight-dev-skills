@@ -35,7 +35,8 @@ compact compile --vscode \
 
 Notes:
 
-- Use `compact compile` (not the legacy `compactc`) per the current Midnight docs.
+- Use `compact compile` from the Compact developer tools (`compact`). The underlying compiler binary is
+  typically named `compactc`, but the recommended interface is the `compact` CLI.
 - Do not use `--skip-zk` for a real deploy, because you typically need proving keys.
 
 ### Step 2: Configure Network Endpoints
