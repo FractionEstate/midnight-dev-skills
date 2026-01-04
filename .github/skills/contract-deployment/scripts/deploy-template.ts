@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Midnight Contract Deployment Template
  *

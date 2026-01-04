@@ -1,3 +1,4 @@
+// @ts-nocheck
 // DApp Connector API TypeScript Examples
 // @midnight-ntwrk/dapp-connector-api v3.0.0
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// @ts-nocheck
 /**
  * Wallet SDK Setup Script
  * Demonstrates complete wallet initialization and basic operations
