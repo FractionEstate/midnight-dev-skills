@@ -12,7 +12,7 @@ Deploy Compact smart contracts to Midnight Testnet and connect your Next.js fron
 - Compiled contract in `contracts/managed/`
 - Lace wallet with tDUST tokens
 - Proof server running
-- Node.js 20.x
+- Node.js 22.x
 
 ## Quick Start
 
@@ -190,4 +190,4 @@ Call circuit → Generate ZK proof → Sign with wallet → Submit to network �
 
 - SDK Reference: https://docs.midnight.network/develop/reference/
 - Testnet Faucet: https://midnight.network/test-faucet/
-- Explorer: https://explorer.testnet.midnight.network/
+- Explorer: https://explorer.testnet-02.midnight.network/

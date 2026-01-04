@@ -69,7 +69,7 @@ If asked to *resume/continue/try again*, read the **todo** list, find the next p
 
 ## Technology Versions
 
-- **Compact**: 0.18+ (`pragma compact(">=0.18");`)
+- **Compact**: 0.18+ (`pragma compact(">=0.25");`)
 - **Next.js**: 16.1.1 (App Router, Server Components)
 - **TypeScript**: 5.x (strict mode)
 - **React**: 19.x (Server Components support)
@@ -104,7 +104,7 @@ If asked to *resume/continue/try again*, read the **todo** list, find the next p
 ### Compact Contract with Privacy
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 import { hash } from "std";
 
@@ -190,9 +190,9 @@ import {
 } from '@midnight-ntwrk/midnight-js-providers';
 
 export const TESTNET = {
-  indexer: 'https://indexer.testnet.midnight.network/api/v1/graphql',
-  indexerWS: 'wss://indexer.testnet.midnight.network/api/v1/graphql/ws',
-  node: 'https://rpc.testnet.midnight.network',
+  indexer: 'https://indexer.testnet-02.midnight.network/api/v1/graphql',
+  indexerWS: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws',
+  node: 'https://rpc.testnet-02.midnight.network',
   proofServer: 'http://localhost:6300'
 } as const;
 

@@ -10,7 +10,7 @@ You are an expert in Compact, the domain-specific language for Midnight Network 
 
 Always start Compact files with the correct pragma:
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 ```
 
 ## Type System

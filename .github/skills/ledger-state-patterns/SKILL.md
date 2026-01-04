@@ -31,7 +31,7 @@ Compact provides specialized ledger types for on-chain state management. These t
 Simple numeric counter for tracking values:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 ledger totalSupply: Counter;
 ledger transactionCount: Counter;
@@ -76,7 +76,7 @@ const current = count;
 Unordered collection with membership testing:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 ledger members: Set<Bytes<32>>;
 ledger usedNonces: Set<Field>;
@@ -125,7 +125,7 @@ if !mySet.member(element) {
 Key-value storage with lookup:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 ledger balances: Map<Bytes<32>, Uint<64>>;
 ledger metadata: Map<Bytes<32>, Opaque<"string">>;
@@ -210,7 +210,7 @@ circuit increment(key: Bytes<32>, amount: Uint<64>): [] {
 Ordered sequence with index access:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 ledger transactions: List<Bytes<32>>;
 ledger eventLog: List<Opaque<"Event">>;
@@ -267,7 +267,7 @@ myList[index] = newValue;
 Efficient membership proofs for large sets:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // 2^20 = ~1 million leaves
 ledger commitments: MerkleTree<20, Bytes<32>>;
@@ -322,7 +322,7 @@ export circuit reveal(
 Append-only tree with historical proofs:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Preserves all historical roots
 ledger history: HistoricMerkleTree<20, Field>;

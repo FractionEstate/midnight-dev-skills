@@ -7,7 +7,7 @@ This repository contains comprehensive GitHub Copilot customizations for buildin
 **Primary Technologies:**
 - Midnight Network (privacy-first blockchain with ZK proofs)
 - Next.js 16.1.1 (React framework)
-- Compact 0.18+ (Smart contract language)
+- Compact 0.25+ (Smart contract language)
 - TypeScript
 - Docker (proof server)
 
@@ -183,7 +183,7 @@ Test skills by using them in Copilot Chat:
 ### Compact Contracts
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 export ledger varName: Opaque<"type">;
 

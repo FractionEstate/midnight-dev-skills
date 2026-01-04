@@ -29,7 +29,7 @@ Master sophisticated patterns for production-grade Midnight smart contracts.
 ## Access Control Pattern
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 export enum Role { ADMIN, MODERATOR, USER }
 export ledger owner: Opaque<"address">;

@@ -17,7 +17,7 @@ Master advanced patterns and techniques for writing sophisticated Midnight smart
 Implement role-based access control in Compact:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Role definitions using enum
 export enum Role { ADMIN, MODERATOR, USER }
@@ -57,7 +57,7 @@ export circuit protectedAction(caller: Opaque<"address">): [] {
 
 **Multi-signature pattern**:
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 export ledger signers: Map<Opaque<"address">, Boolean>;
 export ledger requiredSignatures: Opaque<"number">;
@@ -100,7 +100,7 @@ witness isApproved(proposalId: Opaque<"number">): Boolean {
 Implement finite state machines for complex workflows:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Auction states
 export enum AuctionState {
@@ -179,7 +179,7 @@ export circuit cancelAuction(caller: Opaque<"address">): [] {
 Implement selective disclosure for privacy:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Private voting system
 export ledger totalVotes: Opaque<"number">;
@@ -224,7 +224,7 @@ export circuit verifyAge(
 
 **Range proofs pattern**:
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Prove value is in range without revealing it
 export circuit proveBalanceInRange(
@@ -255,7 +255,7 @@ export circuit verifyCreditWorthy(
 Optimize data storage patterns:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Packed struct for efficient storage
 export struct UserProfile {
@@ -309,7 +309,7 @@ export circuit updateRoot(
 Implement structured event logging:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Event types
 export enum EventType {
@@ -372,7 +372,7 @@ export circuit transfer(
 Design contracts for future upgrades:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Proxy pattern - separate logic from storage
 export ledger admin: Opaque<"address">;
@@ -426,7 +426,7 @@ export circuit protectedFunction(input: Opaque<"number">): [] {
 Minimize constraint complexity:
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // INEFFICIENT: Multiple require statements
 export circuit inefficientValidation(
@@ -634,7 +634,7 @@ Design contracts that work together:
 
 ```compact
 // contracts/registry.compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Registry contract - stores contract addresses
 export ledger contracts: Map<Opaque<"string">, Opaque<"address">>;
@@ -656,7 +656,7 @@ export circuit getContract(name: Opaque<"string">): Opaque<"address"> {
 
 ```compact
 // contracts/token.compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 export ledger balances: Map<Opaque<"address">, Opaque<"number">>;
 export ledger allowances: Map<Opaque<"address">, Map<Opaque<"address">, Opaque<"number">>>;
@@ -690,7 +690,7 @@ export circuit transferFrom(
 
 ```compact
 // contracts/staking.compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Staking contract that interacts with token contract
 export ledger stakes: Map<Opaque<"address">, Opaque<"number">>;

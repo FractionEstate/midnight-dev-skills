@@ -28,7 +28,7 @@ Create a hide-then-reveal pattern:
 
 **Compact Contract:**
 \`\`\`compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 import { hash, hash2 } from "std";
 
@@ -68,7 +68,7 @@ Prevent double-use while preserving privacy:
 
 **Compact Contract:**
 \`\`\`compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 import { hash, hash2 } from "std";
 
@@ -112,7 +112,7 @@ Anonymous set membership:
 
 **Compact Contract:**
 \`\`\`compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 import { hash } from "std";
 
@@ -158,7 +158,7 @@ Prove properties without revealing data:
 
 **Compact Contract:**
 \`\`\`compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 import { hash } from "std";
 
@@ -210,7 +210,7 @@ ${FEATURE_TYPE === "voting" ? `
 #### Anonymous Voting Implementation
 
 \`\`\`compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 import { hash, hash2 } from "std";
 

@@ -7,7 +7,7 @@ This document provides GitHub Copilot with comprehensive guidelines for developi
 When generating code for Midnight Network projects:
 
 1. **Privacy First**: Always default to privacy-preserving patterns using zero-knowledge proofs
-2. **Version Compatibility**: Use Compact 0.18+, Next.js 16.1.1, and @midnight-ntwrk packages
+2. **Version Compatibility**: Use Compact 0.25+, Next.js 16.1.1, and @midnight-ntwrk packages
 3. **Context Files**: Reference skills in `.github/skills/` for patterns and examples
 4. **Type Safety**: Use comprehensive TypeScript types for all Midnight APIs
 5. **Security**: Handle witnesses, secrets, and private state with care
@@ -15,7 +15,7 @@ When generating code for Midnight Network projects:
 ## Technology Stack
 
 ### Core Versions
-- **Compact**: 0.18+ (pragma compact(">=0.18");
+- **Compact**: 0.18+ (pragma compact(">=0.25");
 - **Next.js**: 16.1.1 (App Router)
 - **TypeScript**: 5.x (strict mode)
 - **React**: 19.x (Server Components)
@@ -36,9 +36,9 @@ When generating code for Midnight Network projects:
 ### Network Endpoints (Testnet)
 ```typescript
 const TESTNET_CONFIG = {
-  indexer: "https://indexer.testnet.midnight.network/api/v1/graphql",
-  indexerWS: "wss://indexer.testnet.midnight.network/api/v1/graphql/ws",
-  node: "https://rpc.testnet.midnight.network",
+  indexer: "https://indexer.testnet-02.midnight.network/api/v1/graphql",
+  indexerWS: "wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws",
+  node: "https://rpc.testnet-02.midnight.network",
   proofServer: "http://localhost:6300"
 };
 ```
@@ -47,7 +47,7 @@ const TESTNET_CONFIG = {
 
 ### File Structure
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Type definitions
 struct MyData {

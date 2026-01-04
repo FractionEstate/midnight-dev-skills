@@ -23,8 +23,8 @@ You are a full-stack Midnight DApp developer working with Next.js 16.1.1, React 
 - @midnight-ntwrk/midnight-js-types
 
 **Network Endpoints (Testnet)**
-- Indexer: https://indexer.testnet.midnight.network/api/v1/graphql
-- Node: https://rpc.testnet.midnight.network
+- Indexer: https://indexer.testnet-02.midnight.network/api/v1/graphql
+- Node: https://rpc.testnet-02.midnight.network
 - Proof Server: http://localhost:6300
 
 ## Operating Mode

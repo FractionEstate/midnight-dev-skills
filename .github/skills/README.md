@@ -3,9 +3,9 @@
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-Specification-blue)](https://agentskills.io/specification)
 [![Midnight Network](https://img.shields.io/badge/Midnight-Network-purple)](https://midnight.network)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black)](https://nextjs.org)
-[![Compact](https://img.shields.io/badge/Compact-0.2.0-green)](https://docs.midnight.network)
+[![Compact](https://img.shields.io/badge/Compact-0.25-green)](https://docs.midnight.network)
 
-GitHub Agent Skills for building privacy-preserving dApps on the Midnight Network using Next.js 16.1.1 and Compact 0.2.0.
+GitHub Agent Skills for building privacy-preserving dApps on the Midnight Network using Next.js 16.1.1 and Compact 0.25.
 
 ## 🎯 What Are These Skills?
 
@@ -27,11 +27,15 @@ Agent Skills are self-contained folders with instructions and bundled resources 
 | [compact-smart-contracts](compact-smart-contracts/) | Compact language fundamentals, circuits, and state management | `references/compact-cheatsheet.md` |
 | [advanced-compact-patterns](advanced-compact-patterns/) | Access control, state machines, and optimization patterns | `references/patterns.md` |
 | [nextjs-wallet-integration](nextjs-wallet-integration/) | DApp Connector API and wallet connection flows | — |
+| [browser-wallet-integration](browser-wallet-integration/) | **NEW** Lace wallet + React patterns for browser dApps | — |
+| [wallet-sdk-integration](wallet-sdk-integration/) | WalletBuilder patterns for CLI and server apps | `references/wallet-builder-patterns.md` |
 | [deploy-midnight-dapp](deploy-midnight-dapp/) | Contract deployment scripts and environment configuration | — |
-| [ci-cd-pipeline](ci-cd-pipeline/) | GitHub Actions for automated testing and deployment | `references/workflow-templates.md` |
-| [testing-compact-contracts](testing-compact-contracts/) | Vitest setup and circuit testing strategies | `scripts/test-setup.js` |
+| [contract-deployment](contract-deployment/) | Official deployment patterns from Midnight examples | `references/deploy-patterns.md` |
+| [ci-cd-pipeline](ci-cd-pipeline/) | GitHub Actions for automated testing and deployment | `references/github-action-templates.md` |
+| [testing-compact-contracts](testing-compact-contracts/) | Vitest setup and circuit testing strategies | `references/test-simulator-patterns.md` |
 | [zero-knowledge-proofs](zero-knowledge-proofs/) | ZK-SNARK concepts and selective disclosure | — |
 | [build-bulletin-board-dapp](build-bulletin-board-dapp/) | Complete tutorial: bulletin board dApp from scratch | — |
+| [create-mn-app](create-mn-app/) | **NEW** Official `npx create-mn-app` CLI scaffolding | — |
 | [troubleshooting](troubleshooting/) | Solutions for common development issues | — |
 
 ## 📁 Structure
@@ -65,7 +69,7 @@ description: ...          # What it does + when to use (10-1024 chars)
 
 ### Prerequisites
 
-- Node.js 20+
+- Node.js 22+
 - Docker Desktop
 - Google Chrome
 - VS Code with GitHub Copilot
@@ -73,12 +77,15 @@ description: ...          # What it does + when to use (10-1024 chars)
 ### Setup Environment
 
 ```bash
-# Option 1: Use bundled setup script
+# Option 1: Use official create-mn-app CLI (Recommended)
+npx create-mn-app my-midnight-app
+
+# Option 2: Use bundled setup script
 bash .github/skills/midnight-nextjs-setup/scripts/setup.sh my-midnight-app
 
-# Option 2: Manual setup
+# Option 3: Manual setup
 curl --proto '=https' --tlsv1.2 -LsSf \
-  https://github.com/midnightntwrk/compact/releases/download/compact-v0.2.0/compact-installer.sh | sh
+  https://github.com/midnightntwrk/compact/releases/download/compact-v0.25.0/compact-installer.sh | sh
 
 # Start proof server
 docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --network testnet
@@ -124,12 +131,22 @@ cp -r .github/skills/compact-smart-contracts/ /path/to/your-project/.github/skil
 
 ## 📚 Resources
 
+### Official Repositories
+- [Midnight GitHub](https://github.com/midnightntwrk) - Official organization
+- [example-counter](https://github.com/midnightntwrk/example-counter) - Simple counter dApp
+- [example-bboard](https://github.com/midnightntwrk/example-bboard) - Bulletin board with UI
+- [create-mn-app](https://github.com/midnightntwrk/create-mn-app) - Official scaffolding CLI
+- [setup-compact-action](https://github.com/midnightntwrk/setup-compact-action) - GitHub Action
+
+### Documentation
 - [Midnight Documentation](https://docs.midnight.network)
 - [Compact Language Guide](https://docs.midnight.network/develop/tutorial/building-your-first-midnight-dapp/compact)
 - [Agent Skills Specification](https://agentskills.io/specification)
 - [GitHub awesome-copilot](https://github.com/github/awesome-copilot)
-- [Midnight GitHub](https://github.com/midnightntwrk)
+
+### Community
 - [Discord Community](https://discord.com/invite/midnightnetwork)
+- [Midnight Faucet](https://faucet.testnet-02.midnight.network) (Testnet)
 
 ## 🤝 Contributing
 

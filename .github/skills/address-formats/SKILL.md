@@ -303,7 +303,7 @@ export function AddressInput({ value, onChange, required }: AddressInputProps) {
 ### Receiving to Addresses
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // Receive tokens to contract
 export circuit receiveTokens(amount: Uint<64>): [] {

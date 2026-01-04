@@ -9,7 +9,7 @@ Set up a complete development environment for building privacy-preserving Midnig
 
 ## Prerequisites
 
-- Node.js 20.x or higher
+- Node.js 22.x or higher
 - Google Chrome browser
 - Docker Desktop
 - Basic command-line knowledge

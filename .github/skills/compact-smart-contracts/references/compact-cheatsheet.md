@@ -5,7 +5,7 @@ Quick reference for Compact smart contract development on Midnight Network.
 ## Pragma
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 ```
 
 ## Types
@@ -152,7 +152,7 @@ compact compile contracts/mycontract.compact contracts/managed/mycontract
 | "Cannot assign private to public" | Missing `disclose()` | Wrap with `disclose()` |
 | "Type mismatch" | Wrong Opaque type | Check type annotations |
 | "Undefined ledger" | Missing `export` | Add `export` keyword |
-| "Version mismatch" | Wrong pragma | Use `pragma compact(">=0.18");` |
+| "Version mismatch" | Wrong pragma | Use `pragma compact(">=0.25");` |
 
 ## Resources
 

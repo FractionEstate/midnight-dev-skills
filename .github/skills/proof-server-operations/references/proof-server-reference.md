@@ -239,7 +239,7 @@ Response 200:
 {
   "version": "1.0.0",
   "network": "testnet",
-  "supported_circuits": ["compact_v0.18"],
+  "supported_circuits": ["compact_v0.25"],
   "max_circuit_size": 1048576,
   "workers": 4
 }

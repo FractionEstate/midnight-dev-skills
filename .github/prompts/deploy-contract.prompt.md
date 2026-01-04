@@ -149,5 +149,5 @@ console.log('Save this address:', contractInstance.address);
 
 | Network | Indexer | Node RPC |
 |---------|---------|----------|
-| Testnet | indexer.testnet.midnight.network | rpc.testnet.midnight.network |
+| Testnet | indexer.testnet-02.midnight.network | rpc.testnet-02.midnight.network |
 | Mainnet | indexer.midnight.network | rpc.midnight.network |

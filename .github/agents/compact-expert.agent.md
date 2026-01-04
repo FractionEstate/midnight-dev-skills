@@ -53,7 +53,7 @@ You are an expert in Compact, Midnight Network's domain-specific language for wr
 
 ### File Structure
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 // 1. Imports
 import { hash, is_some, unwrap } from "std";
@@ -107,7 +107,7 @@ export circuit myMutation(...): [] { ... }
 ### Complete Contract Template
 
 ```compact
-pragma compact(">=0.18");
+pragma compact(">=0.25");
 
 import { hash, is_some, unwrap } from "std";
 

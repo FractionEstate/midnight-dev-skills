@@ -79,9 +79,9 @@ export function WalletButton() {
 ### Network Configuration
 ```typescript
 export const TESTNET_CONFIG = {
-  indexer: 'https://indexer.testnet.midnight.network/api/v1/graphql',
-  indexerWS: 'wss://indexer.testnet.midnight.network/api/v1/graphql/ws',
-  node: 'https://rpc.testnet.midnight.network',
+  indexer: 'https://indexer.testnet-02.midnight.network/api/v1/graphql',
+  indexerWS: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws',
+  node: 'https://rpc.testnet-02.midnight.network',
   proofServer: 'http://localhost:6300'
 } as const;
 ```
