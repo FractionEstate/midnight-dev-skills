@@ -9,6 +9,7 @@ applyTo: "**/*.{css,tsx,jsx},**/tailwind.config.{js,ts}"
 ## Configuration
 
 ### CSS-First Setup (v4)
+
 ```css
 @import "tailwindcss";
 
@@ -21,6 +22,7 @@ applyTo: "**/*.{css,tsx,jsx},**/tailwind.config.{js,ts}"
 ## Class Ordering
 
 Follow consistent ordering:
+
 1. Layout (display, position, flex/grid)
 2. Box model (width, height, margin, padding)
 3. Typography (font, text)
@@ -34,6 +36,7 @@ Follow consistent ordering:
 ## Responsive Design
 
 ### Mobile-First
+
 ```html
 <div class="w-full md:w-1/2 lg:w-1/3">
   <!-- Full width on mobile, half on tablet, third on desktop -->
@@ -41,6 +44,7 @@ Follow consistent ordering:
 ```
 
 ### Container Queries (v4)
+
 ```html
 <div class="@container">
   <div class="flex flex-col @md:flex-row">
@@ -52,6 +56,7 @@ Follow consistent ordering:
 ## Component Patterns
 
 ### Button
+
 ```html
 <button class="rounded-lg bg-primary-500 px-4 py-2 font-medium text-white
                hover:bg-primary-600 focus-visible:outline-2
@@ -60,6 +65,7 @@ Follow consistent ordering:
 ```
 
 ### Input
+
 ```html
 <input class="block w-full rounded-lg border-gray-300
               shadow-sm focus:border-primary-500 focus:ring-primary-500
@@ -67,6 +73,7 @@ Follow consistent ordering:
 ```
 
 ### Card
+
 ```html
 <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5
             dark:bg-gray-900 dark:ring-white/10">

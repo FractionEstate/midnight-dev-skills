@@ -22,6 +22,7 @@ Build a reusable UI component following design system best practices.
 ## Requirements
 
 1. **File Structure**:
+
    ```
    components/ui/${componentName.toLowerCase()}.tsx
    ```
@@ -117,6 +118,7 @@ export { Component, componentVariants };
 ## Output
 
 Provide:
+
 1. Complete component code
 2. Usage examples
 3. Storybook story (optional)

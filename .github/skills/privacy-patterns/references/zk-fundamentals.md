@@ -11,7 +11,7 @@ A proof that demonstrates knowledge of something without revealing what you know
 ### ZKP Properties
 
 | Property | Meaning |
-|----------|---------|
+| -------- | ------- |
 | **Completeness** | True statements always verify |
 | **Soundness** | False statements never verify |
 | **Zero-Knowledge** | Verifier learns nothing except validity |
@@ -21,7 +21,7 @@ A proof that demonstrates knowledge of something without revealing what you know
 **SNARK** = **S**uccinct **N**on-interactive **AR**gument of **K**nowledge
 
 | Component | Description |
-|-----------|-------------|
+| --------- | ----------- |
 | **Succinct** | Tiny proofs (~288 bytes) |
 | **Non-interactive** | Single message, no back-and-forth |
 | **Argument** | Computationally secure |
@@ -29,7 +29,7 @@ A proof that demonstrates knowledge of something without revealing what you know
 
 ## How ZK-SNARKs Work
 
-```
+```text
 1. SETUP (once per contract)
    ┌──────────┐     ┌─────────────────────┐
    │ Circuit  │ ──▶ │ Proving Key (pk)    │
@@ -54,6 +54,7 @@ A proof that demonstrates knowledge of something without revealing what you know
 ## From Compact to ZK Circuit
 
 **Compact Code:**
+
 ```compact
 export circuit verifyAge(birthYear: Uint<32>, minAge: Uint<32>): Boolean {
   let currentYear = 2024;
@@ -63,7 +64,8 @@ export circuit verifyAge(birthYear: Uint<32>, minAge: Uint<32>): Boolean {
 ```
 
 **Becomes Constraints:**
-```
+
+```text
 age = 2024 - birthYear        (constraint 1)
 result = (age >= minAge)      (constraint 2)
 ```
@@ -74,7 +76,7 @@ result = (age >= minAge)      (constraint 2)
 ## Privacy Levels
 
 | Level | Code | What's Public |
-|-------|------|---------------|
+| ----- | ---- | ------------- |
 | Fully Private | `let x = input;` | Nothing |
 | Disclosed Value | `disclose(input)` | The value itself |
 | Proven Property | `disclose(input >= min)` | Only the boolean |
@@ -95,6 +97,7 @@ export circuit proveOwnership(publicKey: Field): [] {
 ```
 
 **Properties:**
+
 - Known only to prover
 - Not stored on-chain
 - Must be provided each transaction
@@ -102,7 +105,7 @@ export circuit proveOwnership(publicKey: Field): [] {
 
 ## Proof Generation
 
-```
+```text
                      ┌─────────────────┐
                      │  Proof Server   │
                      │  (localhost)    │
@@ -119,8 +122,9 @@ export circuit proveOwnership(publicKey: Field): [] {
 ```
 
 **Performance:**
+
 | Operation | Time |
-|-----------|------|
+| --------- | ---- |
 | Proof generation | 1-30 seconds |
 | Verification | ~10 milliseconds |
 | Proof size | ~288 bytes |
@@ -158,7 +162,7 @@ export circuit merkleVerify(
 ## Security Guarantees
 
 | Guarantee | Meaning |
-|-----------|---------|
+| --------- | ------- |
 | **Privacy** | Private inputs never leave prover's machine |
 | **Integrity** | Cannot create valid proof with wrong data |
 | **Verifiability** | Anyone can verify without secrets |

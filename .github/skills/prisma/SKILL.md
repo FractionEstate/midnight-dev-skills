@@ -1,11 +1,15 @@
 ---
 name: prisma
-description: Type-safe database access with Prisma ORM for Node.js and TypeScript. Use when designing schemas, writing queries, running migrations, or optimizing database operations. Triggers on Prisma, database, ORM, migration, or SQL questions.
+description: >-
+  Type-safe database access with Prisma ORM for Node.js and TypeScript. Use when designing schemas,
+  writing queries, running migrations, or optimizing database operations. Triggers on Prisma,
+  database, ORM, migration, or SQL questions.
 ---
 
 # Prisma ORM
 
-Prisma is a next-generation ORM for Node.js and TypeScript. It provides type-safe database access, auto-generated migrations, and an intuitive data modeling language.
+Prisma is a next-generation ORM for Node.js and TypeScript. It provides type-safe database access,
+auto-generated migrations, and an intuitive data modeling language.
 
 ## Core Concepts
 

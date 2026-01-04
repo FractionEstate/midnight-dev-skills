@@ -76,6 +76,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Working with Next.js pages, layouts, server components, route handlers
 
 **Key Resources:**
+
 - App Router Guide: #skill:nextjs
 - Routing Patterns: #skill:nextjs
 - Data Fetching: #skill:nextjs
@@ -94,6 +95,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 | `app/api/` | Route handlers |
 
 **Key Patterns:**
+
 - Server Components are default (no directive needed)
 - Use `'use client'` only when needed (interactivity, hooks)
 - Use Server Actions for mutations (`'use server'`)
@@ -108,6 +110,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Setting up or working with monorepo structure, workspaces, build pipelines
 
 **Key Resources:**
+
 - Monorepo Guide: #skill:turborepo
 - Configuration: #skill:turborepo
 
@@ -121,6 +124,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 | `packages/config-*/` | Shared configurations |
 
 **Key Patterns:**
+
 - Use `workspace:*` for internal dependencies
 - Configure `transpilePackages` in Next.js
 - Export components from package entry points
@@ -133,6 +137,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Working with database schema, migrations, queries
 
 **Key Resources:**
+
 - Database Guide: #skill:prisma
 - Schema Reference: #skill:prisma
 - Query Patterns: #skill:prisma
@@ -149,6 +154,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 | `onDelete: Cascade` | Cascade deletes |
 
 **Query Patterns:**
+
 - Use `include` for eager loading relations
 - Use `select` to limit returned fields
 - Use `$transaction` for atomic operations
@@ -156,6 +162,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 - Use pagination with `skip` and `take`
 
 **Client Singleton:**
+
 - Use global singleton to prevent connection exhaustion
 - Configure logging per environment
 - Export both client and generated types
@@ -167,6 +174,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Building React components, managing state, using hooks
 
 **Key Resources:**
+
 - Routing Guide: #skill:nextjs
 
 **Component Patterns:**
@@ -178,12 +186,14 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 | Composition | Combining server + client components |
 
 **Hook Patterns:**
+
 - `useState` - Local component state
 - `useTransition` - Non-blocking updates
 - `useActionState` - Form action state
 - `useOptimistic` - Optimistic UI updates
 
 **Context Pattern:**
+
 - Create typed context with `createContext`
 - Provide custom hook for consuming
 - Throw error if used outside provider
@@ -195,10 +205,12 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Styling components with Tailwind CSS
 
 **Key Resources:**
+
 - Tailwind Guide: #skill:tailwindcss
 - Theme Configuration: #skill:tailwindcss
 
 **Key Patterns:**
+
 - Use CSS-first configuration in v4 (`@theme`)
 - Use `oklch` color space for better color mixing
 - Define design tokens as CSS variables

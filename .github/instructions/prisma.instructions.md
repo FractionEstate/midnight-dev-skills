@@ -9,6 +9,7 @@ applyTo: "**/prisma/**,**/lib/prisma.ts,**/lib/db.ts"
 ## Schema Conventions
 
 ### Model Naming
+
 - Use PascalCase for models
 - Use camelCase for fields
 - Prefix relations with the related model name
@@ -25,10 +26,12 @@ model User {
 ```
 
 ### ID Strategy
+
 - Use `cuid()` or `uuid()` for IDs
 - Avoid autoincrement in distributed systems
 
 ### Indexes
+
 ```prisma
 model Post {
   id       String @id
@@ -59,6 +62,7 @@ if (process.env.NODE_ENV !== 'production') {
 ## Query Patterns
 
 ### Select vs Include
+
 ```typescript
 // Select specific fields (smaller payload)
 const users = await prisma.user.findMany({
@@ -72,6 +76,7 @@ const users = await prisma.user.findMany({
 ```
 
 ### Pagination
+
 ```typescript
 const [items, total] = await Promise.all([
   prisma.post.findMany({
@@ -84,6 +89,7 @@ const [items, total] = await Promise.all([
 ```
 
 ### Transactions
+
 ```typescript
 // Sequential
 const [user, posts] = await prisma.$transaction([

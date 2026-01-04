@@ -21,6 +21,7 @@ Configure complete authentication with NextAuth.js v5 (Auth.js).
 ## Requirements
 
 1. **File Structure**:
+
    ```
    lib/
    └── auth.ts                    # Auth configuration
@@ -93,6 +94,7 @@ GOOGLE_SECRET=
 ## Output
 
 Provide:
+
 1. Complete auth.ts configuration
 2. Route handler
 3. Middleware configuration

@@ -46,11 +46,13 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 ## Available Tools
 
 ### Page Management
+
 - **Navigate**: Go to URLs, manage browser pages
 - **Resize**: Test responsive layouts
 - **Emulate**: Simulate devices, network conditions, geolocation
 
 ### Element Interaction
+
 - **Click**: Click on elements by selector/uid
 - **Fill**: Type into inputs, select options
 - **Fill Form**: Fill multiple form fields at once
@@ -59,16 +61,19 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 - **Press Key**: Keyboard interactions
 
 ### Visual Capture
+
 - **Screenshot**: Capture full page or element screenshots
 - **Snapshot**: Get accessibility tree text representation
 - **Wait For**: Wait for specific text to appear
 
 ### Network & Performance
+
 - **Network Requests**: List and inspect network traffic
 - **Performance Trace**: Start/stop performance recording
 - **Analyze Insights**: Get detailed performance metrics
 
 ### Debugging
+
 - **Console Messages**: View browser console logs
 - **Evaluate Script**: Run JavaScript in page context
 - **Handle Dialog**: Manage alerts, confirms, prompts
@@ -91,6 +96,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Creating or running E2E tests
 
 **Key Resources:**
+
 - Playwright Guide: #skill:playwright
 - Fixtures: #skill:playwright
 - Selectors: #skill:playwright
@@ -114,6 +120,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 | `getByTestId` | Data-testid attributes |
 
 **Key Patterns:**
+
 - Use role-based selectors for accessibility
 - Wait for elements before interacting
 - Use test isolation (no shared state)
@@ -126,6 +133,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Capturing screenshots, visual regression
 
 **Key Resources:**
+
 - Selectors Guide: #skill:playwright
 
 **Screenshot Options:**
@@ -137,6 +145,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 | `animations: 'disabled'` | Freeze animations |
 
 **Visual Regression:**
+
 - Use `toHaveScreenshot` for comparison
 - Set `maxDiffPixels` threshold
 - Configure `threshold` for tolerance
@@ -149,9 +158,11 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Analyzing page performance, Core Web Vitals
 
 **Key Resources:**
+
 - Fixtures Guide: #skill:playwright
 
 **Performance Trace Workflow:**
+
 1. Start trace recording before action
 2. Perform user action (navigate, click)
 3. Stop trace recording
@@ -166,6 +177,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 | CLS | < 0.1 | Cumulative Layout Shift |
 
 **Chrome DevTools Integration:**
+
 - Use performance trace tools
 - Analyze insight sets
 - Review LCP breakdown
@@ -178,6 +190,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Inspecting API calls, network behavior
 
 **Key Resources:**
+
 - Fixtures Guide: #skill:playwright
 
 **Network Interception:**
@@ -190,6 +203,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 | `page.waitForResponse` | Wait for specific response |
 
 **Network Condition Testing:**
+
 - Add artificial latency
 - Test offline behavior
 - Simulate slow connections
@@ -201,15 +215,18 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Testing forms, inputs, validation
 
 **Key Resources:**
+
 - Selectors Guide: #skill:playwright
 
 **Form Testing Workflow:**
+
 1. Get page snapshot to identify elements
 2. Fill form fields with `fill_form` tool
 3. Submit and verify results
 4. Check validation messages
 
 **Validation Testing:**
+
 - Test required field validation
 - Test format validation (email, etc.)
 - Verify error message accessibility
@@ -221,14 +238,17 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Testing a11y, screen readers, ARIA
 
 **Key Resources:**
+
 - Selectors Guide: #skill:playwright
 
 **Axe Integration:**
+
 - Use `@axe-core/playwright` for automated checks
 - Test against WCAG 2.1 AA standards
 - Filter by specific rule tags
 
 **Keyboard Testing:**
+
 - Tab through interactive elements
 - Verify focus order
 - Test activation with Enter/Space
@@ -238,6 +258,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 ## Configuration
 
 **Key Resources:**
+
 - Fixtures Reference: #skill:playwright
 
 **Project Matrix:**
@@ -260,6 +281,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 | `screenshot` | only-on-failure | only-on-failure |
 
 **Web Server:**
+
 - Configure `webServer` for automatic dev server
 - Use `reuseExistingServer` in development
 - Set `baseURL` for relative navigation

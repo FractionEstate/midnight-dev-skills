@@ -225,7 +225,6 @@ Controls how environment variables are handled:
   "envMode": "strict"
 }
 ```
-```
 
 ### Output Logs
 

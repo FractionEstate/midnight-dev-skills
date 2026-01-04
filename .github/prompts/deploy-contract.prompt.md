@@ -19,7 +19,7 @@ Deploy a Compact smart contract to Midnight Network.
 
 ## Prerequisites Check
 
-1. **Compact Compiler**: Ensure `compactc` is installed
+1. **Compact developer tools**: Ensure `compact` is installed (`compact --version`)
 2. **Proof Server**: Ensure proof server is running on port 6300
 3. **Wallet**: Lace wallet with Midnight support installed and funded
 
@@ -28,12 +28,20 @@ Deploy a Compact smart contract to Midnight Network.
 ### Step 1: Compile Contract
 
 ```bash
-compactc ${contractPath}/main.compact --output ${contractPath}/build
+compact compile --vscode \
+  ${contractPath}/main.compact \
+  ${contractPath}/managed/main
 ```
+
+Notes:
+
+- Use `compact compile` (not the legacy `compactc`) per the current Midnight docs.
+- Do not use `--skip-zk` for a real deploy, because you typically need proving keys.
 
 ### Step 2: Configure Network Endpoints
 
 **Testnet-02**:
+
 - Indexer: `https://indexer.testnet-02.midnight.network/api/v1/graphql`
 - RPC: `https://rpc.testnet-02.midnight.network`
 - WebSocket: `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws`
@@ -41,6 +49,7 @@ compactc ${contractPath}/main.compact --output ${contractPath}/build
 ### Step 3: Create Deployment Script
 
 Create a TypeScript deployment script with:
+
 - Provider configuration (publicDataProvider, proofProvider)
 - Wallet connection
 - Contract deployment using `deployContract()`
@@ -53,6 +62,7 @@ Run the deployment script and capture the contract address.
 ## Output Format
 
 Provide:
+
 1. Deployment script code
 2. Terminal commands to execute
 3. Contract address after successful deployment

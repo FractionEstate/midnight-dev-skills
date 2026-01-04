@@ -1,6 +1,9 @@
 ---
 name: privacy-patterns
-description: Implement privacy-preserving patterns using zero-knowledge proofs on Midnight Network. Use when designing private data handling, commitment schemes, nullifiers, or selective disclosure. Triggers on privacy, ZK proof, commitment, nullifier, or confidential computing questions.
+description: >-
+  Implement privacy-preserving patterns using zero-knowledge proofs on Midnight Network. Use when
+  designing private data handling, commitment schemes, nullifiers, or selective disclosure.
+  Triggers on privacy, ZK proof, commitment, nullifier, or confidential computing questions.
 ---
 
 # Privacy Patterns for Midnight
@@ -10,7 +13,7 @@ Design and implement privacy-preserving applications using zero-knowledge proofs
 ## Core Privacy Model
 
 | Concept | Description | Visibility |
-|---------|-------------|------------|
+| ------- | ----------- | ---------- |
 | **Public** | Ledger state | Everyone |
 | **Private** | Circuit inputs | Only prover |
 | **Witness** | Prover-provided data | Only prover |
@@ -19,7 +22,7 @@ Design and implement privacy-preserving applications using zero-knowledge proofs
 ## Reference Files
 
 | Topic | Resource |
-|-------|----------|
+| ----- | -------- |
 | **Zero-Knowledge Basics** | [references/zk-fundamentals.md](references/zk-fundamentals.md) |
 | **Commitment Schemes** | [references/commitments.md](references/commitments.md) |
 | **Nullifier Patterns** | [references/nullifiers.md](references/nullifiers.md) |
@@ -28,28 +31,36 @@ Design and implement privacy-preserving applications using zero-knowledge proofs
 ## Pattern Overview
 
 ### 1. Commitment Scheme
+
 Hide a value while binding to it:
+
 ```compact
 commitment = persistentCommit(value, randomness);
 // Later: prove you know the opening
 ```
 
 ### 2. Nullifier Pattern
+
 Prevent double-use without revealing identity:
+
 ```compact
 nullifier = transientHash(secret, commitment);
 // Can only be generated once per commitment
 ```
 
 ### 3. Selective Disclosure
+
 Prove properties without revealing data:
+
 ```compact
 // Prove over 18 without revealing actual age
 disclose(age >= 18);  // Only boolean is public
 ```
 
 ### 4. Merkle Membership
+
 Prove membership in a set without revealing position:
+
 ```compact
 // Verify path from leaf to root
 assert verifyMerklePath(leaf, proof, root);
@@ -58,6 +69,7 @@ assert verifyMerklePath(leaf, proof, root);
 ## Quick Examples
 
 ### Private Balance Check
+
 ```compact
 // Only reveal if balance is sufficient, not actual amount
 export circuit checkFunds(balance: Uint<64>, required: Uint<64>): Boolean {
@@ -66,6 +78,7 @@ export circuit checkFunds(balance: Uint<64>, required: Uint<64>): Boolean {
 ```
 
 ### Anonymous Voting
+
 ```compact
 export circuit vote(voter: Bytes<32>, choice: Boolean): [] {
   // Voter identity disclosed (prevents double voting)
@@ -76,6 +89,7 @@ export circuit vote(voter: Bytes<32>, choice: Boolean): [] {
 ```
 
 ### Commitment-Reveal
+
 ```compact
 witness randomness: Field;
 
@@ -103,7 +117,7 @@ export circuit reveal(value: Uint<64>, commitment: Field): [] {
 
 ## Privacy Levels
 
-```
+```text
 ┌────────────────────────────────────────────────┐
 │ Level 0: Fully Public                          │
 │ - All data visible on-chain                    │
@@ -122,7 +136,7 @@ export circuit reveal(value: Uint<64>, commitment: Field): [] {
 ## When to Use Each Pattern
 
 | Pattern | Use Case |
-|---------|----------|
+| ------- | -------- |
 | Commitment | Sealed bids, hidden votes before reveal |
 | Nullifier | Preventing double-spend, one-time tokens |
 | Merkle Proof | Membership in allowlist without revealing identity |

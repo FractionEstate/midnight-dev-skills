@@ -5,6 +5,7 @@ Complete reference for Compact's type system optimized for zero-knowledge proofs
 ## Primitive Types
 
 ### Boolean
+
 ```compact
 ledger isActive: Boolean;
 circuit checkCondition(value: Uint<64>): Boolean {
@@ -12,10 +13,10 @@ circuit checkCondition(value: Uint<64>): Boolean {
 }
 ```
 
-### Unsigned Integers - Uint<N>
+### Unsigned Integers - `Uint<N>`
 
 | Type | Range | Use Case |
-|------|-------|----------|
+| ---- | ----- | -------- |
 | `Uint<8>` | 0-255 | Flags, small counters |
 | `Uint<32>` | 0-4B | User IDs, timestamps |
 | `Uint<64>` | 0-18×10¹⁸ | Balances, amounts |
@@ -46,7 +47,7 @@ circuit fieldMath(a: Field, b: Field): Field {
 
 **Use for:** Hash outputs, commitments, Merkle nodes, EC operations.
 
-### Bytes<N>
+### `Bytes<N>`
 
 Fixed-length byte arrays:
 
@@ -56,7 +57,7 @@ ledger address: Bytes<20>;     // 160 bits
 ledger signature: Bytes<64>;   // 512 bits
 ```
 
-### Opaque<S>
+### `Opaque<S>`
 
 External type references resolved at runtime:
 
@@ -79,7 +80,7 @@ circuit useTuple(t: (Uint<64>, Bytes<32>)): Uint<64> {
 }
 ```
 
-### Vector<N, T>
+### `Vector<N, T>`
 
 Fixed-length arrays:
 
@@ -167,7 +168,7 @@ circuit narrow(large: Uint<64>): Uint<8> {
 ## Quick Reference
 
 | Type | Description | Example |
-|------|-------------|---------|
+| ---- | ----------- | ------- |
 | `Boolean` | True/false | `ledger flag: Boolean;` |
 | `Uint<n>` | n-bit unsigned | `ledger count: Uint<64>;` |
 | `Uint<a..b>` | Range a to b | `ledger pct: Uint<0..100>;` |

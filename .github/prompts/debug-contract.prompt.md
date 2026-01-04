@@ -58,6 +58,7 @@ Debug an issue with a Midnight Network contract or dApp.
 ## Output Format
 
 Provide:
+
 1. Root cause analysis
 2. Specific fix with code changes
 3. Prevention tips for future

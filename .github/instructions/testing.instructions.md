@@ -11,6 +11,7 @@ You are an expert in testing Midnight Network smart contracts and dApps.
 ## Testing Framework Setup
 
 ### Vitest Configuration
+
 ```typescript
 // vitest.config.ts
 import { defineConfig } from 'vitest/config';
@@ -27,6 +28,7 @@ export default defineConfig({
 ```
 
 ### Test Setup File
+
 ```typescript
 // test/setup.ts
 import { beforeAll, afterAll } from 'vitest';
@@ -46,6 +48,7 @@ afterAll(async () => {
 ## Contract Testing with Simulator
 
 ### Simulator Pattern
+
 ```typescript
 import { constructorContext, QueryContext, sampleContractAddress } from "@midnight-ntwrk/compact-runtime";
 import { Contract, ledger } from "../managed/mycontract/contract/index.cjs";
@@ -79,6 +82,7 @@ export class MyContractSimulator {
 ```
 
 ### Unit Test Example
+
 ```typescript
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MyContractSimulator } from './simulator';
@@ -111,6 +115,7 @@ describe('MyContract', () => {
 ## Testing Privacy Patterns
 
 ### Test Commitment Schemes
+
 ```typescript
 describe('Commitment', () => {
   it('verifies valid commitment', () => {
@@ -129,6 +134,7 @@ describe('Commitment', () => {
 ```
 
 ### Test Nullifiers
+
 ```typescript
 describe('Nullifier', () => {
   it('allows first claim', () => {
@@ -147,6 +153,7 @@ describe('Nullifier', () => {
 ## Integration Testing
 
 ### With Deployed Contract
+
 ```typescript
 describe('Integration', () => {
   let contract: DeployedContract;

@@ -1,6 +1,9 @@
 ---
 name: compact
-description: Write privacy-preserving smart contracts in Compact (Minokawa) for Midnight Network. Use when creating contracts, defining types, using standard library functions, or implementing ZK patterns. Triggers on Compact language, circuits, ledger state, hashing, or zero-knowledge contract questions.
+description: >-
+  Write privacy-preserving smart contracts in Compact (Minokawa) for Midnight Network. Use when creating
+  contracts, defining types, using standard library functions, or implementing ZK patterns. Triggers on
+  Compact language, circuits, ledger state, hashing, or zero-knowledge contract questions.
 metadata:
   author: FractionEstate
   version: "0.18"
@@ -8,9 +11,11 @@ metadata:
 
 # Compact Smart Contracts
 
-Compact (being renamed to Minokawa) is Midnight's domain-specific language for privacy-preserving smart contracts. Contracts compile to ZK-SNARKs, enabling selective disclosure of data.
+Compact (being renamed to Minokawa) is Midnight's domain-specific language for privacy-preserving smart
+contracts. Contracts compile to ZK-SNARKs, enabling selective disclosure of data.
 
-> **Note**: As of compiler v0.26.0, the language is being renamed from "Compact" to "Minokawa" under the Linux Foundation Decentralized Trust. The toolchain commands still use `compact`.
+> **Note**: As of compiler v0.26.0, the language is being renamed from "Compact" to "Minokawa" under the
+> Linux Foundation Decentralized Trust. The toolchain commands still use `compact`.
 
 ## Quick Start
 
@@ -58,6 +63,7 @@ ledger tree: MerkleTree<20, Field>;  // Cryptographic proofs
 | ----- | -------- |
 | **Type System** | [references/types.md](references/types.md) - Full type reference |
 | **Standard Library** | [references/stdlib.md](references/stdlib.md) - Hashing, coins, EC ops |
+| **VS Code extension** | [references/vscode-extension.md](references/vscode-extension.md) - Editor setup and tasks |
 | **Ledger Patterns** | [references/ledger-patterns.md](references/ledger-patterns.md) - State management |
 | **Advanced Patterns** | [references/advanced-patterns.md](references/advanced-patterns.md) - Access control, state machines |
 

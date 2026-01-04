@@ -32,27 +32,32 @@ export default defineConfig({
 ## Locator Priority
 
 1. **Role-based** (best)
+
    ```typescript
    page.getByRole('button', { name: 'Submit' });
    ```
 
 2. **Label-based** (forms)
+
    ```typescript
    page.getByLabel('Email');
    page.getByPlaceholder('Search...');
    ```
 
 3. **Text-based**
+
    ```typescript
    page.getByText('Welcome');
    ```
 
 4. **Test ID** (when others fail)
+
    ```typescript
    page.getByTestId('user-avatar');
    ```
 
 5. **CSS** (last resort)
+
    ```typescript
    page.locator('.card');
    ```

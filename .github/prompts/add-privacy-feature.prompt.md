@@ -20,7 +20,9 @@ Add privacy-preserving features to an existing Midnight contract.
 ## Privacy Patterns
 
 ### Commitment Scheme
+
 Hide a value on-chain while allowing later verification:
+
 ```compact
 export circuit commit(witness value: Uint<64>, witness salt: Field): Field {
   return hash2(value, salt);
@@ -32,7 +34,9 @@ export circuit reveal(secret value: Uint<64>, secret salt: Field, commitment: Fi
 ```
 
 ### Nullifier Pattern
+
 Prevent double-actions without revealing the secret:
+
 ```compact
 ledger { nullifiers: Set<Field> }
 
@@ -44,7 +48,9 @@ export circuit claim(witness secret: Field): [] {
 ```
 
 ### Merkle Proof
+
 Prove membership without revealing position:
+
 ```compact
 ledger { members: MerkleTree<256, Field> }
 
@@ -58,7 +64,9 @@ export circuit proveMembership(
 ```
 
 ### Selective Disclosure
+
 Prove properties without revealing data:
+
 ```compact
 export circuit proveOver18(
   witness birthYear: Uint<16>,
@@ -71,6 +79,7 @@ export circuit proveOver18(
 ## Output Format
 
 Provide:
+
 1. Modified contract code with new privacy feature
 2. Explanation of the privacy guarantee
 3. Example usage showing private inputs

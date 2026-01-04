@@ -1,11 +1,15 @@
 ---
 name: tailwindcss
-description: Utility-first CSS styling with Tailwind CSS v4. Use when styling components, configuring themes, responsive design, or building design systems. Triggers on Tailwind, CSS, styling, theming, or responsive design questions.
+description: >-
+  Utility-first CSS styling with Tailwind CSS v4. Use when styling components, configuring themes,
+  responsive design, or building design systems. Triggers on Tailwind, CSS, styling, theming, or
+  responsive design questions.
 ---
 
 # Tailwind CSS v4
 
-Tailwind CSS v4 introduces CSS-first configuration, OKLCH colors, and improved performance. This skill provides comprehensive patterns for building modern UIs.
+Tailwind CSS v4 introduces CSS-first configuration, OKLCH colors, and improved performance.
+This skill provides comprehensive patterns for building modern UIs.
 
 ## Core Concepts
 

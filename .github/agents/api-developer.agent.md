@@ -66,6 +66,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Building REST endpoints with Next.js Route Handlers
 
 **Key Resources:**
+
 - Data Fetching: #skill:nextjs
 - Server Actions: #skill:nextjs
 
@@ -79,6 +80,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 | Action | `app/api/auth/login/route.ts` | POST |
 
 **Key Patterns:**
+
 - Use `NextRequest` and `NextResponse` from `next/server`
 - Access params via `{ params }: { params: Promise<{ id: string }> }`
 - Validate input with Zod schemas
@@ -107,9 +109,11 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Building type-safe mutations with Server Actions
 
 **Key Resources:**
+
 - Server Actions: #skill:nextjs
 
 **Key Patterns:**
+
 - Mark file or function with `'use server'`
 - Return typed result objects (success/error)
 - Use `revalidatePath` or `revalidateTag` after mutations
@@ -131,6 +135,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Implementing authentication with NextAuth.js v5
 
 **Key Resources:**
+
 - Middleware Guide: #skill:nextjs
 
 **Auth Configuration:**
@@ -142,16 +147,19 @@ You are an elite API developer with deep expertise in building scalable, secure,
 | `middleware.ts` | Route protection |
 
 **Provider Options:**
+
 - OAuth: GitHub, Google, Discord
 - Credentials: Email/password
 - Email: Magic links
 
 **Session Strategy:**
+
 - Use JWT for serverless (default)
 - Use database sessions for sensitive apps
 - Extend session with custom fields via callbacks
 
 **Protection Patterns:**
+
 - Use `auth()` in Server Components
 - Use middleware for route protection
 - Check roles in `authorized` callback
@@ -163,6 +171,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Validating API inputs
 
 **Key Resources:**
+
 - Server Actions: #skill:nextjs
 
 **Zod Schema Patterns:**
@@ -177,6 +186,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 | `.safeParse()` | Non-throwing validation |
 
 **Validation Flow:**
+
 1. Define schema for input
 2. Parse with `safeParse` for graceful handling
 3. Return 400 with details on failure
@@ -189,6 +199,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Protecting APIs from abuse
 
 **Key Resources:**
+
 - Middleware Patterns: #skill:nextjs
 
 **Rate Limiting Strategies:**
@@ -200,11 +211,13 @@ You are an elite API developer with deep expertise in building scalable, secure,
 | Token Bucket | Refilling token pool |
 
 **Implementation Options:**
+
 - Upstash Redis for serverless
 - In-memory for single instance
 - Edge middleware for global
 
 **Response Headers:**
+
 - `X-RateLimit-Limit` - Maximum requests
 - `X-RateLimit-Remaining` - Remaining requests
 - `X-RateLimit-Reset` - Reset timestamp

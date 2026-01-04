@@ -1,11 +1,15 @@
 ---
 name: playwright
-description: End-to-end testing with Playwright for web applications. Use when writing E2E tests, browser automation, visual regression testing, or debugging test failures. Triggers on Playwright, E2E, browser testing, or test automation questions.
+description: >-
+  End-to-end testing with Playwright for web applications. Use when writing E2E tests, browser
+  automation, visual regression testing, or debugging test failures. Triggers on Playwright, E2E,
+  browser testing, or test automation questions.
 ---
 
 # Playwright E2E Testing
 
-Playwright is a modern end-to-end testing framework that supports Chromium, Firefox, and WebKit. It provides auto-wait, network interception, and powerful debugging tools.
+Playwright is a modern end-to-end testing framework that supports Chromium, Firefox, and WebKit.
+It provides auto-wait, network interception, and powerful debugging tools.
 
 ## Core Concepts
 
@@ -360,5 +364,6 @@ npx playwright show-report
 6. **CI parallelization** - run tests in parallel for speed
 
 ## References
+
 - [references/selectors.md](references/selectors.md) - Selector patterns
 - [references/fixtures.md](references/fixtures.md) - Fixtures and setup

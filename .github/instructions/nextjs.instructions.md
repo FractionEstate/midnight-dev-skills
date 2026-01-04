@@ -9,6 +9,7 @@ applyTo: "**/app/**/*.{ts,tsx},**/next.config.{js,mjs,ts}"
 ## File Conventions
 
 ### Route Files
+
 - `page.tsx` - Route UI (required for route to be accessible)
 - `layout.tsx` - Shared layout (wraps children)
 - `loading.tsx` - Loading UI with Suspense
@@ -17,6 +18,7 @@ applyTo: "**/app/**/*.{ts,tsx},**/next.config.{js,mjs,ts}"
 - `route.ts` - API endpoint (cannot coexist with page.tsx)
 
 ### Special Files
+
 - `middleware.ts` - Request middleware (root only)
 - `instrumentation.ts` - Monitoring hooks
 - `globals.css` - Global styles
@@ -24,6 +26,7 @@ applyTo: "**/app/**/*.{ts,tsx},**/next.config.{js,mjs,ts}"
 ## Component Types
 
 ### Server Components (default)
+
 ```tsx
 // Direct data fetching
 export default async function Page() {
@@ -33,6 +36,7 @@ export default async function Page() {
 ```
 
 ### Client Components
+
 ```tsx
 'use client';
 
@@ -47,6 +51,7 @@ export default function Interactive() {
 ## Data Fetching
 
 ### Caching Strategies
+
 ```tsx
 // IMPORTANT: fetch is NOT cached by default in Next.js 15+
 // Default behavior: fetched on every request (auto no-cache)
@@ -71,6 +76,7 @@ fetch('https://api.example.com/data', {
 ```
 
 ### Revalidation
+
 ```tsx
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
 
@@ -162,6 +168,7 @@ next upgrade
 ## Turbopack (Default in Dev)
 
 File system caching is now stable and enabled by default for `next dev`:
+
 - Compiler artifacts cached on disk
 - ~5-14× faster restarts on large projects
 - `serverExternalPackages` now handles transitive dependencies automatically

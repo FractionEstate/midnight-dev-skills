@@ -22,6 +22,7 @@ Set up a new Turborepo monorepo with the following configuration.
 ## Requirements
 
 1. **Directory Structure**:
+
    ```
    ${projectName}/
    ├── apps/
@@ -64,6 +65,7 @@ Set up a new Turborepo monorepo with the following configuration.
 ## Output
 
 After creation, provide:
+
 1. Project structure overview
 2. Available npm scripts
 3. Next steps for development

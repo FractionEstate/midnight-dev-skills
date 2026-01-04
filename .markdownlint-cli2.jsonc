@@ -1,0 +1,21 @@
+{
+  // Lint the skills content (this is what Copilot agents consume and what VS Code
+  // typically surfaces warnings for when you open files).
+  "globs": [
+    ".github/skills/**/*.md"
+  ],
+  "ignores": [
+    "**/node_modules/**",
+    "**/.next/**",
+    "**/dist/**",
+    "**/coverage/**",
+    "**/playwright-report/**"
+  ],
+  "config": {
+    "MD013": {
+      "line_length": 120,
+      "code_blocks": false,
+      "tables": false
+    }
+  }
+}

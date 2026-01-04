@@ -30,6 +30,7 @@ npm install -D @midnight-ntwrk/midnight-js-network-id
 ### 2. Vitest Configuration
 
 Create `vitest.config.ts`:
+
 ```typescript
 import { defineConfig } from 'vitest/config';
 
@@ -52,6 +53,7 @@ export default defineConfig({
 ### 3. Test Setup File
 
 Create `test/setup.ts`:
+
 ```typescript
 import { beforeAll } from 'vitest';
 import { setNetworkId, NetworkId } from '@midnight-ntwrk/midnight-js-network-id';
@@ -65,6 +67,7 @@ beforeAll(() => {
 ### 4. Contract Simulator Helper
 
 Create `test/helpers/simulator.ts`:
+
 ```typescript
 import { constructorContext, QueryContext, sampleContractAddress } from '@midnight-ntwrk/compact-runtime';
 
@@ -98,6 +101,7 @@ export function createSimulator<T, P>(
 ### 5. Example Test File
 
 Create `test/contract.test.ts`:
+
 ```typescript
 import { describe, it, expect, beforeEach } from 'vitest';
 import { createSimulator } from './helpers/simulator';
@@ -120,6 +124,7 @@ describe('Contract', () => {
 ### 6. Package.json Scripts
 
 Add to `package.json`:
+
 ```json
 {
   "scripts": {
@@ -133,6 +138,7 @@ Add to `package.json`:
 ## Output Format
 
 Provide:
+
 1. All configuration files
 2. Helper utilities
 3. Example test files

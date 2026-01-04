@@ -22,6 +22,7 @@ Set up Docker containerization for a Next.js application.
 ## Requirements
 
 1. **File Structure**:
+
    ```
    .
    ├── Dockerfile
@@ -102,6 +103,7 @@ docker compose down -v
 ## Output
 
 Provide:
+
 1. Complete Dockerfile with comments
 2. .dockerignore file
 3. docker-compose.yml for development

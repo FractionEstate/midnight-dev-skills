@@ -7,7 +7,7 @@ This document provides GitHub Copilot with comprehensive guidelines for developi
 When generating code for Midnight Network projects:
 
 1. **Privacy First**: Always default to privacy-preserving patterns using zero-knowledge proofs
-2. **Version Compatibility**: Use Compact 0.25+, Next.js 16.1.1, and @midnight-ntwrk packages
+2. **Version Compatibility**: Use Compact compiler 0.26.0 (language 0.18.0), Next.js 16.1.1, and @midnight-ntwrk packages compatible with each other
 3. **Context Files**: Reference skills in `.github/skills/` for patterns and examples
 4. **Type Safety**: Use comprehensive TypeScript types for all Midnight APIs
 5. **Security**: Handle witnesses, secrets, and private state with care
@@ -15,25 +15,33 @@ When generating code for Midnight Network projects:
 ## Technology Stack
 
 ### Core Versions
+
 - **Compact**: 0.26.0 compiler / 0.18 language / 0.3.0 dev tools (`pragma language_version 0.18;`)
 - **Next.js**: 16.1.1 (App Router)
 - **TypeScript**: 5.x (strict mode)
 - **React**: 19.x (Server Components)
 
 ### Midnight Network Packages
+
 ```json
 {
   "@midnight-ntwrk/dapp-connector-api": "^3.0.0",
   "@midnight-ntwrk/wallet": "^5.0.0",
-  "@midnight-ntwrk/wallet-sdk-hd": "latest",
-  "@midnight-ntwrk/ledger": "latest",
+  "@midnight-ntwrk/wallet-sdk-hd": "^5.0.0",
+  "@midnight-ntwrk/ledger": "^4.0.0",
   "@midnight-ntwrk/zswap": "^4.0.0",
-  "@midnight-ntwrk/midnight-js-types": "latest",
-  "@midnight-ntwrk/midnight-js-contracts": "latest"
+  "@midnight-ntwrk/midnight-js-types": "^2.1.0",
+  "@midnight-ntwrk/midnight-js-contracts": "^2.1.0"
 }
 ```
 
+Notes:
+
+- Prefer pinning to known-compatible versions (see the official release notes / compatibility matrix).
+- Avoid using `"latest"` in docs or templates, because it can silently break reproducibility.
+
 ### Network Endpoints (Testnet)
+
 ```typescript
 const TESTNET_CONFIG = {
   indexer: "https://indexer.testnet-02.midnight.network/api/v1/graphql",
@@ -46,6 +54,7 @@ const TESTNET_CONFIG = {
 ## Compact Language Guidelines
 
 ### File Structure
+
 ```compact
 pragma language_version 0.18;
 
@@ -82,6 +91,7 @@ export circuit updateData(data: MyData): [] {
 ```
 
 ### Type System Priorities
+
 1. **Use appropriate bit widths**: `Uint<8>`, `Uint<32>`, `Uint<64>`, `Uint<128>`, `Uint<256>`
 2. **Field for ZK operations**: Hashing, commitments, and cryptographic proofs
 3. **Bytes for raw data**: `Bytes<32>` for hashes, `Bytes<N>` for fixed-length
@@ -89,6 +99,7 @@ export circuit updateData(data: MyData): [] {
 5. **Opaque types** for sensitive data that stays off-chain
 
 ### Ledger Types
+
 ```compact
 // Counter - auto-incrementing values
 ledger { counter: Counter }
@@ -107,6 +118,7 @@ ledger { commitments: MerkleTree<256, Field> }
 ```
 
 ### Standard Library Usage
+
 ```compact
 // Import the standard library (builtin since v0.13)
 import CompactStandardLibrary;
@@ -127,6 +139,7 @@ circuit paymentCircuit(): [send(coins), receive(coins)] { ... }
 ## TypeScript Integration
 
 ### Wallet Connection Pattern
+
 ```typescript
 'use client';
 import "@midnight-ntwrk/dapp-connector-api";
@@ -161,6 +174,7 @@ async function checkAuthorization() {
 ```
 
 ### Contract Deployment Pattern
+
 ```typescript
 import { ContractInstance, deployContract } from '@midnight-ntwrk/midnight-js-contracts';
 
@@ -186,6 +200,7 @@ export async function deployMyContract(
 ```
 
 ### Transaction Pattern
+
 ```typescript
 import { Transaction, TransactionId } from '@midnight-ntwrk/midnight-js-types';
 
@@ -202,6 +217,7 @@ export async function submitTransaction(
 ## Privacy Patterns
 
 ### Commitment Scheme
+
 ```compact
 // Create commitment (on-chain)
 export circuit commit(witness preimage: Field): Field {
@@ -215,6 +231,7 @@ export circuit reveal(secret preimage: Field, commitment: Field): [] {
 ```
 
 ### Selective Disclosure
+
 ```typescript
 // Only reveal what's necessary
 interface ProofOfAge {
@@ -227,6 +244,7 @@ const proof = await generateAgeProof(birthDate, minAge: 18);
 ```
 
 ### Merkle Proof Verification
+
 ```compact
 export circuit verifyMembership(
   witness leaf: Field,
@@ -241,6 +259,7 @@ export circuit verifyMembership(
 ## Best Practices
 
 ### Do's ✅
+
 - Use `secret` keyword for private inputs that stay off-chain
 - Use `witness` keyword for private data that must be proven
 - Validate all user inputs before state changes
@@ -249,6 +268,7 @@ export circuit verifyMembership(
 - Use typed providers for all Midnight APIs
 
 ### Don'ts ❌
+
 - Never expose secrets in transaction data
 - Don't store unhashed sensitive data in ledger
 - Avoid large state in Compact (gas costs)
@@ -258,7 +278,7 @@ export circuit verifyMembership(
 
 ## File Organization
 
-```
+```text
 my-midnight-dapp/
 ├── app/                          # Next.js App Router
 │   ├── layout.tsx               # Root layout with providers
@@ -312,18 +332,19 @@ try {
 ## Reference Resources
 
 - **Skills**: `.github/skills/` - Comprehensive development guides
-- **Docs**: https://docs.midnight.network - Official documentation
-- **Examples**: https://github.com/midnight-ntwrk - Official examples
+- **Docs**: <https://docs.midnight.network> - Official documentation
+- **Examples**: <https://github.com/midnight-ntwrk> - Official examples
 
 ---
 
-# Web Development Stack
+## Web Development Stack
 
 This workspace also supports general full-stack web development with modern tooling.
 
 ## Web Technology Stack
 
 ### Core Versions
+
 - **Next.js**: 16.1+ (App Router, Turbopack stable)
 - **React**: 19.x (Server Components, Suspense)
 - **TypeScript**: 5.x (strict mode)
@@ -336,7 +357,8 @@ This workspace also supports general full-stack web development with modern tool
 ## Project Types
 
 ### Monorepo Structure (Turborepo)
-```
+
+```text
 my-project/
 ├── apps/
 │   ├── web/              # Next.js frontend
@@ -350,7 +372,8 @@ my-project/
 ```
 
 ### Next.js App Router
-```
+
+```text
 app/
 ├── layout.tsx            # Root layout
 ├── page.tsx              # Home page
@@ -366,7 +389,7 @@ app/
 ## Skills Reference
 
 | Skill | Path | Use For |
-|-------|------|---------|
+| ----- | ---- | ------- |
 | Next.js | `.github/skills/nextjs/` | App Router, Server Components, Data Fetching |
 | Tailwind CSS | `.github/skills/tailwindcss/` | Styling, Theming, Components |
 | Turborepo | `.github/skills/turborepo/` | Monorepo setup, Caching, CI/CD |
@@ -376,7 +399,7 @@ app/
 ## Instructions Reference
 
 | File | Applies To | Purpose |
-|------|------------|---------|
+| ---- | ---------- | ------- |
 | `nextjs.instructions.md` | `app/**/*.tsx` | Next.js patterns |
 | `tailwindcss.instructions.md` | `*.css, *.tsx` | Styling guidelines |
 | `turborepo.instructions.md` | `turbo.json` | Monorepo config |
@@ -386,6 +409,7 @@ app/
 ## Quick Patterns
 
 ### Server Component with Data Fetching
+
 ```tsx
 // app/posts/page.tsx
 export default async function PostsPage() {
@@ -395,6 +419,7 @@ export default async function PostsPage() {
 ```
 
 ### Server Action
+
 ```tsx
 'use server';
 export async function createPost(formData: FormData) {
@@ -404,6 +429,7 @@ export async function createPost(formData: FormData) {
 ```
 
 ### Tailwind v4 Theme
+
 ```css
 @import "tailwindcss";
 @theme {
@@ -412,6 +438,7 @@ export async function createPost(formData: FormData) {
 ```
 
 ### Prisma Query
+
 ```typescript
 const users = await prisma.user.findMany({
   include: { posts: true },
@@ -420,6 +447,7 @@ const users = await prisma.user.findMany({
 ```
 
 ### Playwright Test
+
 ```typescript
 test('navigation works', async ({ page }) => {
   await page.goto('/');
@@ -431,7 +459,7 @@ test('navigation works', async ({ page }) => {
 ## Agents Reference
 
 | Agent | Purpose |
-|-------|---------|
+| ----- | ------- |
 | Fullstack Developer | Next.js, Turborepo, React, Prisma, Tailwind |
 | API Developer | REST APIs, Server Actions, Authentication |
 | UI Designer | Tailwind CSS, Components, Accessibility |

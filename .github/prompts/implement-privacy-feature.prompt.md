@@ -22,6 +22,7 @@ Implement a complete privacy-preserving feature across both Compact contract and
 ### 1. Contract Layer (Compact)
 
 Design the privacy-preserving circuit:
+
 - Identify public vs private inputs
 - Use `witness` for ZK-verified data
 - Use `secret` for off-chain-only data
@@ -30,6 +31,7 @@ Design the privacy-preserving circuit:
 ### 2. TypeScript Integration
 
 Create the dApp integration:
+
 - Set up provider configuration
 - Implement contract interaction functions
 - Handle private state management
@@ -38,6 +40,7 @@ Create the dApp integration:
 ### 3. Privacy Verification
 
 Ensure privacy guarantees:
+
 - Witnesses are never exposed
 - Commitments hide values
 - Nullifiers prevent replay
@@ -46,6 +49,7 @@ Ensure privacy guarantees:
 ## Example: Private Voting
 
 ### Contract
+
 ```compact
 pragma language_version 0.18;
 
@@ -82,6 +86,7 @@ export circuit castVote(
 ```
 
 ### TypeScript
+
 ```typescript
 async function vote(choice: boolean) {
   const salt = generateRandomField();
@@ -98,6 +103,7 @@ async function vote(choice: boolean) {
 ## Output Format
 
 Provide:
+
 1. Complete Compact contract code
 2. TypeScript integration code
 3. Privacy analysis (what is hidden, what is revealed)

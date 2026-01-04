@@ -6,7 +6,7 @@ Common patterns for implementing privacy-preserving features using ZK proofs.
 
 ### Public vs Private Data
 
-```
+```text
 ┌─────────────────────────────────────────────────────────┐
 │                    Transaction                          │
 ├─────────────────────────────────────────────────────────┤
@@ -20,7 +20,7 @@ Common patterns for implementing privacy-preserving features using ZK proofs.
 
 ### Commitment Scheme
 
-```
+```text
 commit(value, nonce) = hash(value || nonce)
 
 Properties:
@@ -32,7 +32,7 @@ Properties:
 
 Use case: Voting, auctions, sealed bids
 
-```
+```text
 Phase 1 (Commit):
   User computes: commitment = hash(vote + random_nonce)
   User submits: commitment (public)
@@ -71,7 +71,7 @@ export circuit reveal(
 
 Use case: Token transfers, voting (one person one vote)
 
-```
+```text
 nullifier = hash(secret_key + unique_identifier)
 
 Properties:
@@ -100,7 +100,7 @@ export circuit spend(
 
 Use case: Prove membership without revealing position
 
-```
+```text
          Root
         /    \
        H12    H34
@@ -196,25 +196,30 @@ export circuit privateTransfer(
 ## Security Considerations
 
 ### Nonce Requirements
+
 - Use cryptographically random nonces (256 bits)
 - Never reuse nonces
 - Store nonces securely client-side
 
 ### Hash Function Selection
+
 - Use collision-resistant hash functions
 - Midnight uses Poseidon (ZK-friendly)
 
 ### Timing Attacks
+
 - Ensure constant-time operations
 - Add randomized delays if needed
 
 ### Front-Running Protection
+
 - Use commit-reveal for sensitive operations
 - Implement minimum delay between phases
 
 ## Common Mistakes
 
 ❌ **Revealing secrets in events**
+
 ```compact
 // BAD: secret value logged
 emit ValueSubmitted(secretValue);
@@ -224,6 +229,7 @@ emit CommitmentSubmitted(hash(secretValue));
 ```
 
 ❌ **Deterministic nullifiers without secret**
+
 ```compact
 // BAD: anyone can compute
 const nullifier = hash(publicTokenId);
@@ -233,6 +239,7 @@ const nullifier = hash(secretKey, publicTokenId);
 ```
 
 ❌ **Missing binding in commitments**
+
 ```compact
 // BAD: malleable commitment
 const commitment = hash(value);

@@ -58,6 +58,7 @@ monorepo/
 ## Caching
 
 ### Cache Outputs
+
 ```json
 {
   "build": {
@@ -71,6 +72,7 @@ monorepo/
 ```
 
 ### Environment Variables
+
 ```json
 {
   "globalEnv": ["CI", "VERCEL"],
@@ -150,4 +152,4 @@ Creates `out/json/` (package.json files) and `out/full/` (full code) for optimal
 4. **Enable remote caching** - In CI for faster builds
 5. **Use --affected in CI** - Only build changed packages
 6. **Use turbo prune** - For optimized Docker builds
-6. **Full git history** - Use `fetch-depth: 0` for --affected flag
+7. **Full git history** - Use `fetch-depth: 0` for --affected flag

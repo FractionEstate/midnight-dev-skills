@@ -20,12 +20,14 @@ Perform a security audit on the Midnight Network contract.
 ## Audit Checklist
 
 ### 1. Input Validation
+
 - [ ] All public inputs have range checks
 - [ ] No unchecked arithmetic operations
 - [ ] Vector/array bounds validated
 - [ ] Null/undefined handling for Maybe types
 
 ### 2. Privacy Protection
+
 - [ ] Sensitive data uses `witness` or `secret` modifier
 - [ ] No plaintext secrets in ledger state
 - [ ] Commitments include randomness (salt)
@@ -33,18 +35,21 @@ Perform a security audit on the Midnight Network contract.
 - [ ] No witness values returned as outputs
 
 ### 3. Access Control
+
 - [ ] Admin functions properly protected
 - [ ] Role checks before sensitive operations
 - [ ] No privilege escalation paths
 - [ ] Ownership transfers secured
 
 ### 4. State Management
+
 - [ ] State transitions are atomic
 - [ ] No reentrancy vulnerabilities
 - [ ] Counter/nonce prevents replay
 - [ ] Map/Set operations validated
 
 ### 5. Cryptographic Patterns
+
 - [ ] Hash functions used correctly
 - [ ] Merkle proofs verified properly
 - [ ] Signature schemes implemented correctly
@@ -61,6 +66,7 @@ Perform a security audit on the Midnight Network contract.
 ## Output Format
 
 Provide an audit report with:
+
 1. Executive summary
 2. Findings sorted by severity
 3. Code snippets showing issues

@@ -1,6 +1,9 @@
 ---
 name: testing
-description: Test Midnight smart contracts using simulators and unit tests. Use when setting up test environments, writing contract tests, or debugging circuit behavior. Triggers on testing, simulator, unit test, or test framework questions.
+description: >-
+  Test Midnight smart contracts using simulators and unit tests. Use when setting up test
+  environments, writing contract tests, or debugging circuit behavior. Triggers on testing,
+  simulator, unit test, or test framework questions.
 ---
 
 # Testing Midnight Contracts
@@ -25,14 +28,14 @@ expect(simulator.ledger.counter).toBe(1n);
 ## Reference Files
 
 | Topic | Resource |
-|-------|----------|
+| ----- | -------- |
 | **Simulator Setup** | [references/simulator-setup.md](references/simulator-setup.md) |
 | **Test Patterns** | [references/test-patterns.md](references/test-patterns.md) |
 | **Debugging** | [references/debugging.md](references/debugging.md) |
 
 ## Test Environment
 
-```
+```text
 ┌──────────────────────────────────────────────┐
 │              Test Environment                │
 ├──────────────────────────────────────────────┤
@@ -138,7 +141,7 @@ it('should not reveal private inputs', async () => {
 ## Test Categories
 
 | Category | Tests |
-|----------|-------|
+| -------- | ----- |
 | **Unit** | Individual circuit functions |
 | **Integration** | Multi-circuit workflows |
 | **State** | Ledger state transitions |

@@ -22,6 +22,7 @@ Create a complete Prisma database schema for the specified domain.
 ## Requirements
 
 1. **Schema Location**:
+
    ```
    prisma/schema.prisma
    # or for monorepo:
@@ -29,6 +30,7 @@ Create a complete Prisma database schema for the specified domain.
    ```
 
 2. **Generator Configuration**:
+
    ```prisma
    generator client {
      provider = "prisma-client-js"
@@ -110,6 +112,7 @@ enum Role {
 ## Output
 
 Provide:
+
 1. Complete schema.prisma file
 2. Migration commands
 3. Seed file example

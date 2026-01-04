@@ -17,13 +17,14 @@ Create comprehensive end-to-end tests for a web application using Playwright.
 
 - **Feature to Test**: ${input:feature:user authentication}
 - **Test File Path**: ${input:testPath:tests/auth.spec.ts}
-- **Base URL**: ${input:baseUrl:http://localhost:3000}
+- **Base URL**: ${input:baseUrl:<http://localhost:3000}>
 - **Include Visual Tests**: ${input:visualTests:yes}
 - **Include A11y Tests**: ${input:a11yTests:yes}
 
 ## Requirements
 
 1. **Test Structure**:
+
    ```typescript
    import { test, expect } from '@playwright/test';
 
@@ -59,11 +60,13 @@ Create comprehensive end-to-end tests for a web application using Playwright.
    - Mock external APIs
 
 5. **Visual Tests** (if included):
+
    ```typescript
    await expect(page).toHaveScreenshot('feature-name.png');
    ```
 
 6. **Accessibility Tests** (if included):
+
    ```typescript
    import AxeBuilder from '@axe-core/playwright';
    const results = await new AxeBuilder({ page }).analyze();
@@ -73,6 +76,7 @@ Create comprehensive end-to-end tests for a web application using Playwright.
 ## Output
 
 Provide:
+
 1. Complete test file with all test cases
 2. Any required fixtures or helpers
 3. Configuration updates if needed

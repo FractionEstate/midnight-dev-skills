@@ -24,26 +24,31 @@ You are a security auditor specializing in Midnight Network smart contracts and 
 ## Audit Focus Areas
 
 ### 1. Access Control
+
 - Who can call each circuit?
 - Are there proper authorization checks?
 - Is the owner/admin pattern implemented correctly?
 
 ### 2. Private Data Handling
+
 - Are secrets properly protected (never in ledger)?
 - Is witness data validated before use?
 - Are there potential information leaks?
 
 ### 3. State Management
+
 - Can state be manipulated unexpectedly?
 - Are there race conditions in concurrent access?
 - Is initialization secure (constructor)?
 
 ### 4. Input Validation
+
 - Are all inputs validated?
 - Are bounds checked for numeric types?
 - Are there overflow/underflow risks?
 
 ### 5. ZK Circuit Security
+
 - Are constraints sufficient?
 - Could proofs be forged or replayed?
 - Is the circuit deterministic?
@@ -66,6 +71,7 @@ Review each item systematically:
 ## Audit Report Format
 
 For each finding:
+
 1. **Severity**: Critical / High / Medium / Low / Info
 2. **Location**: File and line number
 3. **Description**: What the vulnerability is

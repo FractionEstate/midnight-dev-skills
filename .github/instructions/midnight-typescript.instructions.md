@@ -11,6 +11,7 @@ You are an expert in building Midnight Network dApps with TypeScript and Next.js
 ## Package Imports
 
 ### Core Midnight Packages
+
 ```typescript
 // DApp Connector (augments window.midnight)
 import "@midnight-ntwrk/dapp-connector-api";
@@ -40,6 +41,7 @@ import type { CoinInfo } from '@midnight-ntwrk/zswap';
 ## Wallet Connection
 
 Access the Lace wallet via `window.midnight.mnLace`:
+
 ```typescript
 // Import augments window global automatically
 import "@midnight-ntwrk/dapp-connector-api";
@@ -60,6 +62,7 @@ async function connect() {
 ## Client Components
 
 Wallet interactions must be in Client Components:
+
 ```typescript
 'use client';
 
@@ -101,6 +104,7 @@ export function WalletButton() {
 ## Network Configuration
 
 ### Testnet Endpoints
+
 ```typescript
 const TESTNET_CONFIG = {
   indexer: "https://indexer.testnet-02.midnight.network/api/v1/graphql",
@@ -128,6 +132,7 @@ export const providers = {
 ## Contract Interaction
 
 ### Deploy a Contract
+
 ```typescript
 import { deployContract } from '@midnight-ntwrk/midnight-js-contracts';
 
@@ -140,6 +145,7 @@ console.log('Contract address:', deployed.contractAddress);
 ```
 
 ### Call a Circuit
+
 ```typescript
 const result = await deployed.call.myCircuit({
   arg1: 100n,
@@ -169,6 +175,7 @@ try {
 ## Type Safety
 
 ### Contract Types
+
 ```typescript
 // Import generated types from compiled contract
 import type { MyContractTypes } from '../managed/mycontract/contract';

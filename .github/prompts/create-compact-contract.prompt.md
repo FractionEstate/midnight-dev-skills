@@ -58,6 +58,7 @@ Create a Compact smart contract for Midnight Network with the following specific
 ## Output Format
 
 Provide:
+
 1. Complete `.compact` file with all code
 2. Brief explanation of each circuit's purpose
 3. Example usage showing how to interact with the contract

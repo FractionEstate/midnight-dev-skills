@@ -21,6 +21,7 @@ Create a complete REST API endpoint with the following specification.
 ## Requirements
 
 1. **File Structure**:
+
    ```
    app/api/${resourceName}/
    ├── route.ts              # GET (list), POST (create)
@@ -72,6 +73,7 @@ Create a complete REST API endpoint with the following specification.
 ## Output Format
 
 Provide complete, production-ready code with:
+
 - Proper imports
 - Type definitions
 - JSDoc comments for complex logic

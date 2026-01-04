@@ -11,6 +11,7 @@ You are an expert in Compact, the domain-specific language for Midnight Network 
 ## Pragma Declaration
 
 Always start Compact files with the correct pragma:
+
 ```compact
 pragma language_version 0.18;
 
@@ -22,6 +23,7 @@ import CompactStandardLibrary;
 ## Type System
 
 ### Primitive Types
+
 - `Boolean`: true/false values
 - `Uint<N>`: Unsigned integers with N-bit width (e.g., Uint<32>, Uint<64>)
 - `Uint<0..N>`: Bounded integers with explicit bounds (0 to N inclusive)
@@ -30,6 +32,7 @@ import CompactStandardLibrary;
 - `Opaque<"string">` / `Opaque<"Uint8Array">`: Sensitive data that stays off-chain
 
 ### Compound Types
+
 ```compact
 // Structs
 struct Person {
@@ -55,6 +58,7 @@ Maybe<T>  // none() or some(value)
 ## Ledger State
 
 ### Available Ledger Types
+
 ```compact
 ledger {
   // Single values
@@ -77,6 +81,7 @@ ledger {
 ## Circuit Definitions
 
 ### Pure Circuits (No State Changes)
+
 ```compact
 export circuit calculateHash(witness data: Field): Field {
   return hash(data);
@@ -84,6 +89,7 @@ export circuit calculateHash(witness data: Field): Field {
 ```
 
 ### Impure Circuits (State Changes)
+
 ```compact
 // Circuits become impure when they access/modify ledger state
 export circuit updateBalance(
@@ -95,6 +101,7 @@ export circuit updateBalance(
 ```
 
 ### Input Modifiers
+
 - `secret`: Private input, stays completely off-chain
 - `witness`: Private input used in ZK proof generation
 - No modifier: Public input (visible on-chain)
@@ -102,6 +109,7 @@ export circuit updateBalance(
 ## Assertions
 
 Always include descriptive error messages:
+
 ```compact
 assert(balance >= amount, "Insufficient balance");
 assert(is_some(user), "User not found");
@@ -111,11 +119,13 @@ assert(!is_member(address), "Already a member");
 ## Standard Library
 
 Since Compact 0.13+, the standard library is a builtin module:
+
 ```compact
 import CompactStandardLibrary;
 ```
 
 This provides access to:
+
 - **Hashing**: `hash()`, `transientHash()`, `persistentHash()`
 - **Commitments**: `transientCommit()`, `persistentCommit()` (implicitly disclosing)
 - **Key operations**: `public_key()`, `secret_key()`

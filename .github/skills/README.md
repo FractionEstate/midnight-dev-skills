@@ -8,7 +8,10 @@ GitHub Agent Skills for building privacy-preserving dApps on the Midnight Networ
 
 ## 🎯 What Are These Skills?
 
-Agent Skills are self-contained folders with instructions and bundled resources that enhance AI capabilities for specialized tasks. Based on the [Agent Skills specification](https://agentskills.io/specification), each skill contains a `SKILL.md` file with detailed instructions that agents load on-demand.
+Agent Skills are self-contained folders with instructions and bundled resources that enhance AI
+capabilities for specialized tasks. Based on the
+[Agent Skills specification](https://agentskills.io/specification), each skill contains a
+`SKILL.md` file with detailed instructions that agents load on-demand.
 
 **When to use these skills:**
 

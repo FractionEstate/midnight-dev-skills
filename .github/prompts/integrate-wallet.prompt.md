@@ -21,6 +21,7 @@ Set up Midnight wallet integration for a dApp.
 ### 1. Type Declarations
 
 Create `types/midnight.d.ts`:
+
 ```typescript
 import type { DAppConnectorAPI } from '@midnight-ntwrk/dapp-connector-api';
 
@@ -36,6 +37,7 @@ export {};
 ### 2. Wallet Hook (React)
 
 Create `hooks/useMidnightWallet.ts`:
+
 ```typescript
 'use client';
 
@@ -114,6 +116,7 @@ export function useMidnightWallet() {
 ### 3. Wallet Context (React)
 
 Create `contexts/WalletContext.tsx`:
+
 ```typescript
 'use client';
 
@@ -181,6 +184,7 @@ export function WalletButton() {
 ## Output Format
 
 Provide:
+
 1. Type declaration file
 2. Custom hook for wallet management
 3. React context provider

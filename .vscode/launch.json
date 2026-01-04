@@ -30,9 +30,15 @@
       "type": "node",
       "request": "launch",
       "autoAttachChildProcesses": true,
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/**"
+      ],
       "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
-      "args": ["run", "${relativeFile}"],
+      "args": [
+        "run",
+        "${relativeFile}"
+      ],
       "smartStep": true,
       "console": "integratedTerminal"
     },
@@ -41,9 +47,14 @@
       "type": "node",
       "request": "launch",
       "autoAttachChildProcesses": true,
-      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "skipFiles": [
+        "<node_internals>/**",
+        "**/node_modules/**"
+      ],
       "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
-      "args": ["run"],
+      "args": [
+        "run"
+      ],
       "smartStep": true,
       "console": "integratedTerminal"
     },
@@ -52,15 +63,23 @@
       "type": "node",
       "request": "launch",
       "program": "${workspaceFolder}/node_modules/@playwright/test/cli.js",
-      "args": ["test", "--debug"],
+      "args": [
+        "test",
+        "--debug"
+      ],
       "console": "integratedTerminal"
     },
     {
       "name": "Compact: Debug Contract",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceFolder}/node_modules/.bin/compactc",
-      "args": ["${file}"],
+      "program": "compact",
+      "args": [
+        "compile",
+        "--vscode",
+        "${file}",
+        "${workspaceFolder}/contracts/managed/${fileBasenameNoExtension}"
+      ],
       "console": "integratedTerminal",
       "cwd": "${workspaceFolder}"
     }
@@ -68,7 +87,10 @@
   "compounds": [
     {
       "name": "Next.js: Full Debug",
-      "configurations": ["Next.js: debug server-side", "Next.js: debug client-side"]
+      "configurations": [
+        "Next.js: debug server-side",
+        "Next.js: debug client-side"
+      ]
     }
   ]
 }

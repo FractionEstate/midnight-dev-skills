@@ -21,6 +21,7 @@ Configure a complete CI/CD pipeline with GitHub Actions.
 ## Requirements
 
 1. **Workflow Files**:
+
    ```
    .github/workflows/
    ├── ci.yml              # Lint, typecheck, test, build
@@ -81,6 +82,7 @@ TURBO_TEAM: "..."
 ## Output
 
 Provide:
+
 1. Complete workflow YAML files
 2. Secrets setup guide
 3. Branch protection recommendations

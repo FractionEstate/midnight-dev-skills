@@ -234,7 +234,7 @@ export circuit checkAccess(
 
 ## Disclosure Levels
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │ FULL DISCLOSURE                                      │
 │ disclose(actualValue)                               │

@@ -1,6 +1,9 @@
 ---
 name: turborepo
-description: High-performance monorepo build system with Turborepo. Use when configuring workspaces, optimizing build pipelines, setting up caching, or managing multi-package repositories. Triggers on Turborepo, monorepo, workspace, build caching, or pipeline questions.
+description: >-
+  High-performance monorepo build system with Turborepo. Use when configuring workspaces,
+  optimizing build pipelines, setting up caching, or managing multi-package repositories. Triggers
+  on Turborepo, monorepo, workspace, build caching, or pipeline questions.
 metadata:
   author: FractionEstate
   version: "2.x"
@@ -8,13 +11,14 @@ metadata:
 
 # Turborepo
 
-Turborepo is a high-performance build system for JavaScript/TypeScript monorepos. It provides intelligent caching, parallel execution, and incremental builds.
+Turborepo is a high-performance build system for JavaScript/TypeScript monorepos. It provides
+intelligent caching, parallel execution, and incremental builds.
 
 ## Core Concepts
 
 ### Monorepo Structure
 
-```
+```text
 my-turborepo/
 ├── apps/
 │   ├── web/              # Next.js app
@@ -155,6 +159,7 @@ packages:
 ```
 
 **Note:** The following files are always considered inputs and cannot be ignored:
+
 - `package.json`
 - `turbo.json`
 - Package manager lockfiles (automatically included in global hash)
@@ -181,6 +186,7 @@ packages:
 ## Caching
 
 ### Local Caching
+
 ```bash
 # Cache stored in node_modules/.cache/turbo
 turbo run build
@@ -244,7 +250,8 @@ turbo watch build --filter=web
 turbo watch build --experimental-write-cache
 ```
 
-Watch mode is dependency-aware - when a package changes, all dependent packages re-run their tasks. Persistent tasks (dev servers) are automatically handled.
+Watch mode is dependency-aware - when a package changes, all dependent packages re-run their tasks.
+Persistent tasks (dev servers) are automatically handled.
 
 ## Docker Optimization
 
@@ -261,6 +268,7 @@ turbo prune web --docker
 ```
 
 The `--docker` flag creates:
+
 - `out/json/` - package.json files only (for dependency layer)
 - `out/full/` - Complete pruned workspace (for build layer)
 
@@ -462,5 +470,6 @@ jobs:
 5. **Filter in CI** - Only build what changed
 
 ## References
+
 - [references/configuration.md](references/configuration.md) - Full config reference
 - [references/filters.md](references/filters.md) - Filter patterns

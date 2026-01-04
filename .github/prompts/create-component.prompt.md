@@ -20,6 +20,7 @@ Create a new React component for a Midnight Network dApp.
 ## Component Patterns
 
 ### Wallet Button Component
+
 ```typescript
 'use client';
 
@@ -53,6 +54,7 @@ export function WalletButton() {
 ```
 
 ### Contract Form Component
+
 ```typescript
 'use client';
 
@@ -97,6 +99,7 @@ export function ContractForm({ onSubmit }: ContractFormProps) {
 ## Output Format
 
 Provide:
+
 1. Complete component code
 2. Props interface (if applicable)
 3. Usage example

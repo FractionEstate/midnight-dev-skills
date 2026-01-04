@@ -11,8 +11,9 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Versions
-COMPACT_VERSION="0.25.0"
+# Versions (source of truth: https://docs.midnight.network/relnotes/overview)
+COMPACT_TOOLS_VERSION="0.3.0"
+COMPACT_COMPILER_VERSION="0.26.0"
 NODE_MIN_VERSION="20"
 
 echo -e "${BLUE}╔════════════════════════════════════════════════════════════════╗${NC}"
@@ -82,59 +83,14 @@ check_docker() {
     fi
 }
 
-# Install Midnight packages
-install_midnight_packages() {
-    echo -e "\n${BLUE}Installing Midnight Network packages...${NC}"
-
-    # Check if package.json exists
-    if [ ! -f "package.json" ]; then
-        print_info "Creating package.json..."
-        cat > package.json << 'EOF'
-{
-  "name": "midnight-dapp",
-  "version": "1.0.0",
-  "private": true,
-  "description": "Midnight Network dApp",
-  "type": "module",
-  "scripts": {
-    "compact:build": "compactc contracts/*.compact --output dist/contracts",
-    "compact:watch": "compactc contracts/*.compact --output dist/contracts --watch",
-    "proof-server:start": "docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --network testnet",
-    "proof-server:pull": "docker pull midnightnetwork/proof-server",
-    "dev": "next dev",
-    "build": "next build",
-    "test": "vitest",
-    "test:watch": "vitest watch",
-    "lint": "eslint . --ext .ts,.tsx",
-    "typecheck": "tsc --noEmit"
-  },
-  "devDependencies": {
-    "@types/node": "^20.0.0",
-    "typescript": "^5.0.0",
-    "vitest": "^2.0.0"
-  },
-  "engines": {
-    "node": ">=20.0.0"
-  }
-}
-EOF
-    fi
-
-    # Install Midnight packages
-    print_info "Installing @midnight-ntwrk packages..."
-    pnpm add -D @midnight-ntwrk/compact-compiler@latest 2>/dev/null || {
-        print_warning "compact-compiler not available via npm, checking alternative methods..."
-    }
-
-    # Core packages that are typically available
-    pnpm add @midnight-ntwrk/midnight-js-types@latest \
-             @midnight-ntwrk/midnight-js-contracts@latest \
-             @midnight-ntwrk/midnight-js-network-id@latest \
-             @midnight-ntwrk/dapp-connector-api@latest 2>/dev/null || {
-        print_warning "Some packages may require Midnight npm registry access"
-    }
-
-    print_status "Midnight packages installed"
+install_repo_deps() {
+        echo -e "\n${BLUE}Installing repo dependencies...${NC}"
+        if [ -f "pnpm-lock.yaml" ]; then
+                pnpm install
+                print_status "pnpm dependencies installed"
+        else
+                print_info "No pnpm-lock.yaml found; skipping dependency install"
+        fi
 }
 
 # Setup Compact compiler
@@ -150,23 +106,23 @@ setup_compact_compiler() {
         print_info "Checking for compiler updates..."
         compact check 2>/dev/null || true
     else
-        print_info "Installing Compact developer tools v0.3.0..."
+        print_info "Installing Compact developer tools v${COMPACT_TOOLS_VERSION}..."
         echo ""
         echo "  Running: curl --proto '=https' --tlsv1.2 -LsSf \\"
-        echo "    https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh"
+        echo "    https://github.com/midnightntwrk/compact/releases/download/compact-v${COMPACT_TOOLS_VERSION}/compact-installer.sh | sh"
         echo ""
 
         # Install via official installer
         if curl --proto '=https' --tlsv1.2 -LsSf \
-            https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh; then
+            "https://github.com/midnightntwrk/compact/releases/download/compact-v${COMPACT_TOOLS_VERSION}/compact-installer.sh" | sh; then
             print_status "Compact developer tools installed"
             # Update to latest compiler
-            print_info "Installing latest compiler..."
+            print_info "Installing latest compiler (expected ${COMPACT_COMPILER_VERSION})..."
             compact update || print_warning "Could not update compiler"
         else
             print_warning "Installation failed. Try manually:"
             echo "    curl --proto '=https' --tlsv1.2 -LsSf \\"
-            echo "      https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh"
+            echo "      https://github.com/midnightntwrk/compact/releases/download/compact-v${COMPACT_TOOLS_VERSION}/compact-installer.sh | sh"
         fi
     fi
 }
@@ -188,97 +144,14 @@ setup_proof_server() {
     fi
 }
 
-# Create example contract
-create_example_contract() {
-    echo -e "\n${BLUE}Creating example contract...${NC}"
-
-    mkdir -p contracts
-
-    if [ ! -f "contracts/example.compact" ]; then
-        cat > contracts/example.compact << 'EOF'
-pragma language_version 0.18;
-
-import CompactStandardLibrary;
-
-// Example Midnight Contract
-// A simple counter with access control
-
-export ledger owner: Bytes<32>;
-export ledger counter: Counter;
-
-// Initialize the contract
-export circuit initialize(initialOwner: Bytes<32>): [] {
-  owner = initialOwner;
-}
-
-// Increment the counter (anyone can call)
-export circuit increment(): [] {
-  counter = counter + 1;
-}
-
-// Reset counter (owner only)
-export circuit reset(caller: Bytes<32>): [] {
-  require(caller == owner);
-  counter = 0;
-}
-
-// Get current count
-export circuit getCount(): Uint<64> {
-  return counter;
-}
-EOF
-        print_status "Created contracts/example.compact"
-    else
-        print_info "contracts/example.compact already exists"
-    fi
-}
-
-# Create environment file
-create_env_file() {
-    echo -e "\n${BLUE}Creating environment configuration...${NC}"
-
-    if [ ! -f ".env.local" ]; then
-        cat > .env.local << 'EOF'
-# Midnight Network Configuration
-# Testnet-02 endpoints
-
-NEXT_PUBLIC_NETWORK=testnet
-
-# Indexer endpoints
-NEXT_PUBLIC_INDEXER_URL=https://indexer.testnet-02.midnight.network/api/v1/graphql
-NEXT_PUBLIC_INDEXER_WS_URL=wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws
-
-# RPC node
-NEXT_PUBLIC_NODE_URL=https://rpc.testnet-02.midnight.network
-
-# Proof server (local)
-NEXT_PUBLIC_PROOF_SERVER_URL=http://localhost:6300
-
-# Faucet for test tokens
-NEXT_PUBLIC_FAUCET_URL=https://faucet.testnet-02.midnight.network
-EOF
-        print_status "Created .env.local"
-    else
-        print_info ".env.local already exists"
-    fi
-
-    # Create .env.example
-    if [ ! -f ".env.example" ]; then
-        cat > .env.example << 'EOF'
-# Midnight Network Configuration
-# Copy to .env.local and configure
-
-NEXT_PUBLIC_NETWORK=testnet
-
-# Testnet-02 endpoints
-NEXT_PUBLIC_INDEXER_URL=https://indexer.testnet-02.midnight.network/api/v1/graphql
-NEXT_PUBLIC_INDEXER_WS_URL=wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws
-NEXT_PUBLIC_NODE_URL=https://rpc.testnet-02.midnight.network
-NEXT_PUBLIC_PROOF_SERVER_URL=http://localhost:6300
-NEXT_PUBLIC_FAUCET_URL=https://faucet.testnet-02.midnight.network
-EOF
-        print_status "Created .env.example"
-    fi
+print_midnight_links() {
+        echo -e "\n${BLUE}Reference links:${NC}"
+        echo "  • Midnight docs: https://docs.midnight.network"
+        echo "  • Get started: https://docs.midnight.network/getting-started"
+        echo "  • Release notes: https://docs.midnight.network/relnotes/overview"
+        echo "  • Compact compiler relnotes: https://docs.midnight.network/relnotes/compact"
+        echo "  • Compact tools relnotes: https://docs.midnight.network/relnotes/compact-tools"
+        echo "  • Faucet: https://midnight.network/test-faucet"
 }
 
 # Print summary
@@ -297,15 +170,12 @@ print_summary() {
     echo "     Enable Midnight mode in wallet settings"
     echo ""
     echo "  3. Get test tokens from the faucet:"
-    echo -e "     ${YELLOW}https://faucet.testnet-02.midnight.network${NC}"
+    echo -e "     ${YELLOW}https://midnight.network/test-faucet${NC}"
     echo ""
-    echo "  4. Compile a contract:"
-    echo -e "     ${YELLOW}pnpm compact:build${NC}"
+    echo "  4. Contribute to this repo:"
+    echo -e "     ${YELLOW}pnpm lint:md${NC}"
     echo ""
-    echo -e "${BLUE}Documentation:${NC}"
-    echo "  • Midnight Docs: https://docs.midnight.network"
-    echo "  • Compact Language: https://docs.midnight.network/develop/reference/compact"
-    echo ""
+    print_midnight_links
 }
 
 # Main execution
@@ -316,11 +186,9 @@ main() {
     check_node
     check_pnpm
     check_docker
-    install_midnight_packages
+    install_repo_deps
     setup_compact_compiler
     setup_proof_server
-    create_example_contract
-    create_env_file
     print_summary
 }
 

@@ -31,6 +31,7 @@ Is the data sensitive?
 ## Commitment Schemes
 
 ### Hash Commitment
+
 ```compact
 pragma language_version 0.18;
 
@@ -52,6 +53,7 @@ export circuit reveal(
 ```
 
 ### Pedersen Commitment (Value Hiding)
+
 ```compact
 // For hiding amounts while proving properties
 export circuit commitAmount(
@@ -65,6 +67,7 @@ export circuit commitAmount(
 ## Nullifier Patterns
 
 ### Basic Nullifier (Prevent Double-Spend)
+
 ```compact
 ledger {
   nullifiers: Set<Field>
@@ -78,6 +81,7 @@ export circuit claim(witness secret: Field): [] {
 ```
 
 ### Contextual Nullifier (Per-Contract/Action)
+
 ```compact
 export circuit claimWithContext(
   witness secret: Field,
@@ -93,6 +97,7 @@ export circuit claimWithContext(
 ## Merkle Proofs
 
 ### Membership Proof
+
 ```compact
 ledger {
   members: MerkleTree<256, Field>
@@ -113,6 +118,7 @@ export circuit proveMembership(
 ## Selective Disclosure
 
 ### Age Verification (Over 18)
+
 ```compact
 export circuit proveOver18(
   witness birthYear: Uint<16>,
@@ -125,6 +131,7 @@ export circuit proveOver18(
 ```
 
 ### Range Proofs
+
 ```compact
 export circuit proveInRange(
   witness value: Uint<64>,
@@ -138,6 +145,7 @@ export circuit proveInRange(
 ## Privacy Anti-Patterns (Avoid!)
 
 ### ❌ Exposing Witnesses
+
 ```compact
 // WRONG: Returns the witness
 export circuit getSecret(witness s: Field): Field {
@@ -146,6 +154,7 @@ export circuit getSecret(witness s: Field): Field {
 ```
 
 ### ❌ Weak Nullifiers
+
 ```compact
 // WRONG: Predictable nullifier
 export circuit claim(userId: Uint<32>): [] {
@@ -154,6 +163,7 @@ export circuit claim(userId: Uint<32>): [] {
 ```
 
 ### ❌ Commitment Without Salt
+
 ```compact
 // WRONG: Low entropy
 export circuit commit(witness value: Uint<8>): Field {

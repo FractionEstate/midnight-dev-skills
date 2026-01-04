@@ -130,7 +130,7 @@ turbo test --filter="[HEAD^1]..."
 ## Package Selection Logic
 
 | Filter | Selects |
-|--------|---------|
+| ------ | ------- |
 | `web` | Package named "web" |
 | `web...` | web + its dependencies |
 | `...web` | web + its dependents |

@@ -5,7 +5,7 @@ Specialized ledger types for on-chain state management optimized for ZK proofs.
 ## Ledger Type Overview
 
 | Type | Use Case | Operations |
-|------|----------|------------|
+| ---- | -------- | ---------- |
 | `Counter` | Simple counters | Increment, read |
 | `Set<T>` | Membership tracking | Insert, remove, member |
 | `Map<K,V>` | Key-value storage | Get, set, lookup |
@@ -28,7 +28,7 @@ export circuit incrementTxCount(): [] {
 }
 ```
 
-## Set<T>
+## `Set<T>`
 
 Unordered collection with membership testing:
 
@@ -58,11 +58,12 @@ export circuit useNonce(nullifier: Field): [] {
 ```
 
 **Operations:**
+
 - `insert(element)` - Add element
 - `remove(element)` - Remove element
 - `member(element)` - Check membership (returns Boolean)
 
-## Map<K,V>
+## `Map<K,V>`
 
 Key-value storage with lookup:
 
@@ -92,11 +93,12 @@ export circuit transfer(from: Bytes<32>, to: Bytes<32>, amount: Uint<64>): [] {
 ```
 
 **Operations:**
+
 - `map[key] = value` - Set value
 - `map[key]` - Get value (panics if missing)
 - `lookup(key)` - Returns `Maybe<V>`
 
-## MerkleTree<N,T>
+## `MerkleTree<N,T>`
 
 Large sets with efficient membership proofs:
 
@@ -128,7 +130,7 @@ export circuit proveMembership(memberId: Field): Boolean {
 }
 ```
 
-## HistoricMerkleTree<N,T>
+## `HistoricMerkleTree<N,T>`
 
 Auditable Merkle tree with historical proofs:
 

@@ -21,6 +21,7 @@ Optimize a Compact contract for better gas efficiency and smaller proof sizes.
 ### 1. Type Optimization
 
 **Use smallest sufficient types**:
+
 ```compact
 // Before (wasteful)
 counter: Uint<256>
@@ -30,6 +31,7 @@ counter: Uint<32>  // If max value fits
 ```
 
 **Bit width guide**:
+
 | Range | Type |
 |-------|------|
 | 0-255 | Uint<8> |
@@ -41,6 +43,7 @@ counter: Uint<32>  // If max value fits
 ### 2. Circuit Simplification
 
 **Minimize operations in circuits**:
+
 ```compact
 // Before (multiple ops)
 export circuit complex(a: Uint<64>, b: Uint<64>, c: Uint<64>): Uint<64> {
@@ -59,6 +62,7 @@ export circuit optimized(a: Uint<64>, b: Uint<64>, c: Uint<64>): Uint<64> {
 ### 3. State Access Optimization
 
 **Batch reads and writes**:
+
 ```compact
 // Before (multiple state accesses)
 export circuit multiUpdate(): [] {
@@ -77,6 +81,7 @@ export circuit optimizedUpdate(): [] {
 ### 4. Hash Optimization
 
 **Use appropriate hash functions**:
+
 ```compact
 // Single input
 hash(value)
@@ -88,6 +93,7 @@ hash2(a, b)  // More efficient than hash(concat(a, b))
 ### 5. Assertion Optimization
 
 **Combine related checks**:
+
 ```compact
 // Before (multiple assertions)
 assert(amount > 0, "Amount must be positive");
@@ -108,6 +114,7 @@ assert(amount > 0 && amount <= balance, "Invalid amount");
 ## Output Format
 
 Provide:
+
 1. Optimized contract code
 2. Before/after metrics comparison
 3. Explanation of each optimization

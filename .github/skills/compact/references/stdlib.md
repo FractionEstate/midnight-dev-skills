@@ -48,7 +48,7 @@ circuit createCommitment(value: Uint<64>): Field {
 ### Hash Type Selection
 
 | Function | Use Case | Persistence |
-|----------|----------|-------------|
+| -------- | -------- | ----------- |
 | `transientHash` | Temp proofs, within-tx checks | No |
 | `persistentHash` | On-chain IDs, state roots | Yes |
 | `persistentCommit` | Hidden values with opening | Yes |
@@ -215,7 +215,7 @@ circuit ensureAuthorized(caller: Bytes<32>, owner: Bytes<32>): [] {
 ## Function Reference
 
 | Function | Parameters | Returns | Description |
-|----------|------------|---------|-------------|
+| -------- | ---------- | ------- | ----------- |
 | `transientHash(...)` | Any values | `Field` | Temporary hash |
 | `persistentHash(...)` | Any values | `Field` | Permanent hash |
 | `persistentCommit(v, r)` | Value, randomness | `Field` | Commitment |

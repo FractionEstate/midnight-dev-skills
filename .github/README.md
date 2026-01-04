@@ -3,7 +3,7 @@
 [![Agent Skills](https://img.shields.io/badge/Agent_Skills-Specification-blue)](https://agentskills.io/specification)
 [![Midnight Network](https://img.shields.io/badge/Midnight-Network-purple)](https://midnight.network)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black)](https://nextjs.org)
-[![Compact](https://img.shields.io/badge/Compact-0.25+-green)](https://docs.midnight.network)
+[![Compact](https://img.shields.io/badge/Compact-0.26.0-green)](https://docs.midnight.network/relnotes/compact)
 
 Comprehensive GitHub Copilot customizations for building privacy-preserving DApps on Midnight Network with Next.js 16.1.1.
 
@@ -13,12 +13,13 @@ This repository provides a complete AI-assisted development environment:
 
 - **📚 11 Agent Skills** - Specialized knowledge for Midnight and web development
 - **🤖 8 Custom Agents** - Expert personas for different development scenarios
-- **📝 10 Reusable Prompts** - Workflow templates for common tasks
+- **📝 18 Reusable Prompts** - Workflow templates for common tasks
 - **📋 10 Instruction Sets** - Context-aware coding guidelines
 
 ## 🌙 About Midnight Network
 
-Midnight is a privacy-first blockchain that combines public verifiability with confidential data handling using zero-knowledge proofs (ZKPs) and selective disclosure.
+Midnight is a privacy-first blockchain that combines public verifiability with confidential data handling
+using zero-knowledge proofs (ZKPs) and selective disclosure.
 
 ## 📚 Agent Skills
 
@@ -68,16 +69,24 @@ Workflow templates in [prompts/](prompts/):
 
 | Prompt | Description |
 | ------ | ----------- |
-| create-compact-contract | Generate complete Compact contracts |
-| integrate-wallet | Set up wallet connection in Next.js |
-| deploy-contract | Deploy contracts to testnet/mainnet |
-| implement-privacy-feature | Add privacy patterns |
+| add-privacy-feature | Add privacy patterns to an existing project |
 | audit-security | Perform security audits |
-| debug-contract | Debug compilation or runtime errors |
-| add-privacy-feature | Add privacy features to existing contracts |
-| optimize-contract | Optimize for gas efficiency |
-| setup-testing | Configure testing infrastructure |
+| create-compact-contract | Generate complete Compact contracts |
 | create-component | Create React components with wallet integration |
+| create-docker-setup | Add Docker setup for local dev services |
+| create-e2e-tests | Create Playwright E2E tests |
+| create-rest-api | Create REST API routes/handlers |
+| create-turborepo | Scaffold a Turborepo monorepo |
+| create-ui-component | Create UI components (Tailwind, a11y) |
+| debug-contract | Debug compilation or runtime errors |
+| deploy-contract | Compile and deploy contracts |
+| design-database-schema | Design a Prisma schema and migrations |
+| implement-privacy-feature | Add privacy patterns |
+| integrate-wallet | Set up wallet connection in Next.js |
+| optimize-contract | Optimize for gas efficiency |
+| setup-authentication | Add authentication patterns |
+| setup-cicd | Add CI/CD pipelines |
+| setup-testing | Configure testing infrastructure |
 
 ## 📋 Instruction Sets
 
@@ -109,12 +118,11 @@ compact update
 # 3. Start the proof server (in separate terminal)
 docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --network testnet
 
-# 3. Create project
-npx create-next-app@16.1.1 my-midnight-dapp --typescript
+# 4. Create a project (recommended)
+npx create-mn-app my-midnight-dapp
 cd my-midnight-dapp
-npm install @midnight-ntwrk/dapp-connector-api
 
-# 4. Develop your DApp
+# 5. Develop your DApp
 npm run dev
 ```
 
@@ -123,13 +131,16 @@ npm run dev
 - **Midnight Network** - Privacy-first blockchain
 - **Next.js 16.1.1** - React framework with App Router
 - **TypeScript** - Type-safe development
-- **Compact 0.25+** - Smart contract language
+- **Compact compiler 0.26.0** - Smart contract compiler (Minokawa)
+- **Compact language 0.18.0** - Language version (`pragma language_version 0.18;`)
+- **Compact developer tools 0.3.0** - CLI tooling (`compact`)
 - **Docker** - Proof server container
 - **Lace Wallet** - Browser extension for Midnight
 
 ## 🔗 Resources
 
 - **Documentation**: <https://docs.midnight.network/>
+- **Release notes**: <https://docs.midnight.network/relnotes/overview>
 - **Discord**: <https://discord.com/invite/midnightnetwork>
 - **GitHub**: <https://github.com/midnightntwrk>
 - **Agent Skills Spec**: <https://agentskills.io/specification>
