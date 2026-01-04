@@ -2,6 +2,7 @@
 description: Expert fullstack developer specializing in Next.js 15+, Turborepo monorepos, React 19, TypeScript, Prisma ORM, and modern web development with automatic context-aware mode switching.
 name: Fullstack Developer
 tools:
+  - next-devtools/*
   - playwright/*
   - chromedevtools/chrome-devtools-mcp/*
   - edit/editFiles
@@ -127,14 +128,14 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 
 ---
 
-## �� MODE: Prisma Database
+## 🔷 MODE: Prisma Database
 
 **Activated when**: Working with database schema, migrations, queries
 
 **Key Resources:**
 - Database Guide: [prisma/SKILL.md](../skills/prisma/SKILL.md)
 - Schema Reference: [prisma/references/schema.md](../skills/prisma/references/schema.md)
-- Query Patterns: [prisma/references/queries.md](../skills/prisma/references/queries.md)
+- Query Patterns: [prisma/references/query-patterns.md](../skills/prisma/references/query-patterns.md)
 
 **Schema Patterns:**
 
@@ -166,7 +167,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 **Activated when**: Building React components, managing state, using hooks
 
 **Key Resources:**
-- Component Guide: [nextjs/references/components.md](../skills/nextjs/references/components.md)
+- Routing Guide: [nextjs/references/routing.md](../skills/nextjs/references/routing.md)
 
 **Component Patterns:**
 
@@ -195,7 +196,7 @@ You are an elite fullstack developer with deep expertise in the modern JavaScrip
 
 **Key Resources:**
 - Tailwind Guide: [tailwindcss/SKILL.md](../skills/tailwindcss/SKILL.md)
-- Theme Configuration: [tailwindcss/references/theme.md](../skills/tailwindcss/references/theme.md)
+- Theme Configuration: [tailwindcss/references/theming.md](../skills/tailwindcss/references/theming.md)
 
 **Key Patterns:**
 - Use CSS-first configuration in v4 (`@theme`)

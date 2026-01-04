@@ -1,6 +1,14 @@
-// Root Layout Template
-// Location: app/layout.tsx
+# Next.js Layout Template
 
+Root layout with metadata, fonts, and accessible structure.
+
+## Location
+
+`app/layout.tsx`
+
+## Template
+
+```tsx
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -81,3 +89,21 @@ export default function RootLayout({
     </html>
   );
 }
+```
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| `Metadata` | SEO and social sharing |
+| `Viewport` | Responsive and theme colors |
+| Font loading | Next.js optimized fonts |
+| Skip link | Accessibility navigation |
+| Layout structure | Header, main, footer |
+
+## Usage Notes
+
+1. **Single Root Layout**: Only one root layout per app
+2. **Nested Layouts**: Create `layout.tsx` in route folders
+3. **Metadata Inheritance**: Child layouts inherit and override
+4. **No Client State**: Root layout is always a Server Component

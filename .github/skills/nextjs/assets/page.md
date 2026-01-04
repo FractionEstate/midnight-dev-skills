@@ -1,6 +1,14 @@
-// Server Component Page Template
-// Location: app/[route]/page.tsx
+# Next.js Page Template
 
+Server Component page with data fetching, metadata, and Suspense.
+
+## Location
+
+`app/[route]/page.tsx`
+
+## Template
+
+```tsx
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 
@@ -74,3 +82,21 @@ export default async function Page({ params }: PageProps) {
     </main>
   );
 }
+```
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| `generateMetadata` | Dynamic SEO metadata |
+| `generateStaticParams` | Pre-render pages at build time |
+| `Suspense` | Streaming with loading state |
+| `notFound()` | 404 handling |
+| `next.tags` | Cache tags for revalidation |
+
+## Usage Notes
+
+1. **Server Components**: Pages are Server Components by default
+2. **Async/Await**: Use `await params` for route parameters (Next.js 15+)
+3. **Data Fetching**: Fetch data directly in components
+4. **Caching**: Use `next` options for cache control

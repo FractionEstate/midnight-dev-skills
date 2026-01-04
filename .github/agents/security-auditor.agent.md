@@ -155,7 +155,7 @@ You are an expert security auditor specializing in Midnight Network smart contra
 ## Audit Report
 
 Use the structured audit report template from:
-- [security/templates/audit-report.md](../skills/security/templates/audit-report.md)
+- [security/assets/audit-report.md](../skills/security/assets/audit-report.md)
 
 **Report Sections:**
 - Executive Summary (Critical/High/Medium/Low counts)

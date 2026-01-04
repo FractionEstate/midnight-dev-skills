@@ -128,6 +128,6 @@ export async function createPost(formData: FormData) {
 
 ## Templates
 
-- [templates/page.tsx](templates/page.tsx) - Basic page template
-- [templates/layout.tsx](templates/layout.tsx) - Layout template
-- [templates/route-handler.ts](templates/route-handler.ts) - API route template
+- [assets/page.tsx](assets/page.tsx) - Basic page template
+- [assets/layout.tsx](assets/layout.tsx) - Layout template
+- [assets/route-handler.ts](assets/route-handler.ts) - API route template

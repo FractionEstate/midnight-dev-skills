@@ -1,6 +1,14 @@
-// Route Handler Template
-// Location: app/api/[resource]/route.ts
+# Next.js Route Handler Template
 
+REST API endpoints with validation and error handling.
+
+## Location
+
+`app/api/[resource]/route.ts`
+
+## Template
+
+```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -80,87 +88,75 @@ export async function POST(request: NextRequest) {
     return error('Failed to create item', 500);
   }
 }
+```
 
-// --- For /api/items/[id]/route.ts ---
+## Dynamic Route Handler
 
-// GET /api/items/[id] - Get single item
-export async function GET_BY_ID(
+For `app/api/items/[id]/route.ts`:
+
+```typescript
+// GET /api/items/[id]
+export async function GET(
   request: NextRequest,
   { params }: RouteParams
 ) {
-  try {
-    const { id } = await params;
+  const { id } = await params;
 
-    const item = await db.item.findUnique({
-      where: { id },
-    });
+  const item = await db.item.findUnique({
+    where: { id },
+  });
 
-    if (!item) {
-      return error('Item not found', 404);
-    }
-
-    return json(item);
-  } catch (err) {
-    console.error('GET /api/items/[id] error:', err);
-    return error('Failed to fetch item', 500);
+  if (!item) {
+    return error('Item not found', 404);
   }
+
+  return json(item);
 }
 
-// PUT /api/items/[id] - Update item
+// PUT /api/items/[id]
 export async function PUT(
   request: NextRequest,
   { params }: RouteParams
 ) {
-  try {
-    const { id } = await params;
-    const body = await request.json();
+  const { id } = await params;
+  const body = await request.json();
 
-    // Validate input
-    const result = updateSchema.safeParse(body);
-    if (!result.success) {
-      return error(result.error.errors[0].message, 400);
-    }
-
-    // Update in database
-    const item = await db.item.update({
-      where: { id },
-      data: result.data,
-    });
-
-    return json(item);
-  } catch (err) {
-    console.error('PUT /api/items/[id] error:', err);
-    return error('Failed to update item', 500);
+  const result = updateSchema.safeParse(body);
+  if (!result.success) {
+    return error(result.error.errors[0].message, 400);
   }
+
+  const item = await db.item.update({
+    where: { id },
+    data: result.data,
+  });
+
+  return json(item);
 }
 
-// DELETE /api/items/[id] - Delete item
+// DELETE /api/items/[id]
 export async function DELETE(
   request: NextRequest,
   { params }: RouteParams
 ) {
-  try {
-    const { id } = await params;
+  const { id } = await params;
 
-    await db.item.delete({
-      where: { id },
-    });
+  await db.item.delete({
+    where: { id },
+  });
 
-    return new NextResponse(null, { status: 204 });
-  } catch (err) {
-    console.error('DELETE /api/items/[id] error:', err);
-    return error('Failed to delete item', 500);
-  }
+  return new NextResponse(null, { status: 204 });
 }
+```
 
-// Placeholder for db - replace with your database client
-declare const db: {
-  item: {
-    findMany: (args: any) => Promise<any[]>;
-    findUnique: (args: any) => Promise<any>;
-    create: (args: any) => Promise<any>;
-    update: (args: any) => Promise<any>;
-    delete: (args: any) => Promise<any>;
-    count: () => Promise<number>;
-  };
-};
+## HTTP Methods Reference
+
+| Method | Status | Use Case |
+|--------|--------|----------|
+| GET | 200 | List/retrieve |
+| POST | 201 | Create |
+| PUT | 200 | Update |
+| DELETE | 204 | Delete |
+| 400 | - | Validation error |
+| 404 | - | Not found |
+| 500 | - | Server error |

@@ -87,7 +87,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Setting up CI/CD pipelines
 
 **Key Resources:**
-- Workflow Templates: [turborepo/references/github-actions.md](../skills/turborepo/references/github-actions.md)
+- Turborepo Filters: [turborepo/references/filters.md](../skills/turborepo/references/filters.md)
 
 **CI Workflow Structure:**
 
@@ -120,7 +120,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Creating Docker containers
 
 **Key Resources:**
-- Docker Patterns: [nextjs/references/docker.md](../skills/nextjs/references/docker.md)
+- Network Configuration: [midnight-network/references/network-config.md](../skills/midnight-network/references/network-config.md)
 
 **Multi-Stage Build Strategy:**
 
@@ -151,7 +151,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Deploying to Vercel
 
 **Key Resources:**
-- Deployment Guide: [nextjs/references/deployment.md](../skills/nextjs/references/deployment.md)
+- Deployment Guide: [dapp-integration/references/deployment.md](../skills/dapp-integration/references/deployment.md)
 
 **Deployment Strategy:**
 
@@ -202,7 +202,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 **Activated when**: Optimizing build performance
 
 **Key Resources:**
-- Next.js Config: [nextjs/references/configuration.md](../skills/nextjs/references/configuration.md)
+- Next.js Routing: [nextjs/references/routing.md](../skills/nextjs/references/routing.md)
 
 **Optimization Strategies:**
 

@@ -15,14 +15,14 @@
     {
       "label": "Midnight: Compile Contracts",
       "type": "shell",
-      "command": "pnpm compact:build",
+      "command": "pnpm contract:build",
       "problemMatcher": [],
       "group": "build"
     },
     {
       "label": "Midnight: Watch Contracts",
       "type": "shell",
-      "command": "pnpm compact:watch",
+      "command": "pnpm contract:watch",
       "problemMatcher": [],
       "isBackground": true,
       "group": "build"
@@ -30,7 +30,7 @@
     {
       "label": "Midnight: Start Proof Server",
       "type": "shell",
-      "command": "docker run -p 6300:6300 --rm midnightnetwork/proof-server -- midnight-proof-server --network testnet",
+      "command": "docker run -p 6300:6300 --rm midnightnetwork/proof-server midnight-proof-server --network testnet",
       "problemMatcher": [],
       "isBackground": true,
       "group": "none",
@@ -162,9 +162,4 @@
       "group": "none"
     }
   ]
-}
-      "problemMatcher": [],
-"group": "none"
-}
-]
 }

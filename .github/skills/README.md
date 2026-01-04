@@ -26,8 +26,8 @@ Agent Skills are self-contained folders with instructions and bundled resources 
 
 | Skill | Description | Contents |
 |-------|-------------|----------|
-| [compact](compact/) | Smart contract development in Compact language | `references/`, `templates/` |
-| [dapp-integration](dapp-integration/) | TypeScript/React wallet and contract integration | `references/`, `templates/` |
+| [compact](compact/) | Smart contract development in Compact language | `references/`, `assets/` |
+| [dapp-integration](dapp-integration/) | TypeScript/React wallet and contract integration | `references/`, `assets/` |
 | [midnight-network](midnight-network/) | Network infrastructure, proof server, indexer | `references/` |
 | [privacy-patterns](privacy-patterns/) | ZK proofs, commitments, nullifiers, disclosure | `references/` |
 | [testing](testing/) | Contract testing with simulators | `references/` |
@@ -52,7 +52,7 @@ skill-name/
 ├── references/           # Detailed docs (loaded on demand)
 │   ├── topic-a.md
 │   └── topic-b.md
-└── templates/            # Reusable code templates
+└── assets/            # Reusable code templates
     ├── template.ts
     └── template.compact
 │   ├── references/       # Optional: additional documentation
@@ -151,7 +151,7 @@ cat /path/to/skills/compact/references/types.md
 1. Fork this repository
 2. Create skill folder: `.github/skills/your-skill-name/`
 3. Add `SKILL.md` with proper frontmatter
-4. Add `references/` and `templates/` as needed
+4. Add `references/` and `assets/` as needed
 5. Submit pull request
 
 ## 📄 License

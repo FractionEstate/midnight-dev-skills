@@ -41,8 +41,8 @@ if (connector) {
 
 | Template | Description |
 |----------|-------------|
-| [templates/wallet-hook.tsx](templates/wallet-hook.tsx) | React hook for wallet |
-| [templates/provider-config.ts](templates/provider-config.ts) | Provider configuration |
+| [assets/wallet-hook.tsx](assets/wallet-hook.tsx) | React hook for wallet |
+| [assets/provider-config.ts](assets/provider-config.ts) | Provider configuration |
 
 ## Installation
 

@@ -256,5 +256,5 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 - [references/utilities.md](references/utilities.md) - Utility patterns
 
 ## Templates
-- [templates/card.tsx](templates/card.tsx) - Card component
-- [templates/button.tsx](templates/button.tsx) - Button variants
+- [assets/card.tsx](assets/card.tsx) - Card component
+- [assets/button.tsx](assets/button.tsx) - Button variants

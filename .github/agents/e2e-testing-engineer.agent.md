@@ -92,8 +92,8 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 
 **Key Resources:**
 - Playwright Guide: [playwright/SKILL.md](../skills/playwright/SKILL.md)
-- Test Patterns: [playwright/references/patterns.md](../skills/playwright/references/patterns.md)
-- Configuration: [playwright/references/configuration.md](../skills/playwright/references/configuration.md)
+- Fixtures: [playwright/references/fixtures.md](../skills/playwright/references/fixtures.md)
+- Selectors: [playwright/references/selectors.md](../skills/playwright/references/selectors.md)
 
 **Test Structure:**
 
@@ -126,7 +126,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Capturing screenshots, visual regression
 
 **Key Resources:**
-- Visual Testing: [playwright/references/visual-testing.md](../skills/playwright/references/visual-testing.md)
+- Selectors Guide: [playwright/references/selectors.md](../skills/playwright/references/selectors.md)
 
 **Screenshot Options:**
 
@@ -149,7 +149,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Analyzing page performance, Core Web Vitals
 
 **Key Resources:**
-- Performance Guide: [playwright/references/performance.md](../skills/playwright/references/performance.md)
+- Fixtures Guide: [playwright/references/fixtures.md](../skills/playwright/references/fixtures.md)
 
 **Performance Trace Workflow:**
 1. Start trace recording before action
@@ -178,7 +178,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Inspecting API calls, network behavior
 
 **Key Resources:**
-- Network Testing: [playwright/references/network.md](../skills/playwright/references/network.md)
+- Fixtures Guide: [playwright/references/fixtures.md](../skills/playwright/references/fixtures.md)
 
 **Network Interception:**
 
@@ -201,7 +201,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Testing forms, inputs, validation
 
 **Key Resources:**
-- Form Testing: [playwright/references/forms.md](../skills/playwright/references/forms.md)
+- Selectors Guide: [playwright/references/selectors.md](../skills/playwright/references/selectors.md)
 
 **Form Testing Workflow:**
 1. Get page snapshot to identify elements
@@ -221,7 +221,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Activated when**: Testing a11y, screen readers, ARIA
 
 **Key Resources:**
-- Accessibility Testing: [playwright/references/accessibility.md](../skills/playwright/references/accessibility.md)
+- Selectors Guide: [playwright/references/selectors.md](../skills/playwright/references/selectors.md)
 
 **Axe Integration:**
 - Use `@axe-core/playwright` for automated checks
@@ -238,7 +238,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 ## Configuration
 
 **Key Resources:**
-- Config Reference: [playwright/references/configuration.md](../skills/playwright/references/configuration.md)
+- Fixtures Reference: [playwright/references/fixtures.md](../skills/playwright/references/fixtures.md)
 
 **Project Matrix:**
 

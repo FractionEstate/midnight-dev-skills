@@ -66,8 +66,8 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Building REST endpoints with Next.js Route Handlers
 
 **Key Resources:**
-- Route Handlers: [nextjs/references/route-handlers.md](skills/nextjs/references/route-handlers.md)
-- API Patterns: [nextjs/references/api-patterns.md](skills/nextjs/references/api-patterns.md)
+- Data Fetching: [nextjs/references/data-fetching.md](../skills/nextjs/references/data-fetching.md)
+- Server Actions: [nextjs/references/server-actions.md](../skills/nextjs/references/server-actions.md)
 
 **Route Structure:**
 
@@ -131,7 +131,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Implementing authentication with NextAuth.js v5
 
 **Key Resources:**
-- Auth Guide: [nextjs/references/authentication.md](../skills/nextjs/references/authentication.md)
+- Middleware Guide: [nextjs/references/middleware.md](../skills/nextjs/references/middleware.md)
 
 **Auth Configuration:**
 
@@ -163,7 +163,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Activated when**: Validating API inputs
 
 **Key Resources:**
-- Validation Patterns: [nextjs/references/validation.md](../skills/nextjs/references/validation.md)
+- Server Actions: [nextjs/references/server-actions.md](../skills/nextjs/references/server-actions.md)
 
 **Zod Schema Patterns:**
 

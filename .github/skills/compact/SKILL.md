@@ -63,10 +63,10 @@ ledger tree: MerkleTree<20, Field>;  // Cryptographic proofs
 
 | Template | Description |
 |----------|-------------|
-| [templates/basic-contract.compact](templates/basic-contract.compact) | Simple ledger + circuit |
-| [templates/token-contract.compact](templates/token-contract.compact) | Token with transfers |
-| [templates/private-voting.compact](templates/private-voting.compact) | Anonymous voting |
-| [templates/commitment-reveal.compact](templates/commitment-reveal.compact) | Commit-reveal pattern |
+| [assets/basic-contract.compact](assets/basic-contract.compact) | Simple ledger + circuit |
+| [assets/token-contract.compact](assets/token-contract.compact) | Token with transfers |
+| [assets/private-voting.compact](assets/private-voting.compact) | Anonymous voting |
+| [assets/commitment-reveal.compact](assets/commitment-reveal.compact) | Commit-reveal pattern |
 
 ## Compilation
 

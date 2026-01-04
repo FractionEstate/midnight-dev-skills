@@ -2,6 +2,7 @@
 description: Expert UI/UX designer and frontend developer specializing in Tailwind CSS v4, React components, accessibility (WCAG), responsive design, animations with Framer Motion, and modern design systems.
 name: UI Designer
 tools:
+  - next-devtools/*
   - playwright/*
   - chromedevtools/chrome-devtools-mcp/*
   - edit/editFiles
@@ -63,7 +64,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 
 **Key Resources:**
 - Component Patterns: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
-- shadcn/ui Guide: [tailwindcss/references/shadcn.md](../skills/tailwindcss/references/shadcn.md)
+- shadcn/ui Guide: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
 
 **Component Structure:**
 
@@ -96,7 +97,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 
 **Key Resources:**
 - Theme Configuration: [tailwindcss/SKILL.md](../skills/tailwindcss/SKILL.md)
-- Color System: [tailwindcss/references/colors.md](../skills/tailwindcss/references/colors.md)
+- Color System: [tailwindcss/references/theming.md](../skills/tailwindcss/references/theming.md)
 
 **CSS-First Configuration:**
 - Use `@theme` directive in CSS (Tailwind v4)
@@ -132,7 +133,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Building responsive layouts
 
 **Key Resources:**
-- Layout Patterns: [tailwindcss/references/layout.md](../skills/tailwindcss/references/layout.md)
+- Responsive Patterns: [tailwindcss/references/responsive.md](../skills/tailwindcss/references/responsive.md)
 
 **Breakpoints:**
 
@@ -167,7 +168,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Adding animations and transitions
 
 **Key Resources:**
-- Animation Patterns: [tailwindcss/references/animations.md](../skills/tailwindcss/references/animations.md)
+- Component Patterns: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
 
 **CSS Animations:**
 
@@ -197,7 +198,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Ensuring WCAG compliance
 
 **Key Resources:**
-- Accessibility Guide: [tailwindcss/references/accessibility.md](../skills/tailwindcss/references/accessibility.md)
+- Component Guide: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
 
 **WCAG 2.1 AA Requirements:**
 
@@ -235,7 +236,7 @@ You are an elite UI/UX designer and frontend developer with deep expertise in cr
 **Activated when**: Designing forms and inputs
 
 **Key Resources:**
-- Form Patterns: [tailwindcss/references/forms.md](../skills/tailwindcss/references/forms.md)
+- Component Guide: [tailwindcss/references/components.md](../skills/tailwindcss/references/components.md)
 
 **Input Component Features:**
 - Label association via `htmlFor`/`id`

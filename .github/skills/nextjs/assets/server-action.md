@@ -1,7 +1,15 @@
-'use server';
+# Next.js Server Action Template
 
-// Server Action Template
-// Location: app/actions/[resource].ts
+Type-safe server mutations with validation and revalidation.
+
+## Location
+
+`app/actions/[resource].ts`
+
+## Template
+
+```typescript
+'use server';
 
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -112,7 +120,7 @@ export async function updateItem(
     });
 
     revalidateTag('items');
-    revalidateTag(`item-${id}`);
+    revalidatePath(`/items/${id}`);
 
     return success(item);
   } catch (error) {
@@ -122,55 +130,33 @@ export async function updateItem(
 }
 
 /**
- * Delete an item
+ * Delete an item with redirect
  */
-export async function deleteItem(id: string): Promise<ActionState> {
-  try {
-    await db.item.delete({
-      where: { id },
-    });
-
-    revalidateTag('items');
-    revalidatePath('/items');
-
-    return success();
-  } catch (error) {
-    console.error('deleteItem error:', error);
-    return failure('Failed to delete item');
-  }
-}
-
-/**
- * Action with redirect
- */
-export async function createAndRedirect(formData: FormData): Promise<never> {
-  const title = formData.get('title') as string;
-
-  const item = await db.item.create({
-    data: { title },
+export async function deleteItem(id: string): Promise<void> {
+  await db.item.delete({
+    where: { id },
   });
 
   revalidateTag('items');
-  redirect(`/items/${item.id}`);
+  redirect('/items');
 }
+```
 
-// ============================================
-// Usage Example in Client Component
-// ============================================
+## Client Usage
 
-/*
+```tsx
 'use client';
 
 import { useActionState } from 'react';
 import { createItem } from '@/app/actions/items';
 
 export function CreateItemForm() {
-  const [state, formAction, isPending] = useActionState(createItem, {
+  const [state, action, isPending] = useActionState(createItem, {
     success: false,
   });
 
   return (
-    <form action={formAction}>
+    <form action={action}>
       <input name="title" required />
       {state.fieldErrors?.title && (
         <p className="text-red-500">{state.fieldErrors.title[0]}</p>
@@ -185,13 +171,15 @@ export function CreateItemForm() {
     </form>
   );
 }
-*/
+```
 
-// Placeholder for db
-declare const db: {
-  item: {
-    create: (args: any) => Promise<any>;
-    update: (args: any) => Promise<any>;
-    delete: (args: any) => Promise<any>;
-  };
-};
+## Key Patterns
+
+| Pattern | Description |
+|---------|-------------|
+| `'use server'` | Mark file/function as server action |
+| `ActionState` | Typed return for success/error |
+| `revalidatePath` | Clear page cache |
+| `revalidateTag` | Clear tagged cache |
+| `redirect` | Navigate after mutation |
+| `useActionState` | React hook for form state |

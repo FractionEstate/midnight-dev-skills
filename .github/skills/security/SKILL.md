@@ -53,4 +53,4 @@ Expert knowledge for auditing Midnight Network contracts and privacy-preserving 
 
 ## Templates
 
-- [templates/audit-report.md](templates/audit-report.md) - Audit report template
+- [assets/audit-report.md](assets/audit-report.md) - Audit report template
