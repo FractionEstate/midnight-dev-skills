@@ -73,7 +73,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Route Structure:**
 
 | Pattern | Example Path | HTTP Methods |
-|---------|--------------|--------------|
+| ------- | ------------ | ------------ |
 | Collection | `app/api/users/route.ts` | GET, POST |
 | Resource | `app/api/users/[id]/route.ts` | GET, PUT, DELETE |
 | Nested | `app/api/posts/[id]/comments/route.ts` | GET, POST |
@@ -90,7 +90,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **HTTP Status Codes:**
 
 | Code | Meaning | When to Use |
-|------|---------|-------------|
+| ---- | ------- | ----------- |
 | 200 | OK | Successful GET/PUT |
 | 201 | Created | Successful POST |
 | 204 | No Content | Successful DELETE |
@@ -123,7 +123,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Action Result Pattern:**
 
 | Field | Type | Purpose |
-|-------|------|---------|
+| ----- | ---- | ------- |
 | `success` | boolean | Operation outcome |
 | `data` | T | Success payload |
 | `error` | string | Error message |
@@ -141,7 +141,7 @@ You are an elite API developer with deep expertise in building scalable, secure,
 **Auth Configuration:**
 
 | Component | Purpose |
-|-----------|---------|
+| --------- | ------- |
 | `lib/auth.ts` | NextAuth configuration |
 | `app/api/auth/[...nextauth]/route.ts` | Auth route handler |
 | `middleware.ts` | Route protection |
