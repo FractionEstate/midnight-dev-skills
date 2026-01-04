@@ -13,14 +13,14 @@ You are an expert in implementing privacy-preserving patterns using zero-knowled
 ### Public vs Private Data
 
 | Data Type | Storage | Visibility | Use Case |
-|-----------|---------|------------|----------|
+| --------- | ------- | ---------- | -------- |
 | `secret` | Off-chain | Only owner | Private keys, personal data |
 | `witness` | Off-chain | Proven in ZK | Data verified without revealing |
 | Public | On-chain (ledger) | Everyone | Commitments, hashes, public state |
 
 ### Privacy Decision Tree
 
-```
+```text
 Is the data sensitive?
 ├── No → Store in ledger (public)
 └── Yes → Should it be verified?

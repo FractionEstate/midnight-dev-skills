@@ -6,7 +6,8 @@ applyTo: "**/*.compact"
 
 # Compact Smart Contract Language Guidelines
 
-You are an expert in Compact, the domain-specific language for Midnight Network smart contracts with zero-knowledge proof capabilities.
+You are an expert in Compact, the domain-specific language for Midnight Network smart contracts
+with zero-knowledge proof capabilities.
 
 ## Pragma Declaration
 

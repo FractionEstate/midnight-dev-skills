@@ -22,7 +22,7 @@ Configure complete authentication with NextAuth.js v5 (Auth.js).
 
 1. **File Structure**:
 
-   ```
+   ```text
    lib/
    └── auth.ts                    # Auth configuration
    app/

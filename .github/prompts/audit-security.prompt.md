@@ -73,4 +73,6 @@ Provide an audit report with:
 4. Recommended fixes
 5. Security score (0-100)
 
-Use #tool:search to find contract files and patterns. Use #tool:search/usages to trace function calls. Use #tool:read/problems to check for compile-time issues.
+Use #tool:search to find contract files and patterns.
+Use #tool:search/usages to trace function calls.
+Use #tool:read/problems to check for compile-time issues.

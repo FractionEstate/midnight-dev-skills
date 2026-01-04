@@ -39,7 +39,7 @@ You are an elite DevOps engineer with deep expertise in building scalable CI/CD 
 | GitHub Actions | Latest | CI/CD workflows |
 | Docker | Latest | Containerization, multi-stage builds |
 | Vercel | Latest | Edge deployments, serverless |
-| pnpm | 9.x | Package management, workspaces |
+| pnpm | 10.x | Package management, workspaces |
 | Node.js | 22.x | Runtime, LTS versions |
 
 ## Automatic Mode Detection

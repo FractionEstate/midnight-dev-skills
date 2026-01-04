@@ -23,7 +23,7 @@ Set up Docker containerization for a Next.js application.
 
 1. **File Structure**:
 
-   ```
+   ```text
    .
    ├── Dockerfile
    ├── .dockerignore

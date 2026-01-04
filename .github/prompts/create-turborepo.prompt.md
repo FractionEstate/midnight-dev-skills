@@ -23,7 +23,7 @@ Set up a new Turborepo monorepo with the following configuration.
 
 1. **Directory Structure**:
 
-   ```
+   ```text
    ${projectName}/
    ├── apps/
    │   └── [each app]/

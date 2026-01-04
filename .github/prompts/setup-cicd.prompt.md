@@ -22,7 +22,7 @@ Configure a complete CI/CD pipeline with GitHub Actions.
 
 1. **Workflow Files**:
 
-   ```
+   ```text
    .github/workflows/
    ├── ci.yml              # Lint, typecheck, test, build
    ├── deploy.yml          # Production deployment

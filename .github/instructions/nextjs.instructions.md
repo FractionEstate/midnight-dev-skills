@@ -53,8 +53,9 @@ export default function Interactive() {
 ### Caching Strategies
 
 ```tsx
-// IMPORTANT: fetch is NOT cached by default in Next.js 15+
-// Default behavior: fetched on every request (auto no-cache)
+// IMPORTANT: By default, fetch requests are not cached.
+// - Dynamic rendering: fetch runs on every request and returns fresh data.
+// - Static rendering: fetched data can be stored in the Data Cache as part of pre-rendering.
 fetch('https://api.example.com/data');
 
 // Explicitly cache the response
@@ -80,10 +81,12 @@ fetch('https://api.example.com/data', {
 ```tsx
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
 
-// In Server Action
+// In a Server Action
 revalidatePath('/posts');     // Purges Full Route Cache for path
-revalidateTag('posts');       // Invalidates Data Cache entries with tag
-updateTag('posts');           // Updates tag timestamp (lighter operation)
+revalidateTag('posts', 'max'); // Recommended: stale-while-revalidate for tag
+
+// Only in Server Actions (throws if called elsewhere)
+updateTag('posts');           // Immediately expire cache for read-your-own-writes
 ```
 
 ## Server Actions

@@ -107,6 +107,10 @@ Context-aware guidelines in [instructions/](instructions/):
 
 ## 🚀 Quick Start
 
+> Note: Midnight docs commonly list Node.js 20+ as a prerequisite, but `create-mn-app` currently
+> requires Node.js 22+ for its templates (per the npm package page). If you want the least-fuss
+> setup, use Node.js 22+.
+
 ```bash
 # 1. Install Compact developer tools (v0.3.0)
 curl --proto '=https' --tlsv1.2 -LsSf \
@@ -135,6 +139,7 @@ npm run dev
 - **Compact language 0.18.0** - Language version (`pragma language_version 0.18;`)
 - **Compact developer tools 0.3.0** - CLI tooling (`compact`)
 - **Docker** - Proof server container
+- **Node.js** - 22+ recommended (20+ minimum)
 - **Lace Wallet** - Browser extension for Midnight
 
 ## 🔗 Resources

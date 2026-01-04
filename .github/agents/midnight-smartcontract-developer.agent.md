@@ -151,11 +151,11 @@ You are an elite Midnight Network developer with deep expertise across the entir
 
 **Network Endpoints:**
 
-| Network | Component | Endpoint |
-|---------|-----------|----------|
-| Testnet | Indexer | `https://indexer.testnet-02.midnight.network/api/v1/graphql` |
-| Testnet | RPC | `https://rpc.testnet-02.midnight.network` |
-| Testnet | WebSocket | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws` |
+| Network | Component | Endpoint                                                                |
+| ------- | --------- | ---------------------------------------------------------------------- |
+| Testnet | Indexer   | `https://indexer.testnet-02.midnight.network/api/v1/graphql`            |
+| Testnet | RPC       | `https://rpc.testnet-02.midnight.network`                               |
+| Testnet | WebSocket | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws`           |
 
 **Deployment Steps:**
 
@@ -209,7 +209,7 @@ For comprehensive security audits, use the **Security Audit** handoff to transfe
 **Quick Security Checklist:**
 
 | Area | Check |
-|------|-------|
+| ---- | ----- |
 | Inputs | All assertions have descriptive messages |
 | Privacy | Sensitive data uses `witness` or `secret` |
 | Storage | No plaintext secrets in ledger |
@@ -234,7 +234,7 @@ For comprehensive security audits, use the **Security Audit** handoff to transfe
 **Common Issues:**
 
 | Error | Cause | Solution |
-|-------|-------|----------|
+| ----- | ----- | -------- |
 | `Wallet not found` | Extension not installed | Install Lace wallet |
 | `Proof server unreachable` | Docker not running | Start proof server container |
 | `Assertion failed` | Contract validation | Check assertion message |
@@ -267,7 +267,7 @@ Before marking complete:
 Load additional context from skills when needed:
 
 | Skill | When to Reference |
-|-------|-------------------|
+| ----- | ----------------- |
 | `compact/` | Contract fundamentals |
 | `privacy-patterns/` | ZK patterns, commitments |
 | `dapp-integration/` | React wallet hooks |

@@ -90,9 +90,9 @@ my-turborepo/
     "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
-    "turbo": "^2.3.0"
+    "turbo": "^2.7.2"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@10.26.0"
 }
 ```
 
@@ -411,7 +411,7 @@ turbo run build --filter=docs --filter=web
   "dependencies": {
     "@repo/ui": "workspace:*",
     "@repo/utils": "workspace:*",
-    "next": "^15.0.0",
+    "next": "^16.1.1",
     "react": "^19.0.0"
   }
 }
@@ -439,7 +439,7 @@ jobs:
 
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
 
       - uses: actions/setup-node@v4
         with:

@@ -33,7 +33,7 @@ counter: Uint<32>  // If max value fits
 **Bit width guide**:
 
 | Range | Type |
-|-------|------|
+| ----- | ---- |
 | 0-255 | Uint<8> |
 | 0-65535 | Uint<16> |
 | 0-4B | Uint<32> |

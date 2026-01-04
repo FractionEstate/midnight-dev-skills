@@ -23,7 +23,7 @@ Create a complete Prisma database schema for the specified domain.
 
 1. **Schema Location**:
 
-   ```
+   ```text
    prisma/schema.prisma
    # or for monorepo:
    packages/database/prisma/schema.prisma

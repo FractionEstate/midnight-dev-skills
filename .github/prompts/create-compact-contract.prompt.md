@@ -29,18 +29,18 @@ Create a Compact smart contract for Midnight Network with the following specific
    - Export all public circuits
 
 2. **Type Definitions**:
-   - Use appropriate Uint bit widths (Uint<8>, Uint<32>, Uint<64>)
+   - Use appropriate Uint bit widths (`Uint<8>`, `Uint<32>`, `Uint<64>`)
    - Use Field for ZK operations (hashing, commitments)
-   - Use Bytes<N> for fixed-length data
+   - Use `Bytes<N>` for fixed-length data
    - Define structs for complex data
    - Define enums for state machines
 
 3. **Ledger State**:
    - Use Counter for auto-increment IDs
-   - Use Cell<T> for single values
-   - Use Map<K, V> for key-value data
-   - Use Set<T> for membership tracking
-   - Use MerkleTree for commitments (if privacy needed)
+   - Use `Cell<T>` for single values
+   - Use `Map<K, V>` for key-value data
+   - Use `Set<T>` for membership tracking
+   - Use `MerkleTree` for commitments (if privacy needed)
 
 4. **Circuits**:
    - Pure circuits for calculations (no state changes)

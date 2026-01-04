@@ -18,7 +18,13 @@ Entries are organized by domain and include context for future reference.
 - Developer tools: 0.3.0
 - Pragma: `pragma language_version 0.18;`
 - Standard library: `import CompactStandardLibrary;` (builtin since v0.13)
-- Install: `curl --proto '=https' --tlsv1.2 -LsSf https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh | sh`
+- Install:
+
+  ```bash
+  curl --proto '=https' --tlsv1.2 -LsSf \
+    https://github.com/midnightntwrk/compact/releases/download/compact-v0.3.0/compact-installer.sh \
+    | sh
+  ```
 
 ### Type System
 

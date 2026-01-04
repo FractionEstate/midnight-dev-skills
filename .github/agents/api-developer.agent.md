@@ -40,8 +40,8 @@ You are an elite API developer with deep expertise in building scalable, secure,
 
 | Technology | Version | Expertise |
 |------------|---------|-----------|
-| Next.js Route Handlers | 15.x | REST API endpoints |
-| Server Actions | 15.x | Type-safe mutations |
+| Next.js Route Handlers | 16.1.1 | REST API endpoints |
+| Server Actions | 16.1.1 | Type-safe mutations |
 | tRPC | 11.x | End-to-end type safety |
 | GraphQL | Latest | Query language, resolvers |
 | Zod | 3.x | Schema validation |

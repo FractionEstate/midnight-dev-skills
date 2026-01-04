@@ -54,6 +54,11 @@ npm install @midnight-ntwrk/dapp-connector-api \
   @midnight-ntwrk/midnight-js-network-id
 ```
 
+> Note: The `@midnight-ntwrk/dapp-connector-api` npm page currently warns that its source repo
+> "hasn't been fully migrated" and points to
+> <https://github.com/input-output-hk/midnight-dapp-connector-api>.
+> Use the Network Support Matrix for version compatibility.
+
 ## Wallet Detection
 
 ```typescript

@@ -15,6 +15,7 @@ NC='\033[0m' # No Color
 COMPACT_TOOLS_VERSION="0.3.0"
 COMPACT_COMPILER_VERSION="0.26.0"
 NODE_MIN_VERSION="20"
+NODE_RECOMMENDED_VERSION="22"
 
 echo -e "${BLUE}╔════════════════════════════════════════════════════════════════╗${NC}"
 echo -e "${BLUE}║       Midnight Network Development Environment Setup          ║${NC}"
@@ -45,6 +46,10 @@ check_node() {
         NODE_VERSION=$(node -v | sed 's/v//' | cut -d. -f1)
         if [ "$NODE_VERSION" -ge "$NODE_MIN_VERSION" ]; then
             print_status "Node.js v$(node -v | sed 's/v//') installed"
+
+            if [ "$NODE_VERSION" -lt "$NODE_RECOMMENDED_VERSION" ]; then
+                print_warning "Node.js ${NODE_RECOMMENDED_VERSION}+ is recommended for create-mn-app templates; you have v$(node -v)"
+            fi
         else
             print_error "Node.js $NODE_MIN_VERSION+ required, found v$(node -v)"
             exit 1

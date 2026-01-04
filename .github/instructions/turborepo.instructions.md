@@ -8,7 +8,7 @@ applyTo: "**/turbo.json,**/pnpm-workspace.yaml"
 
 ## Project Structure
 
-```
+```text
 monorepo/
 ├── apps/           # Deployable applications
 │   ├── web/        # Next.js frontend

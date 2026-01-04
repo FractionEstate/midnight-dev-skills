@@ -69,4 +69,8 @@ Provide:
 3. Contract address after successful deployment
 4. Verification steps
 
-Use #tool:execute/runInTerminal to compile contracts. Use #tool:edit/editFiles to create deployment scripts. Use #tool:web/fetch to check network status.
+Use these tools as needed:
+
+- #tool:execute/runInTerminal to compile contracts
+- #tool:edit/editFiles to create deployment scripts
+- #tool:web/fetch to check network status

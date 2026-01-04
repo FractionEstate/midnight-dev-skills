@@ -22,7 +22,7 @@ Create a complete REST API endpoint with the following specification.
 
 1. **File Structure**:
 
-   ```
+   ```text
    app/api/${resourceName}/
    ├── route.ts              # GET (list), POST (create)
    └── [id]/

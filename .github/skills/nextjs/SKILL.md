@@ -3,20 +3,19 @@ name: nextjs
 description: Next.js 16.1+ App Router patterns including Server Components, Client Components, Server Actions, Route Handlers, Turbopack, MCP integration, and modern React patterns. Use when building pages, layouts, data fetching, or API routes. Triggers on Next.js, App Router, RSC, or Server Actions questions.
 metadata:
   author: FractionEstate
-  version: "16.1"
+  version: "16.1.1"
 ---
 
 # Next.js App Router
 
 Expert knowledge for building modern web applications with Next.js App Router.
 
-## What's New in 16.1
+## Next.js 16.1.1 highlights
 
-- **Turbopack File System Caching** (stable): ~5-14× faster `next dev` restarts
+- **Turbopack improvements**: faster `next dev` restarts (project-dependent)
 - **Bundle Analyzer** (experimental): `next experimental-analyze`
 - **Easier Debugging**: `next dev --inspect`
 - **Upgrade Command**: `next upgrade`
-- **Transitive External Dependencies**: `serverExternalPackages` handles transitive deps automatically
 - **MCP Server**: Built-in `/_next/mcp` endpoint for coding agents
 
 ## MCP Server (Coding Agents)
@@ -124,11 +123,11 @@ export async function createPost(formData: FormData) {
 - [references/routing.md](references/routing.md) - Routing patterns
 - [references/data-fetching.md](references/data-fetching.md) - Data fetching strategies
 - [references/server-actions.md](references/server-actions.md) - Server Actions guide
-- [references/middleware.md](references/middleware.md) - Middleware patterns
 
 ## Assets
 
-- [assets/page.md](assets/page.md) - Basic page template
-- [assets/layout.md](assets/layout.md) - Layout template
-- [assets/route-handler.md](assets/route-handler.md) - API route template
-- [assets/server-action.md](assets/server-action.md) - Server Action template
+- [assets/page.tsx](assets/page.tsx) - Basic page template
+- [assets/layout.tsx](assets/layout.tsx) - Layout template
+- [assets/route-handler.ts](assets/route-handler.ts) - API route template
+- [assets/server-action.ts](assets/server-action.ts) - Server Action template
+- [assets/middleware.ts](assets/middleware.ts) - Middleware template

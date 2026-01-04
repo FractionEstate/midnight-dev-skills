@@ -24,7 +24,7 @@ Debug an issue with a Midnight Network contract or dApp.
 ### Compact Errors
 
 | Error | Cause | Solution |
-|-------|-------|----------|
+| ----- | ----- | -------- |
 | `Type mismatch` | Wrong Uint width | Match expected type exactly |
 | `Undefined symbol` | Missing import | Check pragma and imports |
 | `Assertion failed` | Validation error | Read assertion message |
@@ -33,7 +33,7 @@ Debug an issue with a Midnight Network contract or dApp.
 ### TypeScript Errors
 
 | Error | Cause | Solution |
-|-------|-------|----------|
+| ----- | ----- | -------- |
 | `Wallet not found` | Extension missing | Install Lace wallet |
 | `Network error` | Wrong endpoints | Use testnet-02 URLs |
 | `Proof generation failed` | Server not running | Start proof server |
@@ -42,7 +42,7 @@ Debug an issue with a Midnight Network contract or dApp.
 ### Runtime Errors
 
 | Error | Cause | Solution |
-|-------|-------|----------|
+| ----- | ----- | -------- |
 | `Connection refused :6300` | Proof server down | `docker run -p 6300:6300 midnightnetwork/proof-server` |
 | `Invalid signature` | Wallet mismatch | Reconnect wallet |
 | `Out of gas` | Complex circuit | Optimize or split operations |
@@ -64,4 +64,9 @@ Provide:
 3. Prevention tips for future
 4. Related issues to check
 
-Use #tool:read/problems to check compile errors. Use #tool:search to find the source of the issue. Use #tool:execute/testFailure to analyze test failures. Use #tool:execute/runInTerminal to run diagnostic commands.
+Use these tools as needed:
+
+- #tool:read/problems to check compile errors
+- #tool:search to find the source of the issue
+- #tool:execute/testFailure to analyze test failures
+- #tool:execute/runInTerminal to run diagnostic commands

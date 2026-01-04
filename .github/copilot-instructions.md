@@ -1,20 +1,22 @@
 # Midnight Network Development Instructions
 
-This document provides GitHub Copilot with comprehensive guidelines for developing privacy-preserving DApps on Midnight Network.
+This document provides GitHub Copilot with comprehensive guidelines for developing
+privacy-preserving DApps on Midnight Network.
 
 ## Priority Guidelines
 
 When generating code for Midnight Network projects:
 
 1. **Privacy First**: Always default to privacy-preserving patterns using zero-knowledge proofs
-2. **Version Compatibility**: Use Compact compiler 0.26.0 (language 0.18.0), Next.js 16.1.1, and @midnight-ntwrk packages compatible with each other
+2. **Version Compatibility**: Use Compact compiler 0.26.0 (language 0.18.0), Next.js 16.1.1,
+   and @midnight-ntwrk packages compatible with each other
 3. **Context Files**: Reference skills in `.github/skills/` for patterns and examples
 4. **Type Safety**: Use comprehensive TypeScript types for all Midnight APIs
 5. **Security**: Handle witnesses, secrets, and private state with care
 
 ## Technology Stack
 
-### Core Versions
+### Web Core Versions
 
 - **Compact**: 0.26.0 compiler / 0.18 language / 0.3.0 dev tools (`pragma language_version 0.18;`)
 - **Next.js**: 16.1.1 (App Router)
@@ -39,6 +41,9 @@ Notes:
 
 - Prefer pinning to known-compatible versions (see the official release notes / compatibility matrix).
 - Avoid using `"latest"` in docs or templates, because it can silently break reproducibility.
+- The `@midnight-ntwrk/dapp-connector-api` npm page currently points to
+  <https://github.com/input-output-hk/midnight-dapp-connector-api> as the upstream source.
+  For version compatibility, defer to the Network Support Matrix.
 
 ### Network Endpoints (Testnet)
 
@@ -352,7 +357,7 @@ This workspace also supports general full-stack web development with modern tool
 - **Prisma**: 6.x (Type-safe ORM)
 - **Turborepo**: 2.x (Monorepo tooling)
 - **Playwright**: 1.49+ (E2E testing)
-- **pnpm**: 9.x (Package manager)
+- **pnpm**: 10.x (Package manager)
 
 ## Project Types
 
