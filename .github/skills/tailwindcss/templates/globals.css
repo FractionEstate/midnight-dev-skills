@@ -1,0 +1,190 @@
+/* Tailwind CSS v4 Theme Configuration Template */
+/* Location: app/globals.css */
+
+@import "tailwindcss";
+
+/* ============================================
+   Theme Configuration (CSS-first)
+   ============================================ */
+
+@theme {
+  /* Colors using oklch for better perceptual uniformity */
+  --color-primary-50: oklch(0.97 0.01 250);
+  --color-primary-100: oklch(0.93 0.03 250);
+  --color-primary-200: oklch(0.86 0.06 250);
+  --color-primary-300: oklch(0.76 0.10 250);
+  --color-primary-400: oklch(0.64 0.15 250);
+  --color-primary-500: oklch(0.55 0.20 250);
+  --color-primary-600: oklch(0.47 0.19 250);
+  --color-primary-700: oklch(0.40 0.16 250);
+  --color-primary-800: oklch(0.34 0.12 250);
+  --color-primary-900: oklch(0.27 0.08 250);
+  --color-primary-950: oklch(0.20 0.05 250);
+
+  /* Semantic colors */
+  --color-success: oklch(0.65 0.2 145);
+  --color-warning: oklch(0.75 0.18 80);
+  --color-error: oklch(0.55 0.22 25);
+
+  /* Typography */
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+  
+  /* Custom font sizes */
+  --text-2xs: 0.625rem;
+  
+  /* Spacing */
+  --spacing-18: 4.5rem;
+  --spacing-112: 28rem;
+  --spacing-128: 32rem;
+  
+  /* Border radius */
+  --radius-4xl: 2rem;
+  
+  /* Shadows */
+  --shadow-soft: 0 2px 8px -2px oklch(0 0 0 / 0.1),
+                 0 4px 16px -4px oklch(0 0 0 / 0.1);
+  
+  /* Animations */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.4s ease-out;
+  
+  /* Container */
+  --container-3xl: 1600px;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { 
+    opacity: 0; 
+    transform: translateY(1rem); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+/* ============================================
+   Dark Mode Theme
+   ============================================ */
+
+@theme dark {
+  --color-primary-50: oklch(0.20 0.05 250);
+  --color-primary-100: oklch(0.27 0.08 250);
+  --color-primary-200: oklch(0.34 0.12 250);
+  --color-primary-300: oklch(0.40 0.16 250);
+  --color-primary-400: oklch(0.47 0.19 250);
+  --color-primary-500: oklch(0.55 0.20 250);
+  --color-primary-600: oklch(0.64 0.15 250);
+  --color-primary-700: oklch(0.76 0.10 250);
+  --color-primary-800: oklch(0.86 0.06 250);
+  --color-primary-900: oklch(0.93 0.03 250);
+  --color-primary-950: oklch(0.97 0.01 250);
+}
+
+/* ============================================
+   Base Layer Styles
+   ============================================ */
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100;
+    @apply min-h-screen font-sans;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+
+  /* Selection color */
+  ::selection {
+    @apply bg-primary-200 text-primary-900;
+    @apply dark:bg-primary-800 dark:text-primary-100;
+  }
+}
+
+/* ============================================
+   Component Utilities
+   ============================================ */
+
+@utility container-prose {
+  max-width: 65ch;
+  margin-inline: auto;
+  padding-inline: theme(spacing.4);
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility scrollbar-hidden {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility glass {
+  background: oklch(1 0 0 / 0.7);
+  backdrop-filter: blur(12px) saturate(180%);
+  @apply dark:bg-gray-900/70;
+}
+
+/* ============================================
+   Custom Variants
+   ============================================ */
+
+@variant hocus (&:hover, &:focus);
+@variant group-hocus (:merge(.group):hover &, :merge(.group):focus &);
+
+/* ============================================
+   Component Classes (Optional - prefer utilities)
+   ============================================ */
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2;
+    @apply rounded-lg px-4 py-2 font-medium;
+    @apply transition-colors duration-200;
+    @apply focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-600 text-white;
+    @apply hover:bg-primary-700;
+    @apply focus-visible:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-100 text-gray-900;
+    @apply hover:bg-gray-200;
+    @apply dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-gray-300 px-3 py-2;
+    @apply bg-white text-gray-900;
+    @apply placeholder:text-gray-500;
+    @apply focus:border-primary-500 focus:ring-1 focus:ring-primary-500;
+    @apply dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100;
+  }
+
+  .card {
+    @apply rounded-xl border border-gray-200 bg-white p-6;
+    @apply shadow-soft;
+    @apply dark:border-gray-800 dark:bg-gray-900;
+  }
+}

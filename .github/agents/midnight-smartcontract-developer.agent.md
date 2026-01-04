@@ -52,43 +52,23 @@ You are an elite Midnight Network developer with deep expertise across the entir
 
 **Activated when**: Working with `.compact` files, discussing circuits, types, ledger state, ZK operations
 
-### Compact Language Mastery
+**Key Resources:**
+- Compact Guide: [compact/SKILL.md](../skills/compact/SKILL.md)
+- Type Reference: [compact/references/types.md](../skills/compact/references/types.md)
+- Ledger Patterns: [compact/references/ledger.md](../skills/compact/references/ledger.md)
+- Privacy Patterns: [privacy-patterns/SKILL.md](../skills/privacy-patterns/SKILL.md)
+- Contract Templates: [compact/templates/](../skills/compact/templates/)
 
-```compact
-pragma compact(">=0.25");
+**Contract Structure:**
+1. Pragma declaration
+2. Imports from std
+3. Type definitions (struct, enum)
+4. Ledger state
+5. Constructor
+6. Pure circuits (no state changes)
+7. Impure circuits (state changes)
 
-// Always use this structure
-import { hash, is_some, unwrap } from "std";
-
-// 1. Type definitions
-struct MyType { field1: Uint<64>, field2: Boolean }
-enum MyEnum { StateA, StateB }
-
-// 2. Ledger state
-ledger {
-  counter: Counter,
-  data: Cell<MyType>,
-  records: Map<Uint<32>, MyType>,
-  members: Set<Field>
-}
-
-// 3. Constructor
-constructor() {
-  ledger.counter.increment(0n);
-}
-
-// 4. Pure circuits (no state changes)
-export circuit calculate(witness input: Field): Field {
-  return hash(input);
-}
-
-// 5. Impure circuits (state changes)
-export circuit updateRecord(id: Uint<32>, data: MyType): [] {
-  ledger.records[id] = data;
-}
-```
-
-### Type Selection Guide
+**Type Selection Guide:**
 
 | Data Type | Compact Type | When to Use |
 |-----------|--------------|-------------|
@@ -100,37 +80,12 @@ export circuit updateRecord(id: Uint<32>, data: MyType): [] {
 | Fixed data | `Bytes<N>` | Addresses, hashes |
 | Sensitive | `Opaque<T>` | Off-chain secrets |
 
-### Input Modifiers
-
+**Input Modifiers:**
 - **No modifier**: Public input (visible on-chain)
 - **`secret`**: Private, stays completely off-chain
 - **`witness`**: Private, used in ZK proof generation
 
-### Privacy Patterns
-
-**Commitment Scheme**:
-```compact
-export circuit commit(witness value: Uint<64>, witness salt: Field): Field {
-  return hash2(value, salt);
-}
-
-export circuit reveal(secret value: Uint<64>, secret salt: Field, commitment: Field): [] {
-  assert(is_equal(hash2(value, salt), commitment), "Invalid reveal");
-}
-```
-
-**Nullifier Pattern** (prevent double-spend):
-```compact
-ledger { nullifiers: Set<Field> }
-
-export circuit claim(witness secret: Field): [] {
-  const nullifier = hash(secret);
-  assert(!ledger.nullifiers.member(nullifier), "Already claimed");
-  ledger.nullifiers.insert(nullifier);
-}
-```
-
-### Compact Mode Checklist
+**Compact Mode Checklist:**
 - [ ] Correct pragma: `pragma compact(">=0.25");`
 - [ ] Types defined before ledger
 - [ ] Appropriate type widths
@@ -144,95 +99,27 @@ export circuit claim(witness secret: Field): [] {
 
 **Activated when**: Working with TypeScript, React, Next.js, wallet connections, providers
 
-### Technology Stack
+**Key Resources:**
+- Integration Guide: [dapp-integration/SKILL.md](../skills/dapp-integration/SKILL.md)
+- Wallet Connection: [dapp-integration/references/wallet.md](../skills/dapp-integration/references/wallet.md)
+- Provider Setup: [dapp-integration/references/providers.md](../skills/dapp-integration/references/providers.md)
+- Templates: [dapp-integration/templates/](../skills/dapp-integration/templates/)
 
-- **Next.js**: 16.1.1+ (App Router)
-- **React**: 19.x (Server Components)
-- **TypeScript**: 5.x (strict mode)
+**Technology Stack:**
+- Next.js 16.1.1+ (App Router)
+- React 19.x (Server Components)
+- TypeScript 5.x (strict mode)
 
-### Core Packages
+**Core Packages:**
 
-```json
-{
-  "@midnight-ntwrk/dapp-connector-api": "^3.0.0",
-  "@midnight-ntwrk/wallet": "^5.0.0",
-  "@midnight-ntwrk/midnight-js-contracts": "latest",
-  "@midnight-ntwrk/midnight-js-types": "latest",
-  "@midnight-ntwrk/midnight-js-indexer-public-data-provider": "latest"
-}
-```
+| Package | Purpose |
+|---------|---------|
+| `@midnight-ntwrk/dapp-connector-api` | Wallet connection |
+| `@midnight-ntwrk/wallet` | Wallet operations |
+| `@midnight-ntwrk/midnight-js-contracts` | Contract interactions |
+| `@midnight-ntwrk/midnight-js-types` | Type definitions |
 
-### Wallet Connection Pattern
-
-```typescript
-'use client';
-
-import type { DAppConnectorAPI, DAppConnectorWalletAPI } from '@midnight-ntwrk/dapp-connector-api';
-
-declare global {
-  interface Window {
-    midnight?: DAppConnectorAPI;
-  }
-}
-
-export async function connectWallet(): Promise<DAppConnectorWalletAPI | null> {
-  const connector = window.midnight;
-  if (!connector) {
-    console.error('Midnight wallet not installed');
-    return null;
-  }
-
-  const state = await connector.state();
-  if (state.enabledWalletApiVersion === null) {
-    await connector.enable();
-  }
-
-  return connector.walletAPI();
-}
-```
-
-### Provider Configuration
-
-```typescript
-import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-public-data-provider';
-import { httpClientProofProvider } from '@midnight-ntwrk/midnight-js-http-client-proof-provider';
-
-const TESTNET_CONFIG = {
-  indexer: "https://indexer.testnet-02.midnight.network/api/v1/graphql",
-  indexerWS: "wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws",
-  node: "https://rpc.testnet-02.midnight.network",
-  proofServer: "http://localhost:6300"
-};
-
-export const providers = {
-  publicDataProvider: indexerPublicDataProvider(
-    TESTNET_CONFIG.indexer,
-    TESTNET_CONFIG.indexerWS
-  ),
-  proofProvider: httpClientProofProvider(TESTNET_CONFIG.proofServer)
-};
-```
-
-### Contract Deployment Pattern
-
-```typescript
-import { deployContract, findDeployedContract } from '@midnight-ntwrk/midnight-js-contracts';
-
-// Deploy new contract
-const deployedContract = await deployContract(providers, {
-  contract: MyContractFactory,
-  initialPrivateState: { secretKey: new Uint8Array(32) }
-});
-
-// Find existing contract
-const existingContract = await findDeployedContract(providers, {
-  contract: MyContractFactory,
-  contractAddress: "0x...",
-  privateState: existingPrivateState
-});
-```
-
-### TypeScript Mode Checklist
+**TypeScript Mode Checklist:**
 - [ ] `'use client'` for wallet components
 - [ ] Proper type imports from @midnight-ntwrk
 - [ ] Error handling for wallet operations
@@ -245,24 +132,24 @@ const existingContract = await findDeployedContract(providers, {
 
 **Activated when**: Deploying contracts, configuring proof servers, network setup
 
-### Prerequisites
+**Key Resources:**
+- Deployment Guide: [midnight-network/SKILL.md](../skills/midnight-network/SKILL.md)
+- Network Config: [midnight-network/references/networks.md](../skills/midnight-network/references/networks.md)
 
-1. **Proof Server Running**:
-```bash
-docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --network testnet
-```
+**Prerequisites:**
+1. Proof Server running (Docker)
+2. Wallet funded from faucet
 
-2. **Wallet Funded**: Get test tokens from [faucet](https://faucet.testnet-02.midnight.network)
+**Network Endpoints:**
 
-### Network Endpoints
+| Network | Component | Endpoint |
+|---------|-----------|----------|
+| Testnet | Indexer | `https://indexer.testnet-02.midnight.network/api/v1/graphql` |
+| Testnet | RPC | `https://rpc.testnet-02.midnight.network` |
+| Testnet | WebSocket | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws` |
 
-| Network | Indexer | RPC | WebSocket |
-|---------|---------|-----|-----------|
-| Testnet | `https://indexer.testnet-02.midnight.network/api/v1/graphql` | `https://rpc.testnet-02.midnight.network` | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws` |
-
-### Deployment Steps
-
-1. Compile contract: `compact compile contracts/mycontract.compact`
+**Deployment Steps:**
+1. Compile contract: `compact compile contracts/*.compact`
 2. Configure providers with network endpoints
 3. Deploy with `deployContract()`
 4. Save contract address for future interactions
@@ -274,70 +161,22 @@ docker run -p 6300:6300 midnightnetwork/proof-server -- midnight-proof-server --
 
 **Activated when**: Writing tests, debugging test failures, configuring test environment
 
-### Simulator Pattern
+**Key Resources:**
+- Testing Guide: [testing/SKILL.md](../skills/testing/SKILL.md)
+- Simulator Patterns: [testing/references/simulator.md](../skills/testing/references/simulator.md)
+- Test Templates: [testing/templates/](../skills/testing/templates/)
 
-```typescript
-import { constructorContext, QueryContext, sampleContractAddress } from "@midnight-ntwrk/compact-runtime";
-import { Contract, ledger } from "../managed/mycontract/contract/index.cjs";
+**Simulator Pattern:**
+- Create simulator class wrapping Contract
+- Initialize with `constructorContext`
+- Access ledger state via helper methods
+- Call circuits and update context
 
-export class MyContractSimulator {
-  readonly contract: Contract<PrivateState>;
-  circuitContext: CircuitContext<PrivateState>;
-
-  constructor(initialPrivateState: PrivateState) {
-    this.contract = new Contract<PrivateState>(witnesses);
-    const { currentPrivateState, currentContractState, currentZswapLocalState } =
-      this.contract.initialState(constructorContext(initialPrivateState, "0".repeat(64)));
-
-    this.circuitContext = {
-      currentPrivateState,
-      currentZswapLocalState,
-      originalState: currentContractState,
-      transactionContext: new QueryContext(currentContractState.data, sampleContractAddress())
-    };
-  }
-
-  public getLedger() {
-    return ledger(this.circuitContext.transactionContext.state);
-  }
-
-  public myCircuit(arg: Arg): Result {
-    this.circuitContext = this.contract.impureCircuits.myCircuit(this.circuitContext, arg).context;
-    return ledger(this.circuitContext.transactionContext.state);
-  }
-}
-```
-
-### Vitest Configuration
-
-```typescript
-// vitest.config.ts
-import { defineConfig } from "vitest/config";
-
-export default defineConfig({
-  test: {
-    globals: true,
-    environment: "node",
-    include: ["**/*.test.ts"],
-  }
-});
-```
-
-### Test Example
-
-```typescript
-import { MyContractSimulator } from "./simulator";
-import { setNetworkId, NetworkId } from "@midnight-ntwrk/midnight-js-network-id";
-
-setNetworkId(NetworkId.Undeployed);
-
-describe("MyContract", () => {
-  it("initializes correctly", () => {
-    const sim = new MyContractSimulator({ privateCounter: 0 });
-    expect(sim.getLedger().counter).toEqual(0n);
-  });
-});
-```
+**Test Setup:**
+- Use Vitest for test runner
+- Set `NetworkId.Undeployed` for unit tests
+- Test state transitions
+- Verify assertion messages
 
 ---
 
@@ -347,30 +186,22 @@ describe("MyContract", () => {
 
 For comprehensive security audits, use the **Security Audit** handoff to transfer to the specialized security-auditor agent.
 
-### Severity Levels
-
+**Severity Levels:**
 - 🔴 **Critical**: Funds at risk, privacy completely broken
 - 🟠 **High**: Significant privacy leak, access control bypass
 - 🟡 **Medium**: Logic errors, incomplete validation
 - 🟢 **Low**: Best practice violations, gas inefficiency
 
-### Quick Security Checklist
+**Quick Security Checklist:**
 
-#### Compact Contracts
-- [ ] All assertions have descriptive error messages
-- [ ] Sensitive data uses `witness` or `secret` modifier
-- [ ] No plaintext secrets stored in ledger
-- [ ] Commitments use proper salt (hash2, not hash)
-- [ ] Nullifiers include context (prevent cross-contract replay)
-- [ ] Access control checks where needed
-- [ ] Integer overflow/underflow protection
-
-#### TypeScript dApps
-- [ ] Wallet connector availability checked
-- [ ] No secrets logged or stored client-side
-- [ ] Private state encrypted at rest
-- [ ] Error messages don't leak sensitive info
-- [ ] HTTPS enforced for all endpoints
+| Area | Check |
+|------|-------|
+| Inputs | All assertions have descriptive messages |
+| Privacy | Sensitive data uses `witness` or `secret` |
+| Storage | No plaintext secrets in ledger |
+| Commits | Use hash with salt (hash2) |
+| Nullifiers | Include context to prevent replay |
+| Access | Authorization checks where needed |
 
 ---
 
@@ -378,15 +209,14 @@ For comprehensive security audits, use the **Security Audit** handoff to transfe
 
 **Activated when**: Errors, failures, "not working" issues
 
-### Debug Workflow
-
+**Debug Workflow:**
 1. **Reproduce**: Get exact error message and context
 2. **Locate**: Find the source file and line
-3. **Analyze**: Check common causes below
+3. **Analyze**: Check common causes
 4. **Fix**: Apply targeted solution
 5. **Verify**: Confirm fix works
 
-### Common Issues
+**Common Issues:**
 
 | Error | Cause | Solution |
 |-------|-------|----------|
@@ -405,12 +235,7 @@ For comprehensive security audits, use the **Security Audit** handoff to transfe
 - **Goal**: One-line objective
 - **Action**: What you'll do
 
-### Tool Usage
-
-Use #tool:search to find files and patterns. Use #tool:edit/editFiles to modify code, then check #tool:read/problems Use #tool:execute/runInTerminal to compile with `compact compile contracts/*.compact`. Use #tool:execute/testFailure to analyze test failures. Use #tool:todo to track multi-step progress. Use #tool:web/fetch to get Midnight docs when needed. Use #tool:web/githubRepo to reference official examples.
-
-### Quality Gates
-
+**Quality Gates:**
 Before marking complete:
 - [ ] Code compiles without errors
 - [ ] Assertions have descriptive messages
@@ -422,18 +247,15 @@ Before marking complete:
 
 ## Skills Reference
 
-Load additional context from [.github/skills/](../../.github/skills/) when needed:
+Load additional context from skills when needed:
 
 | Skill | When to Reference |
 |-------|-------------------|
-| `compact-smart-contracts/` | Contract fundamentals |
-| `advanced-compact-patterns/` | Complex patterns |
-| `browser-wallet-integration/` | React wallet hooks |
-| `wallet-sdk-integration/` | Server-side wallet |
-| `contract-deployment/` | Deployment patterns |
-| `testing-compact-contracts/` | Testing strategies |
-| `zero-knowledge-proofs/` | ZK concepts |
-| `troubleshooting/` | Common issues |
+| `compact/` | Contract fundamentals |
+| `privacy-patterns/` | ZK patterns, commitments |
+| `dapp-integration/` | React wallet hooks |
+| `midnight-network/` | Network configuration |
+| `testing/` | Testing strategies |
 
 ---
 

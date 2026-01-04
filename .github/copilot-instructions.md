@@ -304,3 +304,126 @@ try {
 - **Skills**: `.github/skills/` - Comprehensive development guides
 - **Docs**: https://docs.midnight.network - Official documentation
 - **Examples**: https://github.com/midnight-ntwrk - Official examples
+
+---
+
+# Web Development Stack
+
+This workspace also supports general full-stack web development with modern tooling.
+
+## Web Technology Stack
+
+### Core Versions
+- **Next.js**: 16.1+ (App Router, Turbopack stable)
+- **React**: 19.x (Server Components, Suspense)
+- **TypeScript**: 5.x (strict mode)
+- **Tailwind CSS**: 4.x (CSS-first config)
+- **Prisma**: 6.x (Type-safe ORM)
+- **Turborepo**: 2.x (Monorepo tooling)
+- **Playwright**: 1.49+ (E2E testing)
+- **pnpm**: 9.x (Package manager)
+
+## Project Types
+
+### Monorepo Structure (Turborepo)
+```
+my-project/
+├── apps/
+│   ├── web/              # Next.js frontend
+│   └── api/              # Backend API
+├── packages/
+│   ├── ui/               # Shared components
+│   ├── config/           # Shared configs
+│   └── utils/            # Shared utilities
+├── turbo.json
+└── pnpm-workspace.yaml
+```
+
+### Next.js App Router
+```
+app/
+├── layout.tsx            # Root layout
+├── page.tsx              # Home page
+├── loading.tsx           # Loading UI
+├── error.tsx             # Error boundary
+├── (auth)/               # Route group
+│   ├── login/page.tsx
+│   └── register/page.tsx
+└── api/                  # Route handlers
+    └── users/route.ts
+```
+
+## Skills Reference
+
+| Skill | Path | Use For |
+|-------|------|---------|
+| Next.js | `.github/skills/nextjs/` | App Router, Server Components, Data Fetching |
+| Tailwind CSS | `.github/skills/tailwindcss/` | Styling, Theming, Components |
+| Turborepo | `.github/skills/turborepo/` | Monorepo setup, Caching, CI/CD |
+| Prisma | `.github/skills/prisma/` | Database, ORM, Migrations |
+| Playwright | `.github/skills/playwright/` | E2E Testing, Visual Regression |
+
+## Instructions Reference
+
+| File | Applies To | Purpose |
+|------|------------|---------|
+| `nextjs.instructions.md` | `app/**/*.tsx` | Next.js patterns |
+| `tailwindcss.instructions.md` | `*.css, *.tsx` | Styling guidelines |
+| `turborepo.instructions.md` | `turbo.json` | Monorepo config |
+| `prisma.instructions.md` | `prisma/**` | Database patterns |
+| `playwright.instructions.md` | `e2e/**` | Testing patterns |
+
+## Quick Patterns
+
+### Server Component with Data Fetching
+```tsx
+// app/posts/page.tsx
+export default async function PostsPage() {
+  const posts = await prisma.post.findMany();
+  return <PostList posts={posts} />;
+}
+```
+
+### Server Action
+```tsx
+'use server';
+export async function createPost(formData: FormData) {
+  await prisma.post.create({ data: { ... } });
+  revalidatePath('/posts');
+}
+```
+
+### Tailwind v4 Theme
+```css
+@import "tailwindcss";
+@theme {
+  --color-primary-500: oklch(0.55 0.2 250);
+}
+```
+
+### Prisma Query
+```typescript
+const users = await prisma.user.findMany({
+  include: { posts: true },
+  orderBy: { createdAt: 'desc' },
+});
+```
+
+### Playwright Test
+```typescript
+test('navigation works', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: 'About' }).click();
+  await expect(page).toHaveURL('/about');
+});
+```
+
+## Agents Reference
+
+| Agent | Purpose |
+|-------|---------|
+| Fullstack Developer | Next.js, Turborepo, React, Prisma, Tailwind |
+| API Developer | REST APIs, Server Actions, Authentication |
+| UI Designer | Tailwind CSS, Components, Accessibility |
+| DevOps Engineer | CI/CD, Docker, Vercel, Turborepo |
+| E2E Testing Engineer | Playwright, Visual Testing, Chrome DevTools |

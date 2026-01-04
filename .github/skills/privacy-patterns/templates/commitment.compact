@@ -1,0 +1,182 @@
+// Commitment Scheme Template
+// Privacy Pattern: Commit-Reveal for private voting, auctions, etc.
+
+pragma compact(">=0.25");
+
+// ============================================
+// Type Definitions
+// ============================================
+
+struct Commitment {
+  hash: Field,
+  timestamp: Uint<64>,
+  revealed: Boolean
+}
+
+struct RevealedValue {
+  value: Field,
+  nonce: Field,
+  revealer: Bytes<32>
+}
+
+// ============================================
+// Ledger State
+// ============================================
+
+ledger {
+  // Store commitments by ID
+  commitments: Map<Bytes<32>, Commitment>,
+  
+  // Track reveal deadline
+  revealDeadline: Cell<Uint<64>>,
+  
+  // Store revealed values
+  reveals: Map<Bytes<32>, RevealedValue>,
+  
+  // Counter for unique IDs
+  commitmentCounter: Counter
+}
+
+// ============================================
+// Constructor
+// ============================================
+
+constructor(revealPeriod: Uint<64>) {
+  ledger.revealDeadline.write(0);
+  ledger.commitmentCounter.increment(0n);
+}
+
+// ============================================
+// Commitment Phase
+// ============================================
+
+/**
+ * Submit a commitment (hash of value + nonce)
+ * The actual value stays private until reveal
+ */
+export circuit commit(
+  // Public: commitment hash
+  commitmentHash: Field,
+  // Secret: original value (never leaves client)
+  secret value: Field,
+  // Secret: random nonce for security
+  secret nonce: Field
+): Bytes<32> {
+  // Verify the commitment matches value + nonce
+  const expectedHash = hash(value, nonce);
+  assert(commitmentHash == expectedHash, "Invalid commitment hash");
+  
+  // Generate unique commitment ID
+  const commitmentId = generateCommitmentId();
+  
+  // Store commitment on-chain
+  ledger.commitments[commitmentId] = Commitment {
+    hash: commitmentHash,
+    timestamp: getCurrentTimestamp(),
+    revealed: false
+  };
+  
+  // Return commitment ID for later reveal
+  return commitmentId;
+}
+
+// ============================================
+// Reveal Phase
+// ============================================
+
+/**
+ * Reveal the committed value
+ * Must provide the original value and nonce
+ */
+export circuit reveal(
+  commitmentId: Bytes<32>,
+  // Witness: value being revealed (verified against commitment)
+  witness value: Field,
+  // Witness: nonce used in commitment
+  witness nonce: Field
+): Field {
+  // Get stored commitment
+  const commitment = ledger.commitments[commitmentId];
+  assert(commitment.hash != 0, "Commitment not found");
+  assert(!commitment.revealed, "Already revealed");
+  
+  // Verify reveal matches commitment
+  const expectedHash = hash(value, nonce);
+  assert(commitment.hash == expectedHash, "Invalid reveal");
+  
+  // Check deadline
+  const deadline = ledger.revealDeadline.read();
+  if (deadline > 0) {
+    assert(getCurrentTimestamp() <= deadline, "Reveal period ended");
+  }
+  
+  // Mark as revealed
+  ledger.commitments[commitmentId] = Commitment {
+    hash: commitment.hash,
+    timestamp: commitment.timestamp,
+    revealed: true
+  };
+  
+  // Store revealed value
+  ledger.reveals[commitmentId] = RevealedValue {
+    value: value,
+    nonce: nonce,
+    revealer: getCaller()
+  };
+  
+  return value;
+}
+
+// ============================================
+// Query Functions
+// ============================================
+
+/**
+ * Check if a commitment has been revealed
+ */
+export circuit isRevealed(commitmentId: Bytes<32>): Boolean {
+  const commitment = ledger.commitments[commitmentId];
+  return commitment.revealed;
+}
+
+/**
+ * Get revealed value (only after reveal)
+ */
+export circuit getRevealedValue(commitmentId: Bytes<32>): Field {
+  const commitment = ledger.commitments[commitmentId];
+  assert(commitment.revealed, "Not yet revealed");
+  return ledger.reveals[commitmentId].value;
+}
+
+// ============================================
+// Admin Functions
+// ============================================
+
+/**
+ * Set the reveal deadline (admin only)
+ */
+export circuit setRevealDeadline(deadline: Uint<64>): [] {
+  // Add access control as needed
+  ledger.revealDeadline.write(deadline);
+}
+
+// ============================================
+// Helper Functions
+// ============================================
+
+/**
+ * Generate unique commitment ID
+ */
+circuit generateCommitmentId(): Bytes<32> {
+  const count = ledger.commitmentCounter.read();
+  ledger.commitmentCounter.increment(1n);
+  return hash(count, getCurrentTimestamp());
+}
+
+/**
+ * Compute commitment hash
+ * hash(value || nonce) - prevents rainbow table attacks
+ */
+circuit computeCommitment(value: Field, nonce: Field): Field {
+  return hash(value, nonce);
+}

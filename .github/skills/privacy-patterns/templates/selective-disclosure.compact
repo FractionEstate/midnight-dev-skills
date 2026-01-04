@@ -1,0 +1,234 @@
+// Selective Disclosure Template
+// Privacy Pattern: Prove properties without revealing data
+
+pragma compact(">=0.25");
+
+// ============================================
+// Type Definitions
+// ============================================
+
+struct Credential {
+  // Commitment to the full credential
+  commitment: Field,
+  // Public metadata (non-sensitive)
+  issuer: Bytes<32>,
+  issuedAt: Uint<64>,
+  expiresAt: Uint<64>,
+  // Revocation status
+  revoked: Boolean
+}
+
+struct AgeProof {
+  isOver18: Boolean,
+  isOver21: Boolean,
+  isOver65: Boolean
+  // Note: actual birthdate is NEVER revealed
+}
+
+struct IncomeProof {
+  meetsThreshold: Boolean,
+  bracket: Uint<8>
+  // Note: actual income is NEVER revealed
+}
+
+// ============================================
+// Ledger State
+// ============================================
+
+ledger {
+  // Credential registry by holder
+  credentials: Map<Bytes<32>, Credential>,
+  
+  // Trusted issuers
+  trustedIssuers: Set<Bytes<32>>,
+  
+  // Verification results (optional on-chain storage)
+  verificationResults: Map<Bytes<32>, Boolean>
+}
+
+// ============================================
+// Credential Issuance
+// ============================================
+
+/**
+ * Issue a credential (issuer only)
+ * Stores commitment, not the actual data
+ */
+export circuit issueCredential(
+  holder: Bytes<32>,
+  commitment: Field,
+  validityPeriod: Uint<64>
+): [] {
+  const issuer = getCaller();
+  
+  // Verify issuer is trusted
+  assert(ledger.trustedIssuers.member(issuer), "Untrusted issuer");
+  
+  // Store credential
+  ledger.credentials[holder] = Credential {
+    commitment: commitment,
+    issuer: issuer,
+    issuedAt: getCurrentTimestamp(),
+    expiresAt: getCurrentTimestamp() + validityPeriod,
+    revoked: false
+  };
+}
+
+// ============================================
+// Age Verification (Selective Disclosure)
+// ============================================
+
+/**
+ * Prove age is above threshold WITHOUT revealing birthdate
+ * 
+ * @param witness birthdate - The actual birthdate (stays private)
+ * @param minAge - The minimum age to prove
+ * @returns Boolean indicating if age requirement is met
+ */
+export circuit proveAgeAbove(
+  // Witness: actual birthdate (never revealed)
+  witness birthdate: Uint<64>,
+  // Public: minimum age threshold
+  minAge: Uint<8>,
+  // Witness: credential proving identity
+  witness credentialSecret: Field
+): Boolean {
+  // Verify credential is valid
+  const holder = getCaller();
+  const credential = ledger.credentials[holder];
+  assert(credential.commitment != 0, "No credential found");
+  assert(!credential.revoked, "Credential revoked");
+  assert(credential.expiresAt > getCurrentTimestamp(), "Credential expired");
+  
+  // Verify the witness matches the credential commitment
+  const expectedCommitment = hash(birthdate, credentialSecret);
+  assert(credential.commitment == expectedCommitment, "Invalid credential proof");
+  
+  // Calculate age from birthdate
+  const currentTime = getCurrentTimestamp();
+  const ageInSeconds = currentTime - birthdate;
+  const ageInYears = ageInSeconds / (365 * 24 * 60 * 60);
+  
+  // Return result without revealing actual age
+  return ageInYears >= minAge;
+}
+
+/**
+ * Get age bracket proof
+ * Returns which age brackets apply without revealing exact age
+ */
+export circuit getAgeProof(
+  witness birthdate: Uint<64>,
+  witness credentialSecret: Field
+): AgeProof {
+  // Verify credential
+  const holder = getCaller();
+  const credential = ledger.credentials[holder];
+  assert(credential.commitment != 0, "No credential found");
+  
+  const expectedCommitment = hash(birthdate, credentialSecret);
+  assert(credential.commitment == expectedCommitment, "Invalid credential proof");
+  
+  // Calculate age
+  const currentTime = getCurrentTimestamp();
+  const ageInYears = (currentTime - birthdate) / (365 * 24 * 60 * 60);
+  
+  // Return selective disclosure
+  return AgeProof {
+    isOver18: ageInYears >= 18,
+    isOver21: ageInYears >= 21,
+    isOver65: ageInYears >= 65
+  };
+}
+
+// ============================================
+// Income Verification (Selective Disclosure)
+// ============================================
+
+/**
+ * Prove income meets threshold WITHOUT revealing exact amount
+ */
+export circuit proveIncomeAbove(
+  // Witness: actual income (never revealed)
+  witness income: Uint<64>,
+  // Public: threshold to prove
+  threshold: Uint<64>,
+  // Witness: income credential
+  witness incomeProof: Field
+): Boolean {
+  // Verify income credential
+  const holder = getCaller();
+  const credential = ledger.credentials[holder];
+  
+  const expectedCommitment = hash(income, incomeProof);
+  assert(credential.commitment == expectedCommitment, "Invalid income proof");
+  
+  // Return only boolean, not the actual income
+  return income >= threshold;
+}
+
+/**
+ * Get income bracket without revealing exact amount
+ */
+export circuit getIncomeBracket(
+  witness income: Uint<64>,
+  witness incomeProof: Field
+): IncomeProof {
+  // Verify credential
+  const holder = getCaller();
+  const credential = ledger.credentials[holder];
+  
+  const expectedCommitment = hash(income, incomeProof);
+  assert(credential.commitment == expectedCommitment, "Invalid income proof");
+  
+  // Calculate bracket (0-5)
+  let bracket: Uint<8> = 0;
+  if (income >= 25000) bracket = 1;
+  if (income >= 50000) bracket = 2;
+  if (income >= 100000) bracket = 3;
+  if (income >= 250000) bracket = 4;
+  if (income >= 500000) bracket = 5;
+  
+  return IncomeProof {
+    meetsThreshold: income >= 25000,
+    bracket: bracket
+  };
+}
+
+// ============================================
+// Membership Proof (Set Membership)
+// ============================================
+
+/**
+ * Prove membership in a group without revealing which member
+ */
+export circuit proveMembership(
+  // Witness: the member's secret identifier
+  witness memberSecret: Field,
+  // Witness: Merkle proof of membership
+  witness merkleProof: Vector<256, Field>,
+  // Public: Merkle root of the group
+  groupRoot: Field
+): Boolean {
+  // Hash the member secret to get leaf
+  const leaf = hash(memberSecret);
+  
+  // Verify Merkle proof
+  return verifyMerkleProof(leaf, merkleProof, groupRoot);
+}
+
+// ============================================
+// Admin Functions
+// ============================================
+
+export circuit addTrustedIssuer(issuer: Bytes<32>): [] {
+  // Add access control
+  ledger.trustedIssuers.insert(issuer);
+}
+
+export circuit revokeCredential(holder: Bytes<32>): [] {
+  // Add access control
+  let credential = ledger.credentials[holder];
+  credential.revoked = true;
+  ledger.credentials[holder] = credential;
+}

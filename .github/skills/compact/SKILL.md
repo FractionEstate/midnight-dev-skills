@@ -1,6 +1,9 @@
 ---
 name: compact
 description: Write privacy-preserving smart contracts in Compact for Midnight Network. Use when creating contracts, defining types, using standard library functions, or implementing ZK patterns. Triggers on Compact language, circuits, ledger state, hashing, or zero-knowledge contract questions.
+metadata:
+  author: FractionEstate
+  version: "0.25"
 ---
 
 # Compact Smart Contracts

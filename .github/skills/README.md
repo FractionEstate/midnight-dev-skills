@@ -4,7 +4,7 @@
 [![Midnight Network](https://img.shields.io/badge/Midnight-Network-purple)](https://midnight.network)
 [![Compact](https://img.shields.io/badge/Compact-0.25-green)](https://docs.midnight.network)
 
-GitHub Agent Skills for building privacy-preserving dApps on the Midnight Network.
+GitHub Agent Skills for building privacy-preserving dApps on the Midnight Network and modern web applications.
 
 ## 🎯 What Are These Skills?
 
@@ -16,8 +16,13 @@ Agent Skills are self-contained folders with instructions and bundled resources 
 - Integrating wallets and deploying dApps
 - Testing contracts with simulators
 - Configuring network infrastructure
+- Building modern web applications with Next.js
+- Creating monorepo projects with Turborepo
+- Styling with Tailwind CSS v4
+- Database operations with Prisma
+- E2E testing with Playwright
 
-## 📋 Core Skills (Consolidated)
+## 📋 Midnight Skills
 
 | Skill | Description | Contents |
 |-------|-------------|----------|
@@ -26,6 +31,16 @@ Agent Skills are self-contained folders with instructions and bundled resources 
 | [midnight-network](midnight-network/) | Network infrastructure, proof server, indexer | `references/` |
 | [privacy-patterns](privacy-patterns/) | ZK proofs, commitments, nullifiers, disclosure | `references/` |
 | [testing](testing/) | Contract testing with simulators | `references/` |
+
+## 🌐 Web Development Skills
+
+| Skill | Description | Contents |
+|-------|-------------|----------|
+| [nextjs](nextjs/) | Next.js 15+ App Router, Server Components, Server Actions | `references/` |
+| [tailwindcss](tailwindcss/) | Tailwind CSS v4 theming, components, accessibility | `references/` |
+| [turborepo](turborepo/) | Monorepo setup, caching, CI/CD with Turborepo | `references/` |
+| [prisma](prisma/) | Type-safe database access with Prisma ORM | `references/` |
+| [playwright](playwright/) | E2E testing, visual regression, browser automation | `references/` |
 
 ## 📁 Skill Structure
 
@@ -93,6 +108,43 @@ const walletApi = await connector.walletAPI();
 - [Midnight GitHub](https://github.com/midnightntwrk)
 - [Agent Skills Specification](https://agentskills.io/specification)
 - [Example dApps](https://github.com/midnightntwrk/midnight-awesome-dapps)
+
+## 🔌 Agent Integration
+
+### Generate Available Skills XML
+
+Use the provided script to generate the `<available_skills>` block for agent prompts:
+
+```bash
+.github/scripts/generate-skills-xml.sh
+```
+
+Output format:
+
+```xml
+<available_skills>
+  <skill>
+    <name>compact</name>
+    <description>Write privacy-preserving smart contracts...</description>
+    <location>/path/to/skills/compact/SKILL.md</location>
+  </skill>
+</available_skills>
+```
+
+### Filesystem-based Agents
+
+Agents with shell access can read skills directly:
+
+```bash
+cat /path/to/skills/compact/SKILL.md
+cat /path/to/skills/compact/references/types.md
+```
+
+### Progressive Disclosure
+
+1. **Metadata** (~100 tokens) - `name` and `description` loaded at startup
+2. **Instructions** (<5000 tokens) - Full SKILL.md loaded when activated
+3. **Resources** (as needed) - References loaded on demand
 
 ## 🤝 Contributing
 

@@ -1,0 +1,258 @@
+// Basic Compact Contract Template
+// Location: contracts/main.compact
+
+pragma compact(">=0.25");
+
+// ============================================
+// Type Definitions
+// ============================================
+
+/**
+ * Define custom types for your contract
+ */
+struct Config {
+  admin: Bytes<32>,
+  enabled: Boolean,
+  maxValue: Uint<64>
+}
+
+/**
+ * Events emitted by the contract
+ */
+struct CounterUpdated {
+  oldValue: Uint<64>,
+  newValue: Uint<64>,
+  updatedBy: Bytes<32>
+}
+
+// ============================================
+// Ledger State
+// ============================================
+
+/**
+ * On-chain state accessible by all
+ */
+ledger {
+  // Simple counter
+  counter: Counter,
+  
+  // Configuration
+  config: Cell<Config>,
+  
+  // Map of user balances
+  balances: Map<Bytes<32>, Uint<64>>,
+  
+  // Set of authorized users
+  authorized: Set<Bytes<32>>
+}
+
+// ============================================
+// Constructor
+// ============================================
+
+/**
+ * Initialize contract state
+ * Called once during deployment
+ */
+constructor(admin: Bytes<32>, maxValue: Uint<64>) {
+  // Initialize counter at 0
+  ledger.counter.increment(0n);
+  
+  // Set initial config
+  ledger.config.write(Config {
+    admin: admin,
+    enabled: true,
+    maxValue: maxValue
+  });
+  
+  // Admin is automatically authorized
+  ledger.authorized.insert(admin);
+}
+
+// ============================================
+// Public Circuits (Read)
+// ============================================
+
+/**
+ * Get current counter value
+ * Pure function - no state changes
+ */
+export circuit getCounter(): Uint<64> {
+  return ledger.counter.read();
+}
+
+/**
+ * Check if address is authorized
+ */
+export circuit isAuthorized(address: Bytes<32>): Boolean {
+  return ledger.authorized.member(address);
+}
+
+/**
+ * Get balance for address
+ */
+export circuit getBalance(address: Bytes<32>): Uint<64> {
+  return ledger.balances[address] default 0;
+}
+
+// ============================================
+// Public Circuits (Write)
+// ============================================
+
+/**
+ * Increment the counter by 1
+ * Impure - modifies ledger state
+ */
+export circuit increment(): Uint<64> {
+  // Read config
+  const config = ledger.config.read();
+  assert(config.enabled, "Contract is disabled");
+  
+  // Get current value
+  const current = ledger.counter.read();
+  assert(current < config.maxValue, "Maximum value reached");
+  
+  // Increment
+  ledger.counter.increment(1n);
+  
+  // Return new value
+  return current + 1;
+}
+
+/**
+ * Set counter to specific value
+ * Requires authorization
+ */
+export circuit setCounter(value: Uint<64>): [] {
+  const caller = getCaller();
+  assert(ledger.authorized.member(caller), "Not authorized");
+  
+  const config = ledger.config.read();
+  assert(value <= config.maxValue, "Value exceeds maximum");
+  
+  // Reset to 0 then increment to value
+  const current = ledger.counter.read();
+  if (value > current) {
+    ledger.counter.increment(value - current);
+  }
+  // Note: Counter can only increment, use different state for decrementable values
+}
+
+/**
+ * Deposit funds
+ */
+export circuit deposit(amount: Uint<64>): [] {
+  const caller = getCaller();
+  const current = ledger.balances[caller] default 0;
+  ledger.balances[caller] = current + amount;
+}
+
+/**
+ * Withdraw funds with witness verification
+ */
+export circuit withdraw(
+  amount: Uint<64>,
+  witness secretKey: Field
+): [] {
+  const caller = getCaller();
+  
+  // Verify caller owns the secret
+  const expectedAddress = deriveAddress(secretKey);
+  assert(expectedAddress == caller, "Invalid secret key");
+  
+  // Check balance
+  const balance = ledger.balances[caller] default 0;
+  assert(balance >= amount, "Insufficient balance");
+  
+  // Update balance
+  ledger.balances[caller] = balance - amount;
+}
+
+// ============================================
+// Admin Circuits
+// ============================================
+
+/**
+ * Add authorized user (admin only)
+ */
+export circuit authorize(address: Bytes<32>): [] {
+  const caller = getCaller();
+  const config = ledger.config.read();
+  assert(caller == config.admin, "Only admin can authorize");
+  
+  ledger.authorized.insert(address);
+}
+
+/**
+ * Remove authorized user (admin only)
+ */
+export circuit revoke(address: Bytes<32>): [] {
+  const caller = getCaller();
+  const config = ledger.config.read();
+  assert(caller == config.admin, "Only admin can revoke");
+  assert(address != config.admin, "Cannot revoke admin");
+  
+  ledger.authorized.remove(address);
+}
+
+/**
+ * Update configuration (admin only)
+ */
+export circuit updateConfig(enabled: Boolean, maxValue: Uint<64>): [] {
+  const caller = getCaller();
+  const config = ledger.config.read();
+  assert(caller == config.admin, "Only admin can update config");
+  
+  ledger.config.write(Config {
+    admin: config.admin,  // Admin cannot change itself
+    enabled: enabled,
+    maxValue: maxValue
+  });
+}
+
+// ============================================
+// Private Circuits
+// ============================================
+
+/**
+ * Submit a private value with commitment
+ * Value stays secret, only commitment is stored
+ */
+export circuit commitValue(
+  commitment: Field,
+  secret value: Field,
+  secret nonce: Field
+): [] {
+  // Verify commitment matches secret
+  assert(hash(value, nonce) == commitment, "Invalid commitment");
+  
+  // Store only the commitment (value remains private)
+  // Add to your commitment storage as needed
+}
+
+// ============================================
+// Helper Functions (Internal)
+// ============================================
+
+/**
+ * Get caller address
+ */
+circuit getCaller(): Bytes<32> {
+  // Returns the address of the transaction sender
+  return caller();
+}
+
+/**
+ * Derive address from secret key
+ */
+circuit deriveAddress(secretKey: Field): Bytes<32> {
+  return truncate(hash(secretKey));
+}
+
+/**
+ * Truncate Field to Bytes<32>
+ */
+circuit truncate(f: Field): Bytes<32> {
+  // Implementation depends on specific truncation logic
+  return f as Bytes<32>;
+}

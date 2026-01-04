@@ -1,0 +1,90 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env",
+        ".env.local",
+        ".env.production"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**"
+      ],
+      "env": [
+        "NODE_ENV",
+        "DATABASE_URL",
+        "NEXT_PUBLIC_*"
+      ]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "eslint.config.*",
+        ".eslintrc*"
+      ],
+      "outputs": []
+    },
+    "lint:fix": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "vitest.config.*",
+        "jest.config.*"
+      ],
+      "outputs": ["coverage/**"],
+      "env": ["CI", "NODE_ENV"]
+    },
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "tsconfig.json"
+      ],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "db:generate": {
+      "inputs": ["prisma/schema.prisma"],
+      "outputs": ["node_modules/.prisma/**"],
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false,
+      "dependsOn": ["db:generate"]
+    }
+  },
+  "globalEnv": [
+    "CI",
+    "VERCEL",
+    "VERCEL_ENV",
+    "VERCEL_URL"
+  ],
+  "globalPassThroughEnv": [
+    "AWS_*",
+    "GITHUB_*"
+  ]
+}
