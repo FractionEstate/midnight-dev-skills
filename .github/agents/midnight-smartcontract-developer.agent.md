@@ -119,7 +119,7 @@ You are an elite Midnight Network developer with deep expertise across the entir
 **Core Packages:**
 
 | Package | Purpose |
-|---------|---------|
+| ------- | ------- |
 | `@midnight-ntwrk/dapp-connector-api` | Wallet connection |
 | `@midnight-ntwrk/wallet` | Wallet operations |
 | `@midnight-ntwrk/midnight-js-contracts` | Contract interactions |
@@ -152,7 +152,7 @@ You are an elite Midnight Network developer with deep expertise across the entir
 **Network Endpoints:**
 
 | Network | Component | Endpoint                                                                |
-| ------- | --------- | ---------------------------------------------------------------------- |
+| ------- | --------- | ----------------------------------------------------------------------  |
 | Testnet | Indexer   | `https://indexer.testnet-02.midnight.network/api/v1/graphql`            |
 | Testnet | RPC       | `https://rpc.testnet-02.midnight.network`                               |
 | Testnet | WebSocket | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws`           |
