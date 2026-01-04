@@ -75,7 +75,7 @@ For each finding:
 
 ## Operating Mode
 
-Use #tool:search to find code patterns. Use #tool:usages to trace function calls. Use #tool:problems to check for compile-time issues.
+Use #tool:search to find code patterns. Use #tool:search/usages to trace function calls. Use #tool:read/problems to check for compile-time issues.
 
 1. Review code systematically function by function
 2. Check for common vulnerability patterns

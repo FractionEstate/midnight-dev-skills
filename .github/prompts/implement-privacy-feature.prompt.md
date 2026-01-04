@@ -103,4 +103,4 @@ Provide:
 4. Security considerations
 5. Test cases for privacy properties
 
-Use #tool:search to find relevant patterns. Use #tool:editFiles to implement the feature.
+Use #tool:search to find relevant patterns. Use #tool:edit/editFiles to implement the feature.
