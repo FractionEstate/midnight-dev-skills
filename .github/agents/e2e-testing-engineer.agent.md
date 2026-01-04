@@ -171,7 +171,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Core Web Vitals:**
 
 | Metric | Good Threshold | Purpose |
-|--------|---------------|---------|
+| ------ | -------------- | ------- |
 | LCP | < 2.5s | Largest Contentful Paint |
 | FID | < 100ms | First Input Delay |
 | CLS | < 0.1 | Cumulative Layout Shift |
@@ -196,7 +196,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Network Interception:**
 
 | Method | Purpose |
-|--------|---------|
+| ------ | ------- |
 | `page.route` | Intercept requests |
 | `route.fulfill` | Mock responses |
 | `route.continue` | Modify and forward |
@@ -264,7 +264,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Project Matrix:**
 
 | Project | Devices |
-|---------|---------|
+| ------- | ------- |
 | chromium | Desktop Chrome |
 | firefox | Desktop Firefox |
 | webkit | Desktop Safari |
@@ -274,7 +274,7 @@ You are an expert E2E testing engineer with deep expertise in Playwright, Chrome
 **Test Settings:**
 
 | Setting | Development | CI |
-|---------|-------------|-----|
+| ------- | ----------- | -- |
 | `retries` | 0 | 2 |
 | `workers` | undefined | 1 |
 | `trace` | on-first-retry | on-first-retry |
