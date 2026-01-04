@@ -17,13 +17,10 @@ This repository contains comprehensive GitHub Copilot customizations for buildin
 .github/
 ├── copilot-instructions.md        # Global Copilot instructions
 │
-├── agents/                        # Custom AI agents (6 total)
-│   ├── midnight-developer.agent.md
-│   ├── compact-expert.agent.md
-│   ├── security-auditor.agent.md
-│   ├── compact-developer.agent.md
-│   ├── dapp-builder.agent.md
-│   └── security-review.agent.md
+├── agents/                        # Custom AI agents (3 total)
+│   ├── midnight-smartcontract-developer.agent.md  # Unified dev agent (auto mode-switching)
+│   ├── security-auditor.agent.md                  # Security analysis specialist
+│   └── security-review.agent.md                   # Systematic security review
 │
 ├── prompts/                       # Reusable prompt templates (10 total)
 │   ├── create-compact-contract.prompt.md
@@ -44,13 +41,14 @@ This repository contains comprehensive GitHub Copilot customizations for buildin
 │   ├── testing.instructions.md
 │   └── memory.instructions.md     # Persistent learnings
 │
-└── skills/                        # Agent Skills (26 total)
+└── skills/                        # Agent Skills (28 total)
     ├── # Setup & Configuration
     ├── midnight-nextjs-setup/
     ├── vscode-compact-extension/
     ├── network-configuration/
     ├── proof-server-operations/
     ├── lace-wallet-setup/
+    ├── create-mn-app/             # Official CLI scaffolding
     │
     ├── # Compact Language
     ├── compact-smart-contracts/
@@ -66,6 +64,7 @@ This repository contains comprehensive GitHub Copilot customizations for buildin
     ├── # APIs & Integration
     ├── dapp-connector-api/
     ├── wallet-sdk-integration/
+    ├── browser-wallet-integration/  # Lace + React patterns
     ├── midnight-js-providers/
     ├── midnight-indexer-graphql/
     ├── zswap-transactions/
@@ -100,12 +99,22 @@ Specialized AI personas with deep expertise:
 
 | Agent | Description |
 |-------|-------------|
-| `midnight-developer` | Full-stack Midnight expert for general development |
-| `compact-expert` | Compact language specialist for contract design |
-| `security-auditor` | Security analysis for ZK and privacy patterns |
-| `compact-developer` | Focused Compact contract writing mode |
-| `dapp-builder` | Full-stack Next.js + Midnight development |
+| `midnight-smartcontract-developer` | **Unified agent** with automatic context-aware mode switching for all Midnight development |
+| `security-auditor` | Comprehensive ZK and privacy security analysis |
 | `security-review` | Systematic security review with checklists |
+
+#### Automatic Mode Detection
+
+The unified `midnight-smartcontract-developer` agent automatically detects context and switches modes:
+
+| Detection Trigger | Activated Mode | Focus |
+|-------------------|----------------|-------|
+| `.compact` files, circuits, ledger | **Compact Contract** | Compact language, ZK circuits |
+| TypeScript, Next.js, wallet, provider | **DApp Integration** | TypeScript, React, wallets |
+| deploy, proof server, testnet | **Deployment** | Contract deployment |
+| test, vitest, simulator | **Testing** | Testing patterns |
+| audit, vulnerability, review | **Security** | Vulnerability analysis |
+| debug, error, fix | **Debug** | Troubleshooting |
 
 ### 3. Reusable Prompts (`.prompt.md`)
 
