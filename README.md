@@ -5,7 +5,16 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black)](https://nextjs.org)
 [![Compact](https://img.shields.io/badge/Compact-0.2.0-green)](https://docs.midnight.network)
 
-GitHub Agent Skills for building privacy-preserving DApps on Midnight Network with Next.js 16.1.1.
+Comprehensive GitHub Copilot customizations for building privacy-preserving DApps on Midnight Network with Next.js 16.1.1.
+
+## ✨ What's Included
+
+This repository provides a complete AI-assisted development environment:
+
+- **📚 26 Agent Skills** - Specialized knowledge for Midnight development tasks
+- **🤖 3 Custom Agents** - Expert personas for different development scenarios
+- **📝 5 Reusable Prompts** - Workflow templates for common tasks
+- **📋 4 Instruction Sets** - Context-aware coding guidelines
 
 ## 🌙 About Midnight Network
 
@@ -74,6 +83,39 @@ All skills follow the [Agent Skills specification](https://agentskills.io/specif
 | [build-bulletin-board-dapp](.github/skills/build-bulletin-board-dapp/) | Complete tutorial: bulletin board dApp from scratch | — |
 | [midnight-glossary](.github/skills/midnight-glossary/) | Comprehensive glossary of Midnight terminology | — |
 | [troubleshooting](.github/skills/troubleshooting/) | Solutions for common development issues | — |
+
+## 🤖 Custom Agents
+
+Specialized AI personas in [`.github/agents/`](.github/agents/):
+
+| Agent | Description | Best For |
+|-------|-------------|----------|
+| [midnight-developer](.github/agents/midnight-developer.agent.md) | Expert Midnight developer with full-stack knowledge | General dApp development |
+| [compact-expert](.github/agents/compact-expert.agent.md) | Compact language specialist | Smart contract design |
+| [security-auditor](.github/agents/security-auditor.agent.md) | Security auditor for ZK and privacy patterns | Contract review, vulnerability detection |
+
+## 📝 Reusable Prompts
+
+Workflow templates in [`.github/prompts/`](.github/prompts/):
+
+| Prompt | Description |
+|--------|-------------|
+| [create-compact-contract](.github/prompts/create-compact-contract.prompt.md) | Generate complete Compact contracts |
+| [integrate-wallet](.github/prompts/integrate-wallet.prompt.md) | Set up wallet connection in Next.js |
+| [deploy-contract](.github/prompts/deploy-contract.prompt.md) | Deploy contracts to testnet/mainnet |
+| [implement-privacy-feature](.github/prompts/implement-privacy-feature.prompt.md) | Add privacy patterns (commitments, nullifiers, etc.) |
+| [audit-security](.github/prompts/audit-security.prompt.md) | Perform security audits on contracts |
+
+## 📋 Instruction Sets
+
+Context-aware guidelines in [`.github/instructions/`](.github/instructions/):
+
+| Instructions | Applies To | Description |
+|--------------|-----------|-------------|
+| [compact](.github/instructions/compact.instructions.md) | `**/*.compact` | Compact language coding standards |
+| [midnight-typescript](.github/instructions/midnight-typescript.instructions.md) | `**/*.{ts,tsx}` | TypeScript with Midnight APIs |
+| [privacy-patterns](.github/instructions/privacy-patterns.instructions.md) | `**/contracts/**,**/lib/privacy/**` | ZK and privacy patterns |
+| [testing](.github/instructions/testing.instructions.md) | `**/test/**,**/*.test.ts` | Contract testing guidelines |
 
 ## 🚀 Quick Start
 
