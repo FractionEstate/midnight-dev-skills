@@ -1,4 +1,4 @@
-# Fraction.Estate AI Working Notes
+# Midnight Dev AI Working Notes
 
 **_Privacy-preserving fractional real estate on Midnight Network (CIP-68-inspired NFT fractionalization)_**
 
@@ -73,7 +73,7 @@ npm test -- --watch           # Watch mode
 
 **Contract locations**: `contract/src/*.compact` → compiled to `contract/src/managed/*/contract/*.cjs`
 
-**Test files**: `contract/src/test/*.test.ts` (Vitest) - many need interface updates per [CONTRACT-COMPILATION-STATUS.md](../../CONTRACT-COMPILATION-STATUS.md)
+**Test files**: `contract/src/test/*.test.ts` (Vitest) - many need interface updates per CONTRACT-COMPILATION-STATUS.md (internal doc)
 
 ### Proof Server (REQUIRED for deployment/transactions)
 
@@ -136,7 +136,7 @@ NEXT_PUBLIC_MIDNIGHT_RPC=https://rpc.testnet-02.midnight.network
 
 - Check `window.midnight?.mnLace` availability before connecting
 - Handle `isEnabled === null` case
-- Type all Midnight APIs (see [.github/instructions/midnight-typescript.instructions.md](instructions/midnight-typescript.instructions.md))
+- Type all Midnight APIs (see [.github/instructions/midnight-typescript.instructions.md](./instructions/midnight-typescript.instructions.md))
 
 ## Midnight Nodes
 
@@ -178,15 +178,15 @@ Both nodes need Midnight Network endpoints from env vars.
 9. risk-management (circuit breakers) ✅
 10. audit-trail (compliance) ⚠️ has 1 remaining `.get()` call
 
-See [COMPACT-0.26-MIGRATION-STATUS.md](../../COMPACT-0.26-MIGRATION-STATUS.md) for detailed status.
+See COMPACT-0.26-MIGRATION-STATUS.md (internal doc) for detailed status.
 
 ## Key Reference Files
 
 **Architecture**:
 
-- [README.md](../../README.md) - Full feature list and architecture
-- [ARCHITECTURE.md](../../ARCHITECTURE.md) - Detailed system design
-- [CONTRACT-COMPILATION-STATUS.md](../../CONTRACT-COMPILATION-STATUS.md) - Current compilation state
+- README.md - Full feature list and architecture (main monorepo)
+- ARCHITECTURE.md - Detailed system design (main monorepo)
+- CONTRACT-COMPILATION-STATUS.md - Current compilation state (internal doc)
 
 **Instructions** (file-pattern rules): `.github/instructions/*.instructions.md`
 
@@ -200,16 +200,16 @@ See [COMPACT-0.26-MIGRATION-STATUS.md](../../COMPACT-0.26-MIGRATION-STATUS.md) f
 
 - Compact, Next.js, privacy patterns, testing, Playwright, Prisma, Tailwind, Turborepo
 
-**Agents/Prompts**: [.github/AGENTS.md](AGENTS.md) + `.github/agents/*.agent.md` + `.github/prompts/*.prompt.md`
+**Agents/Prompts**: [.github/AGENTS.md](./AGENTS.md) + `.github/agents/*.agent.md` + `.github/prompts/*.prompt.md`
 
 ## Testing
 
 **Contracts**: Vitest (`packages/smartcontracts/contract/vitest.config.ts`)
 
-- Many tests need updates for new compiled interfaces (see [CONTRACT-COMPILATION-STATUS.md](../../CONTRACT-COMPILATION-STATUS.md))
+- Many tests need updates for new compiled interfaces (see CONTRACT-COMPILATION-STATUS.md)
 - Run specific suites with `-- src/test/pattern*.test.ts`
 
-**E2E**: Playwright (see [.github/skills/playwright/SKILL.md](skills/playwright/SKILL.md))
+**E2E**: Playwright (see [.github/skills/playwright/SKILL.md](./skills/playwright/SKILL.md))
 
 **Keep runtimes short** - prefer targeted test files over full suites during development.
 

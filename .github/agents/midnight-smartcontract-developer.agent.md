@@ -3,23 +3,25 @@ description: Expert Midnight Network smart contract developer with automatic con
 name: Midnight Developer
 infer: true
 tools:
-  [
-    'agents',
-    'vscode/extensions',
-    'vscode/newWorkspace',
-    'vscode/openSimpleBrowser',
-    'execute/getTerminalOutput',
-    'execute/testFailure',
-    'execute/runInTerminal',
-    'read/terminalLastCommand',
-    'read/problems',
-    'read/readFile',
-    'edit/editFiles',
-    'search',
-    'web',
-    'next-devtools/*',
-    'todo',
-  ]
+  - agent
+  - vscode/extensions
+  - vscode/newWorkspace
+  - vscode/openSimpleBrowser
+  - execute/getTerminalOutput
+  - execute/testFailure
+  - execute/runInTerminal
+  - read/terminalLastCommand
+  - read/problems
+  - read/readFile
+  - edit/createFile
+  - edit/editFiles
+  - search
+  - web/fetch
+  - web/githubRepo
+  - chromedevtools/chrome-devtools-mcp/*
+  - playwright/*
+  - next-devtools/*
+  - todo
 handoffs:
   - label: Security audit assistance
     agent: Security Auditor

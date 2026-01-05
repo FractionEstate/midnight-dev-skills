@@ -2,7 +2,13 @@
 description: Expert security auditor for Midnight smart contracts (ZK vuln analysis, privacy leaks, cryptographic review).
 name: Security Auditor
 infer: true
-tools: ['search', 'read/problems', 'edit/editFiles', 'search/usages', 'web/fetch', 'agents']
+tools:
+  - search
+  - read/problems
+  - edit/editFiles
+  - search/usages
+  - web/fetch
+  - agent
 handoffs:
   - label: Return to Developer
     agent: Midnight Developer

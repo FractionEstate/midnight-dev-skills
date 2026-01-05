@@ -3,7 +3,21 @@ description: UI/UX designer specializing in Tailwind CSS v4, React, WCAG accessi
 name: UI Designer
 infer: true
 tools:
-  ['vscode/openSimpleBrowser', 'execute/getTerminalOutput', 'execute/runInTerminal', 'read/problems', 'read/readFile', 'agent', 'io.github.chromedevtools/chrome-devtools-mcp/*', 'io.github.upstash/context7/*', 'playwright/*', 'edit/createFile', 'edit/editFiles', 'search', 'web', 'next-devtools/*', 'todo', 'updateUserPreferences', 'memory']
+  - vscode/openSimpleBrowser
+  - execute/getTerminalOutput
+  - execute/runInTerminal
+  - read/problems
+  - read/readFile
+  - edit/createFile
+  - edit/editFiles
+  - search
+  - web/fetch
+  - web/githubRepo
+  - chromedevtools/chrome-devtools-mcp/*
+  - playwright/*
+  - next-devtools/*
+  - todo
+  - agent
 handoffs:
   - label: Frontend Development
     agent: Fullstack Developer

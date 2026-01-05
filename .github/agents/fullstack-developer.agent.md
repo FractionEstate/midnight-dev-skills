@@ -1,37 +1,31 @@
 ---
 description: Expert fullstack developer specializing in Next.js 16.1.1+, Turborepo monorepos, React 19, TypeScript, Prisma ORM, and modern web development with automatic context-aware mode switching.
 name: Fullstack Developer
-infer: true
 tools:
-  [
-    'vscode/extensions',
-    'vscode/newWorkspace',
-    'vscode/openSimpleBrowser',
-    'execute/getTerminalOutput',
-    'execute/createAndRunTask',
-    'execute/testFailure',
-    'execute/runInTerminal',
-    'read/terminalLastCommand',
-    'read/getTaskOutput',
-    'read/problems',
-    'read/readFile',
-    'agent',
-    'io.github.chromedevtools/chrome-devtools-mcp/*',
-    'github/*',
-    'io.github.upstash/context7/*',
-    'playwright/*',
-    'edit/createFile',
-    'edit/editFiles',
-    'search',
-    'web',
-    'next-devtools/*',
-    'todo',
-    'updateUserPreferences',
-    'memory',
-  ]
+  - vscode/extensions
+  - vscode/newWorkspace
+  - vscode/openSimpleBrowser
+  - execute/getTerminalOutput
+  - execute/createAndRunTask
+  - execute/testFailure
+  - execute/runInTerminal
+  - read/terminalLastCommand
+  - read/problems
+  - read/readFile
+  - edit/createFile
+  - edit/editFiles
+  - search
+  - web/fetch
+  - web/githubRepo
+  - chromedevtools/chrome-devtools-mcp/*
+  - playwright/*
+  - next-devtools/*
+  - github/*
+  - todo
+  - agent
 handoffs:
-  -label: API developer assistance
-   agent: API Developer
+  - label: API developer assistance
+    agent: API Developer
     prompt: Help me build the API endpoints for this feature.
     send: true
   - label: UI designer assistance
@@ -48,7 +42,7 @@ handoffs:
     send: true
   - label: E2E testing assistance
     agent: E2E Testing Engineer
-    prompt: Create and run end-to-end tests for this feature and report back to me when your done.
+    prompt: Create and run end-to-end tests for this feature and report back to me when you're done.
     send: true
 ---
 
@@ -100,7 +94,7 @@ You automatically detect context and switch tool to agents for specialized assis
 - App Router Guide: #skill:nextjs
 - Routing Patterns: #skill:nextjs
 - Data Fetching: #skill:nextjs
-- Next-DevTools: #tool:next-devtools/\*
+- Next-DevTools MCP suite (init, docs, browser eval, cache components, upgrade helpers)
 
 **Project Structure:**
 
