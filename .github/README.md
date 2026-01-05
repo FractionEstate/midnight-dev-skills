@@ -34,76 +34,76 @@ skill-name/
 
 ### Available Skills
 
-| Skill | Description | Location |
-| ----- | ----------- | -------- |
-| **compact** | Compact smart contract language for Midnight Network | [skills/compact/](skills/compact/) |
-| **dapp-integration** | Wallet connection, providers, and contract deployment | [skills/dapp-integration/](skills/dapp-integration/) |
-| **midnight-network** | Network infrastructure, proof servers, indexers | [skills/midnight-network/](skills/midnight-network/) |
-| **nextjs** | Next.js 16.1+ App Router, Server Components, MCP | [skills/nextjs/](skills/nextjs/) |
-| **playwright** | End-to-end testing with Playwright | [skills/playwright/](skills/playwright/) |
-| **prisma** | Type-safe database access with Prisma ORM | [skills/prisma/](skills/prisma/) |
+| Skill                | Description                                              | Location                                             |
+| -------------------- | -------------------------------------------------------- | ---------------------------------------------------- |
+| **compact**          | Compact smart contract language for Midnight Network     | [skills/compact/](skills/compact/)                   |
+| **dapp-integration** | Wallet connection, providers, and contract deployment    | [skills/dapp-integration/](skills/dapp-integration/) |
+| **midnight-network** | Network infrastructure, proof servers, indexers          | [skills/midnight-network/](skills/midnight-network/) |
+| **nextjs**           | Next.js 16.1+ App Router, Server Components, MCP         | [skills/nextjs/](skills/nextjs/)                     |
+| **playwright**       | End-to-end testing with Playwright                       | [skills/playwright/](skills/playwright/)             |
+| **prisma**           | Type-safe database access with Prisma ORM                | [skills/prisma/](skills/prisma/)                     |
 | **privacy-patterns** | ZK proofs, commitments, nullifiers, selective disclosure | [skills/privacy-patterns/](skills/privacy-patterns/) |
-| **security** | Security auditing for Midnight contracts and dApps | [skills/security/](skills/security/) |
-| **tailwindcss** | Tailwind CSS v4 styling patterns | [skills/tailwindcss/](skills/tailwindcss/) |
-| **testing** | Contract testing with simulators and Vitest | [skills/testing/](skills/testing/) |
-| **turborepo** | Monorepo build system configuration | [skills/turborepo/](skills/turborepo/) |
+| **security**         | Security auditing for Midnight contracts and dApps       | [skills/security/](skills/security/)                 |
+| **tailwindcss**      | Tailwind CSS v4 styling patterns                         | [skills/tailwindcss/](skills/tailwindcss/)           |
+| **testing**          | Contract testing with simulators and Vitest              | [skills/testing/](skills/testing/)                   |
+| **turborepo**        | Monorepo build system configuration                      | [skills/turborepo/](skills/turborepo/)               |
 
 ## 🤖 Custom Agents
 
 Specialized AI personas in [agents/](agents/):
 
-| Agent | Description | Best For |
-| ----- | ----------- | -------- |
-| [fullstack-developer](agents/fullstack-developer.agent.md) | Full-stack Next.js + Midnight developer | General dApp development |
-| [midnight-smartcontract-developer](agents/midnight-smartcontract-developer.agent.md) | Compact contract specialist | Smart contract design |
-| [security-auditor](agents/security-auditor.agent.md) | Security auditor for ZK and privacy patterns | Vulnerability detection |
-| [security-review](agents/security-review.agent.md) | Systematic security reviewer | Audit reports |
-| [api-developer](agents/api-developer.agent.md) | API and backend specialist | REST APIs, Server Actions |
-| [devops-engineer](agents/devops-engineer.agent.md) | DevOps and infrastructure | CI/CD, Docker, Vercel |
-| [e2e-testing-engineer](agents/e2e-testing-engineer.agent.md) | E2E testing specialist | Playwright, testing |
-| [ui-designer](agents/ui-designer.agent.md) | UI/UX designer | Tailwind CSS, components |
+| Agent                                                                                | Description                                  | Best For                  |
+| ------------------------------------------------------------------------------------ | -------------------------------------------- | ------------------------- |
+| [fullstack-developer](agents/fullstack-developer.agent.md)                           | Full-stack Next.js + Midnight developer      | General dApp development  |
+| [midnight-smartcontract-developer](agents/midnight-smartcontract-developer.agent.md) | Compact contract specialist                  | Smart contract design     |
+| [security-auditor](agents/security-auditor.agent.md)                                 | Security auditor for ZK and privacy patterns | Vulnerability detection   |
+| [security-review](agents/security-review.agent.md)                                   | Systematic security reviewer                 | Audit reports             |
+| [api-developer](agents/api-developer.agent.md)                                       | API and backend specialist                   | REST APIs, Server Actions |
+| [devops-engineer](agents/devops-engineer.agent.md)                                   | DevOps and infrastructure                    | CI/CD, Docker, Vercel     |
+| [e2e-testing-engineer](agents/e2e-testing-engineer.agent.md)                         | E2E testing specialist                       | Playwright, testing       |
+| [ui-designer](agents/ui-designer.agent.md)                                           | UI/UX designer                               | Tailwind CSS, components  |
 
 ## 📝 Reusable Prompts
 
 Workflow templates in [prompts/](prompts/):
 
-| Prompt | Description |
-| ------ | ----------- |
-| add-privacy-feature | Add privacy patterns to an existing project |
-| audit-security | Perform security audits |
-| create-compact-contract | Generate complete Compact contracts |
-| create-component | Create React components with wallet integration |
-| create-docker-setup | Add Docker setup for local dev services |
-| create-e2e-tests | Create Playwright E2E tests |
-| create-rest-api | Create REST API routes/handlers |
-| create-turborepo | Scaffold a Turborepo monorepo |
-| create-ui-component | Create UI components (Tailwind, a11y) |
-| debug-contract | Debug compilation or runtime errors |
-| deploy-contract | Compile and deploy contracts |
-| design-database-schema | Design a Prisma schema and migrations |
-| implement-privacy-feature | Add privacy patterns |
-| integrate-wallet | Set up wallet connection in Next.js |
-| optimize-contract | Optimize for gas efficiency |
-| setup-authentication | Add authentication patterns |
-| setup-cicd | Add CI/CD pipelines |
-| setup-testing | Configure testing infrastructure |
+| Prompt                    | Description                                     |
+| ------------------------- | ----------------------------------------------- |
+| add-privacy-feature       | Add privacy patterns to an existing project     |
+| audit-security            | Perform security audits                         |
+| create-compact-contract   | Generate complete Compact contracts             |
+| create-component          | Create React components with wallet integration |
+| create-docker-setup       | Add Docker setup for local dev services         |
+| create-e2e-tests          | Create Playwright E2E tests                     |
+| create-rest-api           | Create REST API routes/handlers                 |
+| create-turborepo          | Scaffold a Turborepo monorepo                   |
+| create-ui-component       | Create UI components (Tailwind, a11y)           |
+| debug-contract            | Debug compilation or runtime errors             |
+| deploy-contract           | Compile and deploy contracts                    |
+| design-database-schema    | Design a Prisma schema and migrations           |
+| implement-privacy-feature | Add privacy patterns                            |
+| integrate-wallet          | Set up wallet connection in Next.js             |
+| optimize-contract         | Optimize for gas efficiency                     |
+| setup-authentication      | Add authentication patterns                     |
+| setup-cicd                | Add CI/CD pipelines                             |
+| setup-testing             | Configure testing infrastructure                |
 
 ## 📋 Instruction Sets
 
 Context-aware guidelines in [instructions/](instructions/):
 
-| Instructions | Applies To | Description |
-| ------------ | ---------- | ----------- |
-| compact | `**/*.compact` | Compact language coding standards |
-| midnight-typescript | `**/*.{ts,tsx}` | TypeScript with Midnight APIs |
-| privacy-patterns | `**/contracts/**` | ZK and privacy patterns |
-| testing | `**/test/**` | Contract testing guidelines |
-| nextjs | `**/app/**` | Next.js App Router patterns |
-| playwright | `**/e2e/**` | Playwright testing patterns |
-| prisma | `**/prisma/**` | Prisma ORM patterns |
-| tailwindcss | `**/*.{css,tsx}` | Tailwind CSS patterns |
-| turborepo | `**/turbo.json` | Monorepo configuration |
-| memory | Global | Persistent learnings |
+| Instructions        | Applies To        | Description                       |
+| ------------------- | ----------------- | --------------------------------- |
+| compact             | `**/*.compact`    | Compact language coding standards |
+| midnight-typescript | `**/*.{ts,tsx}`   | TypeScript with Midnight APIs     |
+| privacy-patterns    | `**/contracts/**` | ZK and privacy patterns           |
+| testing             | `**/test/**`      | Contract testing guidelines       |
+| nextjs              | `**/app/**`       | Next.js App Router patterns       |
+| playwright          | `**/e2e/**`       | Playwright testing patterns       |
+| prisma              | `**/prisma/**`    | Prisma ORM patterns               |
+| tailwindcss         | `**/*.{css,tsx}`  | Tailwind CSS patterns             |
+| turborepo           | `**/turbo.json`   | Monorepo configuration            |
+| memory              | Global            | Persistent learnings              |
 
 ## 🚀 Quick Start
 

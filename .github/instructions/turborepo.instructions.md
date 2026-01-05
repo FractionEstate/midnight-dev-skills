@@ -1,7 +1,7 @@
 ---
 description: Turborepo monorepo development guidelines
 name: Turborepo Development
-applyTo: "**/turbo.json,**/pnpm-workspace.yaml"
+applyTo: '**/turbo.json,**/pnpm-workspace.yaml'
 ---
 
 # Turborepo Instructions
@@ -62,11 +62,7 @@ monorepo/
 ```json
 {
   "build": {
-    "outputs": [
-      "dist/**",
-      ".next/**",
-      "!.next/cache/**"
-    ]
+    "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
   }
 }
 ```

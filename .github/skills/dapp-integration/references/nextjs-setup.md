@@ -47,7 +47,7 @@ my-midnight-dapp/
 
 ```typescript
 // types/midnight.d.ts
-import type { DAppConnectorAPI } from "@midnight-ntwrk/dapp-connector-api";
+import type { DAppConnectorAPI } from '@midnight-ntwrk/dapp-connector-api';
 
 declare global {
   interface Window {
@@ -62,7 +62,7 @@ export {};
 
 ```typescript
 // next.config.ts
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   webpack: (config) => {
@@ -71,7 +71,7 @@ const nextConfig: NextConfig = {
       ...config.resolve.fallback,
       fs: false,
       net: false,
-      tls: false
+      tls: false,
     };
     return config;
   },
@@ -79,13 +79,11 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/contracts/:path*",
-        headers: [
-          { key: "Access-Control-Allow-Origin", value: "*" }
-        ]
-      }
+        source: '/contracts/:path*',
+        headers: [{ key: 'Access-Control-Allow-Origin', value: '*' }],
+      },
     ];
-  }
+  },
 };
 
 export default nextConfig;
@@ -226,11 +224,11 @@ export function WalletButton() {
 
 ```typescript
 // hooks/useContract.ts
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { useWallet } from "@/lib/midnight/WalletProvider";
-import { setupProviders, connectContract } from "@/lib/midnight/client";
+import { useState, useEffect } from 'react';
+import { useWallet } from '@/lib/midnight/WalletProvider';
+import { setupProviders, connectContract } from '@/lib/midnight/client';
 
 export function useContract(contractAddress: string | null) {
   const { walletApi } = useWallet();
@@ -260,7 +258,9 @@ export function useContract(contractAddress: string | null) {
     }
 
     load();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, [walletApi, contractAddress]);
 
   return { contract, loading, error };

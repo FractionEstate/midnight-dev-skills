@@ -1,11 +1,8 @@
 ---
 description: Checklist-based security review mode for Midnight smart contract audits (step-by-step vulnerability assessment).
 name: Security Review
-tools:
-  - search
-  - read/problems
-  - search/usages
-  - web/fetch
+infer: true
+tools: ['search', 'read/problems', 'search/usages', 'web/fetch', 'agents']
 handoffs:
   - label: Return to Auditor
     agent: Security Auditor

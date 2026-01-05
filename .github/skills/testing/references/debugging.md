@@ -74,11 +74,7 @@ beforeEach(() => {
 ### Log State Before/After
 
 ```typescript
-async function debugCall(
-  simulator: ContractSimulator,
-  circuit: string,
-  inputs: unknown
-) {
+async function debugCall(simulator: ContractSimulator, circuit: string, inputs: unknown) {
   console.log('=== Before Call ===');
   console.log('Circuit:', circuit);
   console.log('Inputs:', JSON.stringify(inputs, replacer, 2));
@@ -142,7 +138,7 @@ describe('Debugging specific issue', () => {
 
     // Just the failing operation
     const result = await simulator.call('problematicCircuit', {
-      input: 100n
+      input: 100n,
     });
 
     console.log('Result:', result);
@@ -191,11 +187,7 @@ function debugWithWitness(simulator: ContractSimulator) {
 
 ```typescript
 // Add custom tracing
-async function tracedCall(
-  simulator: ContractSimulator,
-  circuit: string,
-  inputs: unknown
-) {
+async function tracedCall(simulator: ContractSimulator, circuit: string, inputs: unknown) {
   const startTime = Date.now();
   console.log(`[${circuit}] Starting with inputs:`, inputs);
 
@@ -249,7 +241,7 @@ expect(Number(simulator.ledger.counter)).toBeGreaterThan(0);
 // Ensure previous call completes
 await simulator.call('firstOperation', {});
 // Small delay if needed
-await new Promise(r => setTimeout(r, 100));
+await new Promise((r) => setTimeout(r, 100));
 await simulator.call('secondOperation', {});
 ```
 

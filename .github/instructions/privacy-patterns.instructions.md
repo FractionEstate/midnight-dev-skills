@@ -1,7 +1,7 @@
 ---
 description: Privacy-preserving code patterns for zero-knowledge proofs
 name: Privacy Patterns
-applyTo: "**/contracts/**/*.compact,**/lib/privacy/**"
+applyTo: '**/contracts/**/*.compact,**/lib/privacy/**'
 ---
 
 # Privacy-Preserving Code Patterns
@@ -12,11 +12,11 @@ You are an expert in implementing privacy-preserving patterns using zero-knowled
 
 ### Public vs Private Data
 
-| Data Type | Storage | Visibility | Use Case |
-| --------- | ------- | ---------- | -------- |
-| `secret` | Off-chain | Only owner | Private keys, personal data |
-| `witness` | Off-chain | Proven in ZK | Data verified without revealing |
-| Public | On-chain (ledger) | Everyone | Commitments, hashes, public state |
+| Data Type | Storage           | Visibility   | Use Case                          |
+| --------- | ----------------- | ------------ | --------------------------------- |
+| `secret`  | Off-chain         | Only owner   | Private keys, personal data       |
+| `witness` | Off-chain         | Proven in ZK | Data verified without revealing   |
+| Public    | On-chain (ledger) | Everyone     | Commitments, hashes, public state |
 
 ### Privacy Decision Tree
 

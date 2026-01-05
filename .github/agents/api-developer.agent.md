@@ -39,26 +39,26 @@ You automatically detect context and switch operating modes to provide specializ
 
 ## Technology Expertise
 
-| Technology | Version | Expertise |
-| ---------- | ------- | --------- |
-| Next.js Route Handlers | 16.1.1 | REST API endpoints |
-| Server Actions | 16.1.1 | Type-safe mutations |
-| tRPC | 11.x | End-to-end type safety |
-| GraphQL | Latest | Query language, resolvers |
-| Zod | 3.x | Schema validation |
-| NextAuth.js | 5.x | Authentication |
-| Prisma | 6.x | Database operations |
+| Technology             | Version | Expertise                 |
+| ---------------------- | ------- | ------------------------- |
+| Next.js Route Handlers | 16.1.1  | REST API endpoints        |
+| Server Actions         | 16.1.1  | Type-safe mutations       |
+| tRPC                   | 11.x    | End-to-end type safety    |
+| GraphQL                | Latest  | Query language, resolvers |
+| Zod                    | 3.x     | Schema validation         |
+| NextAuth.js            | 5.x     | Authentication            |
+| Prisma                 | 6.x     | Database operations       |
 
 ## Automatic Mode Detection
 
-|Detection Trigger|Mode|Focus|
-|-----------------|----|-----|
-|REST, endpoint, route handler, HTTP|**REST API Mode**|Route handlers, CRUD|
-|GraphQL, query, mutation, resolver|**GraphQL Mode**|Schema, resolvers|
-|auth, login, session, JWT, OAuth|**Authentication Mode**|Auth flows, security|
-|validate, schema, zod, error|**Validation Mode**|Input validation|
-|rate limit, throttle, quota|**Rate Limiting Mode**|API protection|
-|OpenAPI, swagger, docs|**Documentation Mode**|API documentation|
+| Detection Trigger                   | Mode                    | Focus                |
+| ----------------------------------- | ----------------------- | -------------------- |
+| REST, endpoint, route handler, HTTP | **REST API Mode**       | Route handlers, CRUD |
+| GraphQL, query, mutation, resolver  | **GraphQL Mode**        | Schema, resolvers    |
+| auth, login, session, JWT, OAuth    | **Authentication Mode** | Auth flows, security |
+| validate, schema, zod, error        | **Validation Mode**     | Input validation     |
+| rate limit, throttle, quota         | **Rate Limiting Mode**  | API protection       |
+| OpenAPI, swagger, docs              | **Documentation Mode**  | API documentation    |
 
 ---
 
@@ -73,12 +73,12 @@ You automatically detect context and switch operating modes to provide specializ
 
 **Route Structure:**
 
-| Pattern | Example Path | HTTP Methods |
-| ------- | ------------ | ------------ |
-| Collection | `app/api/users/route.ts` | GET, POST |
-| Resource | `app/api/users/[id]/route.ts` | GET, PUT, DELETE |
-| Nested | `app/api/posts/[id]/comments/route.ts` | GET, POST |
-| Action | `app/api/auth/login/route.ts` | POST |
+| Pattern    | Example Path                           | HTTP Methods     |
+| ---------- | -------------------------------------- | ---------------- |
+| Collection | `app/api/users/route.ts`               | GET, POST        |
+| Resource   | `app/api/users/[id]/route.ts`          | GET, PUT, DELETE |
+| Nested     | `app/api/posts/[id]/comments/route.ts` | GET, POST        |
+| Action     | `app/api/auth/login/route.ts`          | POST             |
 
 **Key Patterns:**
 
@@ -90,18 +90,18 @@ You automatically detect context and switch operating modes to provide specializ
 
 **HTTP Status Codes:**
 
-| Code | Meaning | When to Use |
-| ---- | ------- | ----------- |
-| 200 | OK | Successful GET/PUT |
-| 201 | Created | Successful POST |
-| 204 | No Content | Successful DELETE |
-| 400 | Bad Request | Validation error |
-| 401 | Unauthorized | Not authenticated |
-| 403 | Forbidden | Not authorized |
-| 404 | Not Found | Resource missing |
-| 409 | Conflict | Duplicate resource |
-| 429 | Too Many Requests | Rate limited |
-| 500 | Server Error | Unexpected error |
+| Code | Meaning           | When to Use        |
+| ---- | ----------------- | ------------------ |
+| 200  | OK                | Successful GET/PUT |
+| 201  | Created           | Successful POST    |
+| 204  | No Content        | Successful DELETE  |
+| 400  | Bad Request       | Validation error   |
+| 401  | Unauthorized      | Not authenticated  |
+| 403  | Forbidden         | Not authorized     |
+| 404  | Not Found         | Resource missing   |
+| 409  | Conflict          | Duplicate resource |
+| 429  | Too Many Requests | Rate limited       |
+| 500  | Server Error      | Unexpected error   |
 
 ---
 
@@ -123,11 +123,11 @@ You automatically detect context and switch operating modes to provide specializ
 
 **Action Result Pattern:**
 
-| Field | Type | Purpose |
-| ----- | ---- | ------- |
+| Field     | Type    | Purpose           |
+| --------- | ------- | ----------------- |
 | `success` | boolean | Operation outcome |
-| `data` | T | Success payload |
-| `error` | string | Error message |
+| `data`    | T       | Success payload   |
+| `error`   | string  | Error message     |
 
 ---
 
@@ -141,11 +141,11 @@ You automatically detect context and switch operating modes to provide specializ
 
 **Auth Configuration:**
 
-| Component | Purpose |
-| --------- | ------- |
-| `lib/auth.ts` | NextAuth configuration |
-| `app/api/auth/[...nextauth]/route.ts` | Auth route handler |
-| `middleware.ts` | Route protection |
+| Component                             | Purpose                |
+| ------------------------------------- | ---------------------- |
+| `lib/auth.ts`                         | NextAuth configuration |
+| `app/api/auth/[...nextauth]/route.ts` | Auth route handler     |
+| `middleware.ts`                       | Route protection       |
 
 **Provider Options:**
 
@@ -177,14 +177,14 @@ You automatically detect context and switch operating modes to provide specializ
 
 **Zod Schema Patterns:**
 
-| Method | Purpose |
-| --- | --- |
-| `z.string().email()` | Email validation |
-| `z.coerce.number()` | String to number |
-| `z.enum(['A', 'B'])` | Enum values |
-| `z.object({})` | Object shape |
-| `.optional().default()` | Default values |
-| `.safeParse()` | Non-throwing validation |
+| Method                  | Purpose                 |
+| ----------------------- | ----------------------- |
+| `z.string().email()`    | Email validation        |
+| `z.coerce.number()`     | String to number        |
+| `z.enum(['A', 'B'])`    | Enum values             |
+| `z.object({})`          | Object shape            |
+| `.optional().default()` | Default values          |
+| `.safeParse()`          | Non-throwing validation |
 
 **Validation Flow:**
 
@@ -205,11 +205,11 @@ You automatically detect context and switch operating modes to provide specializ
 
 **Rate Limiting Strategies:**
 
-| Strategy | Description |
-| --- | ----------- |
-| Fixed Window | X requests per time window |
-| Sliding Window | Rolling time window |
-| Token Bucket | Refilling token pool |
+| Strategy       | Description                |
+| -------------- | -------------------------- |
+| Fixed Window   | X requests per time window |
+| Sliding Window | Rolling time window        |
+| Token Bucket   | Refilling token pool       |
 
 **Implementation Options:**
 
@@ -229,27 +229,27 @@ You automatically detect context and switch operating modes to provide specializ
 
 **Success Response:**
 
-| Field | Description |
-| --- | ----------- |
-| `data` | Response payload |
+| Field  | Description                 |
+| ------ | --------------------------- |
+| `data` | Response payload            |
 | `meta` | Pagination info (for lists) |
 
 **Error Response:**
 
-| Field | Description |
-| --- | ----------- |
-| `error` | Human-readable message |
-| `code` | Machine-readable code |
+| Field     | Description                  |
+| --------- | ---------------------------- |
+| `error`   | Human-readable message       |
+| `code`    | Machine-readable code        |
 | `details` | Validation errors (optional) |
 
 **Pagination Meta:**
 
-| Field | Description |
-| --- | ----------- |
-| `page` | Current page |
-| `limit` | Items per page |
-| `total` | Total items |
-| `totalPages` | Total pages |
+| Field        | Description    |
+| ------------ | -------------- |
+| `page`       | Current page   |
+| `limit`      | Items per page |
+| `total`      | Total items    |
+| `totalPages` | Total pages    |
 
 ---
 

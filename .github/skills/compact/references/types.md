@@ -15,14 +15,14 @@ circuit checkCondition(value: Uint<64>): Boolean {
 
 ### Unsigned Integers - `Uint<N>`
 
-| Type | Range | Use Case |
-| ---- | ----- | -------- |
-| `Uint<8>` | 0-255 | Flags, small counters |
-| `Uint<32>` | 0-4B | User IDs, timestamps |
-| `Uint<64>` | 0-18×10¹⁸ | Balances, amounts |
-| `Uint<128>` | Very large | Big numbers |
-| `Uint<256>` | Huge | Crypto primitives |
-| `Uint<a..b>` | a to b | Constrained ranges |
+| Type         | Range      | Use Case              |
+| ------------ | ---------- | --------------------- |
+| `Uint<8>`    | 0-255      | Flags, small counters |
+| `Uint<32>`   | 0-4B       | User IDs, timestamps  |
+| `Uint<64>`   | 0-18×10¹⁸  | Balances, amounts     |
+| `Uint<128>`  | Very large | Big numbers           |
+| `Uint<256>`  | Huge       | Crypto primitives     |
+| `Uint<a..b>` | a to b     | Constrained ranges    |
 
 ```compact
 ledger count: Uint<64>;
@@ -53,7 +53,7 @@ Fixed-length byte arrays:
 
 ```compact
 ledger hash32: Bytes<32>;      // 256 bits
-ledger address: Bytes<20>;     // 160 bits
+ledger address: Bytes<32>;     // 256-bit identifiers (common for Midnight addresses/IDs)
 ledger signature: Bytes<64>;   // 512 bits
 ```
 
@@ -63,7 +63,7 @@ External type references resolved at runtime:
 
 ```compact
 ledger message: Opaque<"string">;
-ledger timestamp: Opaque<"number">;
+ledger timestamp: Uint<64>;  // Prefer Compact numeric types for on-ledger arithmetic
 ledger metadata: Opaque<"object">;
 ```
 
@@ -167,15 +167,15 @@ circuit narrow(large: Uint<64>): Uint<8> {
 
 ## Quick Reference
 
-| Type | Description | Example |
-| ---- | ----------- | ------- |
-| `Boolean` | True/false | `ledger flag: Boolean;` |
-| `Uint<n>` | n-bit unsigned | `ledger count: Uint<64>;` |
-| `Uint<a..b>` | Range a to b | `ledger pct: Uint<0..100>;` |
-| `Field` | Prime field | `ledger hash: Field;` |
-| `Bytes<n>` | n bytes | `ledger data: Bytes<32>;` |
-| `Opaque<s>` | External type | `ledger msg: Opaque<"string">;` |
-| `(T1, T2)` | Tuple | `ledger pair: (Uint<64>, Boolean);` |
-| `Vector<n,T>` | Array | `ledger arr: Vector<10, Uint<64>>;` |
-| `struct` | Named fields | `struct User { ... }` |
-| `enum` | Variants | `enum Status { ... }` |
+| Type          | Description    | Example                             |
+| ------------- | -------------- | ----------------------------------- |
+| `Boolean`     | True/false     | `ledger flag: Boolean;`             |
+| `Uint<n>`     | n-bit unsigned | `ledger count: Uint<64>;`           |
+| `Uint<a..b>`  | Range a to b   | `ledger pct: Uint<0..100>;`         |
+| `Field`       | Prime field    | `ledger hash: Field;`               |
+| `Bytes<n>`    | n bytes        | `ledger data: Bytes<32>;`           |
+| `Opaque<s>`   | External type  | `ledger msg: Opaque<"string">;`     |
+| `(T1, T2)`    | Tuple          | `ledger pair: (Uint<64>, Boolean);` |
+| `Vector<n,T>` | Array          | `ledger arr: Vector<10, Uint<64>>;` |
+| `struct`      | Named fields   | `struct User { ... }`               |
+| `enum`        | Variants       | `enum Status { ... }`               |

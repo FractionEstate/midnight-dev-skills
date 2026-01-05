@@ -23,29 +23,29 @@ Debug an issue with a Midnight Network contract or dApp.
 
 ### Compact Errors
 
-| Error | Cause | Solution |
-| ----- | ----- | -------- |
-| `Type mismatch` | Wrong Uint width | Match expected type exactly |
-| `Undefined symbol` | Missing import | Check pragma and imports |
-| `Assertion failed` | Validation error | Read assertion message |
-| `Expected impure` | Ledger in pure circuit | Circuit is impure, not pure |
+| Error              | Cause                  | Solution                    |
+| ------------------ | ---------------------- | --------------------------- |
+| `Type mismatch`    | Wrong Uint width       | Match expected type exactly |
+| `Undefined symbol` | Missing import         | Check pragma and imports    |
+| `Assertion failed` | Validation error       | Read assertion message      |
+| `Expected impure`  | Ledger in pure circuit | Circuit is impure, not pure |
 
 ### TypeScript Errors
 
-| Error | Cause | Solution |
-| ----- | ----- | -------- |
-| `Wallet not found` | Extension missing | Install Lace wallet |
-| `Network error` | Wrong endpoints | Use testnet-02 URLs |
-| `Proof generation failed` | Server not running | Start proof server |
-| `Transaction rejected` | Insufficient funds | Get tDUST from faucet |
+| Error                     | Cause              | Solution              |
+| ------------------------- | ------------------ | --------------------- |
+| `Wallet not found`        | Extension missing  | Install Lace wallet   |
+| `Network error`           | Wrong endpoints    | Use testnet-02 URLs   |
+| `Proof generation failed` | Server not running | Start proof server    |
+| `Transaction rejected`    | Insufficient funds | Get tDUST from faucet |
 
 ### Runtime Errors
 
-| Error | Cause | Solution |
-| ----- | ----- | -------- |
+| Error                      | Cause             | Solution                                               |
+| -------------------------- | ----------------- | ------------------------------------------------------ |
 | `Connection refused :6300` | Proof server down | `docker run -p 6300:6300 midnightnetwork/proof-server` |
-| `Invalid signature` | Wallet mismatch | Reconnect wallet |
-| `Out of gas` | Complex circuit | Optimize or split operations |
+| `Invalid signature`        | Wallet mismatch   | Reconnect wallet                                       |
+| `Out of gas`               | Complex circuit   | Optimize or split operations                           |
 
 ## Debug Workflow
 

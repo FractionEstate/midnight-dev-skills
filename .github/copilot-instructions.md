@@ -1,472 +1,233 @@
-# Midnight Network Development Instructions
+# Fraction.Estate AI Working Notes
 
-This document provides GitHub Copilot with comprehensive guidelines for developing
-privacy-preserving DApps on Midnight Network.
+**_Privacy-preserving fractional real estate on Midnight Network (CIP-68-inspired NFT fractionalization)_**
 
-## Priority Guidelines
+## Monorepo Structure
 
-When generating code for Midnight Network projects:
+Turborepo + pnpm workspaces with 5 apps and 5 packages:
 
-1. **Privacy First**: Always default to privacy-preserving patterns using zero-knowledge proofs
-2. **Version Compatibility**: Use Compact compiler 0.26.0 (language 0.18.0), Next.js 16.1.1,
-   and @midnight-ntwrk packages compatible with each other
-3. **Context Files**: Reference skills in `.github/skills/` for patterns and examples
-4. **Type Safety**: Use comprehensive TypeScript types for all Midnight APIs
-5. **Security**: Handle witnesses, secrets, and private state with care
+```tree
+apps/
+  web/              Next.js 16.1.1 App Router → localhost:3000
+  relay-node/       Midnight relay (REST API) → localhost:3001
+  block-producer/   Midnight block producer (background)
+  api-service/      TaaS API scaffold
+  admin-dashboard/  Admin portal (Next.js)
+  partner-dashboard/ Partner portal (Next.js)
 
-## Technology Stack
+packages/
+  smartcontracts/   10 Compact contracts + CLI
+  ui/               Shared React components
+  types/            Shared TypeScript types
+  config/           ESLint + TS configs
+  api-contracts/    API type definitions
+```
 
-### Web Core Versions
-
-- **Compact**: 0.26.0 compiler / 0.18 language / 0.3.0 dev tools (`pragma language_version 0.18;`)
-- **Next.js**: 16.1.1 (App Router)
-- **TypeScript**: 5.x (strict mode)
-- **React**: 19.x (Server Components)
-
-### Midnight Network Packages
+## Version Matrix (CRITICAL - Midnight compatibility)
 
 ```json
 {
-  "@midnight-ntwrk/dapp-connector-api": "^3.0.0",
-  "@midnight-ntwrk/wallet": "^5.0.0",
-  "@midnight-ntwrk/wallet-sdk-hd": "^5.0.0",
-  "@midnight-ntwrk/ledger": "^4.0.0",
-  "@midnight-ntwrk/zswap": "^4.0.0",
-  "@midnight-ntwrk/midnight-js-types": "^2.1.0",
-  "@midnight-ntwrk/midnight-js-contracts": "^2.1.0"
+  "node": ">=22.0.0",
+  "pnpm": "8.15.0",
+  "compact-cli": "0.3.0",
+  "compact-compiler": "0.26.0",
+  "compact-language": "0.18.0",
+  "nextjs": "16.1.1",
+  "react": "19.0.0",
+  "@midnight-ntwrk/midnight-js-types": "2.0.2"
 }
 ```
 
-Notes:
+**Always use**: `pragma language_version 0.18;` in `.compact` files.
 
-- Prefer pinning to known-compatible versions (see the official release notes / compatibility matrix).
-- Avoid using `"latest"` in docs or templates, because it can silently break reproducibility.
-- The `@midnight-ntwrk/dapp-connector-api` npm page currently points to
-  <https://github.com/input-output-hk/midnight-dapp-connector-api> as the upstream source.
-  For version compatibility, defer to the Network Support Matrix.
+## Core Workflows
 
-### Network Endpoints (Testnet)
+### Development
 
-```typescript
-const TESTNET_CONFIG = {
-  indexer: "https://indexer.testnet-02.midnight.network/api/v1/graphql",
-  indexerWS: "wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws",
-  node: "https://rpc.testnet-02.midnight.network",
-  proofServer: "http://localhost:6300"
-};
+```bash
+pnpm dev          # Start all (web + relay + block-producer)
+pnpm dev:web      # Web app only
+pnpm dev:nodes    # Nodes only
+pnpm build        # Build everything
+pnpm lint         # Lint all workspaces
+pnpm clean        # Clean artifacts
 ```
 
-## Compact Language Guidelines
+### Smart Contracts (packages/smartcontracts/contract)
 
-### File Structure
+**10 contracts** total (8/10 compile, 2 need nested Map workarounds):
 
-```compact
-pragma language_version 0.18;
+```bash
+# Compilation (from contract/ dir)
+npm run compact:all           # All contracts
+npm run compact:core          # fraction-mint, fraction-trade
+npm run compact:governance    # property-governance
+npm run compact:lending       # lending
+npm run compact:institutional # kyc, custody, risk, audit
 
-import CompactStandardLibrary;
-
-// Type definitions
-struct MyData {
-  field1: Uint<32>,
-  field2: Boolean
-}
-
-// Ledger state
-ledger {
-  counter: Counter,
-  data: Cell<MyData>
-}
-
-// Constructor
-constructor() {
-  ledger.counter.increment(0n);
-  ledger.data.write({ field1: 0, field2: false });
-}
-
-// Circuits
-export circuit myCircuit(secret input: Field, witness w: Field): [] {
-  // Private computation with witnesses
-  assert(input == w, "Input must match witness");
-}
-
-// Impure circuits (affect ledger state - called impure by their use of ledger)
-export circuit updateData(data: MyData): [] {
-  ledger.data.write(data);
-}
+# Testing
+npm run build && npm test     # Full suite
+npm test -- src/test/fraction-*.test.ts  # Specific tests
+npm test -- --watch           # Watch mode
 ```
 
-### Type System Priorities
+**Contract locations**: `contract/src/*.compact` → compiled to `contract/src/managed/*/contract/*.cjs`
 
-1. **Use appropriate bit widths**: `Uint<8>`, `Uint<32>`, `Uint<64>`, `Uint<128>`, `Uint<256>`
-2. **Field for ZK operations**: Hashing, commitments, and cryptographic proofs
-3. **Bytes for raw data**: `Bytes<32>` for hashes, `Bytes<N>` for fixed-length
-4. **Boolean for flags**: Simple true/false values
-5. **Opaque types** for sensitive data that stays off-chain
+**Test files**: `contract/src/test/*.test.ts` (Vitest) - many need interface updates per [CONTRACT-COMPILATION-STATUS.md](../../CONTRACT-COMPILATION-STATUS.md)
 
-### Ledger Types
+### Proof Server (REQUIRED for deployment/transactions)
 
-```compact
-// Counter - auto-incrementing values
-ledger { counter: Counter }
+**Via VS Code task** (preferred):
 
-// Cell - single mutable value
-ledger { config: Cell<Config> }
+- "Midnight: Start Proof Server" (Docker, port 6300)
+- "Midnight: Check Proof Server Health"
 
-// Map - key-value storage
-ledger { balances: Map<Address, Uint<64>> }
+**Manual**:
 
-// Set - unique elements
-ledger { whitelist: Set<Address> }
-
-// MerkleTree - cryptographic commitments
-ledger { commitments: MerkleTree<256, Field> }
+```bash
+docker pull midnightnetwork/proof-server
+docker run -p 6300:6300 --rm midnightnetwork/proof-server midnight-proof-server --network testnet
 ```
 
-### Standard Library Usage
+Must be running before contract interactions. Check health: `curl http://localhost:6300/health`
 
-```compact
-// Import the standard library (builtin since v0.13)
-import CompactStandardLibrary;
+## Compact Language Gotchas (0.26 Migration)
 
-// Hashing
-const commitment = hash(secret_data);
+**API Changes**:
 
-// EC operations (for key management)
-const pk = public_key(secret_key);
+- ❌ `map.get(key)` → ✅ `map.lookup(key)` (returns `Maybe<T>`)
+- ❌ `map.update(k, v)` → ✅ `map.insert(k, v)`
+- ❌ `Map::new()`, `Set::new()` → ✅ No constructors needed
+- ❌ `let x: Type = value` → ✅ `const x = value as Type`
 
-// Disclosure
-const public_value = disclose(private_value);
+**Privacy Rules**:
 
-// Coin management
-circuit paymentCircuit(): [send(coins), receive(coins)] { ... }
-```
-
-## TypeScript Integration
-
-### Wallet Connection Pattern
-
-```typescript
-'use client';
-import "@midnight-ntwrk/dapp-connector-api";
-
-export async function connectWallet() {
-  const connector = window.midnight?.mnLace;
-  if (!connector) {
-    console.error('Midnight Lace wallet not installed');
-    return null;
-  }
-
-  try {
-    // Request wallet authorization
-    const api = await connector.enable();
-
-    // Get wallet state including address
-    const state = await api.state();
-    console.log('Connected address:', state.address);
-
-    return { api, state };
-  } catch (error) {
-    console.error('Wallet connection failed:', error);
-    return null;
-  }
-}
-
-// Check if DApp is authorized
-async function checkAuthorization() {
-  const isEnabled = await window.midnight?.mnLace.isEnabled();
-  return isEnabled ?? false;
-}
-```
-
-### Contract Deployment Pattern
-
-```typescript
-import { ContractInstance, deployContract } from '@midnight-ntwrk/midnight-js-contracts';
-
-export async function deployMyContract(
-  privateState: PrivateStateProvider,
-  publicDataProvider: PublicDataProvider,
-  zkConfig: ZKConfigProvider,
-  walletApi: WalletAPI
-): Promise<ContractInstance> {
-  const contractConfig = {
-    privateState,
-    publicDataProvider,
-    zkConfig,
-    wallet: walletApi
-  };
-
-  return await deployContract({
-    contract: MyContract,
-    initialState: { /* initial ledger state */ },
-    ...contractConfig
-  });
-}
-```
-
-### Transaction Pattern
-
-```typescript
-import { Transaction, TransactionId } from '@midnight-ntwrk/midnight-js-types';
-
-export async function submitTransaction(
-  tx: Transaction,
-  walletApi: WalletAPI
-): Promise<TransactionId> {
-  const signedTx = await walletApi.signTransaction(tx);
-  const result = await walletApi.submitTransaction(signedTx);
-  return result.txId;
-}
-```
-
-## Privacy Patterns
-
-### Commitment Scheme
-
-```compact
-// Create commitment (on-chain)
-export circuit commit(witness preimage: Field): Field {
-  return hash(preimage);
-}
-
-// Reveal with proof (on-chain)
-export circuit reveal(secret preimage: Field, commitment: Field): [] {
-  assert(is_equal(hash(preimage), commitment), "Invalid commitment");
-}
-```
-
-### Selective Disclosure
-
-```typescript
-// Only reveal what's necessary
-interface ProofOfAge {
-  isOver18: boolean;  // Revealed: yes/no
-  // birthDate is NOT revealed - stays private
-}
-
-// Generate ZK proof that user is over 18 without revealing exact age
-const proof = await generateAgeProof(birthDate, minAge: 18);
-```
-
-### Merkle Proof Verification
-
-```compact
-export circuit verifyMembership(
-  witness leaf: Field,
-  witness merkleProof: Vector<256, Field>,
-  root: Field
-): Boolean {
-  // Verify leaf is in tree without revealing position
-  return verify_merkle_proof(leaf, merkleProof, root);
-}
-```
-
-## Best Practices
-
-### Do's ✅
-
-- Use `secret` keyword for private inputs that stay off-chain
-- Use `witness` keyword for private data that must be proven
-- Validate all user inputs before state changes
-- Use proper error messages in assertions
+- All `witness` params used in ledger operations need `disclose()`: `ledger.insert(disclose(witnessParam), value)`
 - Keep sensitive data in `privateState`, not ledger
-- Use typed providers for all Midnight APIs
+- Use `secret` for off-chain, `witness` for ZK-verified inputs
 
-### Don'ts ❌
+**Type System**:
 
-- Never expose secrets in transaction data
-- Don't store unhashed sensitive data in ledger
-- Avoid large state in Compact (gas costs)
-- Don't use `any` types with Midnight APIs
-- Never log private keys or witnesses
-- Don't skip transaction confirmation checks
+- Counters are `Uint<16>` by default → cast increments: `count.increment(amount as Uint<16>)`
+- Use `Uint<32>` for small numbers, `Uint<64>` for timestamps/large values
+- `Bytes<32>` for hashes, `Field` for cryptographic operations
+- Division `/` not supported → use multiplication approximations
 
-## File Organization
+**Nested Collections**: ❌ `Map<K, Map<K2, V>>` not supported in 0.26 → use composite keys: `Map<Bytes<64>, V>` where key = `hash(k1, k2)`
 
-```text
-my-midnight-dapp/
-├── app/                          # Next.js App Router
-│   ├── layout.tsx               # Root layout with providers
-│   ├── page.tsx                 # Home page (Server Component)
-│   └── dashboard/
-│       └── page.tsx             # Client-side wallet interactions
-├── contracts/                    # Compact contracts
-│   ├── main.compact             # Main contract
-│   └── types.compact            # Shared types
-├── lib/
-│   ├── midnight/
-│   │   ├── client.ts           # Midnight client setup
-│   │   ├── providers.ts        # Provider configuration
-│   │   └── wallet.ts           # Wallet utilities
-│   └── utils/
-│       └── proofs.ts           # Proof generation helpers
-├── hooks/
-│   ├── useMidnightWallet.ts    # Wallet connection hook
-│   └── useContract.ts          # Contract interaction hook
-└── types/
-    └── midnight.d.ts           # Type definitions
+## Web App (apps/web)
+
+**Next.js 16.1.1 App Router** - strict Server/Client Component split:
+
+- Pages in `src/app/*/page.tsx` (Server by default)
+- Client components need `"use client"` directive
+- Shared UI from `@fraction-estate/ui` package
+- Global styles in `src/app/globals.css` (Tailwind utilities)
+
+**Environment** (create `.env.local`):
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_MIDNIGHT_INDEXER=https://indexer.testnet-02.midnight.network/api/v1/graphql
+NEXT_PUBLIC_MIDNIGHT_RPC=https://rpc.testnet-02.midnight.network
 ```
 
-## Error Handling
+**Wallet integration**:
 
-```typescript
-import { MidnightError, WalletError } from '@midnight-ntwrk/errors';
+- Check `window.midnight?.mnLace` availability before connecting
+- Handle `isEnabled === null` case
+- Type all Midnight APIs (see [.github/instructions/midnight-typescript.instructions.md](instructions/midnight-typescript.instructions.md))
 
-try {
-  await walletApi.submitTransaction(tx);
-} catch (error) {
-  if (error instanceof WalletError) {
-    // Handle wallet-specific errors
-    console.error('Wallet error:', error.code, error.message);
-  } else if (error instanceof MidnightError) {
-    // Handle Midnight network errors
-    console.error('Network error:', error.details);
-  } else {
-    throw error;
-  }
-}
-```
+## Midnight Nodes
 
-## Documentation Standards
+**Relay Node** (`apps/relay-node`):
 
-- Always include JSDoc comments for public APIs
-- Reference relevant skill files for complex patterns
-- Include usage examples in component documentation
-- Document privacy implications of each circuit
+- REST API on port 3001
+- Uses `.env.example` template for config
+- Exposes endpoints for web app
 
-## Reference Resources
+**Block Producer** (`apps/block-producer`):
 
-- **Skills**: `.github/skills/` - Comprehensive development guides
-- **Docs**: <https://docs.midnight.network> - Official documentation
-- **Examples**: <https://github.com/midnight-ntwrk> - Official examples
+- Background service
+- Requires `.env.example` setup
 
----
+Both nodes need Midnight Network endpoints from env vars.
 
-## Web Development Stack
+## Privacy & Security Defaults
 
-This workspace also supports general full-stack web development with modern tooling.
+- Never log witness/secret values
+- Use `Opaque<"string">` / `Opaque<"Uint8Array">` for off-chain data
+- Keep private state in circuit `privateState`, not on ledger
+- All wallet operations must check `window.midnight` availability first
+- Commitments: `Hash(secret + nonce)` pattern for ZK proofs
 
-## Web Technology Stack
+## Architecture Context
 
-### Core Versions
+**Business Model**: CIP-68-inspired NFT fractionalization (Property NFT → fungible fraction tokens)
 
-- **Next.js**: 16.1+ (App Router, Turbopack stable)
-- **React**: 19.x (Server Components, Suspense)
-- **TypeScript**: 5.x (strict mode)
-- **Tailwind CSS**: 4.x (CSS-first config)
-- **Prisma**: 6.x (Type-safe ORM)
-- **Turborepo**: 2.7.2 (Monorepo tooling)
-- **Playwright**: 1.49+ (E2E testing)
-- **pnpm**: 10.x (Package manager)
+**10 Smart Contracts**:
 
-## Project Types
+1. property-registry (NFT minting) ✅
+2. fraction-mint (fractionalization) ✅
+3. fraction-trade (P2P marketplace) ✅
+4. property-governance (anonymous voting) ✅
+5. lending (collateralized loans) ✅
+6. tokenization-service (TaaS) ⚠️ needs privacy fixes
+7. kyc-verification (KYC/AML) ✅
+8. institutional-custody ⚠️ needs nested Map workaround
+9. risk-management (circuit breakers) ✅
+10. audit-trail (compliance) ⚠️ has 1 remaining `.get()` call
 
-### Monorepo Structure (Turborepo)
+See [COMPACT-0.26-MIGRATION-STATUS.md](../../COMPACT-0.26-MIGRATION-STATUS.md) for detailed status.
 
-```text
-my-project/
-├── apps/
-│   ├── web/              # Next.js frontend
-│   └── api/              # Backend API
-├── packages/
-│   ├── ui/               # Shared components
-│   ├── config/           # Shared configs
-│   └── utils/            # Shared utilities
-├── turbo.json
-└── pnpm-workspace.yaml
-```
+## Key Reference Files
 
-### Next.js App Router
+**Architecture**:
 
-```text
-app/
-├── layout.tsx            # Root layout
-├── page.tsx              # Home page
-├── loading.tsx           # Loading UI
-├── error.tsx             # Error boundary
-├── (auth)/               # Route group
-│   ├── login/page.tsx
-│   └── register/page.tsx
-└── api/                  # Route handlers
-    └── users/route.ts
-```
+- [README.md](../../README.md) - Full feature list and architecture
+- [ARCHITECTURE.md](../../ARCHITECTURE.md) - Detailed system design
+- [CONTRACT-COMPILATION-STATUS.md](../../CONTRACT-COMPILATION-STATUS.md) - Current compilation state
 
-## Skills Reference
+**Instructions** (file-pattern rules): `.github/instructions/*.instructions.md`
 
-| Skill | Path | Use For |
-| ----- | ---- | ------- |
-| Next.js | `.github/skills/nextjs/` | App Router, Server Components, Data Fetching |
-| Tailwind CSS | `.github/skills/tailwindcss/` | Styling, Theming, Components |
-| Turborepo | `.github/skills/turborepo/` | Monorepo setup, Caching, CI/CD |
-| Prisma | `.github/skills/prisma/` | Database, ORM, Migrations |
-| Playwright | `.github/skills/playwright/` | E2E Testing, Visual Regression |
+- `compact.instructions.md` - Compact language rules
+- `midnight-typescript.instructions.md` - Midnight API usage
+- `nextjs.instructions.md` - App Router patterns
+- `privacy-patterns.instructions.md` - ZK best practices
+- `testing.instructions.md` - Test patterns
 
-## Instructions Reference
+**Skills** (worked examples): `.github/skills/*/SKILL.md`
 
-| File | Applies To | Purpose |
-| ---- | ---------- | ------- |
-| `nextjs.instructions.md` | `app/**/*.tsx` | Next.js patterns |
-| `tailwindcss.instructions.md` | `*.css, *.tsx` | Styling guidelines |
-| `turborepo.instructions.md` | `turbo.json` | Monorepo config |
-| `prisma.instructions.md` | `prisma/**` | Database patterns |
-| `playwright.instructions.md` | `e2e/**` | Testing patterns |
+- Compact, Next.js, privacy patterns, testing, Playwright, Prisma, Tailwind, Turborepo
 
-## Quick Patterns
+**Agents/Prompts**: [.github/AGENTS.md](AGENTS.md) + `.github/agents/*.agent.md` + `.github/prompts/*.prompt.md`
 
-### Server Component with Data Fetching
+## Testing
 
-```tsx
-// app/posts/page.tsx
-export default async function PostsPage() {
-  const posts = await prisma.post.findMany();
-  return <PostList posts={posts} />;
-}
-```
+**Contracts**: Vitest (`packages/smartcontracts/contract/vitest.config.ts`)
 
-### Server Action
+- Many tests need updates for new compiled interfaces (see [CONTRACT-COMPILATION-STATUS.md](../../CONTRACT-COMPILATION-STATUS.md))
+- Run specific suites with `-- src/test/pattern*.test.ts`
 
-```tsx
-'use server';
-export async function createPost(formData: FormData) {
-  await prisma.post.create({ data: { ... } });
-  revalidatePath('/posts');
-}
-```
+**E2E**: Playwright (see [.github/skills/playwright/SKILL.md](skills/playwright/SKILL.md))
 
-### Tailwind v4 Theme
+**Keep runtimes short** - prefer targeted test files over full suites during development.
 
-```css
-@import "tailwindcss";
-@theme {
-  --color-primary-500: oklch(0.55 0.2 250);
-}
-```
+## Code Quality
 
-### Prisma Query
+- ESLint: `apps/*/eslint.config.cjs`, `packages/*/eslint.config.*`
+- Prettier: Root config applies to all `**/*.{ts,tsx,md,json}`
+- Format: `pnpm format` (auto-fix) or `pnpm format:check`
+- **No auto-reflows** - preserve existing formatting
+- pnpm lockfile managed at workspace root only
 
-```typescript
-const users = await prisma.user.findMany({
-  include: { posts: true },
-  orderBy: { createdAt: 'desc' },
-});
-```
+## Migration Status (Current)
 
-### Playwright Test
+**Compact 0.26**: 8/10 contracts compile cleanly. 2 blocked on:
 
-```typescript
-test('navigation works', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('link', { name: 'About' }).click();
-  await expect(page).toHaveURL('/about');
-});
-```
+1. `tokenization-service.compact` - needs ~50 `disclose()` additions
+2. `audit-trail.compact` - 1 remaining `.get()` → `.lookup()` fix
 
-## Agents Reference
+**Tests**: Most test files need simulator updates for new contract interfaces (missing ledger properties, renamed circuits, changed signatures).
 
-| Agent | Purpose |
-| ----- | ------- |
-| Fullstack Developer | Next.js, Turborepo, React, Prisma, Tailwind |
-| API Developer | REST APIs, Server Actions, Authentication |
-| UI Designer | Tailwind CSS, Components, Accessibility |
-| DevOps Engineer | CI/CD, Docker, Vercel, Turborepo |
-| E2E Testing Engineer | Playwright, Visual Testing, Chrome DevTools |
+See migration docs for details before making contract changes.

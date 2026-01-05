@@ -9,20 +9,20 @@ Configure and manage Midnight Network components for dApp development.
 
 ## Quick Reference
 
-| Service | Testnet-02 URL |
-| ------- | -------------- |
-| **Indexer** | `https://indexer.testnet-02.midnight.network/api/v1/graphql` |
-| **Indexer WS** | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws` |
-| **RPC Node** | `https://rpc.testnet-02.midnight.network` |
-| **Proof Server** | `http://localhost:6300` (local) |
-| **Faucet** | `https://faucet.testnet-02.midnight.network` |
+| Service          | Testnet-02 URL                                                |
+| ---------------- | ------------------------------------------------------------- |
+| **Indexer**      | `https://indexer.testnet-02.midnight.network/api/v1/graphql`  |
+| **Indexer WS**   | `wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws` |
+| **RPC Node**     | `https://rpc.testnet-02.midnight.network`                     |
+| **Proof Server** | `http://localhost:6300` (local)                               |
+| **Faucet**       | `https://faucet.testnet-02.midnight.network`                  |
 
 ## Reference Files
 
-| Topic | Resource |
-| ----- | -------- |
-| **Network Config** | [references/network-config.md](references/network-config.md) |
-| **Proof Server** | [references/proof-server.md](references/proof-server.md) |
+| Topic               | Resource                                                       |
+| ------------------- | -------------------------------------------------------------- |
+| **Network Config**  | [references/network-config.md](references/network-config.md)   |
+| **Proof Server**    | [references/proof-server.md](references/proof-server.md)       |
 | **Indexer Queries** | [references/indexer-graphql.md](references/indexer-graphql.md) |
 | **Troubleshooting** | [references/troubleshooting.md](references/troubleshooting.md) |
 
@@ -67,10 +67,10 @@ setNetworkId(NetworkId.TestNet);
 
 // Available networks
 enum NetworkId {
-  DevNet = 'DevNet',        // Developer network (not persistent)
-  TestNet = 'TestNet',      // Persistent testnet
-  MainNet = 'MainNet',      // Midnight mainnet
-  Undeployed = 'Undeployed' // Local testing
+  DevNet = 'DevNet', // Developer network (not persistent)
+  TestNet = 'TestNet', // Persistent testnet
+  MainNet = 'MainNet', // Midnight mainnet
+  Undeployed = 'Undeployed', // Local testing
 }
 ```
 
@@ -88,12 +88,12 @@ curl https://indexer.testnet-02.midnight.network/api/v1/graphql \
 
 ## Common Issues
 
-| Issue | Solution |
-| ----- | -------- |
+| Issue                    | Solution                                 |
+| ------------------------ | ---------------------------------------- |
 | Proof generation timeout | Increase timeout, check Docker resources |
-| Connection refused | Ensure proof server is running |
-| Network mismatch | Verify NetworkId matches wallet |
-| Insufficient funds | Get tDUST from faucet |
+| Connection refused       | Ensure proof server is running           |
+| Network mismatch         | Verify NetworkId matches wallet          |
+| Insufficient funds       | Get tDUST from faucet                    |
 
 ## Best Practices
 

@@ -34,25 +34,25 @@ managing monorepos, and deploying modern web applications. You automatically det
 
 ## Technology Expertise
 
-| Technology | Version | Expertise |
-| --- | --- | --- |
-| Turborepo | 2.7.2 | Monorepo management, caching |
-| GitHub Actions | Latest | CI/CD workflows |
-| Docker | Latest | Containerization, multi-stage builds |
-| Vercel | Latest | Edge deployments, serverless |
-| pnpm | 10.x | Package management, workspaces |
-| Node.js | 22.x | Runtime, LTS versions |
+| Technology     | Version | Expertise                            |
+| -------------- | ------- | ------------------------------------ |
+| Turborepo      | 2.7.2   | Monorepo management, caching         |
+| GitHub Actions | Latest  | CI/CD workflows                      |
+| Docker         | Latest  | Containerization, multi-stage builds |
+| Vercel         | Latest  | Edge deployments, serverless         |
+| pnpm           | 10.x    | Package management, workspaces       |
+| Node.js        | 22.x    | Runtime, LTS versions                |
 
 ## Automatic Mode Detection
 
-| Detection Trigger | Mode | Focus |
-| --- | --- | --- |
-| turbo, monorepo, workspace | **Turborepo Mode** | Monorepo configuration |
-| CI, pipeline, workflow, action | **CI/CD Mode** | GitHub Actions workflows |
-| docker, container, image | **Docker Mode** | Containerization |
-| deploy, vercel, production | **Deployment Mode** | Production deployments |
-| env, secret, variable | **Environment Mode** | Environment management |
-| cache, performance, optimize | **Optimization Mode** | Build optimization |
+| Detection Trigger              | Mode                  | Focus                    |
+| ------------------------------ | --------------------- | ------------------------ |
+| turbo, monorepo, workspace     | **Turborepo Mode**    | Monorepo configuration   |
+| CI, pipeline, workflow, action | **CI/CD Mode**        | GitHub Actions workflows |
+| docker, container, image       | **Docker Mode**       | Containerization         |
+| deploy, vercel, production     | **Deployment Mode**   | Production deployments   |
+| env, secret, variable          | **Environment Mode**  | Environment management   |
+| cache, performance, optimize   | **Optimization Mode** | Build optimization       |
 
 ---
 
@@ -97,13 +97,13 @@ managing monorepos, and deploying modern web applications. You automatically det
 
 **CI Workflow Structure:**
 
-| Job | Purpose | Dependencies |
-| --- | ------- | ------------ |
-| lint | ESLint/Prettier checks | None |
-| typecheck | TypeScript validation | None |
-| test | Unit/integration tests | None (or build) |
-| build | Production build | lint, typecheck, test |
-| deploy | Deployment to Vercel | build |
+| Job       | Purpose                | Dependencies          |
+| --------- | ---------------------- | --------------------- |
+| lint      | ESLint/Prettier checks | None                  |
+| typecheck | TypeScript validation  | None                  |
+| test      | Unit/integration tests | None (or build)       |
+| build     | Production build       | lint, typecheck, test |
+| deploy    | Deployment to Vercel   | build                 |
 
 **Key Patterns:**
 
@@ -133,12 +133,12 @@ managing monorepos, and deploying modern web applications. You automatically det
 
 **Multi-Stage Build Strategy:**
 
-| Stage | Purpose | Base |
-| --- | --- | --- |
-| base | Common setup, pnpm | node:22-alpine |
-| deps | Install dependencies | base |
-| builder | Build application | base |
-| runner | Production runtime | base |
+| Stage   | Purpose              | Base           |
+| ------- | -------------------- | -------------- |
+| base    | Common setup, pnpm   | node:22-alpine |
+| deps    | Install dependencies | base           |
+| builder | Build application    | base           |
+| runner  | Production runtime   | base           |
 
 **Key Patterns:**
 
@@ -167,10 +167,10 @@ managing monorepos, and deploying modern web applications. You automatically det
 
 **Deployment Strategy:**
 
-| Environment | Trigger | Branch |
-| --- | --- | --- |
-| Preview | PR opened/updated | Feature branches |
-| Production | Merge to main | main |
+| Environment | Trigger           | Branch           |
+| ----------- | ----------------- | ---------------- |
+| Preview     | PR opened/updated | Feature branches |
+| Production  | Merge to main     | main             |
 
 **Key Configurations:**
 
@@ -187,14 +187,14 @@ managing monorepos, and deploying modern web applications. You automatically det
 
 **File Structure:**
 
-| File | Purpose | Git |
-| ---- | ------- | --- |
-| `.env.example` | Template with all variables | ✅ Tracked |
-| `.env` | Local development | ❌ Ignored |
-| `.env.local` | Local overrides | ❌ Ignored |
-| `.env.development` | Development defaults | ✅ Tracked |
-| `.env.production` | Production defaults (non-secret) | ✅ Tracked |
-| `.env.test` | Test environment | ✅ Tracked |
+| File               | Purpose                          | Git        |
+| ------------------ | -------------------------------- | ---------- |
+| `.env.example`     | Template with all variables      | ✅ Tracked |
+| `.env`             | Local development                | ❌ Ignored |
+| `.env.local`       | Local overrides                  | ❌ Ignored |
+| `.env.development` | Development defaults             | ✅ Tracked |
+| `.env.production`  | Production defaults (non-secret) | ✅ Tracked |
+| `.env.test`        | Test environment                 | ✅ Tracked |
 
 **Variable Categories:**
 
@@ -222,12 +222,12 @@ managing monorepos, and deploying modern web applications. You automatically det
 
 **Optimization Strategies:**
 
-| Area | Technique | Impact |
-| ---- | --------- | ------ |
-| Dependencies | `optimizePackageImports` | Faster builds |
-| Images | Remote patterns, formats | Smaller bundles |
-| Caching | Turbo remote cache | 10x faster CI |
-| Output | Standalone mode | Smaller Docker |
+| Area         | Technique                | Impact          |
+| ------------ | ------------------------ | --------------- |
+| Dependencies | `optimizePackageImports` | Faster builds   |
+| Images       | Remote patterns, formats | Smaller bundles |
+| Caching      | Turbo remote cache       | 10x faster CI   |
+| Output       | Standalone mode          | Smaller Docker  |
 
 **Bundle Analysis:**
 

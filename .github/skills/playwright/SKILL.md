@@ -25,11 +25,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: [
-    ['html', { open: 'never' }],
-    ['list'],
-    process.env.CI ? ['github'] : ['line']
-  ],
+  reporter: [['html', { open: 'never' }], ['list'], process.env.CI ? ['github'] : ['line']],
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
@@ -113,7 +109,7 @@ page.getByRole('listitem').filter({ hasText: 'Product' });
 
 // Filter by another locator
 page.getByRole('listitem').filter({
-  has: page.getByRole('button', { name: 'Buy' })
+  has: page.getByRole('button', { name: 'Buy' }),
 });
 
 // Chain locators
@@ -255,9 +251,9 @@ export const test = base.extend<Fixtures>({
 
   authenticatedPage: async ({ page }, use) => {
     // Set auth cookies
-    await page.context().addCookies([
-      { name: 'session', value: 'test-session', domain: 'localhost', path: '/' }
-    ]);
+    await page
+      .context()
+      .addCookies([{ name: 'session', value: 'test-session', domain: 'localhost', path: '/' }]);
     await use();
   },
 });
@@ -287,7 +283,7 @@ test.describe('API Tests', () => {
 
   test('POST create user', async ({ request }) => {
     const response = await request.post('/api/users', {
-      data: { name: 'John', email: 'john@example.com' }
+      data: { name: 'John', email: 'john@example.com' },
     });
     expect(response.status()).toBe(201);
   });
@@ -302,7 +298,7 @@ test('mock API response', async ({ page }) => {
     route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify([{ id: 1, name: 'Mocked User' }])
+      body: JSON.stringify([{ id: 1, name: 'Mocked User' }]),
     });
   });
 

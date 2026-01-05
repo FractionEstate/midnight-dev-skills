@@ -2,13 +2,13 @@
 
 ## Breakpoint System
 
-| Breakpoint | Min Width | CSS                           |
-| ---------- | --------- | ----------------------------- |
-| `sm`       | 640px     | `@media (min-width: 640px)`   |
-| `md`       | 768px     | `@media (min-width: 768px)`   |
-| `lg`       | 1024px    | `@media (min-width: 1024px)`  |
-| `xl`       | 1280px    | `@media (min-width: 1280px)`  |
-| `2xl`      | 1536px    | `@media (min-width: 1536px)`  |
+| Breakpoint | Min Width | CSS                          |
+| ---------- | --------- | ---------------------------- |
+| `sm`       | 640px     | `@media (min-width: 640px)`  |
+| `md`       | 768px     | `@media (min-width: 768px)`  |
+| `lg`       | 1024px    | `@media (min-width: 1024px)` |
+| `xl`       | 1280px    | `@media (min-width: 1280px)` |
+| `2xl`      | 1536px    | `@media (min-width: 1536px)` |
 
 ## Mobile-First Approach
 
@@ -58,9 +58,7 @@
   <aside className="w-full shrink-0 lg:w-64">
     <nav>Sidebar</nav>
   </aside>
-  <main className="flex-1 lg:ml-8">
-    Content
-  </main>
+  <main className="flex-1 lg:ml-8">Content</main>
 </div>
 ```
 
@@ -159,7 +157,7 @@
   <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <h2 className="text-2xl font-bold sm:text-3xl">Features</h2>
     <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3 lg:gap-8">
-      {features.map(feature => (
+      {features.map((feature) => (
         <div key={feature.id} className="rounded-xl border p-6">
           <h3 className="text-lg font-semibold">{feature.title}</h3>
           <p className="mt-2 text-gray-600">{feature.description}</p>
@@ -175,7 +173,9 @@
 ```tsx
 <nav className="sticky top-0 z-50 border-b bg-white">
   <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
-    <a href="/" className="text-lg font-bold sm:text-xl">Logo</a>
+    <a href="/" className="text-lg font-bold sm:text-xl">
+      Logo
+    </a>
 
     {/* Mobile menu button */}
     <button className="p-2 md:hidden">
@@ -184,8 +184,12 @@
 
     {/* Desktop nav */}
     <div className="hidden items-center gap-6 md:flex">
-      <a href="#" className="text-sm font-medium">Features</a>
-      <a href="#" className="text-sm font-medium">Pricing</a>
+      <a href="#" className="text-sm font-medium">
+        Features
+      </a>
+      <a href="#" className="text-sm font-medium">
+        Pricing
+      </a>
       <button className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white">
         Get Started
       </button>
@@ -210,9 +214,7 @@
         <button className="w-full rounded-lg bg-primary-600 px-6 py-3 text-white sm:w-auto">
           Get Started
         </button>
-        <button className="w-full rounded-lg border px-6 py-3 sm:w-auto">
-          Learn More
-        </button>
+        <button className="w-full rounded-lg border px-6 py-3 sm:w-auto">Learn More</button>
       </div>
     </div>
   </div>

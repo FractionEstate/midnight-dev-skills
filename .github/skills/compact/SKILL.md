@@ -6,7 +6,7 @@ description: >-
   Compact language, circuits, ledger state, hashing, or zero-knowledge contract questions.
 metadata:
   author: FractionEstate
-  version: "0.18"
+  version: '0.18'
 ---
 
 # Compact Smart Contracts
@@ -41,12 +41,19 @@ Every Compact contract has three parts:
 
 ### Privacy Model
 
-| Level | Syntax | Visibility |
-| ----- | ------ | ---------- |
-| Private | `let x = input;` | Only prover |
-| Disclosed | `disclose(value)` | Public on ledger |
-| Proven | `disclose(a >= b)` | Boolean only |
-| Witness | `witness secret: Field` | Prover-provided private |
+| Level     | Syntax               | Visibility               |
+| --------- | -------------------- | ------------------------ |
+| Private   | `const x = input;`   | Only prover              |
+| Disclosed | `disclose(value)`    | Allowed to become public |
+| Proven    | `disclose(a >= b)`   | Public boolean only      |
+| Witness   | `witness f(...): T;` | Private, DApp-provided   |
+
+Notes:
+
+- Circuit arguments and witness returns are treated as potentially private (“witness data”).
+- `disclose(...)` is a **compiler acknowledgement**: it does not itself publish anything, it just permits
+  an expression to flow into public outputs (ledger writes / exported circuit returns / cross-contract comms).
+- Only `Opaque<"string">` and `Opaque<"Uint8Array">` are currently supported.
 
 ### Ledger Types
 
@@ -59,22 +66,23 @@ ledger tree: MerkleTree<20, Field>;  // Cryptographic proofs
 
 ## Reference Files
 
-| Topic | Resource |
-| ----- | -------- |
-| **Type System** | [references/types.md](references/types.md) - Full type reference |
-| **Standard Library** | [references/stdlib.md](references/stdlib.md) - Hashing, coins, EC ops |
-| **VS Code extension** | [references/vscode-extension.md](references/vscode-extension.md) - Editor setup and tasks |
-| **Ledger Patterns** | [references/ledger-patterns.md](references/ledger-patterns.md) - State management |
-| **Advanced Patterns** | [references/advanced-patterns.md](references/advanced-patterns.md) - Access control, state machines |
+| Topic                     | Resource                                                                                            |
+| ------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Type System**           | [references/types.md](references/types.md) - Full type reference                                    |
+| **Standard Library**      | [references/stdlib.md](references/stdlib.md) - Hashing, coins, EC ops                               |
+| **VS Code extension**     | [references/vscode-extension.md](references/vscode-extension.md) - Editor setup and tasks           |
+| **Ledger Patterns**       | [references/ledger-patterns.md](references/ledger-patterns.md) - State management                   |
+| **Advanced Patterns**     | [references/advanced-patterns.md](references/advanced-patterns.md) - Access control, state machines |
+| **Detailed API Patterns** | [references/detailed-api-patterns.md](references/detailed-api-patterns.md) - API, code              |
 
 ## Templates
 
-| Template | Description |
-| -------- | ----------- |
-| [assets/basic-contract.compact](assets/basic-contract.compact) | Simple ledger + circuit |
-| [assets/token-contract.compact](assets/token-contract.compact) | Token with transfers |
-| [assets/private-voting.compact](assets/private-voting.compact) | Anonymous voting |
-| [assets/commitment-reveal.compact](assets/commitment-reveal.compact) | Commit-reveal pattern |
+| Template                                                             | Description             |
+| -------------------------------------------------------------------- | ----------------------- |
+| [assets/basic-contract.compact](assets/basic-contract.compact)       | Simple ledger + circuit |
+| [assets/token-contract.compact](assets/token-contract.compact)       | Token with transfers    |
+| [assets/private-voting.compact](assets/private-voting.compact)       | Anonymous voting        |
+| [assets/commitment-reveal.compact](assets/commitment-reveal.compact) | Commit-reveal pattern   |
 
 ## Compilation
 
@@ -91,11 +99,11 @@ contracts/managed/my-contract/
 
 ## Common Errors
 
-| Error | Cause | Fix |
-| ----- | ----- | --- |
-| `Type mismatch` | Wrong bit width | Use correct `Uint<N>` size |
-| `Cannot assign private to public` | Missing disclose | Add `disclose()` wrapper |
-| `Undefined symbol` | Import missing | Check pragma and imports |
+| Error                             | Cause            | Fix                        |
+| --------------------------------- | ---------------- | -------------------------- |
+| `Type mismatch`                   | Wrong bit width  | Use correct `Uint<N>` size |
+| `Cannot assign private to public` | Missing disclose | Add `disclose()` wrapper   |
+| `Undefined symbol`                | Import missing   | Check pragma and imports   |
 
 ## Best Practices
 
@@ -108,5 +116,10 @@ contracts/managed/my-contract/
 
 ## Resources
 
-- [Compact Reference](https://docs.midnight.network/develop/reference/compact/)
+- [Writing a contract](https://docs.midnight.network/compact/writing)
+- [Language reference](https://docs.midnight.network/compact/lang-ref)
+- [Explicit disclosure](https://docs.midnight.network/compact/explicit_disclosure)
+- [Compact standard library](https://docs.midnight.network/compact/compact-std-library)
+- [Ledger ADTs](https://docs.midnight.network/compact/ledger-adt)
+- [Opaque data types](https://docs.midnight.network/compact/opaque_data)
 - [Examples Repository](https://github.com/midnightntwrk/midnight-awesome-dapps)

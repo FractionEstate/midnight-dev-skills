@@ -39,7 +39,7 @@ export const test = base.extend<AuthFixtures & DataFixtures>({
   },
 
   // Test user credentials
-  testUser: async ({ }, use) => {
+  testUser: async ({}, use) => {
     await use({
       email: 'test@example.com',
       password: 'TestPassword123!',
@@ -47,7 +47,7 @@ export const test = base.extend<AuthFixtures & DataFixtures>({
   },
 
   // Shared test data
-  testData: async ({ }, use) => {
+  testData: async ({}, use) => {
     await use({
       productId: 'test-product-1',
       orderId: 'test-order-1',

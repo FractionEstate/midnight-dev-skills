@@ -11,73 +11,85 @@ export ledger phase: Phase;
 export ledger commitDeadline: Uint<64>;
 export ledger revealDeadline: Uint<64>;
 
-// Store commitments (user -> commitment hash)
-export ledger commitments: Map<Bytes<32>, Field>;
+// Store commitments (address -> commitment)
+export ledger commitments: Map<Bytes<32>, Bytes<32>>;
 export ledger revealed: Map<Bytes<32>, Uint<64>>;
 export ledger hasCommitted: Set<Bytes<32>>;
 export ledger hasRevealed: Set<Bytes<32>>;
 
-// Witness for commitment randomness
-witness randomness: Field;
+// DApp-provided witness for the committer's secret key
+witness secretKey(): Bytes<32>;
 
-// Initialize with phase durations
-export circuit initialize(commitDuration: Uint<64>, revealDuration: Uint<64>): [] {
+circuit addressOf(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([
+    pad(32, "midnight:example:commit-reveal:addr"),
+    sk,
+  ]);
+}
+
+constructor(commitDeadlineTimestamp: Uint<64>, revealDeadlineTimestamp: Uint<64>) {
   phase = Phase::COMMIT;
-  commitDeadline = blockTime() + commitDuration;
-  revealDeadline = commitDeadline + revealDuration;
+  commitDeadline = disclose(commitDeadlineTimestamp);
+  revealDeadline = disclose(revealDeadlineTimestamp);
+  assert(commitDeadline < revealDeadline, "Invalid deadlines");
 }
 
 // Submit a commitment (hides the actual value)
-export circuit commit(user: Bytes<32>, value: Uint<64>): [] {
-  require(phase == Phase::COMMIT);
-  require(blockTime() < commitDeadline);
-  require(!hasCommitted.member(user));
+export circuit commit(value: Uint<64>, randomness: Bytes<32>): [] {
+  assert(phase == Phase::COMMIT, "Not in COMMIT phase");
+  assert(blockTimeLt(commitDeadline), "Commit period ended");
 
-  // Create commitment = hash(value, randomness)
+  const who = disclose(addressOf(secretKey()));
+  assert(!hasCommitted.member(who), "Already committed");
+
   const commitment = persistentCommit(value, randomness);
-
-  // Store commitment
-  commitments[user] = commitment;
-  hasCommitted.insert(user);
+  commitments.insert(who, disclose(commitment));
+  hasCommitted.insert(who);
 }
 
 // Transition to reveal phase
 export circuit startReveal(): [] {
-  require(phase == Phase::COMMIT);
-  require(blockTime() >= commitDeadline);
+  assert(phase == Phase::COMMIT, "Not in COMMIT phase");
+  assert(blockTimeGte(commitDeadline), "Commit period still active");
   phase = Phase::REVEAL;
 }
 
 // Reveal the committed value
-export circuit reveal(user: Bytes<32>, value: Uint<64>): [] {
-  require(phase == Phase::REVEAL);
-  require(blockTime() < revealDeadline);
-  require(hasCommitted.member(user));
-  require(!hasRevealed.member(user));
+export circuit reveal(value: Uint<64>, randomness: Bytes<32>): [] {
+  assert(phase == Phase::REVEAL, "Not in REVEAL phase");
+  assert(blockTimeLt(revealDeadline), "Reveal period ended");
 
-  // Verify commitment matches
-  const storedCommitment = commitments[user];
+  const who = disclose(addressOf(secretKey()));
+  assert(hasCommitted.member(who), "No commitment found");
+  assert(!hasRevealed.member(who), "Already revealed");
+
+  const storedCommitment = commitments.lookup(who);
   const computedCommitment = persistentCommit(value, randomness);
-  require(computedCommitment == storedCommitment);
+  assert(computedCommitment == storedCommitment, "Commitment mismatch");
 
-  // Store revealed value
-  revealed[user] = value;
-  hasRevealed.insert(user);
-
-  // Value is now public
-  disclose(value);
+  // Store revealed value (this intentionally makes the value public)
+  revealed.insert(who, disclose(value));
+  hasRevealed.insert(who);
 }
 
 // Finalize after reveal period
 export circuit finalize(): [] {
-  require(phase == Phase::REVEAL);
-  require(blockTime() >= revealDeadline);
+  assert(phase == Phase::REVEAL, "Not in REVEAL phase");
+  assert(blockTimeGte(revealDeadline), "Reveal period still active");
   phase = Phase::FINALIZED;
 }
 
-// Get revealed value for a user
-export circuit getRevealedValue(user: Bytes<32>): Uint<64> {
-  require(phase == Phase::FINALIZED);
-  require(hasRevealed.member(user));
-  return revealed[user];
+export circuit getMyRevealedValue(): Uint<64> {
+  assert(phase == Phase::FINALIZED, "Not finalized");
+  const who = disclose(addressOf(secretKey()));
+  assert(hasRevealed.member(who), "No revealed value for caller");
+  return revealed.lookup(who);
+}
+
+// Get revealed value for an address (public query)
+export circuit getRevealedValue(addr: Bytes<32>): Uint<64> {
+  assert(phase == Phase::FINALIZED, "Not finalized");
+  const who = disclose(addr);
+  assert(hasRevealed.member(who), "No revealed value for address");
+  return revealed.lookup(who);
 }

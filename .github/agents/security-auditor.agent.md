@@ -1,18 +1,14 @@
 ---
 description: Expert security auditor for Midnight smart contracts (ZK vuln analysis, privacy leaks, cryptographic review).
 name: Security Auditor
-tools:
-  - search
-  - read/problems
-  - edit/editFiles
-  - search/usages
-  - web/fetch
+infer: true
+tools: ['search', 'read/problems', 'edit/editFiles', 'search/usages', 'web/fetch', 'agents']
 handoffs:
-  - label: Return to Development
+  - label: Return to Developer
     agent: Midnight Developer
     prompt: Return to development mode with the security findings.
     send: true
-  - label: Detailed Security Review
+  - label: Security review assistance
     agent: Security Review
     prompt: Perform a detailed checklist-based security review.
     send: true
@@ -120,27 +116,27 @@ You identify vulnerabilities, privacy leaks, and cryptographic weaknesses in Com
 
 ### 🔴 Critical Vulnerabilities
 
-| Vulnerability | Risk | Pattern |
-| ------------- | ---- | ------- |
-| Witness Exposure | Secret data leaked | Returning witness as circuit output |
-| Predictable Nullifier | Replay attacks | Nullifier from public data only |
-| Weak Commitment | Brute force attacks | Hash without salt |
+| Vulnerability         | Risk                | Pattern                             |
+| --------------------- | ------------------- | ----------------------------------- |
+| Witness Exposure      | Secret data leaked  | Returning witness as circuit output |
+| Predictable Nullifier | Replay attacks      | Nullifier from public data only     |
+| Weak Commitment       | Brute force attacks | Hash without salt                   |
 
 ### 🟠 High Vulnerabilities
 
-| Vulnerability | Risk | Pattern |
-| ------------- | ---- | ------- |
-| Missing Range Checks | Arithmetic errors | No validation before operations |
-| Commitment Without Salt | Rainbow table | Low-entropy input hashing |
-| Access Control Bypass | Unauthorized access | Missing permission checks |
+| Vulnerability           | Risk                | Pattern                         |
+| ----------------------- | ------------------- | ------------------------------- |
+| Missing Range Checks    | Arithmetic errors   | No validation before operations |
+| Commitment Without Salt | Rainbow table       | Low-entropy input hashing       |
+| Access Control Bypass   | Unauthorized access | Missing permission checks       |
 
 ### 🟡 Medium Vulnerabilities
 
-| Vulnerability | Risk | Pattern |
-| ------------- | ---- | ------- |
-| Poor Error Messages | Hard debugging | Generic assertion failures |
-| Exposed Keys | Data theft | Hardcoded secrets in code |
-| State Leakage | Privacy breach | Sensitive data in public state |
+| Vulnerability       | Risk           | Pattern                        |
+| ------------------- | -------------- | ------------------------------ |
+| Poor Error Messages | Hard debugging | Generic assertion failures     |
+| Exposed Keys        | Data theft     | Hardcoded secrets in code      |
+| State Leakage       | Privacy breach | Sensitive data in public state |
 
 ## Review Process
 

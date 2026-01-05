@@ -12,21 +12,21 @@ Design and implement privacy-preserving applications using zero-knowledge proofs
 
 ## Core Privacy Model
 
-| Concept | Description | Visibility |
-| ------- | ----------- | ---------- |
-| **Public** | Ledger state | Everyone |
-| **Private** | Circuit inputs | Only prover |
-| **Witness** | Prover-provided data | Only prover |
-| **Disclosed** | Explicitly revealed | Everyone |
+| Concept       | Description          | Visibility  |
+| ------------- | -------------------- | ----------- |
+| **Public**    | Ledger state         | Everyone    |
+| **Private**   | Circuit inputs       | Only prover |
+| **Witness**   | Prover-provided data | Only prover |
+| **Disclosed** | Explicitly revealed  | Everyone    |
 
 ## Reference Files
 
-| Topic | Resource |
-| ----- | -------- |
-| **Zero-Knowledge Basics** | [references/zk-fundamentals.md](references/zk-fundamentals.md) |
-| **Commitment Schemes** | [references/commitments.md](references/commitments.md) |
-| **Nullifier Patterns** | [references/nullifiers.md](references/nullifiers.md) |
-| **Selective Disclosure** | [references/selective-disclosure.md](references/selective-disclosure.md) |
+| Topic                     | Resource                                                                 |
+| ------------------------- | ------------------------------------------------------------------------ |
+| **Zero-Knowledge Basics** | [references/zk-fundamentals.md](references/zk-fundamentals.md)           |
+| **Commitment Schemes**    | [references/commitments.md](references/commitments.md)                   |
+| **Nullifier Patterns**    | [references/nullifiers.md](references/nullifiers.md)                     |
+| **Selective Disclosure**  | [references/selective-disclosure.md](references/selective-disclosure.md) |
 
 ## Pattern Overview
 
@@ -135,12 +135,12 @@ export circuit reveal(value: Uint<64>, commitment: Field): [] {
 
 ## When to Use Each Pattern
 
-| Pattern | Use Case |
-| ------- | -------- |
-| Commitment | Sealed bids, hidden votes before reveal |
-| Nullifier | Preventing double-spend, one-time tokens |
-| Merkle Proof | Membership in allowlist without revealing identity |
-| Selective Disclosure | Age verification, credential proofs |
+| Pattern              | Use Case                                           |
+| -------------------- | -------------------------------------------------- |
+| Commitment           | Sealed bids, hidden votes before reveal            |
+| Nullifier            | Preventing double-spend, one-time tokens           |
+| Merkle Proof         | Membership in allowlist without revealing identity |
+| Selective Disclosure | Age verification, credential proofs                |
 
 ## Resources
 

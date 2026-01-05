@@ -53,11 +53,11 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     setupFiles: ['./test/setup.ts'],
-    testTimeout: 30000,  // Proof generation can be slow
+    testTimeout: 30000, // Proof generation can be slow
     coverage: {
-      reporter: ['text', 'json', 'html']
-    }
-  }
+      reporter: ['text', 'json', 'html'],
+    },
+  },
 });
 ```
 
@@ -145,7 +145,7 @@ export async function waitFor(condition: () => boolean, timeout = 5000): Promise
     if (Date.now() - start > timeout) {
       throw new Error('Condition not met within timeout');
     }
-    await new Promise(r => setTimeout(r, 100));
+    await new Promise((r) => setTimeout(r, 100));
   }
 }
 ```
@@ -169,14 +169,14 @@ describe('Multi-contract integration', () => {
     // Mint tokens
     await tokenSimulator.call('mint', {
       recipient: buyer,
-      amount: 1000n
+      amount: 1000n,
     });
 
     // Transfer to auction
     await tokenSimulator.call('transfer', {
       from: buyer,
       to: auctionAddress,
-      amount: 500n
+      amount: 500n,
     });
 
     expect(tokenSimulator.ledger.balances.get(buyer)).toBe(500n);
@@ -192,9 +192,9 @@ const mockProofProvider = {
   async generateProof(circuit: string, inputs: unknown) {
     return {
       proof: new Uint8Array(288),
-      publicInputs: inputs
+      publicInputs: inputs,
     };
-  }
+  },
 };
 
 // Mock wallet provider
@@ -205,7 +205,7 @@ const mockWalletProvider = {
   },
   async submitTransaction(tx: unknown) {
     return { txId: 'mock-tx-id' };
-  }
+  },
 };
 ```
 

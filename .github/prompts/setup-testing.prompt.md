@@ -44,9 +44,9 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html'],
-      exclude: ['**/node_modules/**', '**/managed/**']
-    }
-  }
+      exclude: ['**/node_modules/**', '**/managed/**'],
+    },
+  },
 });
 ```
 
@@ -69,19 +69,17 @@ beforeAll(() => {
 Create `test/helpers/simulator.ts`:
 
 ```typescript
-import { constructorContext, QueryContext, sampleContractAddress } from '@midnight-ntwrk/compact-runtime';
+import {
+  constructorContext,
+  QueryContext,
+  sampleContractAddress,
+} from '@midnight-ntwrk/compact-runtime';
 
-export function createSimulator<T, P>(
-  ContractClass: any,
-  witnesses: any,
-  initialPrivateState: P
-) {
+export function createSimulator<T, P>(ContractClass: any, witnesses: any, initialPrivateState: P) {
   const contract = new ContractClass(witnesses);
 
   const { currentPrivateState, currentContractState, currentZswapLocalState } =
-    contract.initialState(
-      constructorContext(initialPrivateState, '0'.repeat(64))
-    );
+    contract.initialState(constructorContext(initialPrivateState, '0'.repeat(64)));
 
   return {
     contract,
@@ -89,11 +87,8 @@ export function createSimulator<T, P>(
       currentPrivateState,
       currentZswapLocalState,
       originalState: currentContractState,
-      transactionContext: new QueryContext(
-        currentContractState.data,
-        sampleContractAddress()
-      )
-    }
+      transactionContext: new QueryContext(currentContractState.data, sampleContractAddress()),
+    },
   };
 }
 ```

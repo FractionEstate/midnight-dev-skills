@@ -1,7 +1,7 @@
 ---
 description: Prisma ORM development guidelines
 name: Prisma Database
-applyTo: "**/prisma/**,**/lib/prisma.ts,**/lib/db.ts"
+applyTo: '**/prisma/**,**/lib/prisma.ts,**/lib/db.ts'
 ---
 
 # Prisma Instructions
@@ -66,12 +66,12 @@ if (process.env.NODE_ENV !== 'production') {
 ```typescript
 // Select specific fields (smaller payload)
 const users = await prisma.user.findMany({
-  select: { id: true, name: true }
+  select: { id: true, name: true },
 });
 
 // Include relations
 const users = await prisma.user.findMany({
-  include: { posts: true }
+  include: { posts: true },
 });
 ```
 
@@ -82,9 +82,9 @@ const [items, total] = await Promise.all([
   prisma.post.findMany({
     take: 10,
     skip: (page - 1) * 10,
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: 'desc' },
   }),
-  prisma.post.count()
+  prisma.post.count(),
 ]);
 ```
 

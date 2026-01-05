@@ -1,232 +1,95 @@
-# Compact Standard Library
+# Compact Standard Library (v0.18)
 
-Essential functions for cryptographic operations, coin management, and utilities.
+This reference is intentionally **minimal and accurate**. For the authoritative API, see:
 
-## Hashing Functions
+- <https://docs.midnight.network/compact/compact-std-library>
+- <https://docs.midnight.network/compact/compact-std-library/exports>
 
-### transientHash
+## Hashing & commitments
 
-Temporary hash - disappears after transaction:
+From the official API:
+
+- `transientHash<T>(value: T): Field`
+- `transientCommit<T>(value: T, rand: Field): Field`
+- `persistentHash<T>(value: T): Bytes<32>`
+- `persistentCommit<T>(value: T, rand: Bytes<32>): Bytes<32>`
+
+Key nuance: `transientHash` / `persistentHash` **do not** automatically protect witness inputs from disclosure.
+If their input includes witness-derived values and the output flows to public state or an exported return,
+you must explicitly acknowledge that with `disclose(...)`.
+
+Commitments (`transientCommit` / `persistentCommit`) _are_ considered sufficient to protect witness inputs
+assuming the randomness is unpredictable.
 
 ```compact
-circuit createTemporaryCommitment(secret: Field, value: Uint<64>): Field {
-  return transientHash(secret, value);
+// Persistent identifiers (Bytes<32>)
+circuit idFor(x: Bytes<32>): Bytes<32> {
+  return persistentHash<Bytes<32>>(x);
 }
 
-// Multiple inputs
-circuit hashMultiple(a: Field, b: Field, c: Uint<64>): Field {
-  return transientHash(a, b, c);
+// Persistent commitment (Bytes<32>)
+circuit commitBid(bid: Uint<64>, nonce: Bytes<32>): Bytes<32> {
+  return persistentCommit(bid, nonce);
+}
+
+// Transient commitment (Field)
+circuit commitEphemeral(x: Field, rand: Field): Field {
+  return transientCommit(x, rand);
 }
 ```
 
-### persistentHash
+## Maybe and Either
 
-Permanent hash - stored on blockchain:
+In Compact v0.18, `Maybe<T>` and `Either<A,B>` are **structs**:
 
 ```compact
-circuit createPermanentHash(data: Bytes<32>): Field {
-  return persistentHash(data);
+struct Maybe<T> { isSome: Boolean, value: T }
+struct Either<A, B> { isLeft: Boolean, left: A, right: B }
+```
+
+Use the constructors provided by the standard library:
+
+```compact
+circuit ok<T, E>(x: T): Either<E, T> {
+  return right<E, T>(x);
 }
 
-circuit hashUser(user: User): Field {
-  return persistentHash(user.id, user.balance);
+circuit err<T, E>(e: E): Either<E, T> {
+  return left<E, T>(e);
 }
 ```
 
-### persistentCommit
+## Merkle helpers
 
-Commitment with blinding factor (hiding + binding):
+If you have a `MerkleTreePath`, you can derive a root with:
 
 ```compact
-witness randomness: Field;
-
-circuit createCommitment(value: Uint<64>): Field {
-  return persistentCommit(value, randomness);
+circuit rootOf<#n, T>(path: MerkleTreePath<n, T>): MerkleTreeDigest {
+  return merkleTreePathRoot<#n, T>(path);
 }
 ```
 
-### Hash Type Selection
+## Block time helpers
 
-| Function | Use Case | Persistence |
-| -------- | -------- | ----------- |
-| `transientHash` | Temp proofs, within-tx checks | No |
-| `persistentHash` | On-chain IDs, state roots | Yes |
-| `persistentCommit` | Hidden values with opening | Yes |
-
-## Elliptic Curve Operations
+The standard library exposes comparisons without requiring you to read the current time:
 
 ```compact
-// Point addition
-circuit addPoints(p1: CurvePoint, p2: CurvePoint): CurvePoint {
-  return ecAdd(p1, p2);
+circuit isExpired(deadline: Uint<64>): Boolean {
+  return blockTimeGte(deadline);
 }
 
-// Scalar multiplication
-circuit scalarMult(point: CurvePoint, scalar: Field): CurvePoint {
-  return ecMul(point, scalar);
-}
-
-// Derive public key from private
-circuit derivePublicKey(privateKey: Field): CurvePoint {
-  return ecMul(generator(), privateKey);
-}
-
-// Get generator point
-circuit getGenerator(): CurvePoint {
-  return generator();
+circuit isStillActive(deadline: Uint<64>): Boolean {
+  return blockTimeLt(deadline);
 }
 ```
 
-## Maybe Type (Optional Values)
+## Zswap coin management (signatures)
 
-```compact
-enum Maybe<T> {
-  None,
-  Some { value: T }
-}
+The coin-management API is powerful but easy to get wrong; keep your contract examples aligned with
+the official signatures:
 
-// Map lookup returns Maybe
-circuit safeGet(key: Bytes<32>): Maybe<Uint<64>> {
-  return balances.lookup(key);
-}
+- `mintToken(domainSep: Bytes<32>, value: Uint<128>, nonce: Bytes<32>, recipient: Either<ZswapCoinPublicKey, ContractAddress>): CoinInfo`
+- `receive(coin: CoinInfo): []`
+- `send(input: QualifiedCoinInfo, recipient: Either<ZswapCoinPublicKey, ContractAddress>, value: Uint<128>): SendResult`
 
-// Handle Maybe
-circuit processBalance(key: Bytes<32>): Uint<64> {
-  const result = balances.lookup(key);
-  match result {
-    Maybe::None => return 0,
-    Maybe::Some { value } => return value
-  }
-}
-```
-
-## Either Type (Result/Error)
-
-```compact
-enum Either<L, R> {
-  Left { value: L },   // Error
-  Right { value: R }   // Success
-}
-
-circuit divide(a: Uint<64>, b: Uint<64>): Either<Uint<8>, Uint<64>> {
-  if b == 0 {
-    return Either::Left { value: 1 };  // Error code
-  }
-  return Either::Right { value: a / b };
-}
-```
-
-## Coin Management
-
-### Token Operations
-
-```compact
-// Get native token (tDUST)
-circuit getNativeToken(): Bytes<32> {
-  return nativeToken();
-}
-
-// Check if native token
-circuit isNativeToken(token: Bytes<32>): Boolean {
-  return token == nativeToken();
-}
-```
-
-### Send Coins
-
-```compact
-circuit sendPayment(token: Bytes<32>, amount: Uint<64>, recipient: Bytes<32>): [] {
-  send(token, amount, recipient);
-}
-
-// Multiple sends
-circuit splitPayment(
-  token: Bytes<32>,
-  amounts: Vector<3, Uint<64>>,
-  recipients: Vector<3, Bytes<32>>
-): [] {
-  for i in 0..3 {
-    send(token, amounts[i], recipients[i]);
-  }
-}
-```
-
-### Receive Coins
-
-```compact
-circuit receivePayment(token: Bytes<32>, expectedAmount: Uint<64>): [] {
-  receive(token, expectedAmount);
-}
-
-circuit receiveAndValidate(token: Bytes<32>, minAmount: Uint<64>): Uint<64> {
-  const received = receiveAmount(token);
-  assert received >= minAmount;
-  return received;
-}
-```
-
-### Mint Tokens
-
-```compact
-circuit mintTokens(tokenId: Bytes<32>, amount: Uint<64>, recipient: Bytes<32>): [] {
-  mintToken(tokenId, amount, recipient);
-}
-```
-
-## Block Time Access
-
-```compact
-// Get current block timestamp
-circuit checkExpiration(deadline: Uint<64>): Boolean {
-  return blockTime() >= deadline;
-}
-
-// Time-locked operation
-circuit timeLockedWithdraw(unlockTime: Uint<64>): [] {
-  assert blockTime() >= unlockTime;
-  // Proceed with withdrawal
-}
-
-// Set future deadline
-circuit setDeadline(durationSeconds: Uint<64>): Uint<64> {
-  return blockTime() + durationSeconds;
-}
-```
-
-## Disclosure & Assertion
-
-```compact
-// Make private value public
-circuit revealValue(secretValue: Uint<64>): [] {
-  disclose(secretValue);
-}
-
-// Assert conditions
-circuit validateInput(value: Uint<64>): [] {
-  assert value > 0;
-  assert value <= 1000;
-}
-
-circuit ensureAuthorized(caller: Bytes<32>, owner: Bytes<32>): [] {
-  assert caller == owner;
-}
-```
-
-## Function Reference
-
-| Function | Parameters | Returns | Description |
-| -------- | ---------- | ------- | ----------- |
-| `transientHash(...)` | Any values | `Field` | Temporary hash |
-| `persistentHash(...)` | Any values | `Field` | Permanent hash |
-| `persistentCommit(v, r)` | Value, randomness | `Field` | Commitment |
-| `ecAdd(p1, p2)` | CurvePoints | `CurvePoint` | Point addition |
-| `ecMul(p, s)` | Point, scalar | `CurvePoint` | Scalar mult |
-| `generator()` | None | `CurvePoint` | Generator |
-| `nativeToken()` | None | `Bytes<32>` | tDUST type |
-| `tokenType()` | None | `Bytes<32>` | Current token |
-| `send(t, a, r)` | Token, amount, recipient | `[]` | Send coins |
-| `receive(t, a)` | Token, amount | `[]` | Receive coins |
-| `mintToken(t, a, r)` | Token, amount, recipient | `[]` | Mint tokens |
-| `blockTime()` | None | `Uint<64>` | Current time |
-| `disclose(v)` | Value | `[]` | Make public |
-| `assert(c)` | Boolean | `[]` | Verify condition |
+For full examples, prefer linking to the official docs rather than maintaining large bespoke snippets here.

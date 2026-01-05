@@ -3,7 +3,7 @@ name: nextjs
 description: Next.js 16.1+ App Router patterns including Server Components, Client Components, Server Actions, Route Handlers, Turbopack, MCP integration, and modern React patterns. Use when building pages, layouts, data fetching, or API routes. Triggers on Next.js, App Router, RSC, or Server Actions questions.
 metadata:
   author: FractionEstate
-  version: "16.1.1"
+  version: '16.1.1'
 ---
 
 # Next.js App Router
@@ -38,13 +38,13 @@ Next.js 16+ includes MCP support for AI coding agents via `next-devtools-mcp`:
 
 ### Available Tools
 
-| Tool | Purpose |
-| ---- | ------- |
-| `get_errors` | Build errors, runtime errors, and type errors |
-| `get_logs` | Dev log file path (browser console, server output) |
-| `get_page_metadata` | Routes, components, rendering info |
-| `get_project_metadata` | Project structure, config, dev server URL |
-| `get_server_action_by_id` | Lookup Server Actions by ID |
+| Tool                      | Purpose                                            |
+| ------------------------- | -------------------------------------------------- |
+| `get_errors`              | Build errors, runtime errors, and type errors      |
+| `get_logs`                | Dev log file path (browser console, server output) |
+| `get_page_metadata`       | Routes, components, rendering info                 |
+| `get_project_metadata`    | Project structure, config, dev server URL          |
+| `get_server_action_by_id` | Lookup Server Actions by ID                        |
 
 ### Capabilities
 
@@ -69,7 +69,7 @@ export default async function PostsPage() {
 
   return (
     <ul>
-      {posts.map(post => (
+      {posts.map((post) => (
         <li key={post.id}>{post.title}</li>
       ))}
     </ul>
@@ -88,7 +88,7 @@ import { useState } from 'react';
 
 export function Counter() {
   const [count, setCount] = useState(0);
-  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
 }
 ```
 
@@ -109,14 +109,14 @@ export async function createPost(formData: FormData) {
 
 ## File Conventions
 
-| File | Purpose |
-| ---- | ------- |
-| `page.tsx` | Unique UI for route |
-| `layout.tsx` | Shared UI wrapper |
-| `loading.tsx` | Loading UI (Suspense) |
-| `error.tsx` | Error boundary |
-| `not-found.tsx` | 404 UI |
-| `route.ts` | API endpoint |
+| File            | Purpose               |
+| --------------- | --------------------- |
+| `page.tsx`      | Unique UI for route   |
+| `layout.tsx`    | Shared UI wrapper     |
+| `loading.tsx`   | Loading UI (Suspense) |
+| `error.tsx`     | Error boundary        |
+| `not-found.tsx` | 404 UI                |
+| `route.ts`      | API endpoint          |
 
 ## References
 

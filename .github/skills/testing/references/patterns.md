@@ -37,9 +37,9 @@ describe('FeatureName', () => {
 
 ```typescript
 // Equality
-expect(value).toBe(5);                    // Strict equality (===)
-expect(object).toEqual({ a: 1 });         // Deep equality
-expect(object).toStrictEqual({ a: 1 });   // Strict deep equality
+expect(value).toBe(5); // Strict equality (===)
+expect(object).toEqual({ a: 1 }); // Deep equality
+expect(object).toStrictEqual({ a: 1 }); // Strict deep equality
 
 // Truthiness
 expect(value).toBeTruthy();
@@ -52,7 +52,7 @@ expect(value).toBeDefined();
 expect(value).toBeGreaterThan(5);
 expect(value).toBeGreaterThanOrEqual(5);
 expect(value).toBeLessThan(10);
-expect(value).toBeCloseTo(0.3, 5);        // Floating point
+expect(value).toBeCloseTo(0.3, 5); // Floating point
 
 // Strings
 expect(string).toMatch(/pattern/);
@@ -61,7 +61,7 @@ expect(string).toHaveLength(5);
 
 // Arrays
 expect(array).toContain(item);
-expect(array).toContainEqual({ id: 1 });  // Deep equality
+expect(array).toContainEqual({ id: 1 }); // Deep equality
 expect(array).toHaveLength(3);
 
 // Objects

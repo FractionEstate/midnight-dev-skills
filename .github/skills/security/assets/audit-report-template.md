@@ -21,9 +21,9 @@ Brief overview of the audit findings and overall security posture.
 
 ### Contracts Reviewed
 
-| File                     | SHA256       |
-| ------------------------ | ------------ |
-| contracts/main.compact   | `abc123...`  |
+| File                   | SHA256      |
+| ---------------------- | ----------- |
+| contracts/main.compact | `abc123...` |
 
 ### Out of Scope
 
@@ -97,4 +97,4 @@ Summary of overall security posture and recommended next steps.
 
 ---
 
-*This audit is not a guarantee of security. It represents a point-in-time review based on the information provided.*
+_This audit is not a guarantee of security. It represents a point-in-time review based on the information provided._

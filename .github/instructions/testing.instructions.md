@@ -1,7 +1,7 @@
 ---
 description: Testing guidelines for Midnight Network contracts and dApps
 name: Testing Guidelines
-applyTo: "**/test/**,**/*.test.ts,**/*.spec.ts"
+applyTo: '**/test/**,**/*.test.ts,**/*.spec.ts'
 ---
 
 # Midnight Contract Testing Guidelines
@@ -22,8 +22,8 @@ export default defineConfig({
     environment: 'node',
     include: ['test/**/*.test.ts', 'contracts/**/*.test.ts'],
     testTimeout: 60000, // Proof generation can be slow
-    hookTimeout: 30000
-  }
+    hookTimeout: 30000,
+  },
 });
 ```
 
@@ -50,8 +50,12 @@ afterAll(async () => {
 ### Simulator Pattern
 
 ```typescript
-import { constructorContext, QueryContext, sampleContractAddress } from "@midnight-ntwrk/compact-runtime";
-import { Contract, ledger } from "../managed/mycontract/contract/index.cjs";
+import {
+  constructorContext,
+  QueryContext,
+  sampleContractAddress,
+} from '@midnight-ntwrk/compact-runtime';
+import { Contract, ledger } from '../managed/mycontract/contract/index.cjs';
 
 export class MyContractSimulator {
   readonly contract: Contract<PrivateState>;
@@ -60,13 +64,13 @@ export class MyContractSimulator {
   constructor(initialPrivateState: PrivateState) {
     this.contract = new Contract<PrivateState>(witnesses);
     const { currentPrivateState, currentContractState, currentZswapLocalState } =
-      this.contract.initialState(constructorContext(initialPrivateState, "0".repeat(64)));
+      this.contract.initialState(constructorContext(initialPrivateState, '0'.repeat(64)));
 
     this.circuitContext = {
       currentPrivateState,
       currentZswapLocalState,
       originalState: currentContractState,
-      transactionContext: new QueryContext(currentContractState.data, sampleContractAddress())
+      transactionContext: new QueryContext(currentContractState.data, sampleContractAddress()),
     };
   }
 
@@ -86,7 +90,7 @@ export class MyContractSimulator {
 ```typescript
 import { describe, it, expect, beforeEach } from 'vitest';
 import { MyContractSimulator } from './simulator';
-import { setNetworkId, NetworkId } from "@midnight-ntwrk/midnight-js-network-id";
+import { setNetworkId, NetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 
 setNetworkId(NetworkId.Undeployed);
 
@@ -161,7 +165,7 @@ describe('Integration', () => {
   beforeAll(async () => {
     contract = await deployContract(providers, {
       contract: MyContractFactory,
-      initialPrivateState: {}
+      initialPrivateState: {},
     });
   });
 

@@ -59,11 +59,7 @@ Example task (from the docs):
         "clear": true,
         "revealProblems": "onProblem"
       },
-      "problemMatcher": [
-        "$compactException",
-        "$compactInternal",
-        "$compactCommandNotFound"
-      ]
+      "problemMatcher": ["$compactException", "$compactInternal", "$compactCommandNotFound"]
     }
   ]
 }

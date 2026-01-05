@@ -27,11 +27,11 @@ expect(simulator.ledger.counter).toBe(1n);
 
 ## Reference Files
 
-| Topic | Resource |
-| ----- | -------- |
+| Topic               | Resource                                                       |
+| ------------------- | -------------------------------------------------------------- |
 | **Simulator Setup** | [references/simulator-setup.md](references/simulator-setup.md) |
-| **Test Patterns** | [references/test-patterns.md](references/test-patterns.md) |
-| **Debugging** | [references/debugging.md](references/debugging.md) |
+| **Test Patterns**   | [references/test-patterns.md](references/test-patterns.md)     |
+| **Debugging**       | [references/debugging.md](references/debugging.md)             |
 
 ## Test Environment
 
@@ -106,9 +106,7 @@ it('should update ledger state', async () => {
 
 ```typescript
 it('should reject invalid input', async () => {
-  await expect(
-    simulator.call('withdraw', { amount: 1000n })
-  ).rejects.toThrow('Assertion failed');
+  await expect(simulator.call('withdraw', { amount: 1000n })).rejects.toThrow('Assertion failed');
 });
 ```
 
@@ -118,7 +116,7 @@ it('should reject invalid input', async () => {
 it('should not reveal private inputs', async () => {
   const result = await simulator.call('checkBalance', {
     balance: 1000n,
-    required: 500n
+    required: 500n,
   });
 
   // Result is boolean, not actual balance
@@ -140,13 +138,13 @@ it('should not reveal private inputs', async () => {
 
 ## Test Categories
 
-| Category | Tests |
-| -------- | ----- |
-| **Unit** | Individual circuit functions |
-| **Integration** | Multi-circuit workflows |
-| **State** | Ledger state transitions |
-| **Error** | Assertion failures |
-| **Privacy** | Data not leaked |
+| Category        | Tests                        |
+| --------------- | ---------------------------- |
+| **Unit**        | Individual circuit functions |
+| **Integration** | Multi-circuit workflows      |
+| **State**       | Ledger state transitions     |
+| **Error**       | Assertion failures           |
+| **Privacy**     | Data not leaked              |
 
 ## Running Tests
 

@@ -19,7 +19,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 
 ```css
 /* app.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Colors using OKLCH for better perceptual uniformity */
@@ -29,8 +29,8 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
   --color-primary-900: oklch(0.25 0.1 250);
 
   /* Typography */
-  --font-family-sans: "Inter", system-ui, sans-serif;
-  --font-family-mono: "JetBrains Mono", monospace;
+  --font-family-sans: 'Inter', system-ui, sans-serif;
+  --font-family-mono: 'JetBrains Mono', monospace;
 
   /* Spacing scale */
   --spacing-18: 4.5rem;
@@ -48,8 +48,14 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 ```
 
@@ -83,15 +89,13 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ### Card Component
 
 ```html
-<div class="rounded-2xl bg-white p-6 shadow-soft
+<div
+  class="rounded-2xl bg-white p-6 shadow-soft
             ring-1 ring-black/5
-            dark:bg-gray-900 dark:ring-white/10">
-  <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-    Card Title
-  </h3>
-  <p class="mt-2 text-gray-600 dark:text-gray-400">
-    Card description text
-  </p>
+            dark:bg-gray-900 dark:ring-white/10"
+>
+  <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Card Title</h3>
+  <p class="mt-2 text-gray-600 dark:text-gray-400">Card description text</p>
 </div>
 ```
 
@@ -99,28 +103,34 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 
 ```html
 <!-- Primary -->
-<button class="rounded-lg bg-primary-500 px-4 py-2
+<button
+  class="rounded-lg bg-primary-500 px-4 py-2
                font-medium text-white
                hover:bg-primary-600
                focus-visible:outline-2 focus-visible:outline-offset-2
                focus-visible:outline-primary-500
-               active:scale-[0.98] transition-all">
+               active:scale-[0.98] transition-all"
+>
   Primary Button
 </button>
 
 <!-- Secondary -->
-<button class="rounded-lg bg-gray-100 px-4 py-2
+<button
+  class="rounded-lg bg-gray-100 px-4 py-2
                font-medium text-gray-900
                hover:bg-gray-200
-               dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+               dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+>
   Secondary Button
 </button>
 
 <!-- Outline -->
-<button class="rounded-lg border border-gray-300 px-4 py-2
+<button
+  class="rounded-lg border border-gray-300 px-4 py-2
                font-medium text-gray-700
                hover:bg-gray-50
-               dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800">
+               dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800"
+>
   Outline Button
 </button>
 ```
@@ -129,9 +139,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 
 ```html
 <div>
-  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-    Email
-  </label>
+  <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"> Email </label>
   <input
     type="email"
     class="mt-1 block w-full rounded-lg border-gray-300
@@ -156,10 +164,12 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ### Mobile-First Grid
 
 ```html
-<div class="grid grid-cols-1 gap-6
+<div
+  class="grid grid-cols-1 gap-6
             sm:grid-cols-2
             lg:grid-cols-3
-            xl:grid-cols-4">
+            xl:grid-cols-4"
+>
   <!-- Items -->
 </div>
 ```
@@ -185,9 +195,11 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ```html
 <a class="group relative inline-block">
   <span class="relative z-10">Hover me</span>
-  <span class="absolute inset-0 -z-10 scale-x-0 bg-primary-100
+  <span
+    class="absolute inset-0 -z-10 scale-x-0 bg-primary-100
                transition-transform origin-left
-               group-hover:scale-x-100 rounded-lg" />
+               group-hover:scale-x-100 rounded-lg"
+  />
 </a>
 ```
 
@@ -195,8 +207,10 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 
 ```html
 <!-- Spinner -->
-<div class="animate-spin h-5 w-5 border-2 border-primary-500
-            border-t-transparent rounded-full" />
+<div
+  class="animate-spin h-5 w-5 border-2 border-primary-500
+            border-t-transparent rounded-full"
+/>
 
 <!-- Skeleton -->
 <div class="animate-pulse space-y-3">
@@ -206,9 +220,11 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 
 <!-- Shimmer -->
 <div class="relative overflow-hidden bg-gray-200 rounded">
-  <div class="absolute inset-0 -translate-x-full
+  <div
+    class="absolute inset-0 -translate-x-full
               bg-gradient-to-r from-transparent via-white/50 to-transparent
-              animate-[shimmer_2s_infinite]" />
+              animate-[shimmer_2s_infinite]"
+  />
 </div>
 ```
 
@@ -217,10 +233,11 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ```html
 <!-- System preference -->
 <html class="dark:bg-gray-950">
-
-<!-- With dark mode toggle -->
-<html class="dark">
-  <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+  <!-- With dark mode toggle -->
+  <html class="dark">
+    <body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100"></body>
+  </html>
+</html>
 ```
 
 ```css
@@ -243,10 +260,12 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ### Focus Styles
 
 ```html
-<button class="focus:outline-none
+<button
+  class="focus:outline-none
                focus-visible:ring-2
                focus-visible:ring-primary-500
-               focus-visible:ring-offset-2">
+               focus-visible:ring-offset-2"
+>
   Accessible Button
 </button>
 ```
@@ -260,9 +279,7 @@ Tailwind v4 uses CSS variables and `@theme` directive instead of `tailwind.confi
 ### Motion Preferences
 
 ```html
-<div class="animate-bounce motion-reduce:animate-none">
-  Respects reduced motion
-</div>
+<div class="animate-bounce motion-reduce:animate-none">Respects reduced motion</div>
 ```
 
 ## References

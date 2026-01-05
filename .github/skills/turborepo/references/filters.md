@@ -129,15 +129,15 @@ turbo test --filter="[HEAD^1]..."
 
 ## Package Selection Logic
 
-| Filter | Selects |
-| ------ | ------- |
-| `web` | Package named "web" |
-| `web...` | web + its dependencies |
-| `...web` | web + its dependents |
-| `web^...` | Only web's dependencies |
-| `...^web` | Only web's dependents |
-| `[main]` | Changed since main |
-| `...[main]` | Changed + their dependents |
+| Filter      | Selects                      |
+| ----------- | ---------------------------- |
+| `web`       | Package named "web"          |
+| `web...`    | web + its dependencies       |
+| `...web`    | web + its dependents         |
+| `web^...`   | Only web's dependencies      |
+| `...^web`   | Only web's dependents        |
+| `[main]`    | Changed since main           |
+| `...[main]` | Changed + their dependents   |
 | `[main]...` | Changed + their dependencies |
 
 ## Common Workflows

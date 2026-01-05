@@ -11,42 +11,19 @@
   "daemon": true,
   "cacheDir": ".turbo/cache",
 
-  "globalDependencies": [
-    ".env",
-    ".env.local"
-  ],
+  "globalDependencies": [".env", ".env.local"],
 
-  "globalEnv": [
-    "CI",
-    "VERCEL",
-    "NODE_ENV"
-  ],
+  "globalEnv": ["CI", "VERCEL", "NODE_ENV"],
 
-  "globalPassThroughEnv": [
-    "AWS_ACCESS_KEY",
-    "GITHUB_TOKEN"
-  ],
+  "globalPassThroughEnv": ["AWS_ACCESS_KEY", "GITHUB_TOKEN"],
 
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*",
-        "!.env.local"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "dist/**",
-        "build/**"
-      ],
+      "inputs": ["$TURBO_DEFAULT$", ".env*", "!.env.local"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"],
       "outputLogs": "new-only",
-      "env": [
-        "DATABASE_URL",
-        "NEXT_PUBLIC_*",
-        "!GITHUB_*"
-      ]
+      "env": ["DATABASE_URL", "NEXT_PUBLIC_*", "!GITHUB_*"]
     },
 
     "dev": {
@@ -69,18 +46,9 @@
 
     "test": {
       "dependsOn": ["build"],
-      "inputs": [
-        "src/**",
-        "test/**",
-        "tests/**"
-      ],
-      "outputs": [
-        "coverage/**"
-      ],
-      "env": [
-        "DATABASE_URL",
-        "TEST_DATABASE_URL"
-      ]
+      "inputs": ["src/**", "test/**", "tests/**"],
+      "outputs": ["coverage/**"],
+      "env": ["DATABASE_URL", "TEST_DATABASE_URL"]
     },
 
     "test:watch": {
@@ -144,12 +112,12 @@
 {
   "build": {
     "inputs": [
-      "$TURBO_DEFAULT$",      // All non-gitignored files (restores defaults)
-      ".env.production",       // Include specific file
-      "!.env.local",          // Exclude file
-      "!**/*.test.ts",        // Exclude pattern
-      "src/**/*.{ts,tsx}",    // Glob pattern
-      "$TURBO_ROOT$/tsconfig.json"  // Reference repository root
+      "$TURBO_DEFAULT$", // All non-gitignored files (restores defaults)
+      ".env.production", // Include specific file
+      "!.env.local", // Exclude file
+      "!**/*.test.ts", // Exclude pattern
+      "src/**/*.{ts,tsx}", // Glob pattern
+      "$TURBO_ROOT$/tsconfig.json" // Reference repository root
     ]
   }
 }
@@ -184,9 +152,9 @@ Note: `package.json`, `turbo.json`, and lockfiles are always included in inputs 
     "outputs": [
       "dist/**",
       ".next/**",
-      "!.next/cache/**",      // Exclude cache
+      "!.next/cache/**", // Exclude cache
       "build/**",
-      "*.tgz"                 // Pack output
+      "*.tgz" // Pack output
     ]
   }
 }
@@ -203,10 +171,10 @@ Note: `package.json`, `turbo.json`, and lockfiles are always included in inputs 
     "build": {
       "env": [
         "DATABASE_URL",
-        "NEXT_PUBLIC_*",        // Wildcard: all NEXT_PUBLIC_ vars
-        "!GITHUB_*"             // Negation: exclude from strict mode filtering
+        "NEXT_PUBLIC_*", // Wildcard: all NEXT_PUBLIC_ vars
+        "!GITHUB_*" // Negation: exclude from strict mode filtering
       ],
-      "passThroughEnv": ["AWS_SECRET"]   // Available but doesn't affect cache
+      "passThroughEnv": ["AWS_SECRET"] // Available but doesn't affect cache
     }
   }
 }
@@ -231,13 +199,13 @@ Controls how environment variables are handled:
 ```json
 {
   "build": {
-    "outputLogs": "full"      // Always show logs
+    "outputLogs": "full" // Always show logs
   },
   "lint": {
     "outputLogs": "errors-only" // Only on errors
   },
   "test": {
-    "outputLogs": "new-only"  // Only on cache miss
+    "outputLogs": "new-only" // Only on cache miss
   }
 }
 ```
@@ -330,7 +298,7 @@ TURBO_TEAM="your-team"
 # Ensure full git history for --affected and filter flags
 - uses: actions/checkout@v4
   with:
-    fetch-depth: 0  # Required for --affected flag
+    fetch-depth: 0 # Required for --affected flag
 
 # Run only affected tasks
 - run: turbo run build --affected

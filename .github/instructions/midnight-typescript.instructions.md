@@ -1,7 +1,7 @@
 ---
 description: TypeScript guidelines for Midnight Network dApp development
 name: Midnight TypeScript
-applyTo: "**/*.{ts,tsx}"
+applyTo: '**/*.{ts,tsx}'
 ---
 
 # Midnight dApp TypeScript Guidelines
@@ -14,22 +14,30 @@ You are an expert in building Midnight Network dApps with TypeScript and Next.js
 
 ```typescript
 // DApp Connector (augments window.midnight)
-import "@midnight-ntwrk/dapp-connector-api";
+import '@midnight-ntwrk/dapp-connector-api';
 import type {
   DAppConnectorAPI,
   DAppConnectorWalletAPI,
   DAppConnectorWalletState,
-  ServiceUriConfig
+  ServiceUriConfig,
 } from '@midnight-ntwrk/dapp-connector-api';
 
 // Network configuration
 import { NetworkId, setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 
 // Transactions
-import type { Transaction, TransactionId, UnbalancedTransaction } from '@midnight-ntwrk/midnight-js-types';
+import type {
+  Transaction,
+  TransactionId,
+  UnbalancedTransaction,
+} from '@midnight-ntwrk/midnight-js-types';
 
 // Contract interaction
-import { deployContract, callContract, ContractInstance } from '@midnight-ntwrk/midnight-js-contracts';
+import {
+  deployContract,
+  callContract,
+  ContractInstance,
+} from '@midnight-ntwrk/midnight-js-contracts';
 
 // Ledger types
 import type { ContractAddress, TransactionIdentifier } from '@midnight-ntwrk/ledger';
@@ -44,7 +52,7 @@ Access the Lace wallet via `window.midnight.mnLace`:
 
 ```typescript
 // Import augments window global automatically
-import "@midnight-ntwrk/dapp-connector-api";
+import '@midnight-ntwrk/dapp-connector-api';
 
 // Check availability
 const isInstalled = () => !!window.midnight?.mnLace;
@@ -107,10 +115,10 @@ export function WalletButton() {
 
 ```typescript
 const TESTNET_CONFIG = {
-  indexer: "https://indexer.testnet-02.midnight.network/api/v1/graphql",
-  indexerWS: "wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws",
-  node: "https://rpc.testnet-02.midnight.network",
-  proofServer: "http://localhost:6300"
+  indexer: 'https://indexer.testnet-02.midnight.network/api/v1/graphql',
+  indexerWS: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws',
+  node: 'https://rpc.testnet-02.midnight.network',
+  proofServer: 'http://localhost:6300',
 };
 ```
 
@@ -121,11 +129,8 @@ import { indexerPublicDataProvider } from '@midnight-ntwrk/midnight-js-indexer-p
 import { httpClientProofProvider } from '@midnight-ntwrk/midnight-js-http-client-proof-provider';
 
 export const providers = {
-  publicDataProvider: indexerPublicDataProvider(
-    TESTNET_CONFIG.indexer,
-    TESTNET_CONFIG.indexerWS
-  ),
-  proofProvider: httpClientProofProvider(TESTNET_CONFIG.proofServer)
+  publicDataProvider: indexerPublicDataProvider(TESTNET_CONFIG.indexer, TESTNET_CONFIG.indexerWS),
+  proofProvider: httpClientProofProvider(TESTNET_CONFIG.proofServer),
 };
 ```
 
@@ -138,7 +143,7 @@ import { deployContract } from '@midnight-ntwrk/midnight-js-contracts';
 
 const deployed = await deployContract(providers, {
   contract: MyContractFactory,
-  initialPrivateState: { secretKey: new Uint8Array(32) }
+  initialPrivateState: { secretKey: new Uint8Array(32) },
 });
 
 console.log('Contract address:', deployed.contractAddress);
@@ -149,7 +154,7 @@ console.log('Contract address:', deployed.contractAddress);
 ```typescript
 const result = await deployed.call.myCircuit({
   arg1: 100n,
-  arg2: true
+  arg2: true,
 });
 
 await result.wait(); // Wait for confirmation
@@ -183,7 +188,7 @@ import type { MyContractTypes } from '../managed/mycontract/contract';
 // Use typed parameters
 const params: MyContractTypes.TransferParams = {
   recipient: address,
-  amount: 100n
+  amount: 100n,
 };
 ```
 

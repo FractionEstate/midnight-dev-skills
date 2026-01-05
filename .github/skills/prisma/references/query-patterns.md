@@ -214,25 +214,28 @@ const [user, post] = await prisma.$transaction([
 ]);
 
 // Interactive transaction
-const result = await prisma.$transaction(async (tx) => {
-  const user = await tx.user.findUnique({ where: { id: userId } });
-  if (!user) throw new Error('User not found');
+const result = await prisma.$transaction(
+  async (tx) => {
+    const user = await tx.user.findUnique({ where: { id: userId } });
+    if (!user) throw new Error('User not found');
 
-  const balance = await tx.account.update({
-    where: { userId: user.id },
-    data: { balance: { decrement: amount } },
-  });
+    const balance = await tx.account.update({
+      where: { userId: user.id },
+      data: { balance: { decrement: amount } },
+    });
 
-  if (balance.balance < 0) {
-    throw new Error('Insufficient balance');
+    if (balance.balance < 0) {
+      throw new Error('Insufficient balance');
+    }
+
+    return balance;
+  },
+  {
+    maxWait: 5000, // 5s max wait to start
+    timeout: 10000, // 10s timeout
+    isolationLevel: 'Serializable',
   }
-
-  return balance;
-}, {
-  maxWait: 5000, // 5s max wait to start
-  timeout: 10000, // 10s timeout
-  isolationLevel: 'Serializable',
-});
+);
 ```
 
 ## Aggregations

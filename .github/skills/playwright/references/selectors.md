@@ -100,37 +100,29 @@ page.locator('//div[@class="card"]//button');
 ### Filter by Text
 
 ```typescript
-page.getByRole('listitem')
-  .filter({ hasText: 'Product Name' });
+page.getByRole('listitem').filter({ hasText: 'Product Name' });
 
-page.getByRole('listitem')
-  .filter({ hasNotText: 'Out of stock' });
+page.getByRole('listitem').filter({ hasNotText: 'Out of stock' });
 ```
 
 ### Filter by Locator
 
 ```typescript
 // Find list item that contains a "Buy" button
-page.getByRole('listitem')
-  .filter({ has: page.getByRole('button', { name: 'Buy' }) });
+page.getByRole('listitem').filter({ has: page.getByRole('button', { name: 'Buy' }) });
 
 // Find card without a badge
-page.locator('.card')
-  .filter({ hasNot: page.locator('.badge') });
+page.locator('.card').filter({ hasNot: page.locator('.badge') });
 ```
 
 ### Chaining
 
 ```typescript
 // Scope within element
-page.getByRole('article')
-  .getByRole('heading');
+page.getByRole('article').getByRole('heading');
 
 // Multiple levels
-page.getByRole('main')
-  .getByRole('article')
-  .first()
-  .getByRole('button');
+page.getByRole('main').getByRole('article').first().getByRole('button');
 ```
 
 ## Nth Selection

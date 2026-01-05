@@ -15,7 +15,7 @@ Common issues and solutions for Midnight dApp development.
 3. Wait for wallet injection (may load after page):
 
 ```typescript
-await new Promise(r => setTimeout(r, 1000));
+await new Promise((r) => setTimeout(r, 1000));
 const hasWallet = !!window.midnight;
 ```
 

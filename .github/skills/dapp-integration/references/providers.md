@@ -4,12 +4,12 @@ Configure providers for contract deployment and interaction.
 
 ## Provider Overview
 
-| Provider | Package | Purpose |
-| -------- | ------- | ------- |
+| Provider               | Package                                                    | Purpose             |
+| ---------------------- | ---------------------------------------------------------- | ------------------- |
 | `privateStateProvider` | `@midnight-ntwrk/midnight-js-level-private-state-provider` | Local private state |
-| `publicDataProvider` | `@midnight-ntwrk/midnight-js-indexer-public-data-provider` | Blockchain queries |
-| `zkConfigProvider` | `@midnight-ntwrk/midnight-js-node-zk-config-provider` | ZK circuit config |
-| `proofProvider` | `@midnight-ntwrk/midnight-js-http-client-proof-provider` | Proof generation |
+| `publicDataProvider`   | `@midnight-ntwrk/midnight-js-indexer-public-data-provider` | Blockchain queries  |
+| `zkConfigProvider`     | `@midnight-ntwrk/midnight-js-node-zk-config-provider`      | ZK circuit config   |
+| `proofProvider`        | `@midnight-ntwrk/midnight-js-http-client-proof-provider`   | Proof generation    |
 
 ## Installation
 
@@ -26,10 +26,7 @@ npm install @midnight-ntwrk/midnight-js-contracts \
 ## Network Configuration
 
 ```typescript
-import {
-  NetworkId,
-  setNetworkId
-} from '@midnight-ntwrk/midnight-js-network-id';
+import { NetworkId, setNetworkId } from '@midnight-ntwrk/midnight-js-network-id';
 
 // MUST be called before using any providers
 setNetworkId(NetworkId.TestNet);
@@ -38,7 +35,7 @@ const TESTNET_CONFIG = {
   indexer: 'https://indexer.testnet-02.midnight.network/api/v1/graphql',
   indexerWS: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws',
   proofServer: 'http://localhost:6300',
-  node: 'https://rpc.testnet-02.midnight.network'
+  node: 'https://rpc.testnet-02.midnight.network',
 };
 ```
 
@@ -50,7 +47,7 @@ Manages local private state using LevelDB:
 import { levelPrivateStateProvider } from '@midnight-ntwrk/midnight-js-level-private-state-provider';
 
 const privateStateProvider = levelPrivateStateProvider({
-  privateStateStoreName: 'my-contract-state'
+  privateStateStoreName: 'my-contract-state',
 });
 ```
 
@@ -69,7 +66,7 @@ function memoryPrivateStateProvider<T>() {
     },
     async clear(id: string): Promise<void> {
       store.delete(id);
-    }
+    },
   };
 }
 ```
@@ -112,9 +109,7 @@ Loads circuit configuration:
 ```typescript
 import { nodeZkConfigProvider } from '@midnight-ntwrk/midnight-js-node-zk-config-provider';
 
-const zkConfigProvider = nodeZkConfigProvider(
-  './contracts/managed/my-contract'
-);
+const zkConfigProvider = nodeZkConfigProvider('./contracts/managed/my-contract');
 ```
 
 ### Browser ZK Config
@@ -123,7 +118,7 @@ const zkConfigProvider = nodeZkConfigProvider(
 import { httpClientZkConfigProvider } from '@midnight-ntwrk/midnight-js-http-client-zk-config-provider';
 
 const zkConfigProvider = httpClientZkConfigProvider(
-  '/contracts/my-contract'  // Served from public folder
+  '/contracts/my-contract' // Served from public folder
 );
 ```
 
@@ -134,9 +129,7 @@ Connects to proof server for ZK proof generation:
 ```typescript
 import { httpClientProofProvider } from '@midnight-ntwrk/midnight-js-http-client-proof-provider';
 
-const proofProvider = httpClientProofProvider(
-  TESTNET_CONFIG.proofServer
-);
+const proofProvider = httpClientProofProvider(TESTNET_CONFIG.proofServer);
 ```
 
 ## Wallet Provider
@@ -156,7 +149,7 @@ function createWalletProvider(walletApi: DAppConnectorWalletAPI): WalletProvider
 
     async submitTransaction(tx) {
       return await walletApi.submitTransaction(tx);
-    }
+    },
   };
 }
 ```
@@ -175,21 +168,14 @@ export async function setupProviders(walletApi: DAppConnectorWalletAPI) {
 
   // Create providers
   const privateStateProvider = levelPrivateStateProvider({
-    privateStateStoreName: 'my-dapp-state'
+    privateStateStoreName: 'my-dapp-state',
   });
 
-  const publicDataProvider = indexerPublicDataProvider(
-    uris.indexer,
-    uris.indexerWS
-  );
+  const publicDataProvider = indexerPublicDataProvider(uris.indexer, uris.indexerWS);
 
-  const zkConfigProvider = nodeZkConfigProvider(
-    './contracts/managed/my-contract'
-  );
+  const zkConfigProvider = nodeZkConfigProvider('./contracts/managed/my-contract');
 
-  const proofProvider = httpClientProofProvider(
-    uris.proofServer
-  );
+  const proofProvider = httpClientProofProvider(uris.proofServer);
 
   const walletProvider = createWalletProvider(walletApi);
 
@@ -198,7 +184,7 @@ export async function setupProviders(walletApi: DAppConnectorWalletAPI) {
     publicDataProvider,
     zkConfigProvider,
     proofProvider,
-    walletProvider
+    walletProvider,
   };
 }
 ```
@@ -214,7 +200,7 @@ export function createContractConfig(providers: Providers) {
     publicDataProvider: providers.publicDataProvider,
     zkConfigProvider: providers.zkConfigProvider,
     proofProvider: providers.proofProvider,
-    wallet: providers.walletProvider
+    wallet: providers.walletProvider,
   };
 }
 ```

@@ -70,13 +70,13 @@ Configure a complete CI/CD pipeline with GitHub Actions.
 
 ```yaml
 # Required in GitHub Secrets
-VERCEL_TOKEN: "..."        # For Vercel deployments
-TURBO_TOKEN: "..."         # For remote caching
-DATABASE_URL: "..."        # For test database
-CODECOV_TOKEN: "..."       # For coverage
+VERCEL_TOKEN: '...' # For Vercel deployments
+TURBO_TOKEN: '...' # For remote caching
+DATABASE_URL: '...' # For test database
+CODECOV_TOKEN: '...' # For coverage
 
 # Required in GitHub Variables
-TURBO_TEAM: "..."
+TURBO_TEAM: '...'
 ```
 
 ## Output

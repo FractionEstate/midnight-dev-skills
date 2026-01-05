@@ -1,7 +1,7 @@
 ---
 description: Tailwind CSS v4 styling guidelines
 name: Tailwind CSS Styling
-applyTo: "**/*.{css,tsx,jsx},**/tailwind.config.{js,ts}"
+applyTo: '**/*.{css,tsx,jsx},**/tailwind.config.{js,ts}'
 ---
 
 # Tailwind CSS v4 Instructions
@@ -11,11 +11,11 @@ applyTo: "**/*.{css,tsx,jsx},**/tailwind.config.{js,ts}"
 ### CSS-First Setup (v4)
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-primary-500: oklch(0.55 0.2 250);
-  --font-family-sans: "Inter", system-ui, sans-serif;
+  --font-family-sans: 'Inter', system-ui, sans-serif;
 }
 ```
 
@@ -30,7 +30,9 @@ Follow consistent ordering:
 5. Interactive (hover, focus, transition)
 
 ```html
-<div class="flex items-center gap-4 p-4 text-sm text-gray-900 bg-white rounded-lg shadow hover:shadow-lg transition-shadow">
+<div
+  class="flex items-center gap-4 p-4 text-sm text-gray-900 bg-white rounded-lg shadow hover:shadow-lg transition-shadow"
+></div>
 ```
 
 ## Responsive Design
@@ -58,25 +60,31 @@ Follow consistent ordering:
 ### Button
 
 ```html
-<button class="rounded-lg bg-primary-500 px-4 py-2 font-medium text-white
+<button
+  class="rounded-lg bg-primary-500 px-4 py-2 font-medium text-white
                hover:bg-primary-600 focus-visible:outline-2
                focus-visible:outline-offset-2 focus-visible:outline-primary-500
-               disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+               disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+></button>
 ```
 
 ### Input
 
 ```html
-<input class="block w-full rounded-lg border-gray-300
+<input
+  class="block w-full rounded-lg border-gray-300
               shadow-sm focus:border-primary-500 focus:ring-primary-500
-              invalid:border-red-500" />
+              invalid:border-red-500"
+/>
 ```
 
 ### Card
 
 ```html
-<div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5
-            dark:bg-gray-900 dark:ring-white/10">
+<div
+  class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5
+            dark:bg-gray-900 dark:ring-white/10"
+></div>
 ```
 
 ## Dark Mode
@@ -84,9 +92,9 @@ Follow consistent ordering:
 ```html
 <!-- System preference -->
 <div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
-
-<!-- Use semantic tokens -->
-<div class="bg-surface text-on-surface">
+  <!-- Use semantic tokens -->
+  <div class="bg-surface text-on-surface"></div>
+</div>
 ```
 
 ## Animation
@@ -98,9 +106,9 @@ Follow consistent ordering:
 
 <!-- Hover transitions -->
 <div class="transition-all hover:scale-105 hover:shadow-lg">
-
-<!-- Respect motion preferences -->
-<div class="animate-bounce motion-reduce:animate-none">
+  <!-- Respect motion preferences -->
+  <div class="animate-bounce motion-reduce:animate-none"></div>
+</div>
 ```
 
 ## Accessibility

@@ -51,7 +51,7 @@ export async function createPost(formData: FormData) {
   }
 
   const post = await prisma.post.create({
-    data: validated.data
+    data: validated.data,
   });
 
   revalidatePath('/posts');
@@ -73,20 +73,10 @@ export function PostForm() {
 
   return (
     <form action={action}>
-      <input
-        name="title"
-        placeholder="Title"
-        disabled={pending}
-      />
-      {state?.error?.title && (
-        <p className="text-red-500">{state.error.title}</p>
-      )}
+      <input name="title" placeholder="Title" disabled={pending} />
+      {state?.error?.title && <p className="text-red-500">{state.error.title}</p>}
 
-      <textarea
-        name="content"
-        placeholder="Content"
-        disabled={pending}
-      />
+      <textarea name="content" placeholder="Content" disabled={pending} />
 
       <button type="submit" disabled={pending}>
         {pending ? 'Creating...' : 'Create Post'}
@@ -104,17 +94,8 @@ export function PostForm() {
 import { useOptimistic } from 'react';
 import { likePost } from '@/app/actions/posts';
 
-export function LikeButton({
-  postId,
-  likes
-}: {
-  postId: string;
-  likes: number;
-}) {
-  const [optimisticLikes, addOptimisticLike] = useOptimistic(
-    likes,
-    (state) => state + 1
-  );
+export function LikeButton({ postId, likes }: { postId: string; likes: number }) {
+  const [optimisticLikes, addOptimisticLike] = useOptimistic(likes, (state) => state + 1);
 
   async function handleLike() {
     addOptimisticLike(null);
@@ -123,9 +104,7 @@ export function LikeButton({
 
   return (
     <form action={handleLike}>
-      <button type="submit">
-        ❤️ {optimisticLikes}
-      </button>
+      <button type="submit">❤️ {optimisticLikes}</button>
     </form>
   );
 }
@@ -164,10 +143,7 @@ export type ActionState = {
   fieldErrors?: Record<string, string[]>;
 };
 
-export async function submitForm(
-  prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> {
+export async function submitForm(prevState: ActionState, formData: FormData): Promise<ActionState> {
   try {
     const data = Object.fromEntries(formData);
     const validated = schema.parse(data);
@@ -178,7 +154,7 @@ export async function submitForm(
   } catch (error) {
     if (error instanceof z.ZodError) {
       return {
-        fieldErrors: error.flatten().fieldErrors
+        fieldErrors: error.flatten().fieldErrors,
       };
     }
     return { error: 'Something went wrong' };
@@ -206,7 +182,7 @@ export async function protectedAction(formData: FormData) {
     data: {
       title: formData.get('title') as string,
       authorId: session.user.id,
-    }
+    },
   });
 
   revalidatePath('/posts');

@@ -8,8 +8,8 @@ Complete guide for connecting Midnight dApps to browser wallets.
 import type {
   DAppConnectorAPI,
   DAppConnectorWalletAPI,
-  ServiceUriConfig
-} from "@midnight-ntwrk/dapp-connector-api";
+  ServiceUriConfig,
+} from '@midnight-ntwrk/dapp-connector-api';
 
 declare global {
   interface Window {
@@ -24,7 +24,7 @@ declare global {
 
 ```typescript
 function isWalletInstalled(): boolean {
-  return typeof window !== "undefined" && !!window.midnight;
+  return typeof window !== 'undefined' && !!window.midnight;
 }
 
 // Wait for wallet injection (may load after page)
@@ -60,7 +60,7 @@ export async function connectWallet(): Promise<WalletConnectionResult> {
   const connector = window.midnight;
 
   if (!connector) {
-    return { success: false, error: "Wallet not installed" };
+    return { success: false, error: 'Wallet not installed' };
   }
 
   try {
@@ -75,11 +75,10 @@ export async function connectWallet(): Promise<WalletConnectionResult> {
     // Get wallet API
     const walletApi = await connector.walletAPI();
     return { success: true, walletApi };
-
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Connection failed"
+      error: error instanceof Error ? error.message : 'Connection failed',
     };
   }
 }
@@ -105,8 +104,8 @@ async function getWalletInfo(walletApi: DAppConnectorWalletAPI) {
 ## React Hook
 
 ```typescript
-import { useState, useEffect, useCallback } from "react";
-import type { DAppConnectorWalletAPI } from "@midnight-ntwrk/dapp-connector-api";
+import { useState, useEffect, useCallback } from 'react';
+import type { DAppConnectorWalletAPI } from '@midnight-ntwrk/dapp-connector-api';
 
 interface WalletState {
   isInstalled: boolean;
@@ -122,15 +121,15 @@ export function useMidnightWallet() {
     isConnected: false,
     isConnecting: false,
     walletApi: null,
-    error: null
+    error: null,
   });
 
   // Check installation on mount
   useEffect(() => {
     const checkWallet = () => {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
-        isInstalled: typeof window !== "undefined" && !!window.midnight
+        isInstalled: typeof window !== 'undefined' && !!window.midnight,
       }));
     };
 
@@ -141,16 +140,16 @@ export function useMidnightWallet() {
 
   // Connect function
   const connect = useCallback(async () => {
-    setState(prev => ({ ...prev, isConnecting: true, error: null }));
+    setState((prev) => ({ ...prev, isConnecting: true, error: null }));
 
     const result = await connectWallet();
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isConnecting: false,
       isConnected: result.success,
       walletApi: result.walletApi ?? null,
-      error: result.error ?? null
+      error: result.error ?? null,
     }));
 
     return result.success;
@@ -158,10 +157,10 @@ export function useMidnightWallet() {
 
   // Disconnect function
   const disconnect = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isConnected: false,
-      walletApi: null
+      walletApi: null,
     }));
   }, []);
 
@@ -171,13 +170,13 @@ export function useMidnightWallet() {
 
 ## Wallet API Methods
 
-| Method | Returns | Description |
-| ------ | ------- | ----------- |
-| `balanceAndProveOwnership()` | `bigint` | Balance with ownership proof |
-| `coinPublicKey()` | `string` | Public key for coins |
-| `serviceUriConfig()` | `ServiceUriConfig` | Network endpoints |
-| `state()` | `ConnectorState` | Connection state |
-| `enable()` | `void` | Request connection |
+| Method                       | Returns            | Description                  |
+| ---------------------------- | ------------------ | ---------------------------- |
+| `balanceAndProveOwnership()` | `bigint`           | Balance with ownership proof |
+| `coinPublicKey()`            | `string`           | Public key for coins         |
+| `serviceUriConfig()`         | `ServiceUriConfig` | Network endpoints            |
+| `state()`                    | `ConnectorState`   | Connection state             |
+| `enable()`                   | `void`             | Request connection           |
 
 ## Service URI Configuration
 
@@ -203,20 +202,20 @@ async function safeConnect(): Promise<void> {
 
     if (!result.success) {
       switch (result.error) {
-        case "Wallet not installed":
+        case 'Wallet not installed':
           // Prompt to install Lace
           showInstallPrompt();
           break;
-        case "User rejected":
+        case 'User rejected':
           // User declined connection
           showRetryOption();
           break;
         default:
-          console.error("Connection error:", result.error);
+          console.error('Connection error:', result.error);
       }
     }
   } catch (error) {
-    console.error("Unexpected error:", error);
+    console.error('Unexpected error:', error);
   }
 }
 ```

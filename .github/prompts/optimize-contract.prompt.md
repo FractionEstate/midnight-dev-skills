@@ -32,13 +32,13 @@ counter: Uint<32>  // If max value fits
 
 **Bit width guide**:
 
-| Range | Type |
-| ----- | ---- |
-| 0-255 | Uint<8> |
-| 0-65535 | Uint<16> |
-| 0-4B | Uint<32> |
+| Range        | Type     |
+| ------------ | -------- |
+| 0-255        | Uint<8>  |
+| 0-65535      | Uint<16> |
+| 0-4B         | Uint<32> |
 | Large values | Uint<64> |
-| Crypto | Field |
+| Crypto       | Field    |
 
 ### 2. Circuit Simplification
 
@@ -64,30 +64,33 @@ export circuit optimized(a: Uint<64>, b: Uint<64>, c: Uint<64>): Uint<64> {
 **Batch reads and writes**:
 
 ```compact
-// Before (multiple state accesses)
+export ledger a: Uint<64>;
+export ledger b: Uint<64>;
+
+// Before (multiple state accesses + implicit witness flow)
 export circuit multiUpdate(): [] {
-  ledger.a = ledger.a + 1;
-  ledger.b = ledger.a + 2;  // Reading a again
+  a = disclose((a + 1) as Uint<64>);
+  b = disclose((a + 2) as Uint<64>);
 }
 
 // After (cache values)
 export circuit optimizedUpdate(): [] {
-  const aNew = ledger.a + 1;
-  ledger.a = aNew;
-  ledger.b = aNew + 2;
+  const aNew = (a + 1) as Uint<64>;
+  a = disclose(aNew);
+  b = disclose((aNew + 2) as Uint<64>);
 }
 ```
 
 ### 4. Hash Optimization
 
-**Use appropriate hash functions**:
+**Use appropriate hash functions** (v0.18 stdlib):
 
 ```compact
-// Single input
-hash(value)
+// Derive a persistent identifier (Bytes<32>)
+persistentHash<Vector<2, Bytes<32>>>([a, b])
 
-// Two inputs
-hash2(a, b)  // More efficient than hash(concat(a, b))
+// Transient (Field) hash for within-transaction consistency checks
+transientHash<Vector<2, Field>>([x, y])
 ```
 
 ### 5. Assertion Optimization

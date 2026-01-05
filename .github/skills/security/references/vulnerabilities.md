@@ -160,7 +160,7 @@ assert(balance >= amount, "Insufficient balance for transfer");
 
 ```typescript
 // ❌ VULNERABLE: Key in source
-const PRIVATE_STATE_KEY = 'user-secrets';  // Predictable!
+const PRIVATE_STATE_KEY = 'user-secrets'; // Predictable!
 ```
 
 **Secure Pattern**:

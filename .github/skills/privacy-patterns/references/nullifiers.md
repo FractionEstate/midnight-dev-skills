@@ -72,11 +72,11 @@ export circuit withdraw(amount: Uint<64>, commitment: Field): [] {
 
 ## Why Nullifiers Work
 
-| Property | Explanation |
-| -------- | ----------- |
+| Property                  | Explanation                                           |
+| ------------------------- | ----------------------------------------------------- |
 | **Prevents double-spend** | Same (secret, commitment) always gives same nullifier |
-| **Preserves privacy** | Cannot link nullifier back to depositor |
-| **Deterministic** | Owner can always compute their nullifier |
+| **Preserves privacy**     | Cannot link nullifier back to depositor               |
+| **Deterministic**         | Owner can always compute their nullifier              |
 
 ## Advanced: Private Token Transfer
 

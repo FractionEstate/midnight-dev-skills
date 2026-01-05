@@ -1,7 +1,7 @@
 ---
 description: Learned patterns and fixes discovered during Midnight development
 name: Development Memory
-applyTo: "**"
+applyTo: '**'
 ---
 
 # Midnight Development Memory

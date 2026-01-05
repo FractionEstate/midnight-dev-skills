@@ -4,12 +4,12 @@
 
 Next.js has 4 caching mechanisms working together:
 
-| Mechanism | Location | Purpose | Duration |
-| --------- | -------- | ------- | -------- |
-| Request Memoization | Server | Dedupe same-request fetches | Per request |
-| Data Cache | Server | Persist fetch results | Persistent (revalidatable) |
-| Full Route Cache | Server | Cache rendered HTML/RSC | Persistent (revalidatable) |
-| Router Cache | Client | Cache RSC payloads | Session (or revalidate) |
+| Mechanism           | Location | Purpose                     | Duration                   |
+| ------------------- | -------- | --------------------------- | -------------------------- |
+| Request Memoization | Server   | Dedupe same-request fetches | Per request                |
+| Data Cache          | Server   | Persist fetch results       | Persistent (revalidatable) |
+| Full Route Cache    | Server   | Cache rendered HTML/RSC     | Persistent (revalidatable) |
+| Router Cache        | Client   | Cache RSC payloads          | Session (or revalidate)    |
 
 ## Server Component Data Fetching
 
@@ -23,12 +23,12 @@ export default async function PostsPage() {
   // Direct database call - runs on server only
   const posts = await prisma.post.findMany({
     include: { author: true },
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: 'desc' },
   });
 
   return (
     <ul>
-      {posts.map(post => (
+      {posts.map((post) => (
         <li key={post.id}>
           <h2>{post.title}</h2>
           <span>By {post.author.name}</span>
@@ -45,7 +45,7 @@ export default async function PostsPage() {
 // IMPORTANT: fetch is NOT cached by default in Next.js 16+
 // Use 'force-cache' to explicitly opt into caching
 const cachedData = await fetch('https://api.example.com/data', {
-  cache: 'force-cache'
+  cache: 'force-cache',
 });
 
 // Default behavior (auto no-cache) - fetched on every request
@@ -54,25 +54,25 @@ const dynamicData = await fetch('https://api.example.com/data');
 
 // Explicitly disable caching (same as default, but explicit)
 const uncachedData = await fetch('https://api.example.com/data', {
-  cache: 'no-store'
+  cache: 'no-store',
 });
 
 // Revalidate every 60 seconds (ISR)
 const revalidatedData = await fetch('https://api.example.com/data', {
-  next: { revalidate: 60 }
+  next: { revalidate: 60 },
 });
 
 // Cache with tags for on-demand revalidation
 const taggedData = await fetch('https://api.example.com/posts', {
-  next: { tags: ['posts'] }
+  next: { tags: ['posts'] },
 });
 
 // Combine tags with revalidation
 const data = await fetch('https://api.example.com/data', {
   next: {
     tags: ['collection'],
-    revalidate: 3600
-  }
+    revalidate: 3600,
+  },
 });
 ```
 
@@ -146,11 +146,11 @@ export default async function Page() {
 
 ### Revalidation APIs
 
-| API | Purpose |
-| --- | ------- |
-| `revalidatePath(path)` | Purges route from Full Route Cache |
-| `revalidateTag(tag)` | Invalidates Data Cache entries with tag |
-| `updateTag(tag)` | Updates tag timestamp (lighter than revalidateTag) |
+| API                    | Purpose                                            |
+| ---------------------- | -------------------------------------------------- |
+| `revalidatePath(path)` | Purges route from Full Route Cache                 |
+| `revalidateTag(tag)`   | Invalidates Data Cache entries with tag            |
+| `updateTag(tag)`       | Updates tag timestamp (lighter than revalidateTag) |
 
 ### Route Segment Config
 
@@ -177,10 +177,7 @@ export default async function Page() {
   const posts = await getPosts();
 
   // Parallel (fast) ✅
-  const [user, posts] = await Promise.all([
-    getUser(),
-    getPosts()
-  ]);
+  const [user, posts] = await Promise.all([getUser(), getPosts()]);
 
   return (
     <div>
@@ -244,7 +241,7 @@ export default function Loading() {
 
 export default function Error({
   error,
-  reset
+  reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
@@ -268,13 +265,10 @@ For client-side fetching (mutations, real-time), use React Query or SWR:
 
 import useSWR from 'swr';
 
-const fetcher = (url: string) => fetch(url).then(r => r.json());
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export function UserProfile({ userId }: { userId: string }) {
-  const { data, error, isLoading } = useSWR(
-    `/api/users/${userId}`,
-    fetcher
-  );
+  const { data, error, isLoading } = useSWR(`/api/users/${userId}`, fetcher);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading user</div>;

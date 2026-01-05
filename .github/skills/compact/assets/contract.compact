@@ -1,5 +1,10 @@
-// Basic Compact Contract Template
-// Location: contracts/main.compact
+// Compact v0.18 Contract Template
+// A slightly larger, *up-to-date* example that demonstrates:
+// - structured config stored on-ledger
+// - witness-based caller identity
+// - Map/Set usage (no deprecated indexing/default syntax)
+// - explicit disclosure when writing public state
+// - a simple commitment pattern
 
 pragma language_version 0.18;
 
@@ -9,252 +14,149 @@ import CompactStandardLibrary;
 // Type Definitions
 // ============================================
 
-/**
- * Define custom types for your contract
- */
 struct Config {
   admin: Bytes<32>,
   enabled: Boolean,
-  maxValue: Uint<64>
-}
-
-/**
- * Events emitted by the contract
- */
-struct CounterUpdated {
-  oldValue: Uint<64>,
-  newValue: Uint<64>,
-  updatedBy: Bytes<32>
+  maxValue: Uint<64>,
 }
 
 // ============================================
 // Ledger State
 // ============================================
 
-/**
- * On-chain state accessible by all
- */
-ledger {
-  // Simple counter
-  counter: Counter,
+export ledger counter: Uint<64>;
+export ledger config: Config;
+export ledger balances: Map<Bytes<32>, Uint<64>>;
+export ledger authorized: Set<Bytes<32>>;
 
-  // Configuration
-  config: Cell<Config>,
+// Optional: commitment storage (caller -> commitment)
+export ledger commitments: Map<Bytes<32>, Bytes<32>>;
 
-  // Map of user balances
-  balances: Map<Bytes<32>, Uint<64>>,
+// ============================================
+// Identity (Witness)
+// ============================================
 
-  // Set of authorized users
-  authorized: Set<Bytes<32>>
+// DApp must provide an implementation for this witness.
+witness secretKey(): Bytes<32>;
+
+circuit addressOf(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([
+    pad(32, "midnight:example:contract:addr"),
+    sk,
+  ]);
+}
+
+circuit callerAddress(): Bytes<32> {
+  // Returning/using this publicly is intentional (it does not reveal the secret key).
+  return disclose(addressOf(secretKey()));
 }
 
 // ============================================
 // Constructor
 // ============================================
 
-/**
- * Initialize contract state
- * Called once during deployment
- */
-constructor(admin: Bytes<32>, maxValue: Uint<64>) {
-  // Initialize counter at 0
-  ledger.counter.increment(0n);
-
-  // Set initial config
-  ledger.config.write(Config {
+constructor(adminAddress: Bytes<32>, maxValue: Uint<64>) {
+  const admin = disclose(adminAddress);
+  config = disclose(Config {
     admin: admin,
     enabled: true,
-    maxValue: maxValue
+    maxValue: disclose(maxValue),
   });
 
   // Admin is automatically authorized
-  ledger.authorized.insert(admin);
+  authorized.insert(admin);
 }
 
 // ============================================
-// Public Circuits (Read)
+// Read Circuits
 // ============================================
 
-/**
- * Get current counter value
- * Pure function - no state changes
- */
 export circuit getCounter(): Uint<64> {
-  return ledger.counter.read();
+  return counter;
 }
 
-/**
- * Check if address is authorized
- */
-export circuit isAuthorized(address: Bytes<32>): Boolean {
-  return ledger.authorized.member(address);
+export circuit isAuthorized(addr: Bytes<32>): Boolean {
+  return authorized.member(disclose(addr));
 }
 
-/**
- * Get balance for address
- */
-export circuit getBalance(address: Bytes<32>): Uint<64> {
-  return ledger.balances[address] default 0;
+circuit getBalanceInternal(addr: Bytes<32>): Uint<64> {
+  return balances.member(addr) ? balances.lookup(addr) : 0;
+}
+
+export circuit getBalance(addr: Bytes<32>): Uint<64> {
+  return getBalanceInternal(disclose(addr));
 }
 
 // ============================================
-// Public Circuits (Write)
+// Write Circuits
 // ============================================
 
-/**
- * Increment the counter by 1
- * Impure - modifies ledger state
- */
 export circuit increment(): Uint<64> {
-  // Read config
-  const config = ledger.config.read();
   assert(config.enabled, "Contract is disabled");
+  assert(counter < config.maxValue, "Maximum value reached");
 
-  // Get current value
-  const current = ledger.counter.read();
-  assert(current < config.maxValue, "Maximum value reached");
-
-  // Increment
-  ledger.counter.increment(1n);
-
-  // Return new value
-  return current + 1;
+  counter = disclose((counter + 1) as Uint<64>);
+  return counter;
 }
 
-/**
- * Set counter to specific value
- * Requires authorization
- */
 export circuit setCounter(value: Uint<64>): [] {
-  const caller = getCaller();
-  assert(ledger.authorized.member(caller), "Not authorized");
-
-  const config = ledger.config.read();
+  const caller = callerAddress();
+  assert(authorized.member(caller), "Not authorized");
   assert(value <= config.maxValue, "Value exceeds maximum");
-
-  // Reset to 0 then increment to value
-  const current = ledger.counter.read();
-  if (value > current) {
-    ledger.counter.increment(value - current);
-  }
-  // Note: Counter can only increment, use different state for decrementable values
+  counter = disclose(value);
 }
 
-/**
- * Deposit funds
- */
 export circuit deposit(amount: Uint<64>): [] {
-  const caller = getCaller();
-  const current = ledger.balances[caller] default 0;
-  ledger.balances[caller] = current + amount;
+  const caller = callerAddress();
+  const current = getBalanceInternal(caller);
+  balances.insert(caller, disclose((current + amount) as Uint<64>));
 }
 
-/**
- * Withdraw funds with witness verification
- */
-export circuit withdraw(
-  amount: Uint<64>,
-  witness secretKey: Field
-): [] {
-  const caller = getCaller();
-
-  // Verify caller owns the secret
-  const expectedAddress = deriveAddress(secretKey);
-  assert(expectedAddress == caller, "Invalid secret key");
-
-  // Check balance
-  const balance = ledger.balances[caller] default 0;
-  assert(balance >= amount, "Insufficient balance");
-
-  // Update balance
-  ledger.balances[caller] = balance - amount;
+export circuit withdraw(amount: Uint<64>): [] {
+  const caller = callerAddress();
+  const bal = getBalanceInternal(caller);
+  assert(bal >= amount, "Insufficient balance");
+  balances.insert(caller, bal - amount);
 }
 
 // ============================================
 // Admin Circuits
 // ============================================
 
-/**
- * Add authorized user (admin only)
- */
-export circuit authorize(address: Bytes<32>): [] {
-  const caller = getCaller();
-  const config = ledger.config.read();
+export circuit authorize(addr: Bytes<32>): [] {
+  const caller = callerAddress();
   assert(caller == config.admin, "Only admin can authorize");
-
-  ledger.authorized.insert(address);
+  authorized.insert(disclose(addr));
 }
 
-/**
- * Remove authorized user (admin only)
- */
-export circuit revoke(address: Bytes<32>): [] {
-  const caller = getCaller();
-  const config = ledger.config.read();
+export circuit revoke(addr: Bytes<32>): [] {
+  const caller = callerAddress();
+  const target = disclose(addr);
   assert(caller == config.admin, "Only admin can revoke");
-  assert(address != config.admin, "Cannot revoke admin");
-
-  ledger.authorized.remove(address);
+  assert(target != config.admin, "Cannot revoke admin");
+  authorized.remove(target);
 }
 
-/**
- * Update configuration (admin only)
- */
 export circuit updateConfig(enabled: Boolean, maxValue: Uint<64>): [] {
-  const caller = getCaller();
-  const config = ledger.config.read();
+  const caller = callerAddress();
   assert(caller == config.admin, "Only admin can update config");
 
-  ledger.config.write(Config {
-    admin: config.admin,  // Admin cannot change itself
-    enabled: enabled,
-    maxValue: maxValue
+  config = disclose(Config {
+    admin: config.admin,
+    enabled: disclose(enabled),
+    maxValue: disclose(maxValue),
   });
 }
 
 // ============================================
-// Private Circuits
+// Commitment Example
 // ============================================
 
-/**
- * Submit a private value with commitment
- * Value stays secret, only commitment is stored
- */
-export circuit commitValue(
-  commitment: Field,
-  secret value: Field,
-  secret nonce: Field
-): [] {
-  // Verify commitment matches secret
-  assert(hash(value, nonce) == commitment, "Invalid commitment");
-
-  // Store only the commitment (value remains private)
-  // Add to your commitment storage as needed
-}
-
-// ============================================
-// Helper Functions (Internal)
-// ============================================
-
-/**
- * Get caller address
- */
-circuit getCaller(): Bytes<32> {
-  // Returns the address of the transaction sender
-  return caller();
-}
-
-/**
- * Derive address from secret key
- */
-circuit deriveAddress(secretKey: Field): Bytes<32> {
-  return truncate(hash(secretKey));
-}
-
-/**
- * Truncate Field to Bytes<32>
- */
-circuit truncate(f: Field): Bytes<32> {
-  // Implementation depends on specific truncation logic
-  return f as Bytes<32>;
+// Commit a secret value by storing only a commitment on-ledger.
+// Anyone can later verify a reveal off-chain by recomputing the commitment.
+export circuit commitValue(value: Field, nonce: Bytes<32>): Bytes<32> {
+  const caller = callerAddress();
+  const commitment = persistentCommit(value, nonce);
+  commitments.insert(caller, disclose(commitment));
+  return disclose(commitment);
 }

@@ -28,23 +28,23 @@ capabilities for specialized tasks. Based on the
 
 ## 📋 Midnight Skills
 
-| Skill | Description | Contents |
-| ----- | ----------- | -------- |
-| [compact](compact/) | Smart contract development in Compact language | `references/`, `assets/` |
+| Skill                                 | Description                                      | Contents                 |
+| ------------------------------------- | ------------------------------------------------ | ------------------------ |
+| [compact](compact/)                   | Smart contract development in Compact language   | `references/`, `assets/` |
 | [dapp-integration](dapp-integration/) | TypeScript/React wallet and contract integration | `references/`, `assets/` |
-| [midnight-network](midnight-network/) | Network infrastructure, proof server, indexer | `references/` |
-| [privacy-patterns](privacy-patterns/) | ZK proofs, commitments, nullifiers, disclosure | `references/` |
-| [testing](testing/) | Contract testing with simulators | `references/` |
+| [midnight-network](midnight-network/) | Network infrastructure, proof server, indexer    | `references/`            |
+| [privacy-patterns](privacy-patterns/) | ZK proofs, commitments, nullifiers, disclosure   | `references/`            |
+| [testing](testing/)                   | Contract testing with simulators                 | `references/`            |
 
 ## 🌐 Web Development Skills
 
-| Skill | Description | Contents |
-| ----- | ----------- | -------- |
-| [nextjs](nextjs/) | Next.js 16.1+ App Router, Server Components, Server Actions | `references/` |
-| [tailwindcss](tailwindcss/) | Tailwind CSS v4 theming, components, accessibility | `references/` |
-| [turborepo](turborepo/) | Monorepo setup, caching, CI/CD with Turborepo | `references/` |
-| [prisma](prisma/) | Type-safe database access with Prisma ORM | `references/` |
-| [playwright](playwright/) | E2E testing, visual regression, browser automation | `references/` |
+| Skill                       | Description                                                 | Contents      |
+| --------------------------- | ----------------------------------------------------------- | ------------- |
+| [nextjs](nextjs/)           | Next.js 16.1+ App Router, Server Components, Server Actions | `references/` |
+| [tailwindcss](tailwindcss/) | Tailwind CSS v4 theming, components, accessibility          | `references/` |
+| [turborepo](turborepo/)     | Monorepo setup, caching, CI/CD with Turborepo               | `references/` |
+| [prisma](prisma/)           | Type-safe database access with Prisma ORM                   | `references/` |
+| [playwright](playwright/)   | E2E testing, visual regression, browser automation          | `references/` |
 
 ## 📁 Skill Structure
 
@@ -65,10 +65,9 @@ skill-name/
 
 ```yaml
 ---
-name: skill-name          # Lowercase, hyphens, matches folder (max 64 chars)
-description: ...          # What it does + when to use (10-1024 chars)
+name: skill-name # Lowercase, hyphens, matches folder (max 64 chars)
+description: ... # What it does + when to use (10-1024 chars)
 ---
-
 # Skill Title
 
 [Markdown instructions loaded when skill activates]
@@ -100,11 +99,11 @@ const walletApi = await connector.walletAPI();
 
 ### Network Endpoints
 
-| Service | Testnet-02 |
-| ------- | ---------- |
-| Indexer | `https://indexer.testnet-02.midnight.network/api/v1/graphql` |
-| RPC | `https://rpc.testnet-02.midnight.network` |
-| Proof Server | `http://localhost:6300` |
+| Service      | Testnet-02                                                   |
+| ------------ | ------------------------------------------------------------ |
+| Indexer      | `https://indexer.testnet-02.midnight.network/api/v1/graphql` |
+| RPC          | `https://rpc.testnet-02.midnight.network`                    |
+| Proof Server | `http://localhost:6300`                                      |
 
 ## 📚 Resources
 

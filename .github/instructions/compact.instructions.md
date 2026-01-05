@@ -1,7 +1,7 @@
 ---
 description: Compact language guidelines for Midnight Network smart contracts
 name: Compact Language
-applyTo: "**/*.compact"
+applyTo: '**/*.compact'
 ---
 
 # Compact Smart Contract Language Guidelines
@@ -31,6 +31,9 @@ import CompactStandardLibrary;
 - `Field`: Field elements for ZK operations (hashing, commitments)
 - `Bytes<N>`: Fixed-length byte arrays
 - `Opaque<"string">` / `Opaque<"Uint8Array">`: Sensitive data that stays off-chain
+- `Opaque<"string">` / `Opaque<"Uint8Array">`: “Foreign” JS values that Compact can store/return but cannot inspect.
+  - Only these two tags are currently supported.
+  - **Important:** Opaque values are _opaque only to Compact_, not private on-chain.
 
 ### Compound Types
 
@@ -49,11 +52,15 @@ enum Status {
   Completed
 }
 
-// Vectors
-Vector<N, T>  // Fixed-length array
+// Tuples (heterogeneous)
+// [] is the empty tuple type used for “no return value”
+// [T1, T2, ...] is a tuple type of length N
 
-// Maybe (optional)
-Maybe<T>  // none() or some(value)
+// Vectors
+Vector<N, T>  // Shorthand for a tuple type of length N with all elements type T
+
+// Optional-like values
+// The standard library provides `Maybe<T>` and constructors `some()` / `none()`.
 ```
 
 ## Ledger State
@@ -61,22 +68,22 @@ Maybe<T>  // none() or some(value)
 ### Available Ledger Types
 
 ```compact
-ledger {
-  // Single values
-  config: Cell<Config>,
+// Single values: declaring a Compact type `T` creates an implicit Cell<T>
+export ledger config: Config;
 
-  // Auto-incrementing
-  counter: Counter,
+// Auto-incrementing (Uint<64> value, increment/decrement by Uint<16>)
+export ledger counter: Counter;
 
-  // Collections
-  balances: Map<Address, Uint<64>>,
-  members: Set<Address>,
-  items: List<Item>,
+// Collections
+export ledger balances: Map<Bytes<32>, Uint<64>>;
+export ledger members: Set<Bytes<32>>;
+export ledger items: List<Bytes<32>>;
 
-  // Cryptographic
-  commitments: MerkleTree<256, Field>,
-  history: HistoricMerkleTree<256, Field>
-}
+// Cryptographic
+export ledger commitments: MerkleTree<20, Bytes<32>>;
+export ledger history: HistoricMerkleTree<20, Bytes<32>>;
+
+// Note: You cannot write `Cell<T>` explicitly in a ledger declaration.
 ```
 
 ## Circuit Definitions
@@ -84,8 +91,9 @@ ledger {
 ### Pure Circuits (No State Changes)
 
 ```compact
-export circuit calculateHash(witness data: Field): Field {
-  return hash(data);
+export pure circuit calculateId(x: Bytes<32>): Bytes<32> {
+  // Hashing APIs are in CompactStandardLibrary (see docs linked below)
+  return persistentHash<Bytes<32>>(x);
 }
 ```
 
@@ -94,18 +102,22 @@ export circuit calculateHash(witness data: Field): Field {
 ```compact
 // Circuits become impure when they access/modify ledger state
 export circuit updateBalance(
-  address: Address,
+  address: Bytes<32>,
   amount: Uint<64>
 ): [] {
-  ledger.balances.insert(address, amount);
+  // Map operations are `insert`, `lookup`, `member`, `remove`, ...
+  balances.insert(disclose(address), disclose(amount));
 }
 ```
 
-### Input Modifiers
+### About inputs and privacy
 
-- `secret`: Private input, stays completely off-chain
-- `witness`: Private input used in ZK proof generation
-- No modifier: Public input (visible on-chain)
+- Circuit arguments and witness returns are treated as potentially private (“witness data”).
+- **Explicit disclosure** is required before storing potential witness data in public ledger state,
+  returning it from an exported circuit, or passing it to another contract.
+- Declare disclosure by wrapping the expression with `disclose(...)`.
+- Some stdlib functions (e.g. commitment functions) are treated as “safe” by the compiler and don’t
+  require explicit disclosure for their outputs.
 
 ## Assertions
 
@@ -113,8 +125,8 @@ Always include descriptive error messages:
 
 ```compact
 assert(balance >= amount, "Insufficient balance");
-assert(is_some(user), "User not found");
-assert(!is_member(address), "Already a member");
+assert(members.member(addr), "Not a member");
+assert(!members.member(addr), "Already a member");
 ```
 
 ## Standard Library
@@ -125,14 +137,15 @@ Since Compact 0.13+, the standard library is a builtin module:
 import CompactStandardLibrary;
 ```
 
-This provides access to:
+Key pieces include:
 
-- **Hashing**: `hash()`, `transientHash()`, `persistentHash()`
-- **Commitments**: `transientCommit()`, `persistentCommit()` (implicitly disclosing)
-- **Key operations**: `public_key()`, `secret_key()`
-- **Coin operations**: `send()`, `receive()`
-- **Utilities**: `is_some()`, `unwrap()`, `is_equal()`, `disclose()`
-- **Types**: `Maybe<T>`, `Either<L,R>`, `CurvePoint`, `CoinInfo`
+- Data types: `Maybe<T>`, `Either<A,B>`, `CurvePoint`, `MerkleTreeDigest`, `ContractAddress`, ...
+- Hashing/commitment: `transientHash`, `persistentHash`, `transientCommit`, `persistentCommit`
+- Time helpers: `blockTimeLt`, `blockTimeLte`, `blockTimeGt`, `blockTimeGte`
+- Coin/Zswap helpers: `ownPublicKey`, `send`, `receive`, `mintToken`, ...
+- Utilities: `some`, `none`, `left`, `right`, and the `disclose(...)` wrapper
+
+Authoritative reference: <https://docs.midnight.network/compact/compact-std-library>
 
 ## Best Practices
 
@@ -141,3 +154,8 @@ This provides access to:
 3. **Validate inputs**: Assert valid ranges and conditions
 4. **Keep circuits focused**: One responsibility per circuit
 5. **Document public interfaces**: Add comments for exported circuits
+
+## Ledger ADT reference
+
+- Ledger field operations (`Counter`, `Map`, `Set`, `List`, `MerkleTree`, ...) are documented at:
+  <https://docs.midnight.network/compact/ledger-adt>

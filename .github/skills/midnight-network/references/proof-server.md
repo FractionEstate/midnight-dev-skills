@@ -68,11 +68,11 @@ curl http://localhost:6300/health
 
 ### Environment Variables
 
-| Variable              | Default  | Description    |
-| --------------------- | -------- | -------------- |
-| `PROOF_SERVER_PORT`   | 6300     | Server port    |
-| `PROOF_SERVER_THREADS`| auto     | Worker threads |
-| `PROOF_SERVER_NETWORK`| testnet  | Network to use |
+| Variable               | Default | Description    |
+| ---------------------- | ------- | -------------- |
+| `PROOF_SERVER_PORT`    | 6300    | Server port    |
+| `PROOF_SERVER_THREADS` | auto    | Worker threads |
+| `PROOF_SERVER_NETWORK` | testnet | Network to use |
 
 ### Command Line Arguments
 
@@ -96,20 +96,20 @@ midnight-proof-server \
 
 ### Performance Factors
 
-| Factor             | Impact                      |
-| ------------------ | --------------------------- |
-| Circuit complexity | More constraints = longer   |
-| CPU cores          | More cores = faster         |
-| RAM                | Minimum 4GB, 8GB recommended|
-| First proof        | Slower (key loading)        |
+| Factor             | Impact                       |
+| ------------------ | ---------------------------- |
+| Circuit complexity | More constraints = longer    |
+| CPU cores          | More cores = faster          |
+| RAM                | Minimum 4GB, 8GB recommended |
+| First proof        | Slower (key loading)         |
 
 ### Typical Proof Times
 
-| Circuit Size               | Time    |
-| -------------------------- | ------- |
-| Simple (100 constraints)   | 1-2s    |
-| Medium (1000 constraints)  | 5-10s   |
-| Complex (10000 constraints)| 20-60s  |
+| Circuit Size                | Time   |
+| --------------------------- | ------ |
+| Simple (100 constraints)    | 1-2s   |
+| Medium (1000 constraints)   | 5-10s  |
+| Complex (10000 constraints) | 20-60s |
 
 ## Troubleshooting
 
@@ -132,7 +132,7 @@ docker restart midnight-proof-server
 // Increase timeout in your code
 const proofProvider = httpClientProofProvider(
   'http://localhost:6300',
-  { timeout: 120000 }  // 2 minutes
+  { timeout: 120000 } // 2 minutes
 );
 ```
 
@@ -159,7 +159,7 @@ services:
     image: midnightnetwork/proof-server
     command: midnight-proof-server --network testnet
     ports:
-      - "6300:6300"
+      - '6300:6300'
     deploy:
       resources:
         limits:
@@ -167,7 +167,7 @@ services:
           cpus: '4'
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:6300/health"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:6300/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -186,7 +186,7 @@ async function waitForProofServer(url: string, timeout = 30000): Promise<boolean
     } catch {
       // Server not ready yet
     }
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 1000));
   }
 
   return false;

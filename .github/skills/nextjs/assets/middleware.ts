@@ -14,9 +14,7 @@ export function middleware(request: NextRequest) {
   const token = request.cookies.get('auth-token')?.value;
 
   // Check if path is protected
-  const isProtected = protectedPaths.some((path) =>
-    pathname.startsWith(path)
-  );
+  const isProtected = protectedPaths.some((path) => pathname.startsWith(path));
   const isAuthPage = authPages.some((path) => pathname.startsWith(path));
 
   // Redirect unauthenticated users to login

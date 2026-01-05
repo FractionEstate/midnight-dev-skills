@@ -88,9 +88,7 @@ describe('MyContract', () => {
     });
 
     it('should fail when decrementing below zero', () => {
-      expect(() => simulator.decrement(1n)).toThrow(
-        'Counter cannot go below zero'
-      );
+      expect(() => simulator.decrement(1n)).toThrow('Counter cannot go below zero');
     });
   });
 });

@@ -7,12 +7,13 @@ import CompactStandardLibrary;
 
 // Public state - visible to all
 export ledger message: Opaque<"string">;
-export ledger counter: Opaque<"number">;
+export ledger counter: Counter;
 
-// Initialize the contract
-export circuit initialize(): [] {
-  message = disclose("");
-  counter = disclose(0);
+// Optional constructor: initialize public state at deploy-time.
+// Note: ledger fields have defaults ("" for Opaque<"string">, 0 for Counter),
+// so you can omit this entirely unless you want custom initial values.
+constructor(initialMessage: Opaque<"string">) {
+  message = disclose(initialMessage);
 }
 
 // Store a message (input is private, then disclosed)
@@ -22,13 +23,20 @@ export circuit setMessage(input: Opaque<"string">): [] {
 
 // Increment counter
 export circuit increment(): [] {
-  let current = counter;
-  counter = disclose(current + 1);
+  counter.increment(1);
 }
 
 // Decrement counter
 export circuit decrement(): [] {
-  let current = counter;
-  require(current > 0);
-  counter = disclose(current - 1);
+  assert(counter.read() > 0, "Counter is already zero");
+  counter.decrement(1);
+}
+
+// Read helpers
+export circuit getMessage(): Opaque<"string"> {
+  return message;
+}
+
+export circuit getCounter(): Uint<64> {
+  return counter.read();
 }

@@ -171,12 +171,15 @@ type WorkerFixtures = {
 };
 
 export const test = base.extend<{}, WorkerFixtures>({
-  sharedAccount: [async ({}, use) => {
-    // Create account once per worker
-    const account = await createTestAccount();
-    await use(account);
-    await deleteTestAccount(account.email);
-  }, { scope: 'worker' }],
+  sharedAccount: [
+    async ({}, use) => {
+      // Create account once per worker
+      const account = await createTestAccount();
+      await use(account);
+      await deleteTestAccount(account.email);
+    },
+    { scope: 'worker' },
+  ],
 });
 ```
 
@@ -186,12 +189,15 @@ export const test = base.extend<{}, WorkerFixtures>({
 // Auto-use fixtures run for every test
 export const test = base.extend({
   // Automatically inject for every test
-  autoLogin: [async ({ page }, use) => {
-    await page.goto('/login');
-    await page.fill('[name=email]', 'auto@example.com');
-    await page.fill('[name=password]', 'password');
-    await page.click('button[type=submit]');
-    await use();
-  }, { auto: true }],
+  autoLogin: [
+    async ({ page }, use) => {
+      await page.goto('/login');
+      await page.fill('[name=email]', 'auto@example.com');
+      await page.fill('[name=password]', 'password');
+      await page.click('button[type=submit]');
+      await use();
+    },
+    { auto: true },
+  ],
 });
 ```

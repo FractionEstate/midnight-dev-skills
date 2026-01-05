@@ -1,7 +1,7 @@
 ---
 description: Playwright E2E testing guidelines
 name: Playwright Testing
-applyTo: "**/e2e/**,**/playwright.config.ts,**/*.spec.ts"
+applyTo: '**/e2e/**,**/playwright.config.ts,**/*.spec.ts'
 ---
 
 # Playwright Instructions
@@ -128,7 +128,7 @@ test('mock API', async ({ page }) => {
   await page.route('/api/users', (route) => {
     route.fulfill({
       status: 200,
-      body: JSON.stringify([{ id: 1, name: 'Mock' }])
+      body: JSON.stringify([{ id: 1, name: 'Mock' }]),
     });
   });
 });

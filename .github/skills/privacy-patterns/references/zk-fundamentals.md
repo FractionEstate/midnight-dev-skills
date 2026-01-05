@@ -10,22 +10,22 @@ A proof that demonstrates knowledge of something without revealing what you know
 
 ### ZKP Properties
 
-| Property | Meaning |
-| -------- | ------- |
-| **Completeness** | True statements always verify |
-| **Soundness** | False statements never verify |
+| Property           | Meaning                                 |
+| ------------------ | --------------------------------------- |
+| **Completeness**   | True statements always verify           |
+| **Soundness**      | False statements never verify           |
 | **Zero-Knowledge** | Verifier learns nothing except validity |
 
 ## ZK-SNARKs
 
 **SNARK** = **S**uccinct **N**on-interactive **AR**gument of **K**nowledge
 
-| Component | Description |
-| --------- | ----------- |
-| **Succinct** | Tiny proofs (~288 bytes) |
+| Component           | Description                       |
+| ------------------- | --------------------------------- |
+| **Succinct**        | Tiny proofs (~288 bytes)          |
 | **Non-interactive** | Single message, no back-and-forth |
-| **Argument** | Computationally secure |
-| **of Knowledge** | Proves prover knows the data |
+| **Argument**        | Computationally secure            |
+| **of Knowledge**    | Proves prover knows the data      |
 
 ## How ZK-SNARKs Work
 
@@ -75,10 +75,10 @@ result = (age >= minAge)      (constraint 2)
 
 ## Privacy Levels
 
-| Level | Code | What's Public |
-| ----- | ---- | ------------- |
-| Fully Private | `let x = input;` | Nothing |
-| Disclosed Value | `disclose(input)` | The value itself |
+| Level           | Code                     | What's Public    |
+| --------------- | ------------------------ | ---------------- |
+| Fully Private   | `let x = input;`         | Nothing          |
+| Disclosed Value | `disclose(input)`        | The value itself |
 | Proven Property | `disclose(input >= min)` | Only the boolean |
 
 ## Witness Variables
@@ -123,11 +123,11 @@ export circuit proveOwnership(publicKey: Field): [] {
 
 **Performance:**
 
-| Operation | Time |
-| --------- | ---- |
-| Proof generation | 1-30 seconds |
-| Verification | ~10 milliseconds |
-| Proof size | ~288 bytes |
+| Operation        | Time             |
+| ---------------- | ---------------- |
+| Proof generation | 1-30 seconds     |
+| Verification     | ~10 milliseconds |
+| Proof size       | ~288 bytes       |
 
 ## Circuit Complexity
 
@@ -161,12 +161,12 @@ export circuit merkleVerify(
 
 ## Security Guarantees
 
-| Guarantee | Meaning |
-| --------- | ------- |
-| **Privacy** | Private inputs never leave prover's machine |
-| **Integrity** | Cannot create valid proof with wrong data |
-| **Verifiability** | Anyone can verify without secrets |
-| **Non-forgeability** | Cannot forge proofs without knowledge |
+| Guarantee            | Meaning                                     |
+| -------------------- | ------------------------------------------- |
+| **Privacy**          | Private inputs never leave prover's machine |
+| **Integrity**        | Cannot create valid proof with wrong data   |
+| **Verifiability**    | Anyone can verify without secrets           |
+| **Non-forgeability** | Cannot forge proofs without knowledge       |
 
 ## Best Practices
 

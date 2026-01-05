@@ -3,55 +3,77 @@ pragma language_version 0.18;
 import CompactStandardLibrary;
 
 // Token Contract Template
-// Simple token with minting, burning, and transfers
+// Minimal token-like example.
+//
+// Notes:
+// - This template demonstrates *valid Compact v0.18 syntax* and patterns.
+// - "Caller" identity is not a built-in primitive; instead, use a witness + hash-based authorization
+//   scheme (similar to the official "lock" example).
 
-export ledger totalSupply: Counter;
-export ledger balances: Map<Bytes<32>, Uint<64>>;
 export ledger owner: Bytes<32>;
+export ledger totalSupply: Uint<64>;
+export ledger balances: Map<Bytes<32>, Uint<64>>;
 
-// Initialize with owner
-export circuit initialize(initialOwner: Bytes<32>): [] {
-  owner = initialOwner;
+// A local secret key. The DApp provides an implementation for this witness.
+witness secretKey(): Bytes<32>;
+
+// Derive an on-chain address from a secret key.
+// This is not "real" public-key crypto: it's a hash-based identifier that can be proven in ZK.
+circuit addressOf(sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<2, Bytes<32>>>([
+    pad(32, "midnight:example:token:addr"),
+    sk,
+  ]);
+}
+
+// Helper: current user's address (explicitly allowed to be returned publicly)
+export circuit myAddress(): Bytes<32> {
+  return disclose(addressOf(secretKey()));
+}
+
+// Helper: read a balance, treating missing entries as 0.
+circuit getBalance(addr: Bytes<32>): Uint<64> {
+  return balances.member(addr) ? balances.lookup(addr) : 0;
+}
+
+constructor(ownerSk: Bytes<32>) {
+  owner = disclose(addressOf(ownerSk));
+  totalSupply = 0;
 }
 
 // Mint tokens (owner only)
-export circuit mint(caller: Bytes<32>, recipient: Bytes<32>, amount: Uint<64>): [] {
-  require(caller == owner);
+export circuit mint(to: Bytes<32>, amount: Uint<64>): [] {
+  const caller = disclose(addressOf(secretKey()));
+  assert(caller == owner, "Only owner can mint");
 
-  // Get current balance or default to 0
-  const currentBalance = getBalance(recipient);
-  balances[recipient] = currentBalance + amount;
-  totalSupply = totalSupply + amount;
+  const toPub = disclose(to);
+  const newBal = (getBalance(toPub) + amount) as Uint<64>;
+  balances.insert(toPub, disclose(newBal));
+  totalSupply = disclose((totalSupply + amount) as Uint<64>);
 }
 
-// Burn tokens
-export circuit burn(caller: Bytes<32>, amount: Uint<64>): [] {
-  const balance = getBalance(caller);
-  require(balance >= amount);
+// Burn tokens (burn from caller)
+export circuit burn(amount: Uint<64>): [] {
+  const caller = disclose(addressOf(secretKey()));
+  const bal = getBalance(caller);
+  assert(bal >= amount, "Insufficient balance to burn");
 
-  balances[caller] = balance - amount;
+  balances.insert(caller, bal - amount);
   totalSupply = totalSupply - amount;
 }
 
-// Transfer tokens
-export circuit transfer(from: Bytes<32>, to: Bytes<32>, amount: Uint<64>): [] {
-  const fromBalance = getBalance(from);
-  require(fromBalance >= amount);
+// Transfer tokens (from caller to `to`)
+export circuit transfer(to: Bytes<32>, amount: Uint<64>): [] {
+  const from = disclose(addressOf(secretKey()));
+  const toPub = disclose(to);
 
-  balances[from] = fromBalance - amount;
-  balances[to] = getBalance(to) + amount;
+  const fromBal = getBalance(from);
+  assert(fromBal >= amount, "Insufficient balance");
+
+  balances.insert(from, fromBal - amount);
+  balances.insert(toPub, (getBalance(toPub) + amount) as Uint<64>);
 }
 
-// Helper to get balance (returns 0 if not found)
-circuit getBalance(address: Bytes<32>): Uint<64> {
-  const maybe = balances.lookup(address);
-  match maybe {
-    Maybe::None => return 0,
-    Maybe::Some { value } => return value
-  }
-}
-
-// Query balance (exported)
-export circuit balanceOf(address: Bytes<32>): Uint<64> {
-  return getBalance(address);
+export circuit balanceOf(addr: Bytes<32>): Uint<64> {
+  return getBalance(disclose(addr));
 }

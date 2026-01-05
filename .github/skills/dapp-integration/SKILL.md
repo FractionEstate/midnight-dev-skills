@@ -21,29 +21,29 @@ if (connector) {
 
 ## Core Concepts
 
-| Component | Purpose |
-| --------- | ------- |
-| **DApp Connector** | Wallet detection & connection |
-| **Providers** | Contract interaction infrastructure |
-| **Contract API** | Type-safe circuit calls |
-| **Proof Server** | ZK proof generation |
+| Component          | Purpose                             |
+| ------------------ | ----------------------------------- |
+| **DApp Connector** | Wallet detection & connection       |
+| **Providers**      | Contract interaction infrastructure |
+| **Contract API**   | Type-safe circuit calls             |
+| **Proof Server**   | ZK proof generation                 |
 
 ## Reference Files
 
-| Topic | Resource |
-| ----- | -------- |
-| **Wallet Connection** | [references/wallet-connection.md](references/wallet-connection.md) |
-| **Provider Setup** | [references/providers.md](references/providers.md) |
-| **Contract Deployment** | [references/deployment.md](references/deployment.md) |
-| **Next.js Setup** | [references/nextjs-setup.md](references/nextjs-setup.md) |
+| Topic                   | Resource                                                           |
+| ----------------------- | ------------------------------------------------------------------ |
+| **Wallet Connection**   | [references/wallet-connection.md](references/wallet-connection.md) |
+| **Provider Setup**      | [references/providers.md](references/providers.md)                 |
+| **Contract Deployment** | [references/deployment.md](references/deployment.md)               |
+| **Next.js Setup**       | [references/nextjs-setup.md](references/nextjs-setup.md)           |
 
 ## Assets
 
-| Asset | Description |
-| ----- | ----------- |
-| [assets/wallet-hook.md](assets/wallet-hook.md) | React hook for wallet |
-| [assets/providers.md](assets/providers.md) | Provider configuration |
-| [assets/deploy.md](assets/deploy.md) | Deployment template |
+| Asset                                          | Description            |
+| ---------------------------------------------- | ---------------------- |
+| [assets/wallet-hook.md](assets/wallet-hook.md) | React hook for wallet  |
+| [assets/providers.md](assets/providers.md)     | Provider configuration |
+| [assets/deploy.md](assets/deploy.md)           | Deployment template    |
 
 ## Installation
 
@@ -64,11 +64,11 @@ npm install @midnight-ntwrk/dapp-connector-api \
 ```typescript
 // Check if Lace wallet is installed
 function isWalletInstalled(): boolean {
-  return typeof window !== "undefined" && !!window.midnight?.mnLace;
+  return typeof window !== 'undefined' && !!window.midnight?.mnLace;
 }
 
 // Type definition
-import "@midnight-ntwrk/dapp-connector-api";
+import '@midnight-ntwrk/dapp-connector-api';
 // Types are augmented on window.midnight.mnLace
 ```
 
@@ -104,7 +104,7 @@ const TESTNET = {
   indexer: 'https://indexer.testnet-02.midnight.network/api/v1/graphql',
   indexerWS: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws',
   proofServer: 'http://localhost:6300',
-  node: 'https://rpc.testnet-02.midnight.network'
+  node: 'https://rpc.testnet-02.midnight.network',
 };
 ```
 

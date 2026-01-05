@@ -62,7 +62,7 @@ export function useMidnightWallet() {
   });
 
   const connect = useCallback(async () => {
-    setState(s => ({ ...s, isConnecting: true, error: null }));
+    setState((s) => ({ ...s, isConnecting: true, error: null }));
 
     try {
       const connector = window.midnight;
@@ -86,7 +86,7 @@ export function useMidnightWallet() {
         error: null,
       });
     } catch (error) {
-      setState(s => ({
+      setState((s) => ({
         ...s,
         isConnecting: false,
         error: error instanceof Error ? error : new Error('Connection failed'),

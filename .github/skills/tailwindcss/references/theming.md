@@ -6,16 +6,16 @@ Tailwind v4 introduces CSS-first configuration using `@theme` directive:
 
 ```css
 /* app/globals.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Color Palette using OKLCH */
   --color-primary-50: oklch(0.97 0.01 250);
   --color-primary-100: oklch(0.93 0.03 250);
   --color-primary-200: oklch(0.87 0.06 250);
-  --color-primary-300: oklch(0.78 0.10 250);
+  --color-primary-300: oklch(0.78 0.1 250);
   --color-primary-400: oklch(0.67 0.15 250);
-  --color-primary-500: oklch(0.55 0.20 250);
+  --color-primary-500: oklch(0.55 0.2 250);
   --color-primary-600: oklch(0.47 0.18 250);
   --color-primary-700: oklch(0.39 0.15 250);
   --color-primary-800: oklch(0.32 0.12 250);
@@ -24,12 +24,12 @@ Tailwind v4 introduces CSS-first configuration using `@theme` directive:
 
   /* Semantic Colors */
   --color-success: oklch(0.72 0.18 142);
-  --color-warning: oklch(0.80 0.15 85);
+  --color-warning: oklch(0.8 0.15 85);
   --color-error: oklch(0.63 0.24 27);
 
   /* Typography */
-  --font-family-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-family-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-family-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-family-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -79,18 +79,34 @@ Tailwind v4 introduces CSS-first configuration using `@theme` directive:
 }
 
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes scale-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 ```
 
@@ -151,13 +167,13 @@ oklch(L C H / alpha)
 @theme {
   /* Blue palette (H=250) */
   --color-blue-50: oklch(0.97 0.01 250);
-  --color-blue-500: oklch(0.55 0.20 250);
+  --color-blue-500: oklch(0.55 0.2 250);
   --color-blue-900: oklch(0.25 0.08 250);
 
   /* Green palette (H=142) */
   --color-green-50: oklch(0.97 0.01 142);
   --color-green-500: oklch(0.72 0.18 142);
-  --color-green-900: oklch(0.30 0.08 142);
+  --color-green-900: oklch(0.3 0.08 142);
 }
 ```
 

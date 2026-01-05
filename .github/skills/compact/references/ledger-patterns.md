@@ -4,27 +4,28 @@ Specialized ledger types for on-chain state management optimized for ZK proofs.
 
 ## Ledger Type Overview
 
-| Type | Use Case | Operations |
-| ---- | -------- | ---------- |
-| `Counter` | Simple counters | Increment, read |
-| `Set<T>` | Membership tracking | Insert, remove, member |
-| `Map<K,V>` | Key-value storage | Get, set, lookup |
-| `List<T>` | Ordered sequences | Push, pop, index |
-| `MerkleTree<n,T>` | Large sets | Insert, prove membership |
-| `HistoricMerkleTree<n,T>` | Auditable sets | Append, historical proof |
+| Type                      | Use Case            | Operations                 |
+| ------------------------- | ------------------- | -------------------------- |
+| `Counter`                 | Simple counters     | Increment, decrement, read |
+| `Set<T>`                  | Membership tracking | Insert, remove, member     |
+| `Map<K,V>`                | Key-value storage   | Insert, lookup, member     |
+| `List<T>`                 | Ordered sequences   | PushFront, popFront, head  |
+| `MerkleTree<n,T>`         | Large sets          | Insert, checkRoot          |
+| `HistoricMerkleTree<n,T>` | Auditable sets      | Insert, checkRoot, history |
 
 ## Counter
 
 ```compact
-ledger totalSupply: Counter;
+// Counter increments/decrements by Uint<16> amounts.
 ledger transactionCount: Counter;
+ledger totalSupply: Uint<64>;
 
 export circuit mint(amount: Uint<64>): [] {
-  totalSupply = totalSupply + amount;
+  totalSupply = disclose((totalSupply + amount) as Uint<64>);
 }
 
 export circuit incrementTxCount(): [] {
-  transactionCount = transactionCount + 1;
+  transactionCount.increment(1);
 }
 ```
 
@@ -37,17 +38,19 @@ ledger members: Set<Bytes<32>>;
 ledger usedNonces: Set<Field>;
 
 export circuit addMember(address: Bytes<32>): [] {
-  assert !members.member(address);  // Not already member
-  members.insert(address);
+  const addr = disclose(address);
+  assert(!members.member(addr), "Already a member");
+  members.insert(addr);
 }
 
 export circuit removeMember(address: Bytes<32>): [] {
-  assert members.member(address);   // Must be member
-  members.remove(address);
+  const addr = disclose(address);
+  assert(members.member(addr), "Not a member");
+  members.remove(addr);
 }
 
 export circuit isMember(address: Bytes<32>): Boolean {
-  return members.member(address);
+  return members.member(disclose(address));
 }
 
 // Nullifier pattern
@@ -72,31 +75,31 @@ ledger balances: Map<Bytes<32>, Uint<64>>;
 ledger metadata: Map<Bytes<32>, Opaque<"string">>;
 
 export circuit setBalance(address: Bytes<32>, amount: Uint<64>): [] {
-  balances[address] = amount;
+  balances.insert(disclose(address), disclose(amount));
 }
 
 export circuit getBalance(address: Bytes<32>): Uint<64> {
-  const maybe = balances.lookup(address);
-  match maybe {
-    Maybe::None => return 0,
-    Maybe::Some { value } => return value
-  }
+  const addr = disclose(address);
+  return balances.member(addr) ? balances.lookup(addr) : 0;
 }
 
 export circuit transfer(from: Bytes<32>, to: Bytes<32>, amount: Uint<64>): [] {
-  const fromBalance = getBalance(from);
-  assert fromBalance >= amount;
+  const fromAddr = disclose(from);
+  const toAddr = disclose(to);
+  const fromBalance = getBalance(fromAddr);
+  assert(fromBalance >= amount, "Insufficient balance");
 
-  balances[from] = fromBalance - amount;
-  balances[to] = getBalance(to) + amount;
+  balances.insert(fromAddr, fromBalance - amount);
+  balances.insert(toAddr, (getBalance(toAddr) + amount) as Uint<64>);
 }
 ```
 
 **Operations:**
 
-- `map[key] = value` - Set value
-- `map[key]` - Get value (panics if missing)
-- `lookup(key)` - Returns `Maybe<V>`
+- `insert(key, value)` - Set value at key
+- `member(key)` - Check membership
+- `lookup(key)` - Get value (requires key exists)
+- `remove(key)` - Remove key
 
 ## `MerkleTree<N,T>`
 
@@ -106,27 +109,16 @@ Large sets with efficient membership proofs:
 // 2^20 ≈ 1 million members
 ledger memberTree: MerkleTree<20, Field>;
 
-// Merkle proof witness
-witness merkleProof: Vector<20, Field>;
-witness proofIndices: Vector<20, Boolean>;
+// Merkle membership proofs are typically passed in as a MerkleTreePath witness.
+// You can verify by deriving the root and checking it matches the current tree root.
 
 export circuit addMember(memberId: Field): [] {
   memberTree.insert(memberId);
 }
 
-export circuit proveMembership(memberId: Field): Boolean {
-  let current = memberId;
-
-  for i in 0..20 {
-    const sibling = merkleProof[i];
-    current = if proofIndices[i] {
-      persistentHash(sibling, current)
-    } else {
-      persistentHash(current, sibling)
-    };
-  }
-
-  return current == memberTree.root();
+export circuit proveMembership(path: MerkleTreePath<20, Field>): Boolean {
+  const derivedRoot = merkleTreePathRoot<20, Field>(path);
+  return memberTree.checkRoot(derivedRoot);
 }
 ```
 
@@ -138,12 +130,7 @@ Auditable Merkle tree with historical proofs:
 ledger auditLog: HistoricMerkleTree<20, Field>;
 
 export circuit appendEntry(entry: Field): [] {
-  auditLog.append(entry);
-}
-
-export circuit proveHistoricEntry(entry: Field, atIndex: Uint<32>): Boolean {
-  // Prove entry existed at specific point in time
-  return auditLog.proveAt(entry, atIndex);
+  auditLog.insert(entry);
 }
 ```
 
@@ -155,22 +142,16 @@ export circuit proveHistoricEntry(entry: Field, atIndex: Uint<32>): Boolean {
 ledger balances: Map<Bytes<32>, Uint<64>>;
 
 circuit safeTransfer(from: Bytes<32>, to: Bytes<32>, amount: Uint<64>): [] {
+  const fromAddr = disclose(from);
+  const toAddr = disclose(to);
+
   // Cache reads for efficiency
-  const fromBal = balances.lookup(from);
-  const toBal = balances.lookup(to);
+  const fromBal = balances.member(fromAddr) ? balances.lookup(fromAddr) : 0;
+  const toBal = balances.member(toAddr) ? balances.lookup(toAddr) : 0;
 
-  match fromBal {
-    Maybe::None => assert false,
-    Maybe::Some { value } => {
-      assert value >= amount;
-      balances[from] = value - amount;
-    }
-  }
-
-  match toBal {
-    Maybe::None => balances[to] = amount,
-    Maybe::Some { value } => balances[to] = value + amount
-  }
+  assert(fromBal >= amount, "Insufficient balance");
+  balances.insert(fromAddr, fromBal - amount);
+  balances.insert(toAddr, (toBal + amount) as Uint<64>);
 }
 ```
 
@@ -188,13 +169,17 @@ circuit checkAccess(user: Bytes<32>): Boolean {
 ### Nullifier (Double-Spend Prevention)
 
 ```compact
-ledger nullifiers: Set<Field>;
-witness secret: Field;
+ledger nullifiers: Set<Bytes<32>>;
+witness secretKey(): Bytes<32>;
 
-circuit spend(commitment: Field): [] {
-  const nullifier = transientHash(secret, commitment);
-  assert !nullifiers.member(nullifier);
-  nullifiers.insert(nullifier);
+circuit spend(commitment: Bytes<32>): [] {
+  const nul = disclose(persistentHash<Vector<3, Bytes<32>>>([
+    pad(32, "midnight:example:nullifier"),
+    secretKey(),
+    commitment,
+  ]));
+  assert(!nullifiers.member(nul), "Already spent");
+  nullifiers.insert(nul);
 }
 ```
 

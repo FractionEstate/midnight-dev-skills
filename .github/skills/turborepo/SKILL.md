@@ -6,7 +6,7 @@ description: >-
   on Turborepo, monorepo, workspace, build caching, or pipeline questions.
 metadata:
   author: FractionEstate
-  version: "2.7.2"
+  version: '2.7.2'
 ---
 
 # Turborepo
@@ -100,8 +100,8 @@ my-turborepo/
 
 ```yaml
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
 ```
 
 ## Task Configuration
@@ -113,12 +113,12 @@ packages:
   "tasks": {
     // Topological dependency (dependencies first)
     "build": {
-      "dependsOn": ["^build"]  // Run build in all dependencies first
+      "dependsOn": ["^build"] // Run build in all dependencies first
     },
 
     // Same-package dependency
     "test": {
-      "dependsOn": ["build"]   // Run build in same package first
+      "dependsOn": ["build"] // Run build in same package first
     },
 
     // Cross-package specific dependency
@@ -128,7 +128,7 @@ packages:
 
     // Arbitrary package#task dependency
     "e2e": {
-      "dependsOn": ["web#build", "api#build"]  // Specific packages
+      "dependsOn": ["web#build", "api#build"] // Specific packages
     }
   }
 }
@@ -142,16 +142,16 @@ packages:
     "build": {
       // Files that affect cache
       "inputs": [
-        "$TURBO_DEFAULT$",        // Default: all non-gitignored files
-        "!README.md",             // Exclude README changes
-        ".env.production",        // Include specific env file
-        "$TURBO_ROOT$/tsconfig.json"  // Reference files from repo root
+        "$TURBO_DEFAULT$", // Default: all non-gitignored files
+        "!README.md", // Exclude README changes
+        ".env.production", // Include specific env file
+        "$TURBO_ROOT$/tsconfig.json" // Reference files from repo root
       ],
       // Files produced by task
       "outputs": [
         "dist/**",
         ".next/**",
-        "!.next/cache/**"         // Exclude .next/cache
+        "!.next/cache/**" // Exclude .next/cache
       ]
     }
   }
@@ -174,10 +174,10 @@ packages:
     "build": {
       "env": [
         "DATABASE_URL",
-        "NEXT_PUBLIC_*",   // Wildcard: all vars starting with NEXT_PUBLIC_
-        "!GITHUB_*"        // Negation: exclude GITHUB_ vars from strict mode
+        "NEXT_PUBLIC_*", // Wildcard: all vars starting with NEXT_PUBLIC_
+        "!GITHUB_*" // Negation: exclude GITHUB_ vars from strict mode
       ],
-      "passThroughEnv": ["AWS_SECRET_KEY"]  // Available but not in cache hash
+      "passThroughEnv": ["AWS_SECRET_KEY"] // Available but not in cache hash
     }
   }
 }
@@ -216,18 +216,18 @@ TURBO_TEAM="your-team"
 {
   "tasks": {
     "build": {
-      "cache": true,           // Enable caching (default)
+      "cache": true, // Enable caching (default)
       "outputLogs": "new-only" // Show logs only on cache miss
     },
     "dev": {
-      "cache": false,          // Disable caching for dev
-      "persistent": true,      // Long-running task
-      "interactive": true      // Accepts keyboard input (stdin)
+      "cache": false, // Disable caching for dev
+      "persistent": true, // Long-running task
+      "interactive": true // Accepts keyboard input (stdin)
     },
     "db:studio": {
       "cache": false,
       "persistent": true,
-      "interruptible": true    // Can be restarted when dependencies change
+      "interruptible": true // Can be restarted when dependencies change
     }
   }
 }
@@ -435,7 +435,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for --affected flag
+          fetch-depth: 0 # Full history for --affected flag
 
       - uses: pnpm/action-setup@v4
         with:

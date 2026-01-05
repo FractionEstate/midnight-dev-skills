@@ -23,9 +23,9 @@ Build a reusable UI component following design system best practices.
 
 1. **File Structure**:
 
-    ```text
-    components/ui/${componentName.toLowerCase()}.tsx
-    ```
+   ```text
+   components/ui/${componentName.toLowerCase()}.tsx
+   ```
 
 2. **Component Features**:
    - TypeScript with proper prop types
@@ -94,8 +94,7 @@ const componentVariants = cva(
 );
 
 export interface ComponentProps
-  extends React.HTMLAttributes<HTMLElement>,
-    VariantProps<typeof componentVariants> {
+  extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof componentVariants> {
   // Additional props
 }
 

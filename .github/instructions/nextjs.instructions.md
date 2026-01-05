@@ -1,7 +1,7 @@
 ---
 description: Next.js App Router development guidelines
 name: Next.js Development
-applyTo: "**/app/**/*.{ts,tsx},**/next.config.{js,mjs,ts}"
+applyTo: '**/app/**/*.{ts,tsx},**/next.config.{js,mjs,ts}'
 ---
 
 # Next.js App Router Instructions
@@ -44,7 +44,7 @@ import { useState } from 'react';
 
 export default function Interactive() {
   const [count, setCount] = useState(0);
-  return <button onClick={() => setCount(c => c + 1)}>{count}</button>;
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>;
 }
 ```
 
@@ -72,7 +72,7 @@ fetch('https://api.example.com/posts', { next: { tags: ['posts'] } });
 
 // Combine tags with time-based revalidation
 fetch('https://api.example.com/data', {
-  next: { tags: ['collection'], revalidate: 3600 }
+  next: { tags: ['collection'], revalidate: 3600 },
 });
 ```
 
@@ -82,11 +82,11 @@ fetch('https://api.example.com/data', {
 import { revalidatePath, revalidateTag, updateTag } from 'next/cache';
 
 // In a Server Action
-revalidatePath('/posts');     // Purges Full Route Cache for path
+revalidatePath('/posts'); // Purges Full Route Cache for path
 revalidateTag('posts', 'max'); // Recommended: stale-while-revalidate for tag
 
 // Only in Server Actions (throws if called elsewhere)
-updateTag('posts');           // Immediately expire cache for read-your-own-writes
+updateTag('posts'); // Immediately expire cache for read-your-own-writes
 ```
 
 ## Server Actions

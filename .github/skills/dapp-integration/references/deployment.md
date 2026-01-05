@@ -53,7 +53,7 @@ async function deploy(providers: Providers): Promise<ContractAddress> {
   const { contractAddress, finalizedDeployTx } = await deployContract({
     contract: MyContract,
     privateState,
-    ...providers
+    ...providers,
   });
 
   // Wait for confirmation
@@ -77,7 +77,7 @@ async function connect(
   const { contract } = await findDeployedContract({
     contractAddress,
     contract: MyContract,
-    ...providers
+    ...providers,
   });
 
   return contract;
@@ -90,7 +90,7 @@ async function connect(
 async function callCircuit(contract: MyContractInstance) {
   // Call a circuit (generates proof and submits tx)
   const { txId, finalizedTx } = await contract.callTx.setMessage({
-    input: "Hello, Midnight!"
+    input: 'Hello, Midnight!',
   });
 
   // Wait for finalization
@@ -126,7 +126,7 @@ function watchContract(contract: MyContractInstance) {
     },
     error: (err) => {
       console.error('Watch error:', err);
-    }
+    },
   });
 
   // Cleanup
@@ -152,7 +152,7 @@ export class MyContractManager {
     const { contractAddress, finalizedDeployTx } = await deployContract({
       contract: MyContract,
       privateState: {},
-      ...this.providers
+      ...this.providers,
     });
 
     await finalizedDeployTx;
@@ -165,7 +165,7 @@ export class MyContractManager {
     const { contract } = await findDeployedContract({
       contractAddress: address as ContractAddress,
       contract: MyContract,
-      ...this.providers
+      ...this.providers,
     });
 
     this.contract = contract;
@@ -176,7 +176,7 @@ export class MyContractManager {
     if (!this.contract) throw new Error('Not connected');
 
     const { finalizedTx } = await this.contract.callTx.setMessage({
-      input: message
+      input: message,
     });
 
     await finalizedTx;

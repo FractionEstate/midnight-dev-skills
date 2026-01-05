@@ -34,7 +34,7 @@ export default async function BlogPost({ params }: Props) {
 
 // Static generation at build time
 export async function generateStaticParams() {
-  const posts = await fetch('https://api.example.com/posts').then(res => res.json());
+  const posts = await fetch('https://api.example.com/posts').then((res) => res.json());
   return posts.map((post: { slug: string }) => ({
     slug: post.slug,
   }));
@@ -117,7 +117,7 @@ app/
 export default function Layout({
   children,
   modal,
-  sidebar
+  sidebar,
 }: {
   children: React.ReactNode;
   modal: React.ReactNode;
@@ -145,7 +145,7 @@ export async function GET(request: NextRequest) {
 
   const users = await db.user.findMany({
     skip: (parseInt(page) - 1) * 10,
-    take: 10
+    take: 10,
   });
 
   return NextResponse.json(users);
@@ -177,7 +177,7 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/api/:path*']
+  matcher: ['/dashboard/:path*', '/api/:path*'],
 };
 ```
 

@@ -3,7 +3,11 @@ pragma language_version 0.18;
 import CompactStandardLibrary;
 
 // Private Voting Contract Template
-// Anonymous voting with public totals
+// Anonymous voting with public totals.
+//
+// Privacy notes:
+// - This template avoids storing voter addresses by using a *nullifier* derived from a witness secret key.
+// - Vote totals are public, so each vote still changes public state (a common pattern for simple votes).
 
 export enum VoteOption { YES, NO, ABSTAIN }
 export enum ProposalState { ACTIVE, ENDED }
@@ -15,50 +19,69 @@ export ledger noVotes: Counter;
 export ledger abstainVotes: Counter;
 export ledger totalVoters: Counter;
 
-// Track who has voted (prevents double voting)
-export ledger hasVoted: Set<Bytes<32>>;
+// Proposal-scoped nonce so the same voter can participate in multiple proposals.
+export ledger proposalNonce: Bytes<32>;
+
+// Track vote nullifiers (prevents double voting without revealing an address)
+export ledger voteNullifiers: Set<Bytes<32>>;
+
+// DApp-provided witness for the voter's secret key
+witness secretKey(): Bytes<32>;
+
+// Compute a vote nullifier for this proposal.
+circuit nullifierOf(nonce: Bytes<32>, sk: Bytes<32>): Bytes<32> {
+  return persistentHash<Vector<3, Bytes<32>>>([
+    pad(32, "midnight:example:vote:nullifier"),
+    nonce,
+    sk,
+  ]);
+}
 
 // Create a new proposal
-export circuit createProposal(duration: Uint<64>): [] {
+export circuit createProposal(endTimestamp: Uint<64>, nonce: Bytes<32>): [] {
   proposalState = ProposalState::ACTIVE;
-  endTime = blockTime() + duration;
+  proposalNonce = disclose(nonce);
+  endTime = disclose(endTimestamp);
 }
 
 // Cast a vote (vote choice is private, only totals public)
-export circuit vote(voter: Bytes<32>, choice: VoteOption): [] {
+export circuit vote(choice: VoteOption): [] {
   // Verify proposal is active
-  require(proposalState == ProposalState::ACTIVE);
-  require(blockTime() < endTime);
+  assert(proposalState == ProposalState::ACTIVE, "Proposal is not active");
+  assert(blockTimeLt(endTime), "Voting has ended");
 
-  // Prevent double voting (voter identity disclosed)
-  require(!hasVoted.member(voter));
-  hasVoted.insert(voter);
+  // Prevent double voting via a proposal-scoped nullifier
+  const nf = disclose(nullifierOf(proposalNonce, secretKey()));
+  assert(!voteNullifiers.member(nf), "Already voted");
+  voteNullifiers.insert(nf);
 
   // Record vote (choice is private, only totals change)
-  match choice {
-    VoteOption::YES => yesVotes = yesVotes + 1,
-    VoteOption::NO => noVotes = noVotes + 1,
-    VoteOption::ABSTAIN => abstainVotes = abstainVotes + 1
+  if (choice == VoteOption::YES) {
+    yesVotes.increment(1);
+  } else if (choice == VoteOption::NO) {
+    noVotes.increment(1);
+  } else {
+    abstainVotes.increment(1);
   }
 
-  totalVoters = totalVoters + 1;
+  totalVoters.increment(1);
 }
 
 // End the proposal
 export circuit endProposal(): [] {
-  require(proposalState == ProposalState::ACTIVE);
-  require(blockTime() >= endTime);
+  assert(proposalState == ProposalState::ACTIVE, "Proposal is not active");
+  assert(blockTimeGte(endTime), "Voting is still active");
   proposalState = ProposalState::ENDED;
 }
 
 // Get results (only available after ended)
 export circuit getResults(): (Uint<64>, Uint<64>, Uint<64>) {
-  require(proposalState == ProposalState::ENDED);
-  return (yesVotes, noVotes, abstainVotes);
+  assert(proposalState == ProposalState::ENDED, "Proposal not ended");
+  return (yesVotes.read(), noVotes.read(), abstainVotes.read());
 }
 
 // Check if proposal passed (simple majority)
 export circuit hasPassed(): Boolean {
-  require(proposalState == ProposalState::ENDED);
-  return yesVotes > noVotes;
+  assert(proposalState == ProposalState::ENDED, "Proposal not ended");
+  return yesVotes.read() > noVotes.read();
 }

@@ -68,18 +68,12 @@ query LatestBlock {
 ## TypeScript Client
 
 ```typescript
-async function queryIndexer<T>(
-  query: string,
-  variables?: Record<string, unknown>
-): Promise<T> {
-  const response = await fetch(
-    'https://indexer.testnet-02.midnight.network/api/v1/graphql',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query, variables })
-    }
-  );
+async function queryIndexer<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
+  const response = await fetch('https://indexer.testnet-02.midnight.network/api/v1/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, variables }),
+  });
 
   const result = await response.json();
 
@@ -109,7 +103,7 @@ const { contractState } = await queryIndexer<{ contractState: ContractState }>(
 import { createClient } from 'graphql-ws';
 
 const client = createClient({
-  url: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws'
+  url: 'wss://indexer.testnet-02.midnight.network/api/v1/graphql/ws',
 });
 
 // Subscribe to contract state changes
@@ -122,7 +116,7 @@ const unsubscribe = client.subscribe(
         blockHeight
       }
     }`,
-    variables: { address: '0x...' }
+    variables: { address: '0x...' },
   },
   {
     next: (data) => {
@@ -133,7 +127,7 @@ const unsubscribe = client.subscribe(
     },
     complete: () => {
       console.log('Subscription complete');
-    }
+    },
   }
 );
 
@@ -154,12 +148,9 @@ const publicDataProvider = indexerPublicDataProvider(
 const state = await publicDataProvider.contractState(contractAddress);
 
 // Watch for changes
-const subscription = publicDataProvider.watchContractState(
-  contractAddress,
-  (newState) => {
-    console.log('State changed:', newState);
-  }
-);
+const subscription = publicDataProvider.watchContractState(contractAddress, (newState) => {
+  console.log('State changed:', newState);
+});
 
 // Cleanup
 subscription.unsubscribe();
@@ -168,10 +159,7 @@ subscription.unsubscribe();
 ## Error Handling
 
 ```typescript
-async function safeQuery<T>(
-  query: string,
-  variables?: Record<string, unknown>
-): Promise<T | null> {
+async function safeQuery<T>(query: string, variables?: Record<string, unknown>): Promise<T | null> {
   try {
     return await queryIndexer<T>(query, variables);
   } catch (error) {
@@ -180,7 +168,7 @@ async function safeQuery<T>(
     }
     if (error.message.includes('rate limit')) {
       // Wait and retry
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise((r) => setTimeout(r, 1000));
       return await queryIndexer<T>(query, variables);
     }
     throw error;
@@ -215,12 +203,12 @@ async function getAllTransactions() {
   let cursor = null;
 
   do {
-    const result = await queryIndexer<TransactionsResult>(
-      TRANSACTIONS_QUERY,
-      { first: 100, after: cursor }
-    );
+    const result = await queryIndexer<TransactionsResult>(TRANSACTIONS_QUERY, {
+      first: 100,
+      after: cursor,
+    });
 
-    transactions.push(...result.transactions.edges.map(e => e.node));
+    transactions.push(...result.transactions.edges.map((e) => e.node));
     cursor = result.transactions.pageInfo.hasNextPage
       ? result.transactions.pageInfo.endCursor
       : null;

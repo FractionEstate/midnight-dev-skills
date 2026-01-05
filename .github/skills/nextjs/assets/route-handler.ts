@@ -88,10 +88,7 @@ export async function POST(request: NextRequest) {
 // For dynamic routes: app/api/items/[id]/route.ts
 
 // GET /api/items/[id]
-export async function GETById(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GETById(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
 
   // const item = await db.item.findUnique({
@@ -108,10 +105,7 @@ export async function GETById(
 }
 
 // PUT /api/items/[id]
-export async function PUT(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function PUT(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
   const body = await request.json();
 
@@ -129,10 +123,7 @@ export async function PUT(
 }
 
 // DELETE /api/items/[id]
-export async function DELETE(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   const { id } = await params;
 
   // await db.item.delete({

@@ -72,17 +72,15 @@ describe('Counter Contract', () => {
 describe('Error Handling', () => {
   it('should reject negative decrement', async () => {
     // Counter starts at 0
-    await expect(
-      simulator.call('decrement', {})
-    ).rejects.toThrow();
+    await expect(simulator.call('decrement', {})).rejects.toThrow();
   });
 
   it('should reject unauthorized access', async () => {
     const nonOwner = randomBytes(32);
 
-    await expect(
-      simulator.call('adminAction', { caller: nonOwner })
-    ).rejects.toThrow('Assertion failed');
+    await expect(simulator.call('adminAction', { caller: nonOwner })).rejects.toThrow(
+      'Assertion failed'
+    );
   });
 
   it('should reject invalid amount', async () => {
@@ -90,7 +88,7 @@ describe('Error Handling', () => {
       simulator.call('transfer', {
         from: alice,
         to: bob,
-        amount: 1000000n  // More than balance
+        amount: 1000000n, // More than balance
       })
     ).rejects.toThrow();
   });
@@ -102,9 +100,7 @@ describe('Error Handling', () => {
 ```typescript
 describe('Edge Cases', () => {
   it('should handle zero amount', async () => {
-    await expect(
-      simulator.call('transfer', { amount: 0n })
-    ).rejects.toThrow();
+    await expect(simulator.call('transfer', { amount: 0n })).rejects.toThrow();
   });
 
   it('should handle maximum value', async () => {
@@ -142,9 +138,7 @@ describe('Auction State Machine', () => {
   it('should reject start when already active', async () => {
     await simulator.call('startAuction', { caller: owner });
 
-    await expect(
-      simulator.call('startAuction', { caller: owner })
-    ).rejects.toThrow();
+    await expect(simulator.call('startAuction', { caller: owner })).rejects.toThrow();
   });
 
   it('should follow complete lifecycle', async () => {
@@ -183,7 +177,7 @@ describe('Token Contract', () => {
       await simulator.call('mint', {
         caller: owner,
         recipient: alice,
-        amount: 1000n
+        amount: 1000n,
       });
 
       expect(simulator.ledger.balances.get(alice)).toBe(1000n);
@@ -193,9 +187,9 @@ describe('Token Contract', () => {
     it('should reject minting by non-owner', async () => {
       await expect(
         simulator.call('mint', {
-          caller: alice,  // Not owner
+          caller: alice, // Not owner
           recipient: bob,
-          amount: 1000n
+          amount: 1000n,
         })
       ).rejects.toThrow();
     });
@@ -207,7 +201,7 @@ describe('Token Contract', () => {
       await simulator.call('mint', {
         caller: owner,
         recipient: alice,
-        amount: 1000n
+        amount: 1000n,
       });
     });
 
@@ -215,7 +209,7 @@ describe('Token Contract', () => {
       await simulator.call('transfer', {
         from: alice,
         to: bob,
-        amount: 300n
+        amount: 300n,
       });
 
       expect(simulator.ledger.balances.get(alice)).toBe(700n);
@@ -227,7 +221,7 @@ describe('Token Contract', () => {
         simulator.call('transfer', {
           from: alice,
           to: bob,
-          amount: 2000n  // More than alice has
+          amount: 2000n, // More than alice has
         })
       ).rejects.toThrow();
     });
@@ -242,7 +236,7 @@ describe('Privacy Guarantees', () => {
   it('should not reveal private vote', async () => {
     await simulator.call('vote', {
       voter: alice,
-      choice: true  // This should stay private
+      choice: true, // This should stay private
     });
 
     // Only totals should be visible
@@ -257,7 +251,7 @@ describe('Privacy Guarantees', () => {
   it('should return boolean not actual value', async () => {
     const result = await simulator.call('checkBalance', {
       balance: 5000n,
-      required: 1000n
+      required: 1000n,
     });
 
     // Only get boolean, not actual balance
@@ -277,7 +271,7 @@ describe('Witness Functionality', () => {
 
     // Create commitment
     const commitment = await simulator.call('commit', {
-      value: 100n
+      value: 100n,
     });
 
     expect(commitment).toBeDefined();
@@ -290,9 +284,7 @@ describe('Witness Functionality', () => {
     const commitment = await simulator.call('commit', { value: 100n });
 
     // Reveal should succeed with same witness
-    await expect(
-      simulator.call('reveal', { value: 100n, commitment })
-    ).resolves.not.toThrow();
+    await expect(simulator.call('reveal', { value: 100n, commitment })).resolves.not.toThrow();
   });
 
   it('should reject reveal with wrong witness', async () => {
@@ -303,9 +295,7 @@ describe('Witness Functionality', () => {
     simulator.setWitness('randomness', 99999n);
 
     // Reveal should fail
-    await expect(
-      simulator.call('reveal', { value: 100n, commitment })
-    ).rejects.toThrow();
+    await expect(simulator.call('reveal', { value: 100n, commitment })).rejects.toThrow();
   });
 });
 ```

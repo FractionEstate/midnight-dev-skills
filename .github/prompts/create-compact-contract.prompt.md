@@ -37,7 +37,8 @@ Create a Compact smart contract for Midnight Network with the following specific
 
 3. **Ledger State**:
    - Use Counter for auto-increment IDs
-   - Use `Cell<T>` for single values
+   - For single values, declare the Compact type `T` directly (this creates an implicit `Cell<T>`)
+     - Note: you cannot write `Cell<T>` explicitly in a ledger declaration
    - Use `Map<K, V>` for key-value data
    - Use `Set<T>` for membership tracking
    - Use `MerkleTree` for commitments (if privacy needed)
@@ -45,8 +46,9 @@ Create a Compact smart contract for Midnight Network with the following specific
 4. **Circuits**:
    - Pure circuits for calculations (no state changes)
    - Impure circuits for state mutations
-   - Use `witness` modifier for private inputs needing ZK proof
-   - Use `secret` modifier for completely off-chain data
+   - Declare witnesses as functions (e.g. `witness secretKey(): Bytes<32>;`) and call them inside circuits
+   - Use explicit disclosure: wrap expressions with `disclose(...)` before writing witness-derived data to public ledger state
+     or returning it from an exported circuit
    - Include descriptive assertion error messages
 
 5. **Privacy Patterns** (if privacy features enabled):
@@ -54,6 +56,13 @@ Create a Compact smart contract for Midnight Network with the following specific
    - Use nullifiers to prevent double-actions
    - Generate commitments for private values
    - Support selective disclosure
+
+### v0.18 API reminders
+
+- `persistentHash<T>(value: T): Bytes<32>`
+- `persistentCommit<T>(value: T, rand: Bytes<32>): Bytes<32>`
+- Ledger ADTs: `Counter.increment(Uint<16>)`, `Counter.decrement(Uint<16>)`, `Map.member/lookup/insert/remove`
+- Block time comparisons: `blockTimeLt(...)`, `blockTimeGte(...)`, ...
 
 ## Output Format
 

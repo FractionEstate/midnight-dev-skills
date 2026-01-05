@@ -52,10 +52,7 @@ function failure(error: string, fieldErrors?: Record<string, string[]>): ActionS
  * Create a new item
  * Usage with useActionState hook
  */
-export async function createItem(
-  prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> {
+export async function createItem(prevState: ActionState, formData: FormData): Promise<ActionState> {
   // Parse form data
   const rawData = {
     title: formData.get('title'),

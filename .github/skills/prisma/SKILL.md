@@ -96,11 +96,11 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: process.env.NODE_ENV === 'development'
-    ? ['query', 'error', 'warn']
-    : ['error'],
-});
+export const prisma =
+  globalForPrisma.prisma ??
+  new PrismaClient({
+    log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
+  });
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
@@ -135,10 +135,10 @@ const user = await prisma.user.create({
     email: 'user@example.com',
     name: 'John Doe',
     profile: {
-      create: { bio: 'Developer' }
-    }
+      create: { bio: 'Developer' },
+    },
   },
-  include: { profile: true }
+  include: { profile: true },
 });
 
 // Multiple records
@@ -159,9 +159,9 @@ const post = await prisma.post.create({
       connectOrCreate: [
         { where: { name: 'tech' }, create: { name: 'tech' } },
         { where: { name: 'news' }, create: { name: 'news' } },
-      ]
-    }
-  }
+      ],
+    },
+  },
 });
 ```
 
@@ -171,7 +171,7 @@ const post = await prisma.post.create({
 // Find unique
 const user = await prisma.user.findUnique({
   where: { email: 'user@example.com' },
-  include: { posts: true }
+  include: { posts: true },
 });
 
 // Find many with filtering
@@ -179,10 +179,7 @@ const posts = await prisma.post.findMany({
   where: {
     published: true,
     author: { email: { contains: '@example.com' } },
-    OR: [
-      { title: { contains: 'prisma' } },
-      { content: { contains: 'prisma' } }
-    ]
+    OR: [{ title: { contains: 'prisma' } }, { content: { contains: 'prisma' } }],
   },
   orderBy: { createdAt: 'desc' },
   take: 10,
@@ -190,8 +187,8 @@ const posts = await prisma.post.findMany({
   select: {
     id: true,
     title: true,
-    author: { select: { name: true } }
-  }
+    author: { select: { name: true } },
+  },
 });
 
 // Pagination
@@ -199,9 +196,9 @@ const [posts, total] = await Promise.all([
   prisma.post.findMany({
     take: 10,
     skip: (page - 1) * 10,
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: 'desc' },
   }),
-  prisma.post.count()
+  prisma.post.count(),
 ]);
 ```
 
@@ -211,20 +208,20 @@ const [posts, total] = await Promise.all([
 // Single update
 const user = await prisma.user.update({
   where: { id: userId },
-  data: { name: 'Updated Name' }
+  data: { name: 'Updated Name' },
 });
 
 // Update or create (upsert)
 const user = await prisma.user.upsert({
   where: { email: 'user@example.com' },
   update: { name: 'Updated' },
-  create: { email: 'user@example.com', name: 'New User' }
+  create: { email: 'user@example.com', name: 'New User' },
 });
 
 // Update many
 const result = await prisma.post.updateMany({
   where: { authorId: userId },
-  data: { published: false }
+  data: { published: false },
 });
 
 // Atomic operations
@@ -232,8 +229,8 @@ const post = await prisma.post.update({
   where: { id: postId },
   data: {
     views: { increment: 1 },
-    likes: { decrement: 1 }
-  }
+    likes: { decrement: 1 },
+  },
 });
 ```
 
@@ -242,15 +239,15 @@ const post = await prisma.post.update({
 ```typescript
 // Single delete
 await prisma.user.delete({
-  where: { id: userId }
+  where: { id: userId },
 });
 
 // Delete many
 await prisma.post.deleteMany({
   where: {
     published: false,
-    createdAt: { lt: new Date('2024-01-01') }
-  }
+    createdAt: { lt: new Date('2024-01-01') },
+  },
 });
 ```
 
@@ -262,35 +259,38 @@ await prisma.post.deleteMany({
 const [posts, totalPosts, users] = await prisma.$transaction([
   prisma.post.findMany({ where: { published: true } }),
   prisma.post.count({ where: { published: true } }),
-  prisma.user.findMany()
+  prisma.user.findMany(),
 ]);
 ```
 
 ### Interactive Transactions
 
 ```typescript
-const result = await prisma.$transaction(async (tx) => {
-  // Decrement sender balance
-  const sender = await tx.account.update({
-    where: { id: senderId },
-    data: { balance: { decrement: amount } }
-  });
+const result = await prisma.$transaction(
+  async (tx) => {
+    // Decrement sender balance
+    const sender = await tx.account.update({
+      where: { id: senderId },
+      data: { balance: { decrement: amount } },
+    });
 
-  if (sender.balance < 0) {
-    throw new Error('Insufficient funds');
+    if (sender.balance < 0) {
+      throw new Error('Insufficient funds');
+    }
+
+    // Increment receiver balance
+    const receiver = await tx.account.update({
+      where: { id: receiverId },
+      data: { balance: { increment: amount } },
+    });
+
+    return { sender, receiver };
+  },
+  {
+    maxWait: 5000,
+    timeout: 10000,
   }
-
-  // Increment receiver balance
-  const receiver = await tx.account.update({
-    where: { id: receiverId },
-    data: { balance: { increment: amount } }
-  });
-
-  return { sender, receiver };
-}, {
-  maxWait: 5000,
-  timeout: 10000
-});
+);
 ```
 
 ## Relations
