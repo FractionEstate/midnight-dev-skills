@@ -136,7 +136,7 @@ NEXT_PUBLIC_MIDNIGHT_RPC=https://rpc.testnet-02.midnight.network
 
 - Check `window.midnight?.mnLace` availability before connecting
 - Handle `isEnabled === null` case
-- Type all Midnight APIs (see [.github/instructions/midnight-typescript.instructions.md](./instructions/midnight-typescript.instructions.md))
+- Type all Midnight APIs (see `.github/instructions/midnight-typescript.instructions.md`)
 
 ## Midnight Nodes
 
@@ -200,7 +200,7 @@ See COMPACT-0.26-MIGRATION-STATUS.md (internal doc) for detailed status.
 
 - Compact, Next.js, privacy patterns, testing, Playwright, Prisma, Tailwind, Turborepo
 
-**Agents/Prompts**: [.github/AGENTS.md](./AGENTS.md) + `.github/agents/*.agent.md` + `.github/prompts/*.prompt.md`
+**Agents/Prompts**: `.github/AGENTS.md` + `.github/agents/*.agent.md` + `.github/prompts/*.prompt.md`
 
 ## Testing
 
@@ -209,7 +209,7 @@ See COMPACT-0.26-MIGRATION-STATUS.md (internal doc) for detailed status.
 - Many tests need updates for new compiled interfaces (see CONTRACT-COMPILATION-STATUS.md)
 - Run specific suites with `-- src/test/pattern*.test.ts`
 
-**E2E**: Playwright (see [.github/skills/playwright/SKILL.md](./skills/playwright/SKILL.md))
+**E2E**: Playwright (see `.github/skills/playwright/SKILL.md`)
 
 **Keep runtimes short** - prefer targeted test files over full suites during development.
 

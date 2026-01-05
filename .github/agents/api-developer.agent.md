@@ -1,6 +1,7 @@
 ---
 description: Expert API developer for REST/GraphQL, Next.js Route Handlers & Server Actions, auth, rate limiting, and security.
 name: API Developer
+infer: true
 tools:
   - playwright/*
   - chromedevtools/chrome-devtools-mcp/*
